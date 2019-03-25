@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "baseUrl": "",
+    "paths": {
+      "Components": ["./components"],
+      "Containers": ["./containers"],
+      "State": ["./state"],
+      "Style": ["./style"]
+    }
+  }
+}
