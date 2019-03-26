@@ -20,7 +20,8 @@ module.exports = {
     "no-console": 'off',
     "react/jsx-filename-extension": "off",
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
-    "react/jsx-curly-spacing": ["error", {"when": "always"}]
+    "react/jsx-curly-spacing": ["error", {"when": "always"}],
+    "react/prefer-stateless-function": "off"
   },
   "globals": {
     "minnow": "readonly"

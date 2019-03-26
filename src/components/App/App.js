@@ -1,13 +1,16 @@
 
 import React from 'react';
 
-import Test from 'Components/Test/Test';
+import NavigationTab from 'Containers/NavigationTab/NavigationTab';
+import MainContainer from 'Containers/MainContainer/MainContainer';
+import ReferenceTab from 'Containers/ReferenceTab/ReferenceTab';
 import './App.scss';
 
 const App = () => (
   <div id="app">
-    Hello World!!!
-    <Test />
+    <NavigationTab />
+    <MainContainer />
+    <ReferenceTab />
   </div>
 );
 
