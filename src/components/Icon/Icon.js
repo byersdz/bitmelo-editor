@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import PlayIcon from './SVG/play-o.svg';
 import WaveIcon from './SVG/wave-o.svg';
+import HamburgerIcon from './SVG/hamburger-o.svg';
 
 import './Icon.scss';
 
@@ -19,6 +20,10 @@ const Icon = ( props ) => {
 
     case 'wave':
       svgFile = WaveIcon;
+      break;
+
+    case 'hamburger':
+      svgFile = HamburgerIcon;
       break;
 
     default:

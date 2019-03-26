@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
+import Button from 'Components/Button/Button';
 import ButtonTabs from 'Components/ButtonTabs/ButtonTabs';
 import {
   selectNavigationTab,
@@ -15,6 +16,7 @@ import {
   SOUND_TAB,
   MUSIC_TAB,
 } from 'State/Layout/activeNavigationTab';
+import { toggleNavigationPanel } from 'State/Layout/navigationPanelIsOpen';
 
 import './NavigationTab.scss';
 
@@ -26,12 +28,12 @@ class NavigationTab extends React.Component {
   }
 
   handleClick( key ) {
-    const { selectNavigationTab: select } = this.props;
-    select( key );
+    const { selectTab } = this.props;
+    selectTab( key );
   }
 
   render() {
-    const { activeTab } = this.props;
+    const { activeTab, isOpen, toggle } = this.props;
 
     const buttonList = [
       {
@@ -70,14 +72,23 @@ class NavigationTab extends React.Component {
         icon: 'play',
       },
     ];
+
+    const className = isOpen ? 'navigation-tab open' : 'navigation-tab';
+    const hideTitles = !isOpen;
     return (
-      <div className="navigation-tab">
-        <div className="top-buffer" />
+      <div className={ className }>
+        <Button
+          icon="hamburger"
+          title="Toggle Navigation Panel"
+          className="toggle-panel"
+          click={ () => toggle() }
+          hideTitle
+        />
         <ButtonTabs
           buttonList={ buttonList }
           activeButton={ activeTab }
           click={ this.handleClick }
-          hideTitles
+          hideTitles={ hideTitles }
         />
       </div>
     );
@@ -86,18 +97,22 @@ class NavigationTab extends React.Component {
 
 NavigationTab.propTypes = {
   activeTab: PropTypes.string.isRequired,
-  selectNavigationTab: PropTypes.func.isRequired,
+  selectTab: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
   return {
     activeTab: state.layout.activeNavigationTab,
+    isOpen: state.layout.navigationPanelIsOpen,
   };
 }
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
-    selectNavigationTab,
+    selectTab: selectNavigationTab,
+    toggle: toggleNavigationPanel,
   }, dispatch );
 }
 

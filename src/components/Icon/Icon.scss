@@ -3,9 +3,17 @@
 
 .isvg {
   fill: $on-background-color;
+  stroke: $on-background-color;
+  width: 32px;
+  height: 32px;
 
   svg {
     width: 32px;
     height: 32px;
+  }
+
+  g {
+    fill: inherit;
+    stroke: inherit;
   }
 }
