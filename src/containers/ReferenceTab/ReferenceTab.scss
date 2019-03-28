@@ -1,5 +1,6 @@
 
 @import 'Style/colors.scss';
+@import 'Style/media.scss';
 
 .reference-tab {
   background-color: $background-light-color;
@@ -19,7 +20,7 @@
 
     .isvg {
       svg {
-        transform: scaleX( -1 );
+        // transform: scaleX( -1 );
         width: 14px;
       }
     }
@@ -29,3 +30,25 @@
     background-color: $secondary-color;
   }
 }
+
+.reference-tab.closed {
+  width: 0;
+  border-left: none;
+
+  .toggle-btn {
+    left: -24px;
+
+    .isvg {
+      svg {
+        transform: scaleX( -1 );
+      }
+    }
+  }
+}
+
+@media #{ $desktop-small } {
+  .reference-tab {
+    width: 384px;
+  }
+}
+

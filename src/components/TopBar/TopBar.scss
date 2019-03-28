@@ -1,5 +1,6 @@
 
 @import 'Style/colors.scss';
+@import 'Style/media.scss';
 
 .top-bar {
   height: 48px;
@@ -23,5 +24,16 @@
     font-size: 18px;
     flex-grow: 1;
     align-self: center;
+  }
+}
+
+@media #{ $desktop-small } {
+  .top-bar {
+    height: 40px;
+
+    .title {
+      font-size: 16px;
+      margin-left: 24px;
+    }
   }
 }

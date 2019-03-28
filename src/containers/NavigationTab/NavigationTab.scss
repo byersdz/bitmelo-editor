@@ -1,5 +1,6 @@
 
 @import 'Style/colors.scss';
+@import 'Style/media.scss';
 
 .navigation-tab {
   background-color: $background-light-color;
@@ -60,3 +61,33 @@
   .toggle-panel {
   }
 }
+
+
+@media #{ $desktop-small } {
+  .navigation-tab {
+    width: 40px;
+
+    .toggle-panel {
+      height: 40px;
+    }
+
+    .btn {
+      height: 40px;
+
+      .title {
+        font-size: 12px;
+      }
+      svg {
+        width: 28px;
+      }
+    }
+  }
+
+  .navigation-tab.open {
+    .btn {
+      padding-left: 12px;
+    }
+  }
+
+}
+
