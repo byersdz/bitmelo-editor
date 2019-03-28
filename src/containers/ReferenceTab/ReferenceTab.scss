@@ -5,4 +5,27 @@
   background-color: $background-light-color;
   flex-grow: 0;
   width: 512px;
+  position: relative;
+  border-left: 1px solid $primary-dark-color;
+
+  .toggle-btn {
+    position: absolute;
+    left: -25px;
+    top: 60px;
+    width: 24px;
+    height: 60px;
+    background-color: $primary-dark-color;
+    border-radius: 5px 0 0 5px;
+
+    .isvg {
+      svg {
+        transform: scaleX( -1 );
+        width: 14px;
+      }
+    }
+  }
+
+  .top-bar {
+    background-color: $secondary-color;
+  }
 }
