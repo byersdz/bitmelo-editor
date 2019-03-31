@@ -8,13 +8,8 @@ import Button from 'Components/Button/Button';
 import ButtonTabs from 'Components/ButtonTabs/ButtonTabs';
 import {
   selectNavigationTab,
-  PLAY_TAB,
-  CODE_TAB,
-  TILE_TAB,
-  TILEMAP_TAB,
-  SPRITE_TAB,
+  PROJECT_TAB,
   SOUND_TAB,
-  MUSIC_TAB,
 } from 'State/Layout/activeNavigationTab';
 import { toggleNavigationPanel } from 'State/Layout/navigationPanelIsOpen';
 
@@ -37,39 +32,14 @@ class NavigationTab extends React.Component {
 
     const buttonList = [
       {
-        key: PLAY_TAB,
-        title: 'Play',
-        icon: 'play',
-      },
-      {
-        key: CODE_TAB,
-        title: 'Code',
-        icon: 'play',
-      },
-      {
-        key: TILE_TAB,
-        title: 'Create Tiles',
-        icon: 'play',
-      },
-      {
-        key: TILEMAP_TAB,
-        title: 'Create Tile Maps',
-        icon: 'play',
-      },
-      {
-        key: SPRITE_TAB,
-        title: 'Create Sprites',
+        key: PROJECT_TAB,
+        title: 'Project',
         icon: 'play',
       },
       {
         key: SOUND_TAB,
         title: 'Create Sounds',
         icon: 'wave',
-      },
-      {
-        key: MUSIC_TAB,
-        title: 'Create Music',
-        icon: 'play',
       },
     ];
 

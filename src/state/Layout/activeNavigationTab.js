@@ -1,5 +1,6 @@
 
 // Constants
+export const PROJECT_TAB = 'play';
 export const PLAY_TAB = 'play';
 export const CODE_TAB = 'code';
 export const TILE_TAB = 'tile';
@@ -12,7 +13,7 @@ export const MUSIC_TAB = 'music';
 export const SELECT_NAVIGATION_TAB = 'SET_NAVIGATION_TAB';
 
 // Reducer
-export default function reducer( state = '', action ) {
+export default function reducer( state = SOUND_TAB, action ) {
   switch ( action.type ) {
     case SELECT_NAVIGATION_TAB: {
       return action.payload;
