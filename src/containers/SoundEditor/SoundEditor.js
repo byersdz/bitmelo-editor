@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Card from 'Components/Card/Card';
-import WaveEditor from 'Components/WaveEditor/WaveEditor';
+import WaveGrid from 'Components/WaveGrid/WaveGrid';
 
 import './SoundEditor.scss';
 
@@ -10,7 +10,7 @@ class SoundEditor extends React.Component {
     return (
       <div className="sound-editor">
         <Card>
-          <WaveEditor minValue={ -12 } maxValue={ 12 } />
+          <WaveGrid minValue={ -10 } maxValue={ 10 } />
         </Card>
       </div>
     );

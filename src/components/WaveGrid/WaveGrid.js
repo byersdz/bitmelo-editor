@@ -1,0 +1,143 @@
+
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import { secondaryColor, secondaryDarkColor } from 'Style/colors';
+
+import './WaveGrid.scss';
+
+const gridScale = 18;
+const borderSize = 2;
+
+class WaveGrid extends React.Component {
+  static getBaseXPosition( x ) {
+    return x * gridScale;
+  }
+
+  static getBaseYPosition( y, gridHeight, minValue ) {
+    const adjustedY = y - minValue;
+    return ( gridHeight - adjustedY - 1 ) * gridScale;
+  }
+
+  constructor( props ) {
+    super( props );
+
+    const initialData = new Array( 32 );
+    initialData.fill( 0 );
+    initialData[3] = 5;
+    initialData[4] = 6;
+    initialData[5] = -2;
+
+    this.state = {
+      data: initialData,
+    };
+
+    this.canvasRef = React.createRef();
+  }
+
+  componentDidMount() {
+    this.draw();
+  }
+
+  componentDidUpdate() {
+    this.draw();
+  }
+
+  draw() {
+    const { data } = this.state;
+    const { minValue, maxValue } = this.props;
+
+    const gridHeight = maxValue - minValue + 1;
+
+    const canvas = this.canvasRef.current;
+    const context = canvas.getContext( '2d' );
+    const { width, height } = canvas;
+
+    context.clearRect( 0, 0, width, height );
+
+    // draw betweens
+    context.fillStyle = secondaryDarkColor;
+    for ( let i = 0; i < data.length; i += 1 ) {
+      const baseX = WaveGrid.getBaseXPosition( i );
+      let baseY = WaveGrid.getBaseYPosition( 0, gridHeight, minValue );
+      const targetY = WaveGrid.getBaseYPosition( data[i], gridHeight, minValue );
+      if ( targetY < baseY ) {
+        baseY += gridScale;
+      }
+      const betweenHeight = targetY - baseY;
+      context.fillRect( baseX, baseY, gridScale, betweenHeight );
+    }
+
+    // draw values
+    context.fillStyle = secondaryColor;
+    for ( let i = 0; i < data.length; i += 1 ) {
+      const baseX = WaveGrid.getBaseXPosition( i );
+      const baseY = WaveGrid.getBaseYPosition( data[i], gridHeight, minValue );
+      context.fillRect( baseX, baseY, gridScale, gridScale );
+    }
+
+    // draw borders
+    context.fillStyle = '#000';
+    for ( let x = 0; x < data.length + 1; x += 1 ) {
+      context.fillRect( x * gridScale, 0, borderSize, height );
+    }
+    for ( let y = 0; y < gridHeight + 1; y += 1 ) {
+      context.fillRect( 0, y * gridScale, width, borderSize );
+    }
+
+    context.restore();
+  }
+
+  handleSelection( e ) {
+    const { offsetX, offsetY } = e.nativeEvent;
+    const { minValue, maxValue } = this.props;
+    const { data } = this.state;
+
+    const gridHeight = maxValue - minValue + 1;
+
+    const gridX = Math.floor( offsetX / gridScale );
+    let gridY = Math.floor( offsetY / gridScale );
+    gridY = gridHeight - gridY - 1;
+    gridY = gridY + minValue;
+
+    if ( gridX >= 0 && gridX < data.length ) {
+      if ( data[gridX] !== gridY ) {
+        const newData = [...data];
+        newData[gridX] = gridY;
+        this.setState( { data: newData } );
+      }
+    }
+  }
+
+  render() {
+    const { data } = this.state;
+    const { minValue, maxValue } = this.props;
+
+    const gridHeight = maxValue - minValue + 1;
+    const gridWidth = data.length;
+
+    const width = ( gridWidth * gridScale ) + borderSize;
+    const height = ( gridHeight * gridScale ) + borderSize;
+
+    return (
+      <canvas
+        width={ width }
+        height={ height }
+        ref={ this.canvasRef }
+        onClick={ e => this.handleSelection( e ) }
+        onMouseMove={ e => {
+          if ( e.buttons === 1 ) {
+            this.handleSelection( e );
+          }
+        } }
+      />
+    );
+  }
+}
+
+WaveGrid.propTypes = {
+  minValue: PropTypes.number.isRequired,
+  maxValue: PropTypes.number.isRequired,
+};
+
+export default WaveGrid;
