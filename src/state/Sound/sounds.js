@@ -12,7 +12,7 @@ for ( let i = 0; i < 256; i += 1 ) {
     arpTics: new Array( 32 ),
   };
 
-  initialState[i].volumeTics.fill( 0 );
+  initialState[i].volumeTics.fill( 15 );
   initialState[i].pitchTics.fill( 0 );
   initialState[i].arpTics.fill( 0 );
 }

@@ -22,16 +22,6 @@ class WaveGrid extends React.Component {
   constructor( props ) {
     super( props );
 
-    const initialData = new Array( 32 );
-    initialData.fill( 0 );
-    initialData[3] = 5;
-    initialData[4] = 6;
-    initialData[5] = -2;
-
-    this.state = {
-      data: initialData,
-    };
-
     this.canvasRef = React.createRef();
   }
 
@@ -44,8 +34,7 @@ class WaveGrid extends React.Component {
   }
 
   draw() {
-    const { data } = this.state;
-    const { minValue, maxValue } = this.props;
+    const { minValue, maxValue, data } = this.props;
 
     const gridHeight = maxValue - minValue + 1;
 
@@ -90,8 +79,12 @@ class WaveGrid extends React.Component {
 
   handleSelection( e ) {
     const { offsetX, offsetY } = e.nativeEvent;
-    const { minValue, maxValue } = this.props;
-    const { data } = this.state;
+    const {
+      minValue,
+      maxValue,
+      data,
+      onDataChange,
+    } = this.props;
 
     const gridHeight = maxValue - minValue + 1;
 
@@ -104,13 +97,13 @@ class WaveGrid extends React.Component {
       if ( data[gridX] !== gridY ) {
         const newData = [...data];
         newData[gridX] = gridY;
-        this.setState( { data: newData } );
+        onDataChange( newData );
       }
     }
   }
 
   render() {
-    const { data } = this.state;
+    const { data } = this.props;
     const { minValue, maxValue } = this.props;
 
     const gridHeight = maxValue - minValue + 1;
@@ -124,7 +117,7 @@ class WaveGrid extends React.Component {
         width={ width }
         height={ height }
         ref={ this.canvasRef }
-        onClick={ e => this.handleSelection( e ) }
+        onMouseDown={ e => this.handleSelection( e ) }
         onMouseMove={ e => {
           if ( e.buttons === 1 ) {
             this.handleSelection( e );
@@ -136,6 +129,8 @@ class WaveGrid extends React.Component {
 }
 
 WaveGrid.propTypes = {
+  onDataChange: PropTypes.func.isRequired,
+  data: PropTypes.arrayOf( PropTypes.number ).isRequired,
   minValue: PropTypes.number.isRequired,
   maxValue: PropTypes.number.isRequired,
 };

@@ -10,17 +10,19 @@ const ButtonTabs = ( props ) => {
     buttonList,
     hideTitles,
     click,
+    className,
   } = props;
 
+  const customClass = `button-tabs ${ className }`;
   const buttonRender = buttonList.map( ( button ) => {
     const isActive = activeButton === button.key;
-    const className = isActive ? 'active' : '';
+    const activeClass = isActive ? 'active' : '';
     return (
       <Button
         key={ button.key }
         title={ button.title }
         icon={ button.icon }
-        className={ className }
+        className={ activeClass }
         hideTitle={ hideTitles }
         click={ () => click( button.key ) }
       />
@@ -28,7 +30,7 @@ const ButtonTabs = ( props ) => {
   } );
 
   return (
-    <div className="button-tabs">
+    <div className={ customClass }>
       { buttonRender }
     </div>
   );
@@ -39,10 +41,12 @@ ButtonTabs.propTypes = {
   buttonList: PropTypes.arrayOf( PropTypes.object ).isRequired,
   hideTitles: PropTypes.bool,
   click: PropTypes.func.isRequired,
+  className: PropTypes.string,
 };
 
 ButtonTabs.defaultProps = {
   hideTitles: false,
+  className: '',
 };
 
 export default ButtonTabs;

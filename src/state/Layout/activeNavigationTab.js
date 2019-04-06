@@ -10,7 +10,7 @@ export const SOUND_TAB = 'sound';
 export const MUSIC_TAB = 'music';
 
 // Actions
-export const SELECT_NAVIGATION_TAB = 'SET_NAVIGATION_TAB';
+export const SELECT_NAVIGATION_TAB = 'SELECT_NAVIGATION_TAB';
 
 // Reducer
 export default function reducer( state = SOUND_TAB, action ) {

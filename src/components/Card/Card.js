@@ -5,9 +5,10 @@ import PropTypes from 'prop-types';
 import './Card.scss';
 
 const Card = ( props ) => {
-  const { children } = props;
+  const { children, className } = props;
+  const customClass = `card ${ className }`;
   return (
-    <div className="card">
+    <div className={ customClass }>
       { children }
     </div>
   );
@@ -15,6 +16,11 @@ const Card = ( props ) => {
 
 Card.propTypes = {
   children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+};
+
+Card.defaultProps = {
+  className: '',
 };
 
 export default Card;

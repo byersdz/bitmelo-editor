@@ -3,11 +3,12 @@
 
 .card {
   margin: 8px;
-  padding: 8px;
+  padding: 16px;
   background-color: $surface-color;
   color: $on-surface-color;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-shadow: 0 4px 5px 0 rgba(0,0,0,0.75);
+  border-radius: 4px;
 }
