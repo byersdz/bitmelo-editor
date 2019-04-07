@@ -31,5 +31,7 @@
 
   .card-content {
     padding: 16px;
+    align-self: stretch;
+    flex-grow: 1;
   }
 }

@@ -7,23 +7,26 @@
   flex-grow: 0;
   width: 512px;
   position: relative;
-  border-left: 1px solid $primary-dark-color;
+  display: flex;
+  flex-direction: row;
+
+  .reference-main {
+    flex-grow: 1;
+  }
 
   .toggle-btn {
-    position: absolute;
-    left: -25px;
-    top: 60px;
-    width: 24px;
-    height: 60px;
-    background-color: $primary-color;
-    border-radius: 5px 0 0 5px;
+    width: 20px;
+    background-color: $background-lighter-color;
 
     .isvg {
       svg {
-        // transform: scaleX( -1 );
-        width: 14px;
+        width: 12px;
       }
     }
+  }
+
+  .toggle-btn:hover {
+    background-color: $secondary-dark-color;
   }
 
   .top-bar {
@@ -32,11 +35,14 @@
 }
 
 .reference-tab.closed {
-  width: 0;
+  width: 20px;
   border-left: none;
 
+  .reference-main {
+    width: 0;
+  }
+
   .toggle-btn {
-    left: -24px;
 
     .isvg {
       svg {

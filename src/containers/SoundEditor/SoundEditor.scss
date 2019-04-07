@@ -7,5 +7,16 @@
 
   .tabbed-card {
     width: 720px;
+
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .tic-editors {
+    // height: 600px;
   }
 }

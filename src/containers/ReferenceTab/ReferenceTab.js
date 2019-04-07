@@ -16,7 +16,9 @@ class ReferenceTab extends React.Component {
     const className = isOpen ? 'reference-tab' : 'reference-tab closed';
 
     const content = isOpen ? (
-      <TopBar title="Reference" />
+      <div className="reference-main">
+        <TopBar title="Reference" />
+      </div>
     ) : null;
 
     return (

@@ -58,6 +58,7 @@ class SoundEditor extends React.Component {
     return (
       <div className="sound-editor">
         <TabbedCard
+          className="tic-editors"
           tabList={ tabs }
           activeTab={ activeTicTab }
           onTabSelect={ key => this.handleTicTabSelect( key ) }
