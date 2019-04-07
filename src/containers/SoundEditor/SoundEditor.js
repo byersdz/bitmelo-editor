@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 
 import TabbedCard from 'Components/TabbedCard/TabbedCard';
 import VolumeTicsEditor from 'Containers/VolumeTicsEditor/VolumeTicsEditor';
+import PitchTicsEditor from 'Containers/PitchTicsEditor/PitchTicsEditor';
+import ArpTicsEditor from 'Containers/ArpTicsEditor/ArpTicsEditor';
 
 import {
   VOLUME_TAB,
@@ -37,6 +39,13 @@ class SoundEditor extends React.Component {
       case VOLUME_TAB:
         ticContentRender = <VolumeTicsEditor />;
         break;
+      case PITCH_TAB:
+        ticContentRender = <PitchTicsEditor />;
+        break;
+      case ARP_TAB:
+        ticContentRender = <ArpTicsEditor />;
+        break;
+
       default:
         ticContentRender = (
           <div>
