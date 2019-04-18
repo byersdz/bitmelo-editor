@@ -9,4 +9,9 @@
   outline: inherit;
 
   transition: all 0.25s;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }

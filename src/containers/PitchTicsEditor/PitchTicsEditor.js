@@ -5,14 +5,20 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 
 import WaveGrid from 'Components/WaveGrid/WaveGrid';
+import NumberPicker from 'Components/NumberPicker/NumberPicker';
 import { setSoundData } from 'State/Sound/sounds';
 
 import './PitchTicsEditor.scss';
 
 class PitchTicsEditor extends React.Component {
-  handleDataChange( newData ) {
+  handleTicDataChange( newData ) {
     const { setSound, activeSound, soundData } = this.props;
     setSound( activeSound, { ...soundData, pitchTics: newData } );
+  }
+
+  handlePitchScaleChange( newScale ) {
+    const { setSound, activeSound, soundData } = this.props;
+    setSound( activeSound, { ...soundData, pitchScale: newScale } );
   }
 
   render() {
@@ -23,7 +29,16 @@ class PitchTicsEditor extends React.Component {
           data={ soundData.pitchTics }
           minValue={ -10 }
           maxValue={ 10 }
-          onDataChange={ ( newData ) => this.handleDataChange( newData ) }
+          onDataChange={ ( newData ) => this.handleTicDataChange( newData ) }
+        />
+        <NumberPicker
+          title="Pitch Scale"
+          value={ soundData.pitchScale }
+          minValue={ 1 }
+          maxValue={ 100 }
+          onValueChange={ newValue => {
+            this.handlePitchScaleChange( newValue );
+          } }
         />
       </div>
     );
@@ -31,7 +46,10 @@ class PitchTicsEditor extends React.Component {
 }
 
 PitchTicsEditor.propTypes = {
-  soundData: PropTypes.shape( { pitchTics: PropTypes.arrayOf( PropTypes.number ) } ).isRequired,
+  soundData: PropTypes.shape( {
+    pitchTics: PropTypes.arrayOf( PropTypes.number ),
+    pitchScale: PropTypes.number,
+  } ).isRequired,
   activeSound: PropTypes.number.isRequired,
   setSound: PropTypes.func.isRequired,
 };

@@ -1,0 +1,53 @@
+
+@import 'Style/colors.scss';
+
+.num-picker {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+
+  input {
+    border: 2px solid $secondary-color;
+    background-color: $background-color;
+    color: $on-background-color;
+    font-size: 18px;
+    text-align: center;
+    padding: 4px;
+    width: 40px;
+    border-radius: 4px;
+  }
+
+  .is-editing {
+    background-color: $primary-color;
+    border-radius: 4px;
+  }
+
+  .title {
+    font-weight: bold;
+    margin-right: 16px;
+  }
+
+  .btn {
+    align-self: center;
+    margin: 0 8px;
+
+    .isvg {
+      fill: $secondary-color;
+      stroke: $secondary-color;
+    }
+
+    .isvg:hover {
+      fill: $secondary-light-color;
+      stroke: $secondary-light-color;
+    }
+
+    .isvg, svg {
+      width: 24px;
+    }
+  }
+
+  .lower svg {
+    transform: scaleX( -1 );
+  }
+
+}

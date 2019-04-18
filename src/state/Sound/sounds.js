@@ -10,6 +10,11 @@ for ( let i = 0; i < 256; i += 1 ) {
     volumeTics: new Array( 32 ),
     pitchTics: new Array( 32 ),
     arpTics: new Array( 32 ),
+    pitchScale: 10,
+    wave: 0,
+    loopStart: 0,
+    loopEnd: 31,
+    useLoop: false,
   };
 
   initialState[i].volumeTics.fill( 15 );

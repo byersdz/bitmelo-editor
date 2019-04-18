@@ -20,7 +20,7 @@ const Button = ( props ) => {
   ) : null;
 
   const titleRender = !hideTitle ? (
-    <span className="title">
+    <span className="btn-title">
       { title }
     </span>
   ) : null;
