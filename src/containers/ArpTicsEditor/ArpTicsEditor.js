@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 
 import WaveGrid from 'Components/WaveGrid/WaveGrid';
+import LoopControls from 'Containers/LoopControls/LoopControls';
 import { setSoundData } from 'State/Sound/sounds';
 
 import './ArpTicsEditor.scss';
@@ -25,6 +26,7 @@ class ArpTicsEditor extends React.Component {
           maxValue={ 12 }
           onDataChange={ ( newData ) => this.handleDataChange( newData ) }
         />
+        <LoopControls />
       </div>
     );
   }

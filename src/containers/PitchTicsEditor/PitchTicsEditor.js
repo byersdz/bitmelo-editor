@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 
 import WaveGrid from 'Components/WaveGrid/WaveGrid';
 import NumberPicker from 'Components/NumberPicker/NumberPicker';
+import LoopControls from 'Containers/LoopControls/LoopControls';
 import { setSoundData } from 'State/Sound/sounds';
 
 import './PitchTicsEditor.scss';
@@ -31,6 +32,7 @@ class PitchTicsEditor extends React.Component {
           maxValue={ 10 }
           onDataChange={ ( newData ) => this.handleTicDataChange( newData ) }
         />
+        <LoopControls />
         <NumberPicker
           title="Pitch Scale"
           value={ soundData.pitchScale }

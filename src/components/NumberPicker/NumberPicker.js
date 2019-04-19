@@ -95,34 +95,36 @@ class NumberPicker extends React.Component {
         <div className="title">
           { `${ title }: ` }
         </div>
-        <Button
-          className="lower"
-          icon="play"
-          title="Lower"
-          hideTitle
-          click={ () => this.handleLowerClick() }
-        />
-        <input
-          className={ inputClass }
-          type="text"
-          value={ displayValue }
-          onChange={ e => this.handleInputChange( e ) }
-          onFocus={ () => this.beginEditing() }
-          onClick={ () => this.beginEditing() }
-          onBlur={ () => this.endEditing() }
-          onKeyPress={ e => {
-            if ( e.charCode === 13 ) { // enter key
-              this.endEditing();
-            }
-          } }
-        />
-        <Button
-          className="higher"
-          icon="play"
-          title="Higher"
-          hideTitle
-          click={ () => this.handleHigherClick() }
-        />
+        <div className="controls">
+          <Button
+            className="lower"
+            icon="play"
+            title="Lower"
+            hideTitle
+            click={ () => this.handleLowerClick() }
+          />
+          <input
+            className={ inputClass }
+            type="text"
+            value={ displayValue }
+            onChange={ e => this.handleInputChange( e ) }
+            onFocus={ () => this.beginEditing() }
+            onClick={ () => this.beginEditing() }
+            onBlur={ () => this.endEditing() }
+            onKeyPress={ e => {
+              if ( e.charCode === 13 ) { // enter key
+                this.endEditing();
+              }
+            } }
+          />
+          <Button
+            className="higher"
+            icon="play"
+            title="Higher"
+            hideTitle
+            click={ () => this.handleHigherClick() }
+          />
+        </div>
       </div>
     );
   }

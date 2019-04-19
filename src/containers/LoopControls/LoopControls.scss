@@ -1,0 +1,32 @@
+
+@import 'Style/colors.scss';
+
+.loop-controls {
+  background-color: $surface-dark-color;
+  padding: 8px 0;
+
+  .checkbox {
+    margin: 0;
+  }
+
+  .start-end {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .num-picker {
+      margin: 0;
+      width: 50%;
+      justify-content: center;
+
+      .title {
+        width: initial;
+      }
+
+      .controls {
+        width: initial;
+      }
+    }
+  }
+}

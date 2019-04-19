@@ -38,7 +38,7 @@ class NavigationTab extends React.Component {
       },
       {
         key: SOUND_TAB,
-        title: 'Create Sounds',
+        title: 'Sound Editor',
         icon: 'wave',
       },
     ];

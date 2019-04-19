@@ -5,6 +5,16 @@
   display: flex;
   flex-direction: row;
   align-items: baseline;
+  justify-content: center;
+  margin-top: 8px;
+
+  .controls {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-start;
+    width: 50%;
+  }
 
   input {
     border: 2px solid $secondary-color;
@@ -24,7 +34,8 @@
 
   .title {
     font-weight: bold;
-    margin-right: 16px;
+    width: 50%;
+    text-align: right;
   }
 
   .btn {

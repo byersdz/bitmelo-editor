@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
 import WaveGrid from 'Components/WaveGrid/WaveGrid';
+import LoopControls from 'Containers/LoopControls/LoopControls';
 import { setSoundData } from 'State/Sound/sounds';
 
 import './VolumeTicsEditor.scss';
@@ -18,12 +19,15 @@ class VolumeTicsEditor extends React.Component {
   render() {
     const { soundData } = this.props;
     return (
-      <WaveGrid
-        data={ soundData.volumeTics }
-        minValue={ 0 }
-        maxValue={ 15 }
-        onDataChange={ ( newData ) => this.handleDataChange( newData ) }
-      />
+      <div>
+        <WaveGrid
+          data={ soundData.volumeTics }
+          minValue={ 0 }
+          maxValue={ 15 }
+          onDataChange={ ( newData ) => this.handleDataChange( newData ) }
+        />
+        <LoopControls />
+      </div>
     );
   }
 }
