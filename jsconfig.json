@@ -6,7 +6,8 @@
       "Components": ["./components"],
       "Containers": ["./containers"],
       "State": ["./state"],
-      "Style": ["./style"]
+      "Style": ["./style"],
+      "Utils": ["./utils"]
     }
   }
 }

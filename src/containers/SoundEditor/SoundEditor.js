@@ -5,9 +5,14 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
 import TabbedCard from 'Components/TabbedCard/TabbedCard';
+import Button from 'Components/Button/Button';
+
 import VolumeTicsEditor from 'Containers/VolumeTicsEditor/VolumeTicsEditor';
 import PitchTicsEditor from 'Containers/PitchTicsEditor/PitchTicsEditor';
 import ArpTicsEditor from 'Containers/ArpTicsEditor/ArpTicsEditor';
+import WavePicker from 'Containers/WavePicker/WavePicker';
+
+import { downloadSoundData } from 'Utils/download';
 
 import {
   VOLUME_TAB,
@@ -65,6 +70,14 @@ class SoundEditor extends React.Component {
         >
           { ticContentRender }
         </TabbedCard>
+        <WavePicker />
+        <div className="buttons">
+          <Button
+            title="Export Sound Data"
+            click={ () => downloadSoundData() }
+            standard
+          />
+        </div>
       </div>
     );
   }

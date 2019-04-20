@@ -13,6 +13,7 @@ const Button = ( props ) => {
     hideTitle,
     className,
     click,
+    standard,
   } = props;
 
   const iconRender = icon ? (
@@ -25,7 +26,10 @@ const Button = ( props ) => {
     </span>
   ) : null;
 
-  const customClass = `btn ${ className }`;
+  let customClass = `btn ${ className }`;
+  if ( standard ) {
+    customClass += ' std-btn';
+  }
 
   return (
     <button
@@ -45,12 +49,14 @@ Button.propTypes = {
   hideTitle: PropTypes.bool,
   className: PropTypes.string,
   click: PropTypes.func.isRequired,
+  standard: PropTypes.bool,
 };
 
 Button.defaultProps = {
   icon: '',
   hideTitle: false,
   className: '',
+  standard: false,
 };
 
 export default Button;

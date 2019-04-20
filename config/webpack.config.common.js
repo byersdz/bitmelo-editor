@@ -62,7 +62,8 @@ module.exports = {
       Components: path.resolve(__dirname, '../src/components'),
       Containers: path.resolve(__dirname, '../src/containers'),
       State: path.resolve(__dirname, '../src/state'),
-      Style: path.resolve(__dirname, '../src/style')
+      Style: path.resolve(__dirname, '../src/style'),
+      Utils: path.resolve(__dirname, '../src/utils')
     },
     extensions: ['.js', '.jsx']
   }

@@ -1,4 +1,6 @@
 
+@import 'Style/colors.scss';
+
 .btn {
   background: none;
 	color: inherit;
@@ -14,4 +16,11 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.std-btn {
+  background-color: $primary-color;
+  color: $on-primary-color;
+  padding: 5px;
+  border-radius: 4px;
 }

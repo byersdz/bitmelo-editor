@@ -25,11 +25,17 @@
     padding: 4px;
     width: 40px;
     border-radius: 4px;
+    caret-color: transparent;
+  }
+
+  input:focus {
+    outline: none;
   }
 
   .is-editing {
     background-color: $primary-color;
     border-radius: 4px;
+    caret-color: #fff;
   }
 
   .title {

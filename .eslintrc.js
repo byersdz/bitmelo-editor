@@ -23,7 +23,8 @@ module.exports = {
     "react/jsx-curly-spacing": ["error", {"when": "always"}],
     "react/prefer-stateless-function": "off",
     "arrow-parens": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "import/prefer-default-export": "off"
   },
   "globals": {
     "minnow": "readonly"
