@@ -11,6 +11,7 @@ import VolumeTicsEditor from 'Containers/VolumeTicsEditor/VolumeTicsEditor';
 import PitchTicsEditor from 'Containers/PitchTicsEditor/PitchTicsEditor';
 import ArpTicsEditor from 'Containers/ArpTicsEditor/ArpTicsEditor';
 import WavePicker from 'Containers/WavePicker/WavePicker';
+import SoundPicker from 'Containers/SoundPicker/SoundPicker';
 
 import { downloadSoundData } from 'Utils/download';
 
@@ -62,6 +63,7 @@ class SoundEditor extends React.Component {
 
     return (
       <div className="sound-editor">
+        <SoundPicker />
         <TabbedCard
           className="tic-editors"
           tabList={ tabs }
