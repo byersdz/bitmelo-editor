@@ -13,10 +13,12 @@ import './WavePicker.scss';
 class WavePicker extends React.Component {
   handleWaveTypeChange( event ) {
     const { setSound, activeSound, soundData } = this.props;
-    setSound( activeSound, { ...soundData, wave: event.target.value } );
+    const waveValue = Number.parseInt( event.target.value, 10 );
+    setSound( activeSound, { ...soundData, wave: waveValue } );
   }
 
   render() {
+    const { soundData } = this.props;
     const waveTypeItems = [
       { value: '0', display: 'Sine' },
       { value: '1', display: 'Triangle' },
@@ -29,7 +31,7 @@ class WavePicker extends React.Component {
         <Select
           title="Wave Type"
           items={ waveTypeItems }
-          value="2"
+          value={ soundData.wave.toString() }
           onValueChange={ event => this.handleWaveTypeChange( event ) }
         />
       </Card>
