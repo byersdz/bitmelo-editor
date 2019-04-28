@@ -13,12 +13,20 @@ import './LoopControls.scss';
 class LoopControls extends React.Component {
   handleLoopStartChange( newValue ) {
     const { setSound, activeSound, soundData } = this.props;
-    setSound( activeSound, { ...soundData, loopStart: newValue } );
+    let { loopEnd } = soundData;
+    if ( newValue > loopEnd ) {
+      loopEnd = newValue;
+    }
+    setSound( activeSound, { ...soundData, loopStart: newValue, loopEnd } );
   }
 
   handleLoopEndChange( newValue ) {
     const { setSound, activeSound, soundData } = this.props;
-    setSound( activeSound, { ...soundData, loopEnd: newValue } );
+    let { loopStart } = soundData;
+    if ( newValue < loopStart ) {
+      loopStart = newValue;
+    }
+    setSound( activeSound, { ...soundData, loopEnd: newValue, loopStart } );
   }
 
   handleUseLoopChange( checked ) {

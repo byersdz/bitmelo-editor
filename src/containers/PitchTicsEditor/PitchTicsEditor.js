@@ -24,6 +24,7 @@ class PitchTicsEditor extends React.Component {
 
   render() {
     const { soundData } = this.props;
+    const showLoop = soundData.useLoop;
     return (
       <div>
         <WaveGrid
@@ -31,6 +32,9 @@ class PitchTicsEditor extends React.Component {
           minValue={ -10 }
           maxValue={ 10 }
           onDataChange={ ( newData ) => this.handleTicDataChange( newData ) }
+          showLoop={ showLoop }
+          loopStart={ soundData.loopStart }
+          loopEnd={ soundData.loopEnd }
         />
         <LoopControls />
         <NumberPicker

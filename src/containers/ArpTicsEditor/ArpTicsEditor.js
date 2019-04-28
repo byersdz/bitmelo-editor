@@ -18,6 +18,7 @@ class ArpTicsEditor extends React.Component {
 
   render() {
     const { soundData } = this.props;
+    const showLoop = soundData.useLoop;
     return (
       <div>
         <WaveGrid
@@ -25,6 +26,9 @@ class ArpTicsEditor extends React.Component {
           minValue={ -12 }
           maxValue={ 12 }
           onDataChange={ ( newData ) => this.handleDataChange( newData ) }
+          showLoop={ showLoop }
+          loopStart={ soundData.loopStart }
+          loopEnd={ soundData.loopEnd }
         />
         <LoopControls />
       </div>

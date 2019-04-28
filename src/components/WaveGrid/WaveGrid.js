@@ -2,7 +2,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { secondaryColor, secondaryDarkColor } from 'Style/colors';
+import {
+  secondaryColor,
+  secondaryDarkColor,
+  primaryDarkerColor,
+  primaryColor,
+} from 'Style/colors';
 
 import './WaveGrid.scss';
 
@@ -34,7 +39,14 @@ class WaveGrid extends React.Component {
   }
 
   draw() {
-    const { minValue, maxValue, data } = this.props;
+    const {
+      minValue,
+      maxValue,
+      data,
+      showLoop,
+      loopStart,
+      loopEnd,
+    } = this.props;
 
     const gridHeight = maxValue - minValue + 1;
 
@@ -65,12 +77,29 @@ class WaveGrid extends React.Component {
       context.fillRect( baseX, baseY, gridScale, gridScale );
     }
 
+    // draw loop
+    if ( showLoop ) {
+      context.fillStyle = primaryDarkerColor;
+      // context.fillRect( 0, height - gridScale, width, gridScale );
+
+      context.fillStyle = primaryColor;
+      const baseX = loopStart * gridScale;
+      const loopWidth = ( loopEnd - loopStart + 1 ) * gridScale;
+      context.fillRect( baseX, height - gridScale, loopWidth, gridScale );
+    }
+
     // draw borders
     context.fillStyle = '#000';
     for ( let x = 0; x < data.length + 1; x += 1 ) {
       context.fillRect( x * gridScale, 0, borderSize, height );
     }
-    for ( let y = 0; y < gridHeight + 1; y += 1 ) {
+
+    let numberOfHorizLines = gridHeight + 1;
+    if ( showLoop ) {
+      numberOfHorizLines += 1;
+    }
+
+    for ( let y = 0; y < numberOfHorizLines; y += 1 ) {
       context.fillRect( 0, y * gridScale, width, borderSize );
     }
 
@@ -93,8 +122,15 @@ class WaveGrid extends React.Component {
     gridY = gridHeight - gridY - 1;
     gridY = gridY + minValue;
 
+    const selectedValue = gridY;
+
+    if ( selectedValue < minValue || selectedValue > maxValue ) {
+      // invalid value
+      return;
+    }
+
     if ( gridX >= 0 && gridX < data.length ) {
-      if ( data[gridX] !== gridY ) {
+      if ( data[gridX] !== selectedValue ) {
         const newData = [...data];
         newData[gridX] = gridY;
         onDataChange( newData );
@@ -104,9 +140,13 @@ class WaveGrid extends React.Component {
 
   render() {
     const { data } = this.props;
-    const { minValue, maxValue } = this.props;
+    const { minValue, maxValue, showLoop } = this.props;
 
-    const gridHeight = maxValue - minValue + 1;
+    let gridHeight = maxValue - minValue + 1;
+    if ( showLoop ) {
+      gridHeight += 1;
+    }
+
     const gridWidth = data.length;
 
     const width = ( gridWidth * gridScale ) + borderSize;
@@ -133,6 +173,9 @@ WaveGrid.propTypes = {
   data: PropTypes.arrayOf( PropTypes.number ).isRequired,
   minValue: PropTypes.number.isRequired,
   maxValue: PropTypes.number.isRequired,
+  showLoop: PropTypes.bool.isRequired,
+  loopStart: PropTypes.number.isRequired,
+  loopEnd: PropTypes.number.isRequired,
 };
 
 export default WaveGrid;
