@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 
 import { PROJECT_TAB, SOUND_TAB } from 'State/Layout/activeNavigationTab';
 import TopBar from 'Components/TopBar/TopBar';
+import Scrollbars from 'Components/Scrollbars/Scrollbars';
+
 import ProjectEditor from 'Containers/ProjectEditor/ProjectEditor';
 import SoundEditor from 'Containers/SoundEditor/SoundEditor';
 
@@ -30,7 +32,9 @@ class MainContainer extends React.Component {
     return (
       <div className="main-container">
         <TopBar title="Bitmelo Editor" />
-        { contentRender }
+        <Scrollbars>
+          { contentRender }
+        </Scrollbars>
       </div>
     );
   }

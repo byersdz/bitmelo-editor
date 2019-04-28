@@ -4,6 +4,7 @@
 
 .top-bar {
   height: 48px;
+  min-height: 48px;
   flex-grow: 0;
   background-color: $primary-color;
   color: $on-primary-color;
@@ -31,6 +32,7 @@
 @media #{ $desktop-small } {
   .top-bar {
     height: 40px;
+    min-height: 40px;
 
     .title {
       font-size: 16px;
