@@ -26,7 +26,12 @@
   }
 
   .toggle-btn:hover {
-    background-color: $secondary-dark-color;
+    background-color: $primary-dark-color;
+
+    svg {
+      fill: $on-primary-color;
+      stroke: $on-primary-color;
+    }
   }
 
   .top-bar {

@@ -14,6 +14,11 @@
     height: 48px;
     background-color: $primary-dark-color;
     box-shadow: 0 4px 2px -2px #000;
+
+    svg {
+      fill: $on-primary-color;
+      stroke: $on-primary-color;
+    }
   }
 
   .button-tabs {
@@ -34,10 +39,22 @@
 
   .btn:hover {
     background-color: $primary-color;
+    color: $on-primary-color;
+
+    svg {
+      fill: $on-primary-color;
+      stroke: $on-primary-color;
+    }
   }
 
   .btn.active {
     background-color: $secondary-color;
+    color: $on-secondary-color;
+
+    svg {
+      fill: $on-secondary-color;
+      stroke: $on-secondary-color;
+    }
   }
 
   .toggle-panel:hover {

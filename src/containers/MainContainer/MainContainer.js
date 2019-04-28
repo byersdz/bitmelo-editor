@@ -29,7 +29,7 @@ class MainContainer extends React.Component {
 
     return (
       <div className="main-container">
-        <TopBar title="Minnow Editor" />
+        <TopBar title="Bitmelo Editor" />
         { contentRender }
       </div>
     );
