@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
-import Card from 'Components/Card/Card';
 import NumberPicker from 'Components/NumberPicker/NumberPicker';
+import TextInput from 'Components/TextInput/TextInput';
 import { setSoundData } from 'State/Sound/sounds';
 import { selectSound } from 'State/Sound/activeSound';
 
@@ -24,7 +24,7 @@ class SoundPicker extends React.Component {
     console.log( setSound );
 
     return (
-      <Card className="sound-picker">
+      <div className="sound-picker">
         <NumberPicker
           title="Sound Index"
           minValue={ 0 }
@@ -32,7 +32,10 @@ class SoundPicker extends React.Component {
           value={ activeSound }
           onValueChange={ newValue => this.handleIndexChange( newValue ) }
         />
-      </Card>
+        <TextInput
+          title="Name"
+        />
+      </div>
     );
   }
 }
