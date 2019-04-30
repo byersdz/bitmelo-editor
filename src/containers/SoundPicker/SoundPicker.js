@@ -17,12 +17,13 @@ class SoundPicker extends React.Component {
     selectActiveSound( newIndex );
   }
 
-  render() {
-    const { soundData, activeSound, setSound } = this.props;
-    console.log( soundData );
-    console.log( activeSound );
-    console.log( setSound );
+  handleNameChange( newValue ) {
+    const { setSound, soundData, activeSound } = this.props;
+    setSound( activeSound, { ...soundData, name: newValue } );
+  }
 
+  render() {
+    const { soundData, activeSound } = this.props;
     return (
       <div className="sound-picker">
         <NumberPicker
@@ -34,6 +35,8 @@ class SoundPicker extends React.Component {
         />
         <TextInput
           title="Name"
+          value={ soundData.name }
+          onValueChange={ v => this.handleNameChange( v ) }
         />
       </div>
     );

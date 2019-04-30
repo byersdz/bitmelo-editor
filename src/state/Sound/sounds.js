@@ -15,6 +15,7 @@ for ( let i = 0; i < 256; i += 1 ) {
     loopStart: 0,
     loopEnd: 31,
     useLoop: false,
+    name: '',
   };
 
   initialState[i].volumeTics.fill( 15 );

@@ -32,7 +32,7 @@ const Icon = ( props ) => {
   }
 
   return (
-    <span className="isvg" dangerouslySetInnerHTML={ { __html: svgFile } } />
+    <span className="isvg" dangerouslySetInnerHTML={ { __html: svgFile } } /> // eslint-disable-line
   );
 };
 

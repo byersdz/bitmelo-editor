@@ -14,8 +14,17 @@
     color: $on-background-color;
     font-size: 18px;
     padding: 4px;
-    width: 150px;
+    width: 200px;
     border-radius: 4px;
+    margin-left: 8px;
+  }
+
+  input:focus {
+    outline: none;
+    background-color: $primary-color;
+    border-radius: 4px;
+    caret-color: $on-primary-color;
+    color: $on-primary-color;
   }
 
   .title {
