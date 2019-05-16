@@ -1,6 +1,8 @@
+import { Sound } from 'bitmelo';
 
 // Actions
 export const SET_SOUND_DATA = 'SET_SOUND_DATA';
+export const ADDED_SOUND_TO_AUDIO_ENGINE = 'ADDED_SOUND_TO_AUDIO_ENGINE';
 
 // Reducer
 const initialState = new Array( 256 );
@@ -16,6 +18,9 @@ for ( let i = 0; i < 256; i += 1 ) {
     loopEnd: 31,
     useLoop: false,
     name: '',
+    releaseLength: 1,
+    releaseMode: Sound.RELEASE_LINEAR,
+    needToAddToAudioEngine: false,
   };
 
   initialState[i].volumeTics.fill( 15 );
@@ -28,7 +33,12 @@ export default function reducer( state = initialState, action ) {
     case SET_SOUND_DATA: {
       const newState = [...state];
       const { soundIndex, data } = action.payload;
-      newState[soundIndex] = data;
+      newState[soundIndex] = { ...data, needToAddToAudioEngine: true };
+      return newState;
+    }
+    case ADDED_SOUND_TO_AUDIO_ENGINE: {
+      const newState = [...state];
+      newState[action.payload].needToAddToAudioEngine = false;
       return newState;
     }
     default:
@@ -41,5 +51,12 @@ export function setSoundData( soundIndex, data ) {
   return {
     type: SET_SOUND_DATA,
     payload: { soundIndex, data },
+  };
+}
+
+export function addedSoundToAudioEngine( soundIndex ) {
+  return {
+    type: ADDED_SOUND_TO_AUDIO_ENGINE,
+    payload: soundIndex,
   };
 }

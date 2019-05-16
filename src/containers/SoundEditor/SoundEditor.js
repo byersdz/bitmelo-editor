@@ -12,6 +12,7 @@ import PitchTicsEditor from 'Containers/PitchTicsEditor/PitchTicsEditor';
 import ArpTicsEditor from 'Containers/ArpTicsEditor/ArpTicsEditor';
 import WavePicker from 'Containers/WavePicker/WavePicker';
 import SoundPicker from 'Containers/SoundPicker/SoundPicker';
+import SoundPiano from 'Containers/SoundPiano/SoundPiano';
 
 import { downloadSoundData } from 'Utils/download';
 
@@ -72,6 +73,7 @@ class SoundEditor extends React.Component {
         >
           { ticContentRender }
         </TabbedCard>
+        <SoundPiano />
         <WavePicker />
         <div className="buttons">
           <Button

@@ -1,4 +1,8 @@
 
+// Audio Events
+export const PIANO_KEY_DOWN = 'PIANO_KEY_DOWN';
+export const PIANO_KEY_UP = 'PIANO_KEY_UP';
+
 // Actions
 export const CLEAR_AUDIO_EVENTS = 'CLEAR_AUDIO_EVENTS';
 export const ADD_AUDIO_EVENT = 'ADD_AUDIO_EVENT';
