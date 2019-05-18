@@ -1,19 +1,19 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 
 import WaveGrid from 'Components/WaveGrid/WaveGrid';
-import LoopControls from 'Containers/LoopControls/LoopControls';
+import LoopControls from 'Containers/SoundEditor/LoopControls/LoopControls';
 import { setSoundData } from 'State/Sound/sounds';
 
-import './ArpTicsEditor.scss';
+import './VolumeTicsEditor.scss';
 
-class ArpTicsEditor extends React.Component {
+class VolumeTicsEditor extends React.Component {
   handleDataChange( newData ) {
     const { setSound, activeSound, soundData } = this.props;
-    setSound( activeSound, { ...soundData, arpTics: newData } );
+    setSound( activeSound, { ...soundData, volumeTics: newData } );
   }
 
   render() {
@@ -22,9 +22,9 @@ class ArpTicsEditor extends React.Component {
     return (
       <div>
         <WaveGrid
-          data={ soundData.arpTics }
-          minValue={ -12 }
-          maxValue={ 12 }
+          data={ soundData.volumeTics }
+          minValue={ 0 }
+          maxValue={ 15 }
           onDataChange={ ( newData ) => this.handleDataChange( newData ) }
           showLoop={ showLoop }
           loopStart={ soundData.loopStart }
@@ -36,14 +36,15 @@ class ArpTicsEditor extends React.Component {
   }
 }
 
-ArpTicsEditor.propTypes = {
-  soundData: PropTypes.shape( { arpTics: PropTypes.arrayOf( PropTypes.number ) } ).isRequired,
+VolumeTicsEditor.propTypes = {
+  soundData: PropTypes.shape( { volumeTics: PropTypes.arrayOf( PropTypes.number ) } ).isRequired,
   activeSound: PropTypes.number.isRequired,
   setSound: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
   const { sounds, activeSound } = state.sound;
+
   return {
     soundData: sounds[activeSound],
     activeSound,
@@ -56,4 +57,4 @@ function mapDispatchToProps( dispatch ) {
   }, dispatch );
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )( ArpTicsEditor );
+export default connect( mapStateToProps, mapDispatchToProps )( VolumeTicsEditor );

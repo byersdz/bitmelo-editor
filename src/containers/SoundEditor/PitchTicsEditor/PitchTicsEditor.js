@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 
 import WaveGrid from 'Components/WaveGrid/WaveGrid';
 import NumberPicker from 'Components/NumberPicker/NumberPicker';
-import LoopControls from 'Containers/LoopControls/LoopControls';
+import LoopControls from 'Containers/SoundEditor/LoopControls/LoopControls';
 import { setSoundData } from 'State/Sound/sounds';
 
 import './PitchTicsEditor.scss';

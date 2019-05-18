@@ -7,13 +7,13 @@ import PropTypes from 'prop-types';
 import TabbedCard from 'Components/TabbedCard/TabbedCard';
 import Button from 'Components/Button/Button';
 
-import VolumeTicsEditor from 'Containers/VolumeTicsEditor/VolumeTicsEditor';
-import PitchTicsEditor from 'Containers/PitchTicsEditor/PitchTicsEditor';
-import ArpTicsEditor from 'Containers/ArpTicsEditor/ArpTicsEditor';
-import WavePicker from 'Containers/WavePicker/WavePicker';
-import SoundPicker from 'Containers/SoundPicker/SoundPicker';
-import SoundPiano from 'Containers/SoundPiano/SoundPiano';
-import ReleaseEditor from 'Containers/ReleaseEditor/ReleaseEditor';
+import VolumeTicsEditor from 'Containers/SoundEditor/VolumeTicsEditor/VolumeTicsEditor';
+import PitchTicsEditor from 'Containers/SoundEditor/PitchTicsEditor/PitchTicsEditor';
+import ArpTicsEditor from 'Containers/SoundEditor/ArpTicsEditor/ArpTicsEditor';
+import WavePicker from 'Containers/SoundEditor/WavePicker/WavePicker';
+import SoundPicker from 'Containers/SoundEditor/SoundPicker/SoundPicker';
+import SoundPiano from 'Containers/SoundEditor/SoundPiano/SoundPiano';
+import ReleaseEditor from 'Containers/SoundEditor/ReleaseEditor/ReleaseEditor';
 
 import { downloadSoundData } from 'Utils/download';
 
