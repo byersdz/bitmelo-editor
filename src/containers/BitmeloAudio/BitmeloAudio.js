@@ -80,6 +80,7 @@ class BitmeloAudio extends React.Component {
 
   addSoundData() {
     const { sounds, activeSound, _addedSoundToAudioEngine } = this.props;
+    this.audio.stopAllInfiniteSounds();
     const newSound = sounds[activeSound];
     this.audio.sounds = [];
     this.audio.addSound( { ...newSound } );

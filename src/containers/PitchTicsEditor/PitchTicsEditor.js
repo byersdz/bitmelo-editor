@@ -41,7 +41,7 @@ class PitchTicsEditor extends React.Component {
           title="Pitch Scale"
           value={ soundData.pitchScale }
           minValue={ 1 }
-          maxValue={ 100 }
+          maxValue={ 999 }
           onValueChange={ newValue => {
             this.handlePitchScaleChange( newValue );
           } }
