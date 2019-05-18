@@ -25,7 +25,7 @@ const Select = props => {
         { `${ title }:` }
       </div>
       <div className="controls">
-        <select value={ value } onChange={ onValueChange }>
+        <select value={ value } onChange={ e => onValueChange( e.target.value ) }>
           { itemsRender }
         </select>
       </div>

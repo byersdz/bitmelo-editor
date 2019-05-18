@@ -3,8 +3,8 @@
 @import 'Style/media.scss';
 
 .top-bar {
-  height: 48px;
-  min-height: 48px;
+  height: 40px;
+  min-height: 40px;
   flex-grow: 0;
   background-color: $primary-color;
   color: $on-primary-color;
@@ -21,22 +21,11 @@
   }
 
   .title {
-    margin-left: 32px;
-    font-size: 18px;
+    margin-left: 24px;
+    font-size: 16px;
     flex-grow: 1;
     align-self: center;
     font-weight: bold;
   }
 }
 
-@media #{ $desktop-small } {
-  .top-bar {
-    height: 40px;
-    min-height: 40px;
-
-    .title {
-      font-size: 16px;
-      margin-left: 24px;
-    }
-  }
-}

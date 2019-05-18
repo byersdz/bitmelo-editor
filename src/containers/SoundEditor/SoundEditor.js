@@ -13,6 +13,7 @@ import ArpTicsEditor from 'Containers/ArpTicsEditor/ArpTicsEditor';
 import WavePicker from 'Containers/WavePicker/WavePicker';
 import SoundPicker from 'Containers/SoundPicker/SoundPicker';
 import SoundPiano from 'Containers/SoundPiano/SoundPiano';
+import ReleaseEditor from 'Containers/ReleaseEditor/ReleaseEditor';
 
 import { downloadSoundData } from 'Utils/download';
 
@@ -65,6 +66,7 @@ class SoundEditor extends React.Component {
     return (
       <div className="sound-editor">
         <SoundPicker />
+        <WavePicker />
         <TabbedCard
           className="tic-editors"
           tabList={ tabs }
@@ -74,7 +76,7 @@ class SoundEditor extends React.Component {
           { ticContentRender }
         </TabbedCard>
         <SoundPiano />
-        <WavePicker />
+        <ReleaseEditor />
         <div className="buttons">
           <Button
             title="Export Sound Data"

@@ -11,9 +11,9 @@ import { setSoundData } from 'State/Sound/sounds';
 import './WavePicker.scss';
 
 class WavePicker extends React.Component {
-  handleWaveTypeChange( event ) {
+  handleWaveTypeChange( newValue ) {
     const { setSound, activeSound, soundData } = this.props;
-    const waveValue = Number.parseInt( event.target.value, 10 );
+    const waveValue = Number.parseInt( newValue, 10 );
     setSound( activeSound, { ...soundData, wave: waveValue } );
   }
 
@@ -32,7 +32,7 @@ class WavePicker extends React.Component {
           title="Wave Type"
           items={ waveTypeItems }
           value={ soundData.wave.toString() }
-          onValueChange={ event => this.handleWaveTypeChange( event ) }
+          onValueChange={ newValue => this.handleWaveTypeChange( newValue ) }
         />
       </Card>
     );
