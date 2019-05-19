@@ -54,12 +54,12 @@ class PixelEditor extends React.Component {
   render() {
     const { width, height } = this.state;
 
-    const scale = 2;
+    const scale = 32;
     const data = [
+      1, 1, 1, 1,
       0, 0, 0, 0,
       0, 0, 0, 0,
-      0, 0, 0, 0,
-      0, 0, 0, 0,
+      1, 0, 0, 1,
     ];
     const dataWidth = 4;
     const dataHeight = 4;
