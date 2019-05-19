@@ -100,8 +100,6 @@ class BitmeloAudio extends React.Component {
     else if ( event.type === PIANO_KEY_UP ) {
       this.audio.stopInfiniteSound( 0 );
     }
-    console.log( event );
-    console.log( this.audio );
   }
 
   render() {

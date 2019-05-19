@@ -3,11 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { PROJECT_TAB, SOUND_TAB } from 'State/Layout/activeNavigationTab';
+import { PROJECT_TAB, SOUND_TAB, TILE_TAB } from 'State/Layout/activeNavigationTab';
 import TopBar from 'Components/TopBar/TopBar';
 import Scrollbars from 'Components/Scrollbars/Scrollbars';
 
 import ProjectEditor from 'Containers/ProjectEditor/ProjectEditor';
+import TileEditor from 'Containers/TileEditor/TileEditor';
 import SoundEditor from 'Containers/SoundEditor/SoundEditor';
 
 import './MainContainer.scss';
@@ -19,13 +20,28 @@ class MainContainer extends React.Component {
 
     switch ( activeNavigationTab ) {
       case PROJECT_TAB:
-        contentRender = <ProjectEditor />;
+        contentRender = (
+          <Scrollbars>
+            <ProjectEditor />
+          </Scrollbars>
+        );
+        break;
+      case TILE_TAB:
+        contentRender = <TileEditor />;
         break;
       case SOUND_TAB:
-        contentRender = <SoundEditor />;
+        contentRender = (
+          <Scrollbars>
+            <SoundEditor />
+          </Scrollbars>
+        );
         break;
       default:
-        contentRender = <ProjectEditor />;
+        contentRender = (
+          <Scrollbars>
+            <ProjectEditor />
+          </Scrollbars>
+        );
         break;
     }
 

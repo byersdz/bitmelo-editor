@@ -13,7 +13,7 @@ export const MUSIC_TAB = 'music';
 export const SELECT_NAVIGATION_TAB = 'SELECT_NAVIGATION_TAB';
 
 // Reducer
-export default function reducer( state = SOUND_TAB, action ) {
+export default function reducer( state = TILE_TAB, action ) {
   switch ( action.type ) {
     case SELECT_NAVIGATION_TAB: {
       return action.payload;
