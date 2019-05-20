@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import {
   drawPixelDataToCanvas,
   copyCanvasToCanvas,
-  clearCanvasBorder,
 } from 'Utils/drawToCanvas';
 
 import './MainCanvas.scss';
@@ -53,6 +52,8 @@ class MainCanvas extends React.Component {
       dataHeight,
       width,
       height,
+      offsetX,
+      offsetY,
     } = this.props;
 
     const settings = {
@@ -63,20 +64,11 @@ class MainCanvas extends React.Component {
       dataHeight,
     };
 
-    const xOffset = 50;
-    const yOffset = -10;
+    const context = this.canvasRef.current.getContext( '2d' );
+    context.clearRect( 0, 0, width, height );
 
     drawPixelDataToCanvas( settings, this.dataCanvasRef.current );
-    copyCanvasToCanvas( this.dataCanvasRef.current, this.canvasRef.current, xOffset, yOffset );
-    clearCanvasBorder(
-      this.canvasRef.current,
-      width,
-      height,
-      xOffset,
-      yOffset,
-      dataWidth * scale,
-      dataHeight * scale,
-    );
+    copyCanvasToCanvas( this.dataCanvasRef.current, this.canvasRef.current, offsetX, offsetY );
   }
 
   render() {
@@ -114,6 +106,8 @@ MainCanvas.propTypes = {
   data: PropTypes.arrayOf( PropTypes.number ).isRequired,
   dataWidth: PropTypes.number.isRequired,
   dataHeight: PropTypes.number.isRequired,
+  offsetX: PropTypes.number.isRequired,
+  offsetY: PropTypes.number.isRequired,
 };
 
 export default MainCanvas;

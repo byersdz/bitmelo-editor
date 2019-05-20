@@ -24,7 +24,8 @@ module.exports = {
     "react/prefer-stateless-function": "off",
     "arrow-parens": "off",
     "class-methods-use-this": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "react/sort-comp": 'off',
   },
   "globals": {
     "minnow": "readonly"
