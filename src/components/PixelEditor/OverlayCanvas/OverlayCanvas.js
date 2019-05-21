@@ -12,6 +12,8 @@ class OverlayCanvas extends React.Component {
       onPointerMove,
       onPointerUp,
       onPointerDown,
+      onPointerExit,
+      onWheel,
     } = this.props;
 
     return (
@@ -23,6 +25,9 @@ class OverlayCanvas extends React.Component {
         onPointerMove={ onPointerMove }
         onPointerUp={ onPointerUp }
         onPointerDown={ onPointerDown }
+        onPointerLeave={ onPointerExit }
+        onPointerCancel={ onPointerExit }
+        onWheel={ onWheel }
       />
     );
   }
@@ -34,6 +39,8 @@ OverlayCanvas.propTypes = {
   onPointerMove: PropTypes.func.isRequired,
   onPointerUp: PropTypes.func.isRequired,
   onPointerDown: PropTypes.func.isRequired,
+  onPointerExit: PropTypes.func.isRequired,
+  onWheel: PropTypes.func.isRequired,
 };
 
 export default OverlayCanvas;

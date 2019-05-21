@@ -8,6 +8,44 @@ import OverlayCanvas from './OverlayCanvas/OverlayCanvas';
 
 import './PixelEditor.scss';
 
+const scales = [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  18,
+  20,
+  22,
+  24,
+  26,
+  28,
+  32,
+  40,
+  48,
+  56,
+  64,
+  80,
+  96,
+  112,
+  128,
+  160,
+  192,
+  224,
+  256,
+];
+
 class PixelEditor extends React.Component {
   constructor( props ) {
     super( props );
@@ -15,6 +53,7 @@ class PixelEditor extends React.Component {
     this.state = {
       width: 0,
       height: 0,
+      scale: 4,
       isPanning: false,
       pointerStartX: 0,
       pointerStartY: 0,
@@ -22,6 +61,7 @@ class PixelEditor extends React.Component {
       pointerCurrentY: 0,
       offsetX: 0,
       offsetY: 0,
+      scrollAmount: 0,
     };
 
     this.containerRef = React.createRef();
@@ -102,8 +142,74 @@ class PixelEditor extends React.Component {
     } );
   }
 
-  handlePointerExit( event ) {
-    console.log( event );
+  handlePointerExit() {
+    const {
+      isPanning,
+      offsetX,
+      offsetY,
+      pointerStartX,
+      pointerStartY,
+      pointerCurrentX,
+      pointerCurrentY,
+    } = this.state;
+
+    if ( isPanning ) {
+      const offsetPosition = this.getOffsetFromPanning(
+        offsetX,
+        offsetY,
+        pointerStartX,
+        pointerStartY,
+        pointerCurrentX,
+        pointerCurrentY,
+      );
+      this.setState( {
+        offsetX: offsetPosition.x,
+        offsetY: offsetPosition.y,
+        isPanning: false,
+      } );
+    }
+  }
+
+  handleWheel( event ) {
+    const { isPanning, scrollAmount } = this.state;
+
+    if ( isPanning ) {
+      return;
+    }
+
+    let newAmount = scrollAmount + event.deltaY;
+
+    let cutoff = 99;
+    if ( event.deltaMode === 1 ) {
+      cutoff = 2;
+    }
+    else if ( event.deltaMode === 2 ) {
+      cutoff = 1;
+    }
+
+    if ( newAmount < -cutoff ) {
+      this.increaseScale();
+      newAmount = 0;
+    }
+    else if ( newAmount > cutoff ) {
+      this.decreaseScale();
+      newAmount = 0;
+    }
+    this.setState( { scrollAmount: newAmount } );
+  }
+
+  increaseScale() {
+    const { scale } = this.state;
+    if ( scale + 1 < scales.length ) {
+      this.setState( { scale: scale + 1 } );
+    }
+  }
+
+  decreaseScale() {
+    const { scale } = this.state;
+    if ( scale - 1 >= 0 ) {
+      this.setState( { scale: scale - 1 } );
+    }
   }
 
   getOffsetFromPanning( offsetX, offsetY, startX, startY, currentX, currentY ) {
@@ -119,6 +225,7 @@ class PixelEditor extends React.Component {
     const {
       width,
       height,
+      scale,
       offsetX,
       offsetY,
       isPanning,
@@ -128,7 +235,6 @@ class PixelEditor extends React.Component {
       pointerCurrentY,
     } = this.state;
 
-    const scale = 32;
     const data = [
       1, 1, 1, 1,
       0, 0, 0, 0,
@@ -154,6 +260,8 @@ class PixelEditor extends React.Component {
       pannedYOffset = newOffset.y;
     }
 
+    const actualScale = scales[scale];
+
     return (
       <div className="pixel-editor" ref={ this.containerRef }>
         <OverlayCanvas
@@ -162,13 +270,15 @@ class PixelEditor extends React.Component {
           onPointerDown={ e => this.handlePointerDown( e ) }
           onPointerUp={ e => this.handlePointerUp( e ) }
           onPointerMove={ e => this.handlePointerMove( e ) }
+          onPointerExit={ e => this.handlePointerExit( e ) }
+          onWheel={ e => this.handleWheel( e ) }
           offsetX={ pannedXOffset }
           offsetY={ pannedYOffset }
         />
         <MainCanvas
           width={ width }
           height={ height }
-          scale={ scale }
+          scale={ actualScale }
           data={ data }
           dataWidth={ dataWidth }
           dataHeight={ dataHeight }
