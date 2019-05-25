@@ -9,10 +9,7 @@ class OverlayCanvas extends React.Component {
     const {
       width,
       height,
-      onPointerMove,
-      onPointerUp,
       onPointerDown,
-      onPointerExit,
       onWheel,
     } = this.props;
 
@@ -22,11 +19,7 @@ class OverlayCanvas extends React.Component {
         className="overlay-canvas"
         width={ width }
         height={ height }
-        onPointerMove={ onPointerMove }
-        onPointerUp={ onPointerUp }
         onPointerDown={ onPointerDown }
-        onPointerLeave={ onPointerExit }
-        onPointerCancel={ onPointerExit }
         onWheel={ onWheel }
       />
     );
@@ -36,10 +29,7 @@ class OverlayCanvas extends React.Component {
 OverlayCanvas.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  onPointerMove: PropTypes.func.isRequired,
-  onPointerUp: PropTypes.func.isRequired,
   onPointerDown: PropTypes.func.isRequired,
-  onPointerExit: PropTypes.func.isRequired,
   onWheel: PropTypes.func.isRequired,
 };
 

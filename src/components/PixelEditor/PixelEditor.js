@@ -53,6 +53,8 @@ class PixelEditor extends React.Component {
     this.state = {
       width: 0,
       height: 0,
+      left: 0,
+      top: 0,
       scale: 4,
       isPanning: false,
       pointerStartX: 0,
@@ -66,10 +68,19 @@ class PixelEditor extends React.Component {
 
     this.containerRef = React.createRef();
     this.updateDimensions = this.updateDimensions.bind( this );
+
+    this.handlePointerMove = this.handlePointerMove.bind( this );
+    this.handlePointerUp = this.handlePointerUp.bind( this );
+    this.handlePointerExit = this.handlePointerExit.bind( this );
   }
 
   componentDidMount() {
-    window.addEventListener( 'resize', this.updateDimensions );
+    document.addEventListener( 'resize', this.updateDimensions );
+    document.addEventListener( 'pointermove', this.handlePointerMove );
+    document.addEventListener( 'pointerup', this.handlePointerUp );
+    document.addEventListener( 'pointerleave', this.handlePointerExit );
+    document.addEventListener( 'pointercancel', this.handlePointerExit );
+
     this.updateDimensions();
   }
 
@@ -89,13 +100,20 @@ class PixelEditor extends React.Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener( 'resize', this.updateDimensions );
+    document.removeEventListener( 'resize', this.updateDimensions );
+    document.removeEventListener( 'pointermove', this.handlePointerMove );
+    document.removeEventListener( 'pointerup', this.handlePointerUp );
+    document.removeEventListener( 'pointerleave', this.handlePointerExit );
+    document.removeEventListener( 'pointercancel', this.handlePointerExit );
   }
 
   updateDimensions() {
+    const clientRect = this.containerRef.current.getBoundingClientRect();
     this.setState( {
       width: this.containerRef.current.offsetWidth,
       height: this.containerRef.current.offsetHeight,
+      left: clientRect.left,
+      top: clientRect.top,
     } );
   }
 
@@ -111,12 +129,16 @@ class PixelEditor extends React.Component {
 
   handlePointerUp( event ) {
     const {
+      left,
+      top,
       isPanning,
       offsetX,
       offsetY,
       pointerStartX,
       pointerStartY,
     } = this.state;
+
+    const { clientX, clientY } = event;
 
     if ( event.button === 1 ) {
       if ( isPanning ) {
@@ -125,8 +147,8 @@ class PixelEditor extends React.Component {
           offsetY,
           pointerStartX,
           pointerStartY,
-          event.nativeEvent.offsetX,
-          event.nativeEvent.offsetY,
+          clientX - left,
+          clientY - top,
         );
         this.setState( { offsetX: offsetPosition.x, offsetY: offsetPosition.y } );
       }
@@ -135,10 +157,11 @@ class PixelEditor extends React.Component {
   }
 
   handlePointerMove( event ) {
-    const { offsetX, offsetY } = event.nativeEvent;
+    const { left, top } = this.state;
+    const { clientX, clientY } = event;
     this.setState( {
-      pointerCurrentX: offsetX,
-      pointerCurrentY: offsetY,
+      pointerCurrentX: clientX - left,
+      pointerCurrentY: clientY - top,
     } );
   }
 
@@ -268,9 +291,6 @@ class PixelEditor extends React.Component {
           width={ width }
           height={ height }
           onPointerDown={ e => this.handlePointerDown( e ) }
-          onPointerUp={ e => this.handlePointerUp( e ) }
-          onPointerMove={ e => this.handlePointerMove( e ) }
-          onPointerExit={ e => this.handlePointerExit( e ) }
           onWheel={ e => this.handleWheel( e ) }
           offsetX={ pannedXOffset }
           offsetY={ pannedYOffset }
