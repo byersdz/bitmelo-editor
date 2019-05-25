@@ -7,7 +7,7 @@ import './TilePixelEditor.scss';
 
 class TilePixelEditor extends React.Component {
   render() {
-    const data = new Array( 64 * 64 );
+    const data = new Array( 128 * 64 );
 
     for ( let i = 0; i < data.length; i += 1 ) {
       if ( i % 5 === 0 ) {
@@ -17,7 +17,7 @@ class TilePixelEditor extends React.Component {
         data[i] = 0;
       }
     }
-    const dataWidth = 64;
+    const dataWidth = 128;
     const dataHeight = 64;
 
     return (

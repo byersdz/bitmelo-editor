@@ -82,6 +82,7 @@ class PixelEditor extends React.Component {
     document.addEventListener( 'pointercancel', this.handlePointerExit );
 
     this.updateDimensions();
+    this.setInitialPositioning();
   }
 
   componentDidUpdate( prevProps ) {
@@ -259,6 +260,39 @@ class PixelEditor extends React.Component {
     }
 
     this.setState( { scrollAmount: newAmount, scale: newScale } );
+  }
+
+  setInitialPositioning() {
+    const { dataWidth, dataHeight } = this.props;
+
+    const width = this.containerRef.current.offsetWidth;
+    const height = this.containerRef.current.offsetHeight;
+
+    const xScale = width / dataWidth;
+    const yScale = height / dataHeight;
+
+    let targetScale = xScale;
+    if ( yScale < targetScale ) {
+      targetScale = yScale;
+    }
+
+    const maxTarget = 24;
+    if ( targetScale > maxTarget ) {
+      targetScale = maxTarget;
+    }
+
+    let newScale = 0;
+    for ( let i = 0; i < scales.length; i += 1 ) {
+      if ( targetScale < scales[i] ) {
+        break;
+      }
+      newScale = i;
+    }
+
+    const offsetX = ( width - ( dataWidth * scales[newScale] ) ) * 0.5;
+    const offsetY = ( height - ( dataHeight * scales[newScale] ) ) * 0.5;
+
+    this.setState( { scale: newScale, offsetX, offsetY } );
   }
 
   getOffsetFromPanning( offsetX, offsetY, startX, startY, currentX, currentY ) {
