@@ -194,11 +194,27 @@ class PixelEditor extends React.Component {
   }
 
   handleWheel( event ) {
-    const { isPanning, scrollAmount } = this.state;
+    const {
+      width,
+      height,
+      isPanning,
+      scrollAmount,
+      pointerCurrentX,
+      pointerCurrentY,
+      offsetX,
+      offsetY,
+      scale,
+    } = this.state;
+
+    const { dataWidth, dataHeight } = this.props;
 
     if ( isPanning ) {
       return;
     }
+
+    const actualScale = scales[scale];
+    const pixelX = ( pointerCurrentX - offsetX ) / actualScale;
+    const pixelY = ( pointerCurrentY - offsetY ) / actualScale;
 
     let newAmount = scrollAmount + event.deltaY;
 
@@ -210,38 +226,82 @@ class PixelEditor extends React.Component {
       cutoff = 1;
     }
 
+    let newScale = scale;
     if ( newAmount < -cutoff ) {
-      this.increaseScale();
+      if ( newScale < scales.length - 1 ) {
+        newScale += 1;
+      }
       newAmount = 0;
     }
     else if ( newAmount > cutoff ) {
-      this.decreaseScale();
+      if ( newScale > 0 ) {
+        newScale -= 1;
+      }
       newAmount = 0;
     }
-    this.setState( { scrollAmount: newAmount } );
-  }
 
-  increaseScale() {
-    const { scale } = this.state;
-    if ( scale + 1 < scales.length ) {
-      this.setState( { scale: scale + 1 } );
-    }
-  }
+    if ( newScale !== scale ) {
+      const newActualScale = scales[newScale];
 
-  decreaseScale() {
-    const { scale } = this.state;
-    if ( scale - 1 >= 0 ) {
-      this.setState( { scale: scale - 1 } );
+      const targetX = pixelX * newActualScale;
+      const targetY = pixelY * newActualScale;
+
+      let newOffsetX = pointerCurrentX - targetX;
+      let newOffsetY = pointerCurrentY - targetY;
+
+      newOffsetX = this.getLimitedOffset( width, dataWidth, newScale, newOffsetX );
+      newOffsetY = this.getLimitedOffset( height, dataHeight, newScale, newOffsetY );
+
+      this.setState( {
+        offsetX: newOffsetX,
+        offsetY: newOffsetY,
+      } );
     }
+
+    this.setState( { scrollAmount: newAmount, scale: newScale } );
   }
 
   getOffsetFromPanning( offsetX, offsetY, startX, startY, currentX, currentY ) {
+    const { width, height, scale } = this.state;
+    const { dataWidth, dataHeight } = this.props;
+
     const xDiff = currentX - startX;
     const yDiff = currentY - startY;
+
+    let newX = offsetX + xDiff;
+    let newY = offsetY + yDiff;
+
+    newX = this.getLimitedOffset( width, dataWidth, scale, newX );
+    newY = this.getLimitedOffset( height, dataHeight, scale, newY );
     return {
-      x: offsetX + xDiff,
-      y: offsetY + yDiff,
+      x: newX,
+      y: newY,
     };
+  }
+
+  getLimitedOffset( viewWidth, dataWidth, scale, offset ) {
+    const actualScale = scales[scale];
+    const scaledDataWidth = dataWidth * actualScale;
+    let newOffset = offset;
+    if ( scaledDataWidth * 2 < viewWidth ) {
+      // limit to the edges of the data
+      if ( offset < 0 ) {
+        newOffset = 0;
+      }
+      else if ( offset > viewWidth - scaledDataWidth ) {
+        newOffset = viewWidth - scaledDataWidth;
+      }
+    }
+    else {
+      const halfView = viewWidth * 0.5;
+      if ( scaledDataWidth + offset < halfView ) {
+        newOffset = halfView - scaledDataWidth;
+      }
+      else if ( offset > halfView ) {
+        newOffset = halfView;
+      }
+    }
+    return newOffset;
   }
 
   render() {
@@ -258,14 +318,7 @@ class PixelEditor extends React.Component {
       pointerCurrentY,
     } = this.state;
 
-    const data = [
-      1, 1, 1, 1,
-      0, 0, 0, 0,
-      0, 0, 0, 0,
-      1, 0, 0, 1,
-    ];
-    const dataWidth = 4;
-    const dataHeight = 4;
+    const { data, dataWidth, dataHeight } = this.props;
 
     let pannedXOffset = offsetX;
     let pannedYOffset = offsetY;
@@ -292,8 +345,8 @@ class PixelEditor extends React.Component {
           height={ height }
           onPointerDown={ e => this.handlePointerDown( e ) }
           onWheel={ e => this.handleWheel( e ) }
-          offsetX={ pannedXOffset }
-          offsetY={ pannedYOffset }
+          offsetX={ Math.floor( pannedXOffset ) }
+          offsetY={ Math.floor( pannedYOffset ) }
         />
         <MainCanvas
           width={ width }
@@ -302,8 +355,8 @@ class PixelEditor extends React.Component {
           data={ data }
           dataWidth={ dataWidth }
           dataHeight={ dataHeight }
-          offsetX={ pannedXOffset }
-          offsetY={ pannedYOffset }
+          offsetX={ Math.floor( pannedXOffset ) }
+          offsetY={ Math.floor( pannedYOffset ) }
         />
       </div>
     );
@@ -311,6 +364,9 @@ class PixelEditor extends React.Component {
 }
 
 PixelEditor.propTypes = {
+  data: PropTypes.arrayOf( PropTypes.number ).isRequired,
+  dataWidth: PropTypes.number.isRequired,
+  dataHeight: PropTypes.number.isRequired,
   navigationPanelIsOpen: PropTypes.bool.isRequired,
   referencePanelIsOpen: PropTypes.bool.isRequired,
 };
