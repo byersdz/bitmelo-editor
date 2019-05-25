@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import {
   drawPixelDataToCanvas,
+  drawPixelDataToOffsetCanvas,
   copyCanvasToCanvas,
 } from 'Utils/drawToCanvas';
 
@@ -15,6 +16,7 @@ class MainCanvas extends React.Component {
 
     this.canvasRef = React.createRef();
     this.dataCanvasRef = React.createRef();
+    this.maxDataCanvasSize = 4096;
   }
 
   componentDidMount() {
@@ -62,13 +64,30 @@ class MainCanvas extends React.Component {
       data,
       dataWidth,
       dataHeight,
+      offsetX,
+      offsetY,
+      canvasWidth: width,
+      canvasHeight: height,
     };
 
     const context = this.canvasRef.current.getContext( '2d' );
     context.clearRect( 0, 0, width, height );
 
-    drawPixelDataToCanvas( settings, this.dataCanvasRef.current );
-    copyCanvasToCanvas( this.dataCanvasRef.current, this.canvasRef.current, offsetX, offsetY );
+    let isLargeData = false;
+    if ( dataWidth * scale > this.maxDataCanvasSize ) {
+      isLargeData = true;
+    }
+    if ( dataHeight * scale > this.maxDataCanvasSize ) {
+      isLargeData = true;
+    }
+
+    if ( isLargeData ) {
+      drawPixelDataToOffsetCanvas( settings, this.canvasRef.current );
+    }
+    else {
+      drawPixelDataToCanvas( settings, this.dataCanvasRef.current );
+      copyCanvasToCanvas( this.dataCanvasRef.current, this.canvasRef.current, offsetX, offsetY );
+    }
   }
 
   render() {
@@ -79,6 +98,17 @@ class MainCanvas extends React.Component {
       dataHeight,
       scale,
     } = this.props;
+
+    let dataCanvasWidth = dataWidth * scale;
+    let dataCanvasHeight = dataHeight * scale;
+
+    if ( dataCanvasWidth > this.maxDataCanvasSize ) {
+      dataCanvasWidth = this.maxDataCanvasSize;
+    }
+
+    if ( dataCanvasHeight > this.maxDataCanvasSize ) {
+      dataCanvasHeight = this.maxDataCanvasSize;
+    }
 
     return (
       <Fragment>
@@ -91,8 +121,8 @@ class MainCanvas extends React.Component {
         <canvas
           ref={ this.dataCanvasRef }
           className="data-canvas"
-          width={ dataWidth * scale }
-          height={ dataHeight * scale }
+          width={ dataCanvasWidth }
+          height={ dataCanvasHeight }
         />
       </Fragment>
     );

@@ -17,6 +17,7 @@ class TilePixelEditor extends React.Component {
         data[i] = 0;
       }
     }
+    data[1] = 1;
     const dataWidth = 128;
     const dataHeight = 64;
 

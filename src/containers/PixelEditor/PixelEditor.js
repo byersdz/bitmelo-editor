@@ -75,7 +75,7 @@ class PixelEditor extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener( 'resize', this.updateDimensions );
+    window.addEventListener( 'resize', this.updateDimensions );
     document.addEventListener( 'pointermove', this.handlePointerMove );
     document.addEventListener( 'pointerup', this.handlePointerUp );
     document.addEventListener( 'pointerleave', this.handlePointerExit );
@@ -101,7 +101,7 @@ class PixelEditor extends React.Component {
   }
 
   componentWillUnmount() {
-    document.removeEventListener( 'resize', this.updateDimensions );
+    window.removeEventListener( 'resize', this.updateDimensions );
     document.removeEventListener( 'pointermove', this.handlePointerMove );
     document.removeEventListener( 'pointerup', this.handlePointerUp );
     document.removeEventListener( 'pointerleave', this.handlePointerExit );
@@ -268,8 +268,8 @@ class PixelEditor extends React.Component {
     const width = this.containerRef.current.offsetWidth;
     const height = this.containerRef.current.offsetHeight;
 
-    const xScale = width / dataWidth;
-    const yScale = height / dataHeight;
+    const xScale = width * 0.9 / dataWidth;
+    const yScale = height * 0.9 / dataHeight;
 
     let targetScale = xScale;
     if ( yScale < targetScale ) {
