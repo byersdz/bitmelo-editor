@@ -56,6 +56,7 @@ class MainCanvas extends React.Component {
       height,
       offsetX,
       offsetY,
+      palette,
     } = this.props;
 
     const settings = {
@@ -68,6 +69,7 @@ class MainCanvas extends React.Component {
       offsetY,
       canvasWidth: width,
       canvasHeight: height,
+      palette,
     };
 
     const context = this.canvasRef.current.getContext( '2d' );
@@ -138,6 +140,7 @@ MainCanvas.propTypes = {
   dataHeight: PropTypes.number.isRequired,
   offsetX: PropTypes.number.isRequired,
   offsetY: PropTypes.number.isRequired,
+  palette: PropTypes.arrayOf( PropTypes.string ).isRequired,
 };
 
 export default MainCanvas;

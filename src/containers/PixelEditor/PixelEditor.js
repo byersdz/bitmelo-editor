@@ -352,7 +352,12 @@ class PixelEditor extends React.Component {
       pointerCurrentY,
     } = this.state;
 
-    const { data, dataWidth, dataHeight } = this.props;
+    const {
+      data,
+      dataWidth,
+      dataHeight,
+      palette,
+    } = this.props;
 
     let pannedXOffset = offsetX;
     let pannedYOffset = offsetY;
@@ -391,6 +396,7 @@ class PixelEditor extends React.Component {
           dataHeight={ dataHeight }
           offsetX={ Math.floor( pannedXOffset ) }
           offsetY={ Math.floor( pannedYOffset ) }
+          palette={ palette }
         />
       </div>
     );
@@ -401,6 +407,7 @@ PixelEditor.propTypes = {
   data: PropTypes.arrayOf( PropTypes.number ).isRequired,
   dataWidth: PropTypes.number.isRequired,
   dataHeight: PropTypes.number.isRequired,
+  palette: PropTypes.arrayOf( PropTypes.string ).isRequired,
   navigationPanelIsOpen: PropTypes.bool.isRequired,
   referencePanelIsOpen: PropTypes.bool.isRequired,
 };

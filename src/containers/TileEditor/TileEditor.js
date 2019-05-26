@@ -4,6 +4,7 @@ import React from 'react';
 import TileToolSettings from 'Containers/TileEditor/TileToolSettings/TileToolSettings';
 import TileToolPicker from 'Containers/TileEditor/TileToolPicker/TileToolPicker';
 import TilePixelEditor from 'Containers/TileEditor/TilePixelEditor/TilePixelEditor';
+import PalettePicker from 'Containers/PalettePicker/PalettePicker';
 
 import './TileEditor.scss';
 
@@ -13,7 +14,11 @@ class TileEditor extends React.Component {
       <div className="tile-editor">
         <TileToolSettings />
         <TileToolPicker />
-        <TilePixelEditor />
+        <div className="editor-section">
+          <TilePixelEditor />
+          <PalettePicker />
+        </div>
+        <div className="data-section" />
       </div>
     );
   }

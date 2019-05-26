@@ -13,6 +13,7 @@ const Button = ( props ) => {
     hideTitle,
     className,
     click,
+    style,
     standard,
   } = props;
 
@@ -33,6 +34,7 @@ const Button = ( props ) => {
 
   return (
     <button
+      style={ style }
       type="button"
       onClick={ () => click() }
       className={ customClass }
@@ -49,6 +51,7 @@ Button.propTypes = {
   hideTitle: PropTypes.bool,
   className: PropTypes.string,
   click: PropTypes.func.isRequired,
+  style: PropTypes.object, // eslint-disable-line
   standard: PropTypes.bool,
 };
 
@@ -56,6 +59,7 @@ Button.defaultProps = {
   icon: '',
   hideTitle: false,
   className: '',
+  style: {},
   standard: false,
 };
 

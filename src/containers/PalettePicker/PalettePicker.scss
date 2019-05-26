@@ -1,0 +1,31 @@
+
+@import 'Style/colors.scss';
+
+.palette-picker {
+  width: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: $background-dark-color;
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    .btn {
+      height: 24px;
+    }
+
+    .btn:hover {
+      border: 4px solid #ddd;
+      border-radius: 24px 0 0 0;
+    }
+
+    .btn.active {
+      border: 4px solid #fff;
+      border-radius: 24px 0 0 0;
+    }
+
+  }
+}

@@ -6,6 +6,7 @@ export function drawPixelDataToCanvas( settings, canvas ) {
     dataWidth,
     dataHeight,
     scale,
+    palette,
   } = settings;
 
   const context = canvas.getContext( '2d' );
@@ -28,7 +29,7 @@ export function drawPixelDataToCanvas( settings, canvas ) {
           context.clearRect( xOrigin, yOrigin, scale, scale );
         }
         else {
-          context.fillStyle = '#ff0000';
+          context.fillStyle = `#${ palette[paletteIndex] }`;
           context.fillRect( xOrigin, yOrigin, scale, scale );
         }
       }
@@ -46,6 +47,7 @@ export function drawPixelDataToOffsetCanvas( settings, canvas ) {
     offsetY,
     canvasWidth,
     canvasHeight,
+    palette,
   } = settings;
 
   const context = canvas.getContext( '2d' );
@@ -69,7 +71,7 @@ export function drawPixelDataToOffsetCanvas( settings, canvas ) {
           // this pixel is on the screen
           const paletteIndex = data[flippedY * dataWidth + x];
           if ( paletteIndex > 0 ) {
-            context.fillStyle = '#ff0000';
+            context.fillStyle = `#${ palette[paletteIndex] }`;
             context.fillRect( xOrigin, yOrigin, scale, scale );
           }
         }

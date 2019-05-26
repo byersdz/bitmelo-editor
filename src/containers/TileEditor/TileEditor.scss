@@ -1,8 +1,23 @@
 
+@import 'Style/colors.scss';
+
 .tile-editor {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100%;
+
+  .editor-section {
+    align-self: stretch;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .data-section {
+    align-self: stretch;
+    height: 256px;
+    background-color: $background-color;
+  }
 }
