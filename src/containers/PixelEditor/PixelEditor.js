@@ -3,8 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { PENCIL_TOOL } from 'State/PixelTools/selectedTool';
+import { applyPencilToData } from 'Utils/PixelTools/pencil';
+
 import MainCanvas from './MainCanvas/MainCanvas';
 import OverlayCanvas from './OverlayCanvas/OverlayCanvas';
+
 
 import './PixelEditor.scss';
 
@@ -56,6 +60,9 @@ class PixelEditor extends React.Component {
       left: 0,
       top: 0,
       scale: 4,
+      isEditing: false,
+      editingTool: '',
+      editingData: {},
       isPanning: false,
       pointerStartX: 0,
       pointerStartY: 0,
@@ -119,7 +126,70 @@ class PixelEditor extends React.Component {
   }
 
   handlePointerDown( event ) {
-    if ( event.button === 1 ) {
+    const {
+      isPanning,
+      isEditing,
+      offsetX,
+      offsetY,
+      scale,
+    } = this.state;
+
+    const {
+      selectedTool,
+      data,
+      dataWidth,
+      dataHeight,
+    } = this.props;
+
+    if ( isPanning || isEditing ) {
+      return;
+    }
+
+    if ( event.button === 0 ) {
+      // left click
+
+      const editingTool = selectedTool;
+
+      const pixelX = PixelEditor.pixelPositionForCanvasPosition(
+        event.nativeEvent.offsetX,
+        offsetX,
+        scales[scale],
+      );
+
+      let pixelY = PixelEditor.pixelPositionForCanvasPosition(
+        event.nativeEvent.offsetY,
+        offsetY,
+        scales[scale],
+      );
+
+      pixelY = dataHeight - pixelY - 1;
+
+      let editingData = {};
+      editingData.startX = pixelX;
+      editingData.startY = pixelY;
+
+      editingData.lastX = pixelX;
+      editingData.lastY = pixelY;
+
+      editingData.currentX = pixelX;
+      editingData.currentY = pixelY;
+
+      editingData.buffer = new Array( dataWidth * dataHeight );
+      editingData.buffer.fill( -1 );
+
+      if ( editingTool === PENCIL_TOOL ) {
+        editingData.paletteId = 1;
+        editingData = applyPencilToData( data, dataWidth, dataHeight, editingData );
+      }
+
+      this.setState( {
+        isEditing: true,
+        editingTool,
+        editingData,
+      } );
+    }
+    else if ( event.button === 1 ) {
+      // middle click
       this.setState( {
         isPanning: true,
         pointerStartX: event.nativeEvent.offsetX,
@@ -137,9 +207,16 @@ class PixelEditor extends React.Component {
       offsetY,
       pointerStartX,
       pointerStartY,
+      isEditing,
     } = this.state;
 
     const { clientX, clientY } = event;
+
+    if ( event.button === 0 ) {
+      if ( isEditing ) {
+        this.setState( { isEditing: false } );
+      }
+    }
 
     if ( event.button === 1 ) {
       if ( isPanning ) {
@@ -158,12 +235,54 @@ class PixelEditor extends React.Component {
   }
 
   handlePointerMove( event ) {
-    const { left, top } = this.state;
+    const {
+      left,
+      top,
+      offsetX,
+      offsetY,
+      scale,
+      isEditing,
+      editingTool,
+      editingData,
+    } = this.state;
+
+    const {
+      data,
+      dataWidth,
+      dataHeight,
+    } = this.props;
+
     const { clientX, clientY } = event;
     this.setState( {
       pointerCurrentX: clientX - left,
       pointerCurrentY: clientY - top,
     } );
+
+    const pixelX = PixelEditor.pixelPositionForCanvasPosition(
+      clientX - left,
+      offsetX,
+      scales[scale],
+    );
+
+    let pixelY = PixelEditor.pixelPositionForCanvasPosition(
+      clientY - top,
+      offsetY,
+      scales[scale],
+    );
+
+    pixelY = dataHeight - pixelY - 1;
+
+    if ( isEditing ) {
+      editingData.lastX = editingData.currentX;
+      editingData.lastY = editingData.currentY;
+      editingData.currentX = pixelX;
+      editingData.currentY = pixelY;
+
+      if ( editingTool === PENCIL_TOOL ) {
+        const newData = applyPencilToData( data, dataWidth, dataHeight, editingData );
+        this.setState( { editingData: newData } );
+      }
+    }
   }
 
   handlePointerExit() {
@@ -175,9 +294,13 @@ class PixelEditor extends React.Component {
       pointerStartY,
       pointerCurrentX,
       pointerCurrentY,
+      isEditing,
     } = this.state;
 
-    if ( isPanning ) {
+    if ( isEditing ) {
+      this.setState( { isEditing: false } );
+    }
+    else if ( isPanning ) {
       const offsetPosition = this.getOffsetFromPanning(
         offsetX,
         offsetY,
@@ -199,6 +322,7 @@ class PixelEditor extends React.Component {
       width,
       height,
       isPanning,
+      isEditing,
       scrollAmount,
       pointerCurrentX,
       pointerCurrentY,
@@ -209,7 +333,7 @@ class PixelEditor extends React.Component {
 
     const { dataWidth, dataHeight } = this.props;
 
-    if ( isPanning ) {
+    if ( isPanning || isEditing ) {
       return;
     }
 
@@ -350,6 +474,9 @@ class PixelEditor extends React.Component {
       pointerStartY,
       pointerCurrentX,
       pointerCurrentY,
+      editingTool,
+      editingData,
+      isEditing,
     } = this.state;
 
     const {
@@ -377,6 +504,19 @@ class PixelEditor extends React.Component {
 
     const actualScale = scales[scale];
 
+    const mainData = [...data];
+
+    if ( isEditing ) {
+      if ( editingTool === PENCIL_TOOL ) {
+        for ( let i = 0; i < mainData.length; i += 1 ) {
+          const editingDataPoint = editingData.buffer[i];
+          if ( editingDataPoint >= 0 ) {
+            mainData[i] = editingDataPoint;
+          }
+        }
+      }
+    }
+
     return (
       <div className="pixel-editor" ref={ this.containerRef }>
         <OverlayCanvas
@@ -391,7 +531,7 @@ class PixelEditor extends React.Component {
           width={ width }
           height={ height }
           scale={ actualScale }
-          data={ data }
+          data={ mainData }
           dataWidth={ dataWidth }
           dataHeight={ dataHeight }
           offsetX={ Math.floor( pannedXOffset ) }
@@ -403,6 +543,10 @@ class PixelEditor extends React.Component {
   }
 }
 
+PixelEditor.pixelPositionForCanvasPosition = ( position, offset, scale ) => {
+  return Math.floor( ( position - offset ) / scale );
+};
+
 PixelEditor.propTypes = {
   data: PropTypes.arrayOf( PropTypes.number ).isRequired,
   dataWidth: PropTypes.number.isRequired,
@@ -410,12 +554,14 @@ PixelEditor.propTypes = {
   palette: PropTypes.arrayOf( PropTypes.string ).isRequired,
   navigationPanelIsOpen: PropTypes.bool.isRequired,
   referencePanelIsOpen: PropTypes.bool.isRequired,
+  selectedTool: PropTypes.string.isRequired,
 };
 
 function mapStateToProps( state ) {
   return {
     navigationPanelIsOpen: state.layout.navigationPanelIsOpen,
     referencePanelIsOpen: state.layout.referencePanelIsOpen,
+    selectedTool: state.pixelTools.selectedTool,
   };
 }
 

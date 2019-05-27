@@ -4,4 +4,28 @@
   width: 720px;
   height: 32px;
   background-color: $background-dark-color;
+
+  .button-tabs {
+    display: flex;
+    flex-direction: row;
+
+    .isvg {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .active {
+      background-color: $primary-color;
+
+      .isvg {
+        fill: $on-primary-color;
+        stroke: $on-primary-color;
+      }
+    }
+  }
 }

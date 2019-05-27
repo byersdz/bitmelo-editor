@@ -3,9 +3,9 @@ import React from 'react';
 
 import ToolSettings from 'Components/ToolSettings/ToolSettings';
 
-import './TileToolSettings.scss';
+import './PixelToolSettings.scss';
 
-class TileToolSettings extends React.Component {
+class PixelToolSettings extends React.Component {
   render() {
     return (
       <ToolSettings />
@@ -13,4 +13,4 @@ class TileToolSettings extends React.Component {
   }
 }
 
-export default TileToolSettings;
+export default PixelToolSettings;

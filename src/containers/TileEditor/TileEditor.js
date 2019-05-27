@@ -1,8 +1,8 @@
 
 import React from 'react';
 
-import TileToolSettings from 'Containers/TileEditor/TileToolSettings/TileToolSettings';
-import TileToolPicker from 'Containers/TileEditor/TileToolPicker/TileToolPicker';
+import PixelToolSettings from 'Containers/PixelEditor/PixelToolSettings/PixelToolSettings';
+import PixelToolPicker from 'Containers/PixelEditor/PixelToolPicker/PixelToolPicker';
 import TilePixelEditor from 'Containers/TileEditor/TilePixelEditor/TilePixelEditor';
 import PalettePicker from 'Containers/PalettePicker/PalettePicker';
 
@@ -12,8 +12,8 @@ class TileEditor extends React.Component {
   render() {
     return (
       <div className="tile-editor">
-        <TileToolSettings />
-        <TileToolPicker />
+        <PixelToolSettings />
+        <PixelToolPicker />
         <div className="editor-section">
           <TilePixelEditor />
           <PalettePicker />
