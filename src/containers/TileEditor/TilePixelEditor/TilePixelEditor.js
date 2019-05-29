@@ -9,12 +9,12 @@ import './TilePixelEditor.scss';
 
 class TilePixelEditor extends React.Component {
   render() {
-    const { palette } = this.props;
+    const { palette, selectedPaletteIndex } = this.props;
 
     const data = new Array( 128 * 64 );
 
     for ( let i = 0; i < data.length; i += 1 ) {
-      data[i] = i % 17;
+      data[i] = 2;
     }
 
     data[1] = 1;
@@ -27,6 +27,7 @@ class TilePixelEditor extends React.Component {
         dataWidth={ dataWidth }
         dataHeight={ dataHeight }
         palette={ palette }
+        selectedPaletteIndex={ selectedPaletteIndex }
       />
     );
   }
@@ -34,11 +35,13 @@ class TilePixelEditor extends React.Component {
 
 TilePixelEditor.propTypes = {
   palette: PropTypes.arrayOf( PropTypes.string ).isRequired,
+  selectedPaletteIndex: PropTypes.number.isRequired,
 };
 
 function mapStateToProps( state ) {
   return {
     palette: state.palette.colors,
+    selectedPaletteIndex: state.palette.selectedIndex,
   };
 }
 

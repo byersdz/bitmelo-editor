@@ -21,6 +21,10 @@ class OverlayCanvas extends React.Component {
         height={ height }
         onPointerDown={ onPointerDown }
         onWheel={ onWheel }
+        onContextMenu={ e => {
+          e.preventDefault();
+          return false;
+        } }
       />
     );
   }

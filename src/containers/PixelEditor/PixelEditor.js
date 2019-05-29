@@ -136,6 +136,7 @@ class PixelEditor extends React.Component {
 
     const {
       selectedTool,
+      selectedPaletteIndex,
       data,
       dataWidth,
       dataHeight,
@@ -174,11 +175,12 @@ class PixelEditor extends React.Component {
       editingData.currentX = pixelX;
       editingData.currentY = pixelY;
 
+      editingData.paletteId = selectedPaletteIndex;
+
       editingData.buffer = new Array( dataWidth * dataHeight );
       editingData.buffer.fill( -1 );
 
       if ( editingTool === PENCIL_TOOL ) {
-        editingData.paletteId = 1;
         editingData = applyPencilToData( data, dataWidth, dataHeight, editingData );
       }
 
@@ -552,6 +554,7 @@ PixelEditor.propTypes = {
   dataWidth: PropTypes.number.isRequired,
   dataHeight: PropTypes.number.isRequired,
   palette: PropTypes.arrayOf( PropTypes.string ).isRequired,
+  selectedPaletteIndex: PropTypes.number.isRequired,
   navigationPanelIsOpen: PropTypes.bool.isRequired,
   referencePanelIsOpen: PropTypes.bool.isRequired,
   selectedTool: PropTypes.string.isRequired,
