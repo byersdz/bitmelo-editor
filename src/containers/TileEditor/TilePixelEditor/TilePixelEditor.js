@@ -8,18 +8,28 @@ import PixelEditor from 'Containers/PixelEditor/PixelEditor';
 import './TilePixelEditor.scss';
 
 class TilePixelEditor extends React.Component {
-  render() {
-    const { palette, selectedPaletteIndex } = this.props;
+  constructor( props ) {
+    super( props );
 
     const data = new Array( 128 * 64 );
-
     for ( let i = 0; i < data.length; i += 1 ) {
       data[i] = 2;
     }
 
-    data[1] = 1;
-    const dataWidth = 128;
-    const dataHeight = 64;
+    this.state = {
+      data,
+      dataWidth: 128,
+      dataHeight: 64,
+    };
+  }
+
+  handleDataChange( newData ) {
+    this.setState( { data: newData } );
+  }
+
+  render() {
+    const { data, dataWidth, dataHeight } = this.state;
+    const { palette, selectedPaletteIndex } = this.props;
 
     return (
       <PixelEditor
@@ -28,6 +38,7 @@ class TilePixelEditor extends React.Component {
         dataHeight={ dataHeight }
         palette={ palette }
         selectedPaletteIndex={ selectedPaletteIndex }
+        onDataChange={ newData => this.handleDataChange( newData ) }
       />
     );
   }

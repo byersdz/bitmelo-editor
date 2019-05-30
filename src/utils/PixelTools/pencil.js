@@ -26,7 +26,8 @@ export function applyPencilToData( data, width, height, editingData ) {
       position.y,
       width,
       height,
-      paletteId, newData.buffer,
+      paletteId,
+      newData.buffer,
     );
   }
   // newData.buffer[width * currentY + currentX] = paletteId;

@@ -8,14 +8,14 @@ import './ToolPicker.scss';
 
 class ToolPicker extends React.Component {
   render() {
-    const { tools, selectedTool } = this.props;
+    const { tools, selectedTool, onSelectedToolChange } = this.props;
 
     return (
       <div className="tool-picker">
         <ButtonTabs
           buttonList={ tools }
           activeButton={ selectedTool }
-          click={ () => console.log( 'tool clicked' ) }
+          click={ onSelectedToolChange }
           hideTitles
         />
       </div>
@@ -26,6 +26,7 @@ class ToolPicker extends React.Component {
 ToolPicker.propTypes = {
   tools: PropTypes.arrayOf( PropTypes.object ).isRequired,
   selectedTool: PropTypes.string.isRequired,
+  onSelectedToolChange: PropTypes.func.isRequired,
 };
 
 export default ToolPicker;

@@ -2,14 +2,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
 
 import ToolPicker from 'Components/ToolPicker/ToolPicker';
 
-import { PENCIL_TOOL, ERASER_TOOL } from 'State/PixelTools/selectedTool';
+import { PENCIL_TOOL, ERASER_TOOL, selectPixelTool } from 'State/PixelTools/selectedTool';
 
 import './PixelToolPicker.scss';
 
 class PixelToolPicker extends React.Component {
+  handleSelectedToolChange( tool ) {
+    const { _selectPixelTool } = this.props;
+    _selectPixelTool( tool );
+  }
+
   render() {
     const { selectedTool } = this.props;
 
@@ -22,6 +28,7 @@ class PixelToolPicker extends React.Component {
       <ToolPicker
         tools={ tools }
         selectedTool={ selectedTool }
+        onSelectedToolChange={ tool => this.handleSelectedToolChange( tool ) }
       />
     );
   }
@@ -29,6 +36,7 @@ class PixelToolPicker extends React.Component {
 
 PixelToolPicker.propTypes = {
   selectedTool: PropTypes.string.isRequired,
+  _selectPixelTool: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -37,4 +45,10 @@ function mapStateToProps( state ) {
   };
 }
 
-export default connect( mapStateToProps )( PixelToolPicker );
+function mapDispatchToProps( dispatch ) {
+  return bindActionCreators( {
+    _selectPixelTool: selectPixelTool,
+  }, dispatch );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( PixelToolPicker );

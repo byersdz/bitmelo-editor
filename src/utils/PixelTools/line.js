@@ -65,26 +65,11 @@ export function getLinePositions( x1, y1, x2, y2 ) {
 
   if ( x1 === x2 ) {
     // vertical line
-    let xOffset = 0;
-    let yOffset = 0;
-
-    let startX = x1;
-    if ( startX < 0 ) {
-      xOffset = -startX;
-      startX = 0;
-    }
-
-    let startY = y1 < y2 ? y1 : y2;
-    let finishY = y1 < y2 ? y2 : y1;
-
-    if ( startY < 0 ) {
-      yOffset = -startY;
-      startY = 0;
-      finishY += yOffset;
-    }
+    const startY = y1 < y2 ? y1 : y2;
+    const finishY = y1 < y2 ? y2 : y1;
 
     for ( let currentY = startY; currentY <= finishY; currentY += 1 ) {
-      positions.push( { x: startX - xOffset, y: currentY - yOffset } );
+      positions.push( { x: x1, y: currentY } );
     }
 
     return positions;
@@ -92,26 +77,11 @@ export function getLinePositions( x1, y1, x2, y2 ) {
 
   if ( y1 === y2 ) {
     // horizontal line
-    let xOffset = 0;
-    let yOffset = 0;
-
-    let startY = y1;
-    if ( startY < 0 ) {
-      yOffset = -startY;
-      startY = 0;
-    }
-
-    let startX = x1 < x2 ? x1 : x2;
-    let finishX = x1 < x2 ? x2 : x1;
-
-    if ( startX < 0 ) {
-      xOffset = -startX;
-      startX = 0;
-      finishX += xOffset;
-    }
+    const startX = x1 < x2 ? x1 : x2;
+    const finishX = x1 < x2 ? x2 : x1;
 
     for ( let currentX = startX; currentX <= finishX; currentX += 1 ) {
-      positions.push( { x: currentX - xOffset, y: startY - yOffset } );
+      positions.push( { x: currentX, y: y1 } );
     }
 
     return positions;

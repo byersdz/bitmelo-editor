@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { PENCIL_TOOL } from 'State/PixelTools/selectedTool';
+import { PENCIL_TOOL, ERASER_TOOL } from 'State/PixelTools/selectedTool';
 import { applyPencilToData } from 'Utils/PixelTools/pencil';
 
 import MainCanvas from './MainCanvas/MainCanvas';
@@ -146,10 +146,16 @@ class PixelEditor extends React.Component {
       return;
     }
 
-    if ( event.button === 0 ) {
-      // left click
+    if ( event.button === 0 || event.button === 2 ) {
+      // left or right click
 
-      const editingTool = selectedTool;
+      let editingTool = selectedTool;
+      if ( event.button === 2 ) {
+        // use alternate tools for right click
+        if ( selectedTool === PENCIL_TOOL ) {
+          editingTool = ERASER_TOOL;
+        }
+      }
 
       const pixelX = PixelEditor.pixelPositionForCanvasPosition(
         event.nativeEvent.offsetX,
@@ -175,12 +181,17 @@ class PixelEditor extends React.Component {
       editingData.currentX = pixelX;
       editingData.currentY = pixelY;
 
-      editingData.paletteId = selectedPaletteIndex;
+      if ( editingTool === ERASER_TOOL ) {
+        editingData.paletteId = 0;
+      }
+      else {
+        editingData.paletteId = selectedPaletteIndex;
+      }
 
       editingData.buffer = new Array( dataWidth * dataHeight );
       editingData.buffer.fill( -1 );
 
-      if ( editingTool === PENCIL_TOOL ) {
+      if ( editingTool === PENCIL_TOOL || editingTool === ERASER_TOOL ) {
         editingData = applyPencilToData( data, dataWidth, dataHeight, editingData );
       }
 
@@ -214,8 +225,9 @@ class PixelEditor extends React.Component {
 
     const { clientX, clientY } = event;
 
-    if ( event.button === 0 ) {
+    if ( event.button === 0 || event.button === 2 ) {
       if ( isEditing ) {
+        this.commitEditingChanges();
         this.setState( { isEditing: false } );
       }
     }
@@ -280,7 +292,7 @@ class PixelEditor extends React.Component {
       editingData.currentX = pixelX;
       editingData.currentY = pixelY;
 
-      if ( editingTool === PENCIL_TOOL ) {
+      if ( editingTool === PENCIL_TOOL || editingTool === ERASER_TOOL ) {
         const newData = applyPencilToData( data, dataWidth, dataHeight, editingData );
         this.setState( { editingData: newData } );
       }
@@ -297,9 +309,13 @@ class PixelEditor extends React.Component {
       pointerCurrentX,
       pointerCurrentY,
       isEditing,
+      editingTool,
     } = this.state;
 
     if ( isEditing ) {
+      if ( editingTool === PENCIL_TOOL ) {
+        this.commitEditingChanges();
+      }
       this.setState( { isEditing: false } );
     }
     else if ( isPanning ) {
@@ -464,6 +480,25 @@ class PixelEditor extends React.Component {
     return newOffset;
   }
 
+  commitEditingChanges() {
+    const { editingData, editingTool } = this.state;
+    const { onDataChange, data } = this.props;
+
+    if ( editingTool === PENCIL_TOOL || editingTool === ERASER_TOOL ) {
+      const newData = new Array( data.length );
+      const { buffer } = editingData;
+      for ( let i = 0; i < newData.length; i += 1 ) {
+        if ( buffer[i] >= 0 ) {
+          newData[i] = buffer[i];
+        }
+        else {
+          newData[i] = data[i];
+        }
+      }
+      onDataChange( newData );
+    }
+  }
+
   render() {
     const {
       width,
@@ -509,7 +544,7 @@ class PixelEditor extends React.Component {
     const mainData = [...data];
 
     if ( isEditing ) {
-      if ( editingTool === PENCIL_TOOL ) {
+      if ( editingTool === PENCIL_TOOL || editingTool === ERASER_TOOL ) {
         for ( let i = 0; i < mainData.length; i += 1 ) {
           const editingDataPoint = editingData.buffer[i];
           if ( editingDataPoint >= 0 ) {
@@ -558,6 +593,7 @@ PixelEditor.propTypes = {
   navigationPanelIsOpen: PropTypes.bool.isRequired,
   referencePanelIsOpen: PropTypes.bool.isRequired,
   selectedTool: PropTypes.string.isRequired,
+  onDataChange: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
