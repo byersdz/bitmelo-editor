@@ -48,9 +48,7 @@ class MainContainer extends React.Component {
     return (
       <div className="main-container">
         <TopBar title="Bitmelo Editor" />
-        <Scrollbars>
-          { contentRender }
-        </Scrollbars>
+        { contentRender }
       </div>
     );
   }

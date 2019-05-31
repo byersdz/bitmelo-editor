@@ -8,7 +8,12 @@ import './Scrollbars.scss';
 const Scrollbars = props => {
   const { children } = props;
   return (
-    <RCS>
+    <RCS
+      // renderTrackHorizontal={ p => <div { ...p } className="track-horizontal" /> }
+      renderTrackVertical={ p => <div { ...p } className="track-vertical" /> }
+      // renderThumbHorizontal={ p => <div { ...p } className="thumb-horizontal" /> }
+      renderThumbVertical={ p => <div { ...p } className="thumb-vertical" /> }
+    >
       { children }
     </RCS>
   );
