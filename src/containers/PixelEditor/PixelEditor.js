@@ -554,6 +554,16 @@ class PixelEditor extends React.Component {
       }
     }
 
+    const indicatorX = PixelEditor.pixelPositionForCanvasPosition( pointerCurrentX, offsetX, actualScale );
+    let indicatorY = PixelEditor.pixelPositionForCanvasPosition( pointerCurrentY, offsetY, actualScale );
+    indicatorY = dataHeight - indicatorY - 1;
+
+    let showIndicator = true;
+
+    if ( isPanning ) {
+      showIndicator = false;
+    }
+
     return (
       <div className="pixel-editor" ref={ this.containerRef }>
         <OverlayCanvas
@@ -563,6 +573,11 @@ class PixelEditor extends React.Component {
           onWheel={ e => this.handleWheel( e ) }
           offsetX={ Math.floor( pannedXOffset ) }
           offsetY={ Math.floor( pannedYOffset ) }
+          showIndicator={ showIndicator }
+          indicatorX={ indicatorX }
+          indicatorY={ indicatorY }
+          scale={ actualScale }
+          dataHeight={ dataHeight }
         />
         <MainCanvas
           width={ width }

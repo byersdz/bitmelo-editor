@@ -100,3 +100,39 @@ export function clearCanvasBorder(
   context.clearRect( 0, 0, canvasWidth, yOrigin ); // top
   context.clearRect( 0, yOrigin + contentHeight, canvasWidth, canvasHeight ); // bottom
 }
+
+export function drawIndicator( settings, canvas ) {
+  const {
+    offsetX,
+    offsetY,
+    indicatorX,
+    indicatorY,
+    scale,
+    dataHeight,
+  } = settings;
+
+  const context = canvas.getContext( '2d' );
+  const flippedY = dataHeight - indicatorY - 1; // data is using bottom left origin
+  const xOrigin = indicatorX * scale + offsetX;
+  const yOrigin = flippedY * scale + offsetY;
+
+  if ( scale <= 8 ) {
+    context.fillStyle = '#00000044';
+    context.fillRect( xOrigin, yOrigin, scale, scale );
+  }
+  else {
+    const lineWidth = 2;
+
+    context.fillStyle = '#222222';
+    context.fillRect( xOrigin, yOrigin, scale, lineWidth ); // top
+    context.fillRect( xOrigin, yOrigin + scale - lineWidth, scale, lineWidth ); // bottom
+    context.fillRect( xOrigin, yOrigin, lineWidth, scale ); // left
+    context.fillRect( xOrigin + scale - lineWidth, yOrigin, lineWidth, scale ); // right
+
+    context.fillStyle = '#eeeeee';
+    context.fillRect( xOrigin - lineWidth, yOrigin - lineWidth, scale + lineWidth + lineWidth, lineWidth ); // top
+    context.fillRect( xOrigin - lineWidth, yOrigin + scale, scale + lineWidth + lineWidth, lineWidth ); // bottom
+    context.fillRect( xOrigin - lineWidth, yOrigin - lineWidth, lineWidth, scale + lineWidth + lineWidth ); // left
+    context.fillRect( xOrigin + scale, yOrigin - lineWidth, lineWidth, scale + lineWidth + lineWidth ); // right
+  }
+}
