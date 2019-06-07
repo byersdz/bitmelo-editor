@@ -9,6 +9,8 @@ import { applyPencilToData } from 'Utils/PixelTools/pencil';
 import MainCanvas from './MainCanvas/MainCanvas';
 import OverlayCanvas from './OverlayCanvas/OverlayCanvas';
 
+import backgroundImage from './background.png';
+
 
 import './PixelEditor.scss';
 
@@ -564,8 +566,16 @@ class PixelEditor extends React.Component {
       showIndicator = false;
     }
 
+    const style = {
+      backgroundImage: `url(${ backgroundImage })`,
+    };
+
     return (
-      <div className="pixel-editor" ref={ this.containerRef }>
+      <div
+        className="pixel-editor"
+        ref={ this.containerRef }
+        style={ style }
+      >
         <OverlayCanvas
           width={ width }
           height={ height }
