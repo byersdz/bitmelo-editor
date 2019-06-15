@@ -53,6 +53,7 @@
   "dependencies": {
     "bitmelo": "^0.3.7",
     "normalize.css": "^8.0.1",
-    "react-custom-scrollbars": "^4.2.1"
+    "react-custom-scrollbars": "^4.2.1",
+    "redux-undo": "^1.0.0-beta9-9-7"
   }
 }

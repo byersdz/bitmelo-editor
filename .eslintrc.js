@@ -26,7 +26,8 @@ module.exports = {
     "class-methods-use-this": "off",
     "import/prefer-default-export": "off",
     "react/sort-comp": 'off',
-    "no-else-return": 'off'
+    "no-else-return": 'off',
+    "react/forbid-prop-types": "off",
   },
   "globals": {
     "minnow": "readonly"

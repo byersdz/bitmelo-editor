@@ -18,7 +18,6 @@ class TileEditor extends React.Component {
           <TilePixelEditor />
           <PalettePicker />
         </div>
-        <div className="data-section" />
       </div>
     );
   }

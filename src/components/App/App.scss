@@ -9,6 +9,7 @@ body {
   background-color: $background-color;
   color: $on-background-color;
   height: 100%;
+  user-select: none;
 }
 
 #root {

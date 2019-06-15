@@ -519,6 +519,7 @@ class PixelEditor extends React.Component {
     } = this.state;
 
     const {
+      children,
       data,
       dataWidth,
       dataHeight,
@@ -600,6 +601,7 @@ class PixelEditor extends React.Component {
           offsetY={ Math.floor( pannedYOffset ) }
           palette={ palette }
         />
+        { children }
       </div>
     );
   }
@@ -610,6 +612,7 @@ PixelEditor.pixelPositionForCanvasPosition = ( position, offset, scale ) => {
 };
 
 PixelEditor.propTypes = {
+  children: PropTypes.node,
   data: PropTypes.arrayOf( PropTypes.number ).isRequired,
   dataWidth: PropTypes.number.isRequired,
   dataHeight: PropTypes.number.isRequired,
@@ -619,6 +622,10 @@ PixelEditor.propTypes = {
   referencePanelIsOpen: PropTypes.bool.isRequired,
   selectedTool: PropTypes.string.isRequired,
   onDataChange: PropTypes.func.isRequired,
+};
+
+PixelEditor.defaultProps = {
+  children: null,
 };
 
 function mapStateToProps( state ) {
