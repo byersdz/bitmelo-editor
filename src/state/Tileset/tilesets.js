@@ -8,31 +8,31 @@ export const SET_TILESET_SELECTION = 'SET_TILESET_SELECTION';
 // Reducer
 const initialWidth = 8;
 const initialHeight = 8;
-const tileSize = 16;
+const initialTileSize = 16;
 const initialState = [
   {
     width: 8,
     height: 8,
-    selectedTile: 9,
-    selectionWidth: 2,
-    selectionHeight: 4,
+    selectedTile: 0,
+    selectionWidth: 1,
+    selectionHeight: 1,
     activeLayer: 0,
     layers: [
       {
         isVisible: true,
-        data: new Array( initialWidth * initialHeight * tileSize * tileSize ),
+        data: new Array( initialWidth * initialHeight * initialTileSize * initialTileSize ),
       },
       {
         isVisible: true,
-        data: new Array( initialWidth * initialHeight * tileSize * tileSize ),
+        data: new Array( initialWidth * initialHeight * initialTileSize * initialTileSize ),
       },
       {
         isVisible: true,
-        data: new Array( initialWidth * initialHeight * tileSize * tileSize ),
+        data: new Array( initialWidth * initialHeight * initialTileSize * initialTileSize ),
       },
       {
         isVisible: true,
-        data: new Array( initialWidth * initialHeight * tileSize * tileSize ),
+        data: new Array( initialWidth * initialHeight * initialTileSize * initialTileSize ),
       },
     ],
   },
@@ -46,12 +46,44 @@ initialState[0].layers[3].data.fill( 0 );
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
     case SET_TILESET_LAYER_DATA: {
-      const { data, tilesetIndex, layerIndex } = action.payload;
+      const {
+        data,
+        tilesetIndex,
+        layerIndex,
+        selection,
+      } = action.payload;
       const newState = [...state];
       newState[tilesetIndex] = { ...state[tilesetIndex] };
       newState[tilesetIndex].layers = [...state[tilesetIndex].layers];
       newState[tilesetIndex].layers[layerIndex] = { ...state[tilesetIndex].layers[layerIndex] };
-      newState[tilesetIndex].layers[layerIndex].data = [...data];
+
+      if ( selection ) {
+        const {
+          selectedTile,
+          selectionWidth,
+          selectionHeight,
+          tileSize,
+        } = selection;
+        newState[tilesetIndex].layers[layerIndex].data = [...newState[tilesetIndex].layers[layerIndex].data];
+        let sourceIndex = 0;
+        let destinationIndex = 0;
+        const originX = ( selectedTile % newState[tilesetIndex].width ) * tileSize;
+        const originY = Math.floor( selectedTile / newState[tilesetIndex].width ) * tileSize;
+        const sourceWidth = selectionWidth * tileSize;
+        const sourceHeight = selectionHeight * tileSize;
+
+        const destinationWidth = newState[tilesetIndex].width * tileSize;
+        for ( let y = 0; y < sourceHeight; y += 1 ) {
+          for ( let x = 0; x < sourceWidth; x += 1 ) {
+            sourceIndex = y * sourceWidth + x;
+            destinationIndex = ( y + originY ) * destinationWidth + x + originX;
+            newState[tilesetIndex].layers[layerIndex].data[destinationIndex] = data[sourceIndex];
+          }
+        }
+      }
+      else {
+        newState[tilesetIndex].layers[layerIndex].data = [...data];
+      }
       return newState;
     }
 
@@ -72,10 +104,15 @@ export default function reducer( state = initialState, action ) {
 }
 
 // Action Creators
-export function setTilesetLayerData( data, tilesetIndex, layerIndex ) {
+export function setTilesetLayerData( data, tilesetIndex, layerIndex, selection ) {
   return {
     type: SET_TILESET_LAYER_DATA,
-    payload: { data, tilesetIndex, layerIndex },
+    payload: {
+      data,
+      tilesetIndex,
+      layerIndex,
+      selection,
+    },
   };
 }
 

@@ -50,7 +50,6 @@ class TileSelector extends React.Component {
       </div>
     );
 
-    console.log( className );
     return (
       <div className={ className }>
         <ToggleHeader

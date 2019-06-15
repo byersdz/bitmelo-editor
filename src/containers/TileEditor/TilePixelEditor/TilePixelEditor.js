@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -13,8 +14,20 @@ import './TilePixelEditor.scss';
 
 class TilePixelEditor extends React.Component {
   handleDataChange( newData ) {
-    const { activeIndex, _setTilesetLayerData, tileset } = this.props;
-    _setTilesetLayerData( newData, activeIndex, tileset.activeLayer );
+    const {
+      activeIndex,
+      _setTilesetLayerData,
+      tileset,
+      tileSize,
+    } = this.props;
+
+    const selection = {
+      selectedTile: tileset.selectedTile,
+      selectionWidth: tileset.selectionWidth,
+      selectionHeight: tileset.selectionHeight,
+      tileSize,
+    };
+    _setTilesetLayerData( newData, activeIndex, tileset.activeLayer, selection );
   }
 
   render() {
@@ -25,17 +38,36 @@ class TilePixelEditor extends React.Component {
       tileSize,
     } = this.props;
 
+    const { selectedTile, selectionWidth, selectionHeight } = tileset;
+
     const dataWidth = tileset.width * tileSize;
-    const dataHeight = tileset.height * tileSize;
+    // const dataHeight = tileset.height * tileSize;
 
     const activeLayer = tileset.layers[tileset.activeLayer];
-    const { data } = activeLayer;
+    const { data: layerData } = activeLayer;
+
+    const selectedDataWidth = selectionWidth * tileSize;
+    const selectedDataHeight = selectionHeight * tileSize;
+    const selectedData = new Array( selectedDataWidth * selectedDataHeight );
+
+    const originX = ( selectedTile % tileset.width ) * tileSize;
+    const originY = Math.floor( selectedTile / tileset.width ) * tileSize;
+
+    let count = 0;
+    let sourceIndex = 0;
+    for ( let y = originY; y < originY + selectedDataHeight; y += 1 ) {
+      for ( let x = originX; x < originX + selectedDataWidth; x += 1 ) {
+        sourceIndex = y * dataWidth + x;
+        selectedData[count] = layerData[sourceIndex];
+        count += 1;
+      }
+    }
 
     return (
       <PixelEditor
-        data={ data }
-        dataWidth={ dataWidth }
-        dataHeight={ dataHeight }
+        data={ selectedData }
+        dataWidth={ selectedDataWidth }
+        dataHeight={ selectedDataHeight }
         palette={ palette }
         selectedPaletteIndex={ selectedPaletteIndex }
         onDataChange={ newData => this.handleDataChange( newData ) }
