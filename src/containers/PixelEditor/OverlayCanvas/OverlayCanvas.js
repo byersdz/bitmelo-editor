@@ -53,6 +53,18 @@ class OverlayCanvas extends React.Component {
     }
   }
 
+  handlePointerDown( event ) {
+    console.log( event );
+  }
+
+  handlePointerMove( event ) {
+    console.log( event );
+  }
+
+  handlePointerUp( event ) {
+    console.log( event );
+  }
+
   render() {
     const {
       width,

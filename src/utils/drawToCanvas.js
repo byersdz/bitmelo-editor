@@ -136,3 +136,66 @@ export function drawIndicator( settings, canvas ) {
     context.fillRect( xOrigin + scale, yOrigin - lineWidth, lineWidth, scale + lineWidth + lineWidth ); // right
   }
 }
+
+export function drawTileSelection( settings, canvas ) {
+  const {
+    selectedTile,
+    selectionWidth,
+    selectionHeight,
+    dataWidth,
+    dataHeight,
+    scale,
+    tileSize,
+  } = settings;
+
+  const context = canvas.getContext( '2d' );
+
+  const tileX = selectedTile % dataWidth;
+  const tileY = Math.floor( selectedTile / dataWidth );
+
+  const originX = tileX * scale * tileSize;
+  const originY = ( dataHeight - tileY - selectionHeight ) * scale * tileSize;
+  const width = selectionWidth * tileSize * scale;
+  const height = selectionHeight * tileSize * scale;
+
+  const lineWidth = 4;
+  context.fillStyle = '#222222';
+  context.fillRect( originX, originY, width, lineWidth ); // top
+  context.fillRect( originX, originY + height - lineWidth, width, lineWidth ); // bottom
+  context.fillRect( originX, originY, lineWidth, height ); // left
+  context.fillRect( originX + width - lineWidth, originY, lineWidth, height ); // right
+
+  context.fillStyle = '#eeeeee';
+  context.fillRect( originX - lineWidth, originY - lineWidth, width + lineWidth + lineWidth, lineWidth ); // top
+  context.fillRect( originX - lineWidth, originY + height, width + lineWidth + lineWidth, lineWidth ); // bottom
+  context.fillRect( originX - lineWidth, originY, lineWidth, height ); // left
+  context.fillRect( originX + width, originY, lineWidth, height ); // right
+}
+
+export function drawGrid( settings, canvas ) {
+  const {
+    interval,
+    lineWidth,
+    style,
+    offsetX,
+    offsetY,
+    scale,
+    dataWidth,
+    dataHeight,
+  } = settings;
+
+  const context = canvas.getContext( '2d' );
+  context.fillStyle = style;
+
+  for ( let x = 0; x < dataWidth; x += 1 ) {
+    if ( x % interval === 0 ) {
+      context.fillRect( x * scale + offsetX, offsetY, lineWidth, dataHeight * scale );
+    }
+  }
+
+  for ( let y = 0; y < dataHeight; y += 1 ) {
+    if ( y % interval === 0 ) {
+      context.fillRect( offsetX, y * scale + offsetY, dataWidth * scale, lineWidth );
+    }
+  }
+}

@@ -7,12 +7,18 @@ import { bindActionCreators } from 'redux';
 import ToggleHeader from 'Components/ToggleHeader/ToggleHeader';
 
 import { toggleTileSelector } from 'State/Layout/tileSelectorIsOpen';
+import { setTilesetSelection } from 'State/Tileset/tilesets';
 
 import TileSelectorCanvas from './TileSelectorCanvas/TileSelectorCanvas';
 
 import './TileSelector.scss';
 
 class TileSelector extends React.Component {
+  handleSelectionChange( selection ) {
+    const { activeIndex, _setTilesetSelection } = this.props;
+    _setTilesetSelection( selection, activeIndex );
+  }
+
   render() {
     const {
       isOpen,
@@ -35,6 +41,11 @@ class TileSelector extends React.Component {
           scale={ 2 }
           palette={ palette }
           data={ tileset.layers[0].data }
+          selectedTile={ tileset.selectedTile }
+          selectionWidth={ tileset.selectionWidth }
+          selectionHeight={ tileset.selectionHeight }
+          tileSize={ tileSize }
+          onSelectionChange={ s => this.handleSelectionChange( s ) }
         />
       </div>
     );
@@ -58,6 +69,8 @@ TileSelector.propTypes = {
   tileset: PropTypes.object.isRequired,
   tileSize: PropTypes.number.isRequired,
   palette: PropTypes.array.isRequired,
+  activeIndex: PropTypes.number.isRequired,
+  _setTilesetSelection: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -77,6 +90,7 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _toggleTileSelector: toggleTileSelector,
+    _setTilesetSelection: setTilesetSelection,
   }, dispatch );
 }
 
