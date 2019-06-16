@@ -95,10 +95,17 @@ class PixelEditor extends React.Component {
   }
 
   componentDidUpdate( prevProps ) {
-    const { navigationPanelIsOpen, referencePanelIsOpen } = this.props;
+    const {
+      navigationPanelIsOpen,
+      referencePanelIsOpen,
+      dataWidth,
+      dataHeight,
+    } = this.props;
     const {
       navigationPanelIsOpen: prevNavIsOpen,
       referencePanelIsOpen: prevRefIsOpen,
+      dataWidth: lastDataWidth,
+      dataHeight: lastDataHeight,
     } = prevProps;
 
     if (
@@ -106,6 +113,10 @@ class PixelEditor extends React.Component {
       || referencePanelIsOpen !== prevRefIsOpen
     ) {
       this.updateDimensions();
+    }
+
+    if ( dataWidth !== lastDataWidth || dataHeight !== lastDataHeight ) {
+      this.setInitialPositioning();
     }
   }
 
