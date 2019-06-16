@@ -19,6 +19,10 @@
   .content.closed {
     display: none;
   }
+
+  canvas {
+    margin: 8px;
+  }
 }
 
 .tile-selector.open {

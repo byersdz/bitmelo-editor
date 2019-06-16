@@ -8,6 +8,10 @@ import {
   drawGrid,
 } from 'Utils/drawToCanvas';
 
+import { applyWheelScroll } from 'Utils/mouse';
+
+import backgroundImage from 'Containers/PixelEditor/background.png';
+
 import './TileSelectorCanvas.scss';
 
 class TileSelectorCanvas extends React.Component {
@@ -19,6 +23,8 @@ class TileSelectorCanvas extends React.Component {
       startPosition: { x: 0, y: 0 },
       currentPosition: { x: 0, y: 0 },
       isSelecting: false,
+      scrollAmount: 0,
+      scale: 2,
     };
   }
 
@@ -44,6 +50,11 @@ class TileSelectorCanvas extends React.Component {
         return true;
       }
     }
+
+    if ( nextState.scale !== currentState.scale ) {
+      return true;
+    }
+
     return false;
   }
 
@@ -51,7 +62,6 @@ class TileSelectorCanvas extends React.Component {
     const {
       width,
       height,
-      scale,
       palette,
       data,
       selectedTile,
@@ -59,6 +69,8 @@ class TileSelectorCanvas extends React.Component {
       selectionHeight,
       tileSize,
     } = this.props;
+
+    const { scale } = this.state;
 
     const { isSelecting, startPosition, currentPosition } = this.state;
 
@@ -81,7 +93,7 @@ class TileSelectorCanvas extends React.Component {
     const gridSettings = {
       interval: tileSize,
       lineWidth: 1,
-      style: '#888888',
+      style: '#00000088',
       offsetX: 0,
       offsetY: 0,
       scale,
@@ -146,6 +158,44 @@ class TileSelectorCanvas extends React.Component {
     }
   }
 
+  handleWheel( event ) {
+    const { width, height } = this.props;
+    const { scrollAmount, isSelecting, scale } = this.state;
+
+    if ( isSelecting ) {
+      return;
+    }
+
+    const {
+      scrollAmount: newScrollAmount,
+      didScrollUp,
+      didScrollDown,
+    } = applyWheelScroll( event, scrollAmount );
+
+    let newScale = scale;
+
+    if ( didScrollUp ) {
+      newScale += 1;
+    }
+    else if ( didScrollDown ) {
+      newScale -= 1;
+    }
+
+    const largestSide = width > height ? width : height;
+    if ( newScale * largestSide > 600 ) {
+      newScale = Math.floor( 600 / width );
+    }
+
+    if ( newScale < 1 ) {
+      newScale = 1;
+    }
+
+    this.setState( {
+      scrollAmount: newScrollAmount,
+      scale: newScale,
+    } );
+  }
+
   finishSelecting() {
     const { onSelectionChange } = this.props;
     const { startPosition, currentPosition } = this.state;
@@ -179,7 +229,8 @@ class TileSelectorCanvas extends React.Component {
   }
 
   getTilePosition( x, y ) {
-    const { tileSize, height, scale } = this.props;
+    const { tileSize, height } = this.props;
+    const { scale } = this.state;
 
     const scaledX = x / scale;
     const scaledY = height - ( y / scale ) - 1;
@@ -191,10 +242,16 @@ class TileSelectorCanvas extends React.Component {
   }
 
   render() {
-    const { width, height, scale } = this.props;
+    const { width, height } = this.props;
+    const { scale } = this.state;
+
+    const style = {
+      backgroundImage: `url(${ backgroundImage })`,
+    };
 
     return (
       <canvas
+        style={ style }
         ref={ this.canvasRef }
         width={ width * scale }
         height={ height * scale }
@@ -202,6 +259,7 @@ class TileSelectorCanvas extends React.Component {
         onPointerMove={ e => this.handlePointerMove( e ) }
         onPointerUp={ e => this.handlePointerUp( e ) }
         onPointerLeave={ e => this.handlePointerExit( e ) }
+        onWheel={ e => this.handleWheel( e ) }
       />
     );
   }
@@ -210,7 +268,6 @@ class TileSelectorCanvas extends React.Component {
 TileSelectorCanvas.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  scale: PropTypes.number.isRequired,
   palette: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
   selectedTile: PropTypes.number.isRequired,

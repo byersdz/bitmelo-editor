@@ -38,7 +38,6 @@ class TileSelector extends React.Component {
         <TileSelectorCanvas
           width={ tileSize * tileset.width }
           height={ tileSize * tileset.height }
-          scale={ 2 }
           palette={ palette }
           data={ tileset.layers[0].data }
           selectedTile={ tileset.selectedTile }
