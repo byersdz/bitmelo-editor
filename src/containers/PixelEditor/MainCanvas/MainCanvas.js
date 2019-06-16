@@ -6,6 +6,7 @@ import {
   drawPixelDataToCanvas,
   drawPixelDataToOffsetCanvas,
   copyCanvasToCanvas,
+  drawBackgroundBorder,
 } from 'Utils/drawToCanvas';
 
 import './MainCanvas.scss';
@@ -90,6 +91,17 @@ class MainCanvas extends React.Component {
       drawPixelDataToCanvas( settings, this.dataCanvasRef.current );
       copyCanvasToCanvas( this.dataCanvasRef.current, this.canvasRef.current, offsetX, offsetY );
     }
+
+    const borderSettings = {
+      offsetX,
+      offsetY,
+      canvasWidth: width,
+      canvasHeight: height,
+      width: dataWidth * scale,
+      height: dataHeight * scale,
+    };
+
+    drawBackgroundBorder( borderSettings, this.canvasRef.current );
   }
 
   render() {

@@ -1,4 +1,32 @@
 
+export function drawBackgroundBorder( settings, canvas ) {
+  const {
+    offsetX,
+    offsetY,
+    width,
+    height,
+    canvasWidth,
+    canvasHeight,
+  } = settings;
+
+  const context = canvas.getContext( '2d' );
+
+  context.fillStyle = '#777777';
+
+  context.fillRect( 0, 0, canvasWidth, offsetY ); // top
+  context.fillRect( 0, 0, offsetX, canvasHeight ); // left
+  context.fillRect( 0, offsetY + height, canvasWidth, canvasHeight - height - offsetY ); // bottom
+  context.fillRect( offsetX + width, 0, canvasWidth - width - offsetX, canvasHeight ); // right
+
+  // draw border lines
+  context.fillStyle = '#222222';
+  const lineWidth = 4;
+  context.fillRect( offsetX - lineWidth, offsetY - lineWidth, width + lineWidth * 2, lineWidth ); // top
+  context.fillRect( offsetX - lineWidth, offsetY + height, width + lineWidth, lineWidth ); // bottom
+  context.fillRect( offsetX - lineWidth, offsetY - lineWidth, lineWidth, height + lineWidth * 2 ); // left
+  context.fillRect( offsetX + width, offsetY - lineWidth, lineWidth, height + lineWidth * 2 ); // right
+}
+
 export function drawPixelDataToCanvas( settings, canvas ) {
   const {
     data,
