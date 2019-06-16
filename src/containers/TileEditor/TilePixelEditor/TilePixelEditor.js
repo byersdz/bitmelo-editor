@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 import PixelEditor from 'Containers/PixelEditor/PixelEditor';
 
+import { undoTilesets, redoTilesets } from 'State/Tileset';
 import { setTilesetLayerData } from 'State/Tileset/tilesets';
 
 import TileSelector from '../TileSelector/TileSelector';
@@ -13,6 +14,36 @@ import TileSelector from '../TileSelector/TileSelector';
 import './TilePixelEditor.scss';
 
 class TilePixelEditor extends React.Component {
+  constructor( props ) {
+    super( props );
+
+    this.handleKeyDown = this.handleKeyDown.bind( this );
+  }
+
+  componentDidMount() {
+    window.addEventListener( 'keydown', this.handleKeyDown );
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener( 'keydown', this.handleKeyDown );
+  }
+
+  handleKeyDown( event ) {
+    const { _undoTilesets, _redoTilesets } = this.props;
+
+    if ( event.which === 90 && event.ctrlKey ) { // z
+      if ( event.shiftKey ) {
+        _redoTilesets();
+      }
+      else {
+        _undoTilesets();
+      }
+    }
+    else if ( event.which === 89 && event.ctrlKey ) { // y
+      _redoTilesets();
+    }
+  }
+
   handleDataChange( newData ) {
     const {
       activeIndex,
@@ -85,6 +116,8 @@ TilePixelEditor.propTypes = {
   tileset: PropTypes.object.isRequired,
   tileSize: PropTypes.number.isRequired,
   _setTilesetLayerData: PropTypes.func.isRequired,
+  _undoTilesets: PropTypes.func.isRequired,
+  _redoTilesets: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -103,6 +136,8 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setTilesetLayerData: setTilesetLayerData,
+    _undoTilesets: undoTilesets,
+    _redoTilesets: redoTilesets,
   }, dispatch );
 }
 

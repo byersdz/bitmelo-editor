@@ -11,3 +11,15 @@ export default combineReducers( {
   tilesets,
   activeIndex,
 } );
+
+export function undoTilesets() {
+  return {
+    type: UNDO_TILESETS,
+  };
+}
+
+export function redoTilesets() {
+  return {
+    type: REDO_TILESETS,
+  };
+}

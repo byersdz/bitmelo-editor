@@ -1,7 +1,5 @@
 
 // Actions
-export const UNDO_TILESET_DATA = 'UNDO_TILESET_DATA';
-export const REDO_TILESET_DATA = 'REDO_TILESET_DATA';
 export const SET_TILESET_LAYER_DATA = 'SET_TILESET_LAYER_DATA';
 export const SET_TILESET_SELECTION = 'SET_TILESET_SELECTION';
 
@@ -38,7 +36,7 @@ const initialState = [
   },
 ];
 
-initialState[0].layers[0].data.fill( 2 );
+initialState[0].layers[0].data.fill( 0 );
 initialState[0].layers[1].data.fill( 0 );
 initialState[0].layers[2].data.fill( 0 );
 initialState[0].layers[3].data.fill( 0 );

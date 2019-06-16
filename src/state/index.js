@@ -15,7 +15,7 @@ export default combineReducers( {
   palette,
   pixelTools,
   tileset: undoable( tileset, {
-    limit: 10,
+    limit: 32,
     undoType: UNDO_TILESETS,
     redoType: REDO_TILESETS,
   } ),
