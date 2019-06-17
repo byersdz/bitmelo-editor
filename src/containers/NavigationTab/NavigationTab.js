@@ -9,6 +9,7 @@ import ButtonTabs from 'Components/ButtonTabs/ButtonTabs';
 import {
   selectNavigationTab,
   PROJECT_TAB,
+  CODE_TAB,
   TILE_TAB,
   SOUND_TAB,
 } from 'State/Layout/activeNavigationTab';
@@ -35,6 +36,11 @@ class NavigationTab extends React.Component {
       {
         key: PROJECT_TAB,
         title: 'Project',
+        icon: 'play',
+      },
+      {
+        key: CODE_TAB,
+        title: 'Code Editor',
         icon: 'play',
       },
       {

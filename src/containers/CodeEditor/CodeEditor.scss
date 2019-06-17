@@ -1,0 +1,10 @@
+
+.code-editor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .ace_editor {
+    width: 720px;
+  }
+}

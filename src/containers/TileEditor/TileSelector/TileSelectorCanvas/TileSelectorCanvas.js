@@ -198,7 +198,11 @@ class TileSelectorCanvas extends React.Component {
 
   finishSelecting() {
     const { onSelectionChange } = this.props;
-    const { startPosition, currentPosition } = this.state;
+    const { isSelecting, startPosition, currentPosition } = this.state;
+
+    if ( !isSelecting ) {
+      return;
+    }
 
     const newSelection = this.getSelection( startPosition, currentPosition );
 
