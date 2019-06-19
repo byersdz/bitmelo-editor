@@ -9,6 +9,7 @@ import { setScript } from 'State/Code/scripts';
 
 import 'brace/mode/javascript';
 import 'brace/theme/twilight';
+import 'brace/ext/language_tools';
 
 import './CodeEditor.scss';
 
@@ -103,7 +104,6 @@ class CodeEditor extends React.Component {
   render() {
     const { script } = this.props;
     const { containerWidth, containerHeight } = this.state;
-    console.log( containerWidth );
     const maxEditorWidth = 1200;
     const minEditorWidth = 720;
 
@@ -116,9 +116,6 @@ class CodeEditor extends React.Component {
     if ( editorWidth < minEditorWidth ) {
       editorWidth = minEditorWidth;
     }
-
-    console.log( editorWidth );
-
 
     const editorHeight = containerHeight - 32;
 
@@ -138,6 +135,9 @@ class CodeEditor extends React.Component {
             onLoad={ e => this.handleEditorLoad( e ) }
             editorProps={ { $blockScrolling: true } }
             tabSize={ 2 }
+            setOptions={ {
+              enableLiveAutocompletion: true,
+            } }
             focus
           />
         </div>
