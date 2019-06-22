@@ -11,6 +11,7 @@ const ButtonTabs = ( props ) => {
     hideTitles,
     click,
     className,
+    usePointer,
   } = props;
 
   const customClass = `button-tabs ${ className }`;
@@ -25,6 +26,7 @@ const ButtonTabs = ( props ) => {
         className={ activeClass }
         hideTitle={ hideTitles }
         click={ () => click( button.key ) }
+        usePointer={ usePointer }
       />
     );
   } );
@@ -42,11 +44,13 @@ ButtonTabs.propTypes = {
   hideTitles: PropTypes.bool,
   click: PropTypes.func.isRequired,
   className: PropTypes.string,
+  usePointer: PropTypes.bool,
 };
 
 ButtonTabs.defaultProps = {
   hideTitles: false,
   className: '',
+  usePointer: false,
 };
 
 export default ButtonTabs;

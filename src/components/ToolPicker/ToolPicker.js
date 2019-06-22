@@ -17,6 +17,7 @@ class ToolPicker extends React.Component {
           activeButton={ selectedTool }
           click={ onSelectedToolChange }
           hideTitles
+          usePointer
         />
       </div>
     );

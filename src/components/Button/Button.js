@@ -15,6 +15,8 @@ const Button = ( props ) => {
     click,
     style,
     standard,
+    usePointer,
+    rightClick,
   } = props;
 
   const iconRender = icon ? (
@@ -36,7 +38,31 @@ const Button = ( props ) => {
     <button
       style={ style }
       type="button"
-      onClick={ () => click() }
+      onClick={ () => {
+        if ( !usePointer ) {
+          click();
+        }
+      } }
+      onPointerDown={ e => {
+        if ( usePointer ) {
+          if ( e.button === 2 ) {
+            if ( rightClick ) {
+              rightClick();
+            }
+          }
+          else {
+            click();
+          }
+        }
+      } }
+      onContextMenu={ e => {
+        if ( rightClick ) {
+          e.preventDefault();
+          return false;
+        }
+        return true;
+      } }
+
       className={ customClass }
     >
       { iconRender }
@@ -51,8 +77,10 @@ Button.propTypes = {
   hideTitle: PropTypes.bool,
   className: PropTypes.string,
   click: PropTypes.func.isRequired,
-  style: PropTypes.object, // eslint-disable-line
+  style: PropTypes.object,
   standard: PropTypes.bool,
+  usePointer: PropTypes.bool,
+  rightClick: PropTypes.func,
 };
 
 Button.defaultProps = {
@@ -61,6 +89,8 @@ Button.defaultProps = {
   className: '',
   style: {},
   standard: false,
+  usePointer: false,
+  rightClick: null,
 };
 
 export default Button;

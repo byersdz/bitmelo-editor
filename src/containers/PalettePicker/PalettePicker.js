@@ -30,8 +30,10 @@ class PalettePicker extends React.Component {
           key={ i }
           title="Palette Button"
           click={ () => _selectPaletteIndex( i ) }
+          rightClick={ () => console.log( 'right click' ) }
           hideTitle
           style={ { backgroundColor: color } }
+          usePointer
         />
       ) );
     }
