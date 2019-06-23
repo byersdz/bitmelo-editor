@@ -1,6 +1,6 @@
 
 // Constants
-export const PROJECT_TAB = 'play';
+export const PROJECT_TAB = 'project';
 export const PLAY_TAB = 'play';
 export const CODE_TAB = 'code';
 export const TILE_TAB = 'tile';
