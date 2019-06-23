@@ -9,7 +9,12 @@ import './Play.scss';
 
 class Play extends React.Component {
   render() {
-    const { tilesets, tileSize, scripts } = this.props;
+    const {
+      tilesets,
+      tileSize,
+      scripts,
+      palette,
+    } = this.props;
 
     const style = `
       <style>
@@ -20,6 +25,7 @@ class Play extends React.Component {
 
         #bitmelo-container {
           margin: 0 auto;
+          margin-top: 16px;
           padding: 0;
         }
 
@@ -31,7 +37,7 @@ class Play extends React.Component {
       </style>
     `;
 
-    const projectScript = createProjectScript( tileSize, tilesets, scripts );
+    const projectScript = createProjectScript( tileSize, palette, tilesets, scripts );
 
     const iframeSrc = `
     <html>
@@ -39,7 +45,9 @@ class Play extends React.Component {
       ${ style }
     </head>
     <body>
-      <div id="bitmelo-container"></div>
+      <div id="main-container">
+        <div id="bitmelo-container"></div>
+      </div>
       <script>
       ${ projectScript }
       </script>
@@ -64,6 +72,7 @@ Play.propTypes = {
   tilesets: PropTypes.array.isRequired,
   tileSize: PropTypes.number.isRequired,
   scripts: PropTypes.array.isRequired,
+  palette: PropTypes.array.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -74,6 +83,7 @@ function mapStateToProps( state ) {
     tilesets,
     tileSize,
     scripts,
+    palette: state.palette.colors,
   };
 }
 
