@@ -89,7 +89,6 @@ class CodeEditor extends React.Component {
   handleTextChange( value ) {
     const { activeIndex, _setScript, script } = this.props;
     _setScript( activeIndex, { ...script, text: value } );
-    console.log( this.editor );
   }
 
   handleCursorChange( selection ) {

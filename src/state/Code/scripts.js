@@ -6,7 +6,13 @@ export const SET_SCRIPT = 'SET_SCRIPT';
 const initialState = [
   {
     text: `
-// Enter your code here
+engine.onInit = () => {
+
+}
+
+engine.onUpdate = () => {
+
+}
 `,
     cursorRow: 0,
     cursorColumn: 0,

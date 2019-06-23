@@ -3,29 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import bitmelo from 'Utils/Bitmelo/bitmelo.min.txt';
-import convertToTilesetArray from 'Utils/Convert/convertToTilesetArray';
+import createProjectScript from 'Utils/Convert/createProjectScript';
 
 import './Play.scss';
 
 class Play extends React.Component {
   render() {
-    const { tilesets, tileSize } = this.props;
-    const tileset = tilesets[0];
-    const testTileset = {};
-    testTileset.data = convertToTilesetArray(
-      tileset.layers[0].data,
-      tileset.width * tileSize,
-      tileset.height * tileSize,
-      tileSize,
-    );
-    testTileset.width = tileset.width;
-    testTileset.height = tileset.height;
-    testTileset.format = 'array';
-    testTileset.name = 'test';
-    testTileset.tileSize = tileSize;
-
-    const tilesetString = JSON.stringify( testTileset );
+    const { tilesets, tileSize, scripts } = this.props;
 
     const style = `
       <style>
@@ -46,23 +30,8 @@ class Play extends React.Component {
         }
       </style>
     `;
-    const bitmeloInitialization = `
-      const engine = new bitmelo.Engine();
-      engine.screen.scale = 2;
 
-      const tileset = ${ tilesetString };
-      engine.tileData.addTileset( tileset );
-      engine.onInit = () => {
-      }
-      engine.onUpdate = () => {
-        for (let y = 0; y < 8; y += 1) {
-          for (let x = 0; x < 8; x += 1) {
-            engine.screen.drawTile( y * 8 + x + 1, x * 16, y * 16 );
-          }
-        }
-      }
-      engine.begin();
-    `;
+    const projectScript = createProjectScript( tileSize, tilesets, scripts );
 
     const iframeSrc = `
     <html>
@@ -72,8 +41,7 @@ class Play extends React.Component {
     <body>
       <div id="bitmelo-container"></div>
       <script>
-      ${ bitmelo }
-      ${ bitmeloInitialization }
+      ${ projectScript }
       </script>
     </body>
     </html>
@@ -95,14 +63,17 @@ class Play extends React.Component {
 Play.propTypes = {
   tilesets: PropTypes.array.isRequired,
   tileSize: PropTypes.number.isRequired,
+  scripts: PropTypes.array.isRequired,
 };
 
 function mapStateToProps( state ) {
   const { tileSize } = state.project;
   const { tilesets } = state.tileset.present;
+  const { scripts } = state.code;
   return {
     tilesets,
     tileSize,
+    scripts,
   };
 }
 
