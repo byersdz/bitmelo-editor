@@ -8,11 +8,11 @@ const initialState = [
     text: `
 engine.onInit = () => {
 
-}
+};
 
 engine.onUpdate = () => {
 
-}
+};
 `,
     cursorRow: 0,
     cursorColumn: 0,
