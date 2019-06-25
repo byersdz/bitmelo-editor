@@ -1,38 +1,54 @@
 
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import TextInput from 'Components/TextInput/TextInput';
-import NumberPicker from 'Components/NumberPicker/NumberPicker';
+
+import { setProjectName } from 'State/Project/name';
+
+import ScreenSettings from './ScreenSettings/ScreenSettings';
 
 import './ProjectEditor.scss';
 
 class ProjectEditor extends React.Component {
+  handleNameChange( value ) {
+    const { _setProjectName } = this.props;
+    _setProjectName( value );
+  }
+
   render() {
+    const { name } = this.props;
+
     return (
       <div className="project-editor">
         <TextInput
           title="Project Name"
-          value="Project Name"
-          onValueChange={ v => console.log( v ) }
+          value={ name }
+          onValueChange={ v => this.handleNameChange( v ) }
         />
-        <NumberPicker
-          title="Screen Width"
-          value={ 128 }
-          minValue={ 1 }
-          maxValue={ 1024 }
-          onValueChange={ v => console.log( v ) }
-        />
-        <NumberPicker
-          title="Screen Height"
-          value={ 128 }
-          minValue={ 1 }
-          maxValue={ 1024 }
-          onValueChange={ v => console.log( v ) }
-        />
-
+        <ScreenSettings />
       </div>
     );
   }
 }
 
-export default ProjectEditor;
+ProjectEditor.propTypes = {
+  name: PropTypes.string.isRequired,
+  _setProjectName: PropTypes.func.isRequired,
+};
+
+function mapStateToProps( state ) {
+  return {
+    name: state.project.name,
+  };
+}
+
+function mapDispatchToProps( dispatch ) {
+  return bindActionCreators( {
+    _setProjectName: setProjectName,
+  }, dispatch );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( ProjectEditor );

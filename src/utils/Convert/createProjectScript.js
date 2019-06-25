@@ -3,8 +3,8 @@ import bitmelo from 'Utils/Bitmelo/bitmelo.min.txt';
 
 import convertProjectTilesets from './convertProjectTilesets';
 
-export default function createProjectScript( tileSize, palette, tilesets, scripts, sounds ) {
-  const convertedTilesets = convertProjectTilesets( tilesets, tileSize );
+export default function createProjectScript( project, palette, tilesets, scripts, sounds ) {
+  const convertedTilesets = convertProjectTilesets( tilesets, project.tileSize );
   const tilesetsString = JSON.stringify( convertedTilesets );
 
   let scriptsString = '';
@@ -21,6 +21,8 @@ export default function createProjectScript( tileSize, palette, tilesets, script
 ${ bitmelo }
 
 const engine = new bitmelo.Engine();
+engine.screen.width = ${ project.screen.width };
+engine.screen.height = ${ project.screen.height };
 engine.screen.scale = 2;
 
 engine.screen.setPalette(${ paletteString });

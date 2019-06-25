@@ -11,7 +11,7 @@ class Play extends React.Component {
   render() {
     const {
       tilesets,
-      tileSize,
+      project,
       scripts,
       palette,
       sounds,
@@ -39,7 +39,7 @@ class Play extends React.Component {
     `;
 
     const projectScript = createProjectScript(
-      tileSize,
+      project,
       palette,
       tilesets,
       scripts,
@@ -77,20 +77,20 @@ class Play extends React.Component {
 
 Play.propTypes = {
   tilesets: PropTypes.array.isRequired,
-  tileSize: PropTypes.number.isRequired,
+  project: PropTypes.object.isRequired,
   scripts: PropTypes.array.isRequired,
   palette: PropTypes.array.isRequired,
   sounds: PropTypes.array.isRequired,
 };
 
 function mapStateToProps( state ) {
-  const { tileSize } = state.project;
+  const { project } = state;
   const { tilesets } = state.tileset.present;
   const { scripts } = state.code;
   const { sounds } = state.sound;
   return {
     tilesets,
-    tileSize,
+    project,
     scripts,
     palette: state.palette.colors,
     sounds,
