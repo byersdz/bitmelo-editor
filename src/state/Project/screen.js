@@ -1,4 +1,6 @@
 
+import { Screen } from 'bitmelo';
+
 // Actions
 export const SET_SCREEN_SETTINGS = 'SET_SCREEN_SETTINGS';
 
@@ -6,6 +8,7 @@ export const SET_SCREEN_SETTINGS = 'SET_SCREEN_SETTINGS';
 const initialState = {
   width: 192,
   height: 108,
+  scaleMode: Screen.SCALE_CONSTANT,
 };
 
 export default function reducer( state = initialState, action ) {
