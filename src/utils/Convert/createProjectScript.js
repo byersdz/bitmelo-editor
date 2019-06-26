@@ -21,9 +21,22 @@ export default function createProjectScript( project, palette, tilesets, scripts
 ${ bitmelo }
 
 const engine = new bitmelo.Engine();
+
+engine.clickToBegin = ${ project.misc.clickToBegin };
+engine.startTransitionFrames = ${ project.misc.startTransitionFrames };
+
 engine.screen.width = ${ project.screen.width };
 engine.screen.height = ${ project.screen.height };
-engine.screen.scale = 2;
+
+engine.screen.scaleMode = ${ project.screen.scaleMode };
+engine.screen.scale = ${ project.screen.scale };
+engine.screen.minScale = ${ project.screen.minScale };
+engine.screen.maxScale = ${ project.screen.maxScale };
+engine.screen.horizontalScaleCushion = ${ project.screen.horizontalScaleCushion };
+engine.screen.verticalScaleCushion = ${ project.screen.verticalScaleCushion };
+engine.screen.rescaleOnWindowResize = ${ project.screen.rescaleOnWindowResize };
+
+engine.screen.hideCursor = ${ project.misc.hideCursor };
 
 engine.screen.setPalette(${ paletteString });
 

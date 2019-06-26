@@ -9,6 +9,12 @@ const initialState = {
   width: 192,
   height: 108,
   scaleMode: Screen.SCALE_CONSTANT,
+  scale: 2,
+  minScale: 1,
+  maxScale: 4,
+  horizontalScaleCushion: 10,
+  verticalScaleCushion: 10,
+  rescaleOnWindowResize: true,
 };
 
 export default function reducer( state = initialState, action ) {

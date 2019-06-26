@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,6 +8,7 @@ import { Screen } from 'bitmelo';
 import Card from 'Components/Card/Card';
 import NumberPicker from 'Components/NumberPicker/NumberPicker';
 import Select from 'Components/Select/Select';
+import Checkbox from 'Components/Checkbox/Checkbox';
 
 import { setScreenSettings } from 'State/Project/screen';
 
@@ -29,6 +30,36 @@ class ScreenSettings extends React.Component {
     _setScreenSettings( { ...screen, height: value } );
   }
 
+  handleScaleChange( value ) {
+    const { _setScreenSettings, screen } = this.props;
+    _setScreenSettings( { ...screen, scale: value } );
+  }
+
+  handleMinScaleChange( value ) {
+    const { _setScreenSettings, screen } = this.props;
+    _setScreenSettings( { ...screen, minScale: value } );
+  }
+
+  handleMaxScaleChange( value ) {
+    const { _setScreenSettings, screen } = this.props;
+    _setScreenSettings( { ...screen, maxScale: value } );
+  }
+
+  handleHorizontalCushionChange( value ) {
+    const { _setScreenSettings, screen } = this.props;
+    _setScreenSettings( { ...screen, horizontalScaleCushion: value } );
+  }
+
+  handleVerticalCushionChange( value ) {
+    const { _setScreenSettings, screen } = this.props;
+    _setScreenSettings( { ...screen, verticalScaleCushion: value } );
+  }
+
+  handleRescaleOnWindowResizeChange( value ) {
+    const { _setScreenSettings, screen } = this.props;
+    _setScreenSettings( { ...screen, rescaleOnWindowResize: value } );
+  }
+
   render() {
     const { screen } = this.props;
 
@@ -42,6 +73,54 @@ class ScreenSettings extends React.Component {
         display: 'Fit Window',
       },
     ];
+
+    const scaleRender = screen.scaleMode === Screen.SCALE_CONSTANT ? (
+      <NumberPicker
+        title="Scale"
+        value={ screen.scale }
+        minValue={ 1 }
+        maxValue={ 100 }
+        onValueChange={ v => this.handleScaleChange( v ) }
+      />
+    ) : null;
+
+    const minMaxScaleRender = screen.scaleMode !== Screen.SCALE_CONSTANT ? (
+      <Fragment>
+        <NumberPicker
+          title="Min Scale"
+          value={ screen.minScale }
+          minValue={ 1 }
+          maxValue={ 100 }
+          onValueChange={ v => this.handleMinScaleChange( v ) }
+        />
+        <NumberPicker
+          title="Max Scale"
+          value={ screen.maxScale }
+          minValue={ 1 }
+          maxValue={ 100 }
+          onValueChange={ v => this.handleMaxScaleChange( v ) }
+        />
+        <NumberPicker
+          title="Horizontal Cushion"
+          value={ screen.horizontalScaleCushion }
+          minValue={ 0 }
+          maxValue={ 1000 }
+          onValueChange={ v => this.handleHorizontalCushionChange( v ) }
+        />
+        <NumberPicker
+          title="Vertical Cushion"
+          value={ screen.verticalScaleCushion }
+          minValue={ 0 }
+          maxValue={ 1000 }
+          onValueChange={ v => this.handleVerticalCushionChange( v ) }
+        />
+        <Checkbox
+          title="Rescale on Window Resize"
+          checked={ screen.rescaleOnWindowResize }
+          onChange={ v => this.handleRescaleOnWindowResizeChange( v ) }
+        />
+      </Fragment>
+    ) : null;
 
     return (
       <Card className="screen-settings">
@@ -65,6 +144,8 @@ class ScreenSettings extends React.Component {
           maxValue={ 1024 }
           onValueChange={ v => this.handleScreenHeightChange( v ) }
         />
+        { scaleRender }
+        { minMaxScaleRender }
       </Card>
     );
   }
