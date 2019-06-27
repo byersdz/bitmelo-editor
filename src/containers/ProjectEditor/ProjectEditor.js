@@ -13,10 +13,19 @@ import { setProjectName } from 'State/Project/name';
 import { setMiscSettings } from 'State/Project/misc';
 
 import ScreenSettings from './ScreenSettings/ScreenSettings';
+import TileSizeModal from './TileSizeModal/TileSizeModal';
 
 import './ProjectEditor.scss';
 
 class ProjectEditor extends React.Component {
+  constructor( props ) {
+    super( props );
+
+    this.state = {
+      tileSizeModalIsOpen: false,
+    };
+  }
+
   handleNameChange( value ) {
     const { _setProjectName } = this.props;
     _setProjectName( value );
@@ -38,10 +47,17 @@ class ProjectEditor extends React.Component {
   }
 
   render() {
-    const { name, misc } = this.props;
+    const { name, misc, tileSize } = this.props;
+    const { tileSizeModalIsOpen } = this.state;
+
+    const tileSizeString = `Tile Size: ${ tileSize }px`;
 
     return (
       <div className="project-editor">
+        <TileSizeModal
+          isOpen={ tileSizeModalIsOpen }
+          onClose={ () => this.setState( { tileSizeModalIsOpen: false } ) }
+        />
         <TextInput
           title="Project Name"
           value={ name }
@@ -49,11 +65,11 @@ class ProjectEditor extends React.Component {
         />
         <div className="tile-size-display">
           <div>
-            Tile Size: 16px
+            { tileSizeString }
           </div>
           <Button
             title="Edit Tile Size"
-            click={ () => console.log( 'edit tile size clicked' ) }
+            click={ () => this.setState( { tileSizeModalIsOpen: true } ) }
             standard
           />
         </div>
@@ -85,12 +101,14 @@ ProjectEditor.propTypes = {
   _setProjectName: PropTypes.func.isRequired,
   misc: PropTypes.object.isRequired,
   _setMiscSettings: PropTypes.func.isRequired,
+  tileSize: PropTypes.number.isRequired,
 };
 
 function mapStateToProps( state ) {
   return {
     name: state.project.name,
     misc: state.project.misc,
+    tileSize: state.project.tileSize,
   };
 }
 

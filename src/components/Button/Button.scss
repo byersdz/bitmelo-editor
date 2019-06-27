@@ -23,4 +23,9 @@
   color: $on-primary-color;
   padding: 5px;
   border-radius: 4px;
+  font-weight: bold;
+}
+
+.std-btn:hover {
+  background-color: $primary-light-color;
 }

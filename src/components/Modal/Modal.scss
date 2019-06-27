@@ -1,0 +1,71 @@
+@import 'Style/colors.scss';
+
+.modal-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background-color: rgba( 0, 0, 0, 0.75 );
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .modal-content-container {
+    width: 600px;
+    height: 600px;
+    width: 600px;
+    height: 500px;
+    background-color: $background-color;
+    border: 2px solid $primary-dark-color;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    .modal-header {
+      height: 32px;
+      background-color: $primary-color;
+      color: $on-primary-color;
+      display: flex;
+      align-items: stretch;
+
+      .title {
+        flex-grow: 1;
+        align-self: center;
+        margin-left: 16px;
+        font-weight: bold;
+      }
+
+      .btn {
+        width: 32px;
+
+        svg {
+          width: 24px;
+
+          fill: $on-primary-color;
+          stroke: $on-primary-color;
+        }
+      }
+
+      .btn:hover {
+        background-color: $primary-darker-color;
+
+      }
+
+    }
+
+    .modal-content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+
+}
+
+
