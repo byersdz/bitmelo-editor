@@ -1,12 +1,17 @@
 
 import { combineReducers } from 'redux';
-import undoable from 'redux-undo';
+import undoable, { excludeAction } from 'redux-undo';
 
 import layout from './Layout';
 import sound from './Sound';
 import palette from './Palette';
 import pixelTools from './PixelTools';
-import tileset, { UNDO_TILESETS, REDO_TILESETS } from './Tileset';
+import tileset, {
+  UNDO_TILESETS,
+  REDO_TILESETS,
+  CLEAR_TILESETS_HISTORY,
+} from './Tileset';
+import { SET_TILESET_SELECTION } from './Tileset/tilesets';
 import project from './Project';
 import code from './Code';
 
@@ -19,6 +24,10 @@ export default combineReducers( {
     limit: 32,
     undoType: UNDO_TILESETS,
     redoType: REDO_TILESETS,
+    clearHistoryType: CLEAR_TILESETS_HISTORY,
+    filter: excludeAction( [
+      SET_TILESET_SELECTION,
+    ] ),
   } ),
   project,
   code,

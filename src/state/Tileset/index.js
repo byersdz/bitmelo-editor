@@ -6,6 +6,7 @@ import activeIndex from './activeIndex';
 
 export const UNDO_TILESETS = 'UNDO_TILESETS';
 export const REDO_TILESETS = 'REDO_TILESETS';
+export const CLEAR_TILESETS_HISTORY = 'CLEAR_TILESETS_HISTORY';
 
 export default combineReducers( {
   tilesets,
@@ -21,5 +22,11 @@ export function undoTilesets() {
 export function redoTilesets() {
   return {
     type: REDO_TILESETS,
+  };
+}
+
+export function clearTilesetsHistory() {
+  return {
+    type: CLEAR_TILESETS_HISTORY,
   };
 }

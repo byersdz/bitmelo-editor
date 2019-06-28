@@ -1,4 +1,6 @@
 
+import { CHANGE_TILE_SIZE } from 'State/Project/tileSize';
+
 // Actions
 export const SET_TILESET_LAYER_DATA = 'SET_TILESET_LAYER_DATA';
 export const SET_TILESET_SELECTION = 'SET_TILESET_SELECTION';
@@ -43,6 +45,26 @@ initialState[0].layers[3].data.fill( 0 );
 
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
+    case CHANGE_TILE_SIZE: {
+      const { newTileSize } = action.payload;
+      const newState = [];
+      for ( let i = 0; i < state.length; i += 1 ) {
+        const oldTileset = state[i];
+        const newTileset = { ...oldTileset };
+        newTileset.layers = [];
+        for ( let j = 0; j < oldTileset.layers.length; j += 1 ) {
+          const newLayer = { ...oldTileset.layers[j] };
+          newLayer.data = new Array(
+            newTileset.width * newTileset.height * newTileSize * newTileSize,
+          );
+          newLayer.data.fill( 0 );
+          newTileset.layers.push( newLayer );
+        }
+
+        newState.push( newTileset );
+      }
+      return newState;
+    }
     case SET_TILESET_LAYER_DATA: {
       const {
         data,
