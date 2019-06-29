@@ -239,8 +239,16 @@ class TileSelectorCanvas extends React.Component {
     const scaledX = x / scale;
     const scaledY = height - ( y / scale ) - 1;
 
-    const tileX = Math.floor( scaledX / tileSize );
-    const tileY = Math.floor( scaledY / tileSize );
+    let tileX = Math.floor( scaledX / tileSize );
+    let tileY = Math.floor( scaledY / tileSize );
+
+    if ( tileX < 0 ) {
+      tileX = 0;
+    }
+
+    if ( tileY < 0 ) {
+      tileY = 0;
+    }
 
     return { x: tileX, y: tileY };
   }
