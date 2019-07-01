@@ -2,7 +2,7 @@
 @import 'Style/colors.scss';
 
 .palette-picker {
-  width: 48px;
+  width: 58px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -12,6 +12,7 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    border-right: 10px solid $background-dark-color;
 
     .btn {
       height: 24px;

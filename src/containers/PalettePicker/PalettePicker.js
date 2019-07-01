@@ -40,6 +40,12 @@ class PalettePicker extends React.Component {
 
     return (
       <div className="palette-picker">
+        <Button
+          title="Edit Selected Color"
+          icon="play"
+          hideTitle
+          click={ () => console.log( 'edit color' ) }
+        />
         <Scrollbars>
           <div className="buttons">
             { buttonsRender }
