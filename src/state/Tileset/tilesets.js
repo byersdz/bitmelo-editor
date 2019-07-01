@@ -4,6 +4,7 @@ import { CHANGE_TILE_SIZE } from 'State/Project/tileSize';
 // Actions
 export const SET_TILESET_LAYER_DATA = 'SET_TILESET_LAYER_DATA';
 export const SET_TILESET_SELECTION = 'SET_TILESET_SELECTION';
+export const SET_TILESET_SIZE = 'SET_TILESET_SIZE';
 
 // Reducer
 const initialWidth = 8;
@@ -62,6 +63,44 @@ export default function reducer( state = initialState, action ) {
         }
 
         newState.push( newTileset );
+      }
+      return newState;
+    }
+    case SET_TILESET_SIZE: {
+      const {
+        tilesetIndex,
+        columns,
+        rows,
+        tileSize,
+      } = action.payload;
+      const oldTileset = state[tilesetIndex];
+      const newState = [...state];
+      newState[tilesetIndex] = { ...state[tilesetIndex] };
+      newState[tilesetIndex].width = columns;
+      newState[tilesetIndex].height = rows;
+      newState[tilesetIndex].selectedTile = 0;
+      newState[tilesetIndex].selectionWidth = 1;
+      newState[tilesetIndex].selectionHeight = 1;
+
+      newState[tilesetIndex].layers = [];
+      for ( let i = 0; i < oldTileset.layers.length; i += 1 ) {
+        const newLayer = { ...oldTileset.layers[i] };
+        newLayer.data = new Array( columns * rows * tileSize * tileSize );
+        newLayer.data.fill( 0 );
+        for ( let y = 0; y < oldTileset.height * tileSize; y += 1 ) {
+          for ( let x = 0; x < oldTileset.width * tileSize; x += 1 ) {
+            const sourceIndex = y * oldTileset.width * tileSize + x;
+            const sourcePaletteId = oldTileset.layers[i].data[sourceIndex];
+            const destinationIndex = y * newState[tilesetIndex].width * tileSize + x;
+            if (
+              x < newState[tilesetIndex].width * tileSize
+              && y < newState[tilesetIndex].height * tileSize
+            ) {
+              newLayer.data[destinationIndex] = sourcePaletteId;
+            }
+          }
+        }
+        newState[tilesetIndex].layers.push( newLayer );
       }
       return newState;
     }
@@ -140,5 +179,17 @@ export function setTilesetSelection( selection, tilesetIndex ) {
   return {
     type: SET_TILESET_SELECTION,
     payload: { selection, tilesetIndex },
+  };
+}
+
+export function setTilesetSize( tilesetIndex, tileSize, columns, rows ) {
+  return {
+    type: SET_TILESET_SIZE,
+    payload: {
+      tilesetIndex,
+      tileSize,
+      columns,
+      rows,
+    },
   };
 }

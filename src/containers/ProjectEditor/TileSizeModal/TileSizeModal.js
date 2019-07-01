@@ -70,7 +70,7 @@ class TileSizeModal extends React.Component {
         onClose={ () => this.handleModalClose() }
       >
         <div className="warning">
-          WARNING! Changing the tile size will delete all existing tile data!
+          WARNING! Changing the tile size will delete all existing tile data! This can not be undone!
         </div>
         <div className="modal-controls">
           <NumberPicker

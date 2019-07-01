@@ -5,15 +5,25 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 
 import ToggleHeader from 'Components/ToggleHeader/ToggleHeader';
+import Button from 'Components/Button/Button';
 
 import { toggleTileSelector } from 'State/Layout/tileSelectorIsOpen';
 import { setTilesetSelection } from 'State/Tileset/tilesets';
 
+import EditTilesetModal from './EditTilesetModal/EditTilesetModal';
 import TileSelectorCanvas from './TileSelectorCanvas/TileSelectorCanvas';
 
 import './TileSelector.scss';
 
 class TileSelector extends React.Component {
+  constructor( props ) {
+    super( props );
+
+    this.state = {
+      editModalIsOpen: false,
+    };
+  }
+
   handleSelectionChange( selection ) {
     const { activeIndex, _setTilesetSelection } = this.props;
     _setTilesetSelection( selection, activeIndex );
@@ -27,6 +37,8 @@ class TileSelector extends React.Component {
       tileSize,
       palette,
     } = this.props;
+
+    const { editModalIsOpen } = this.state;
 
     const className = isOpen ? 'tile-selector open'
       : 'tile-selector closed';
@@ -46,6 +58,11 @@ class TileSelector extends React.Component {
           tileSize={ tileSize }
           onSelectionChange={ s => this.handleSelectionChange( s ) }
         />
+        <Button
+          title="Edit Tileset"
+          click={ () => this.setState( { editModalIsOpen: true } ) }
+          standard
+        />
       </div>
     );
 
@@ -54,6 +71,10 @@ class TileSelector extends React.Component {
         <ToggleHeader
           title="Tiles"
           onToggle={ _toggleTileSelector }
+        />
+        <EditTilesetModal
+          isOpen={ editModalIsOpen }
+          onClose={ () => this.setState( { editModalIsOpen: false } ) }
         />
         { content }
       </div>
