@@ -1,0 +1,14 @@
+
+.color-editor {
+  position: absolute;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  left: -500px;
+  top: 0;
+
+  .photoshop-picker {
+    // color: initial;
+  }
+}

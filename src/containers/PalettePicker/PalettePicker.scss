@@ -2,6 +2,7 @@
 @import 'Style/colors.scss';
 
 .palette-picker {
+  position: relative;
   width: 58px;
   display: flex;
   flex-direction: column;

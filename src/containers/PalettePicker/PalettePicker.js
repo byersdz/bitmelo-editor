@@ -9,11 +9,39 @@ import Scrollbars from 'Components/Scrollbars/Scrollbars';
 
 import { selectPaletteIndex } from 'State/Palette/selectedIndex';
 
+import ColorEditor from './ColorEditor/ColorEditor';
+
 import './PalettePicker.scss';
 
 class PalettePicker extends React.Component {
+  constructor( props ) {
+    super( props );
+
+    this.state = {
+      colorEditorIsOpen: false,
+    };
+  }
+
+  handlePaletteSelection( index ) {
+    const { _selectPaletteIndex } = this.props;
+    const { colorEditorIsOpen } = this.state;
+
+    if ( !colorEditorIsOpen ) {
+      _selectPaletteIndex( index );
+    }
+  }
+
+  handleEditClicked() {
+    const { colorEditorIsOpen } = this.state;
+
+    if ( !colorEditorIsOpen ) {
+      this.setState( { colorEditorIsOpen: true } );
+    }
+  }
+
   render() {
-    const { palette, selectedIndex, _selectPaletteIndex } = this.props;
+    const { palette, selectedIndex } = this.props;
+    const { colorEditorIsOpen } = this.state;
 
     const buttonsRender = [];
 
@@ -29,7 +57,7 @@ class PalettePicker extends React.Component {
           className={ className }
           key={ i }
           title="Palette Button"
-          click={ () => _selectPaletteIndex( i ) }
+          click={ () => this.handlePaletteSelection( i ) }
           rightClick={ () => console.log( 'right click' ) }
           hideTitle
           style={ { backgroundColor: color } }
@@ -38,13 +66,18 @@ class PalettePicker extends React.Component {
       ) );
     }
 
+    const colorEditorRender = colorEditorIsOpen ? (
+      <ColorEditor />
+    ) : null;
+
     return (
       <div className="palette-picker">
+        { colorEditorRender }
         <Button
           title="Edit Selected Color"
           icon="play"
           hideTitle
-          click={ () => console.log( 'edit color' ) }
+          click={ () => this.handleEditClicked() }
         />
         <Scrollbars>
           <div className="buttons">
