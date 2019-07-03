@@ -29,17 +29,20 @@ class MainCanvas extends React.Component {
       dataWidth,
       dataHeight,
       scale,
+      palette,
     } = this.props;
 
     let prevData = prevProps.data;
     const prevWidth = prevProps.dataWidth;
     const prevHeight = prevProps.dataHeight;
     const prevScale = prevProps.scale;
+    const prevPalette = prevProps.palette;
 
     if (
       prevWidth !== dataWidth
       || prevHeight !== dataHeight
       || prevScale !== scale
+      || prevPalette !== palette
     ) {
       prevData = null; // redraw all of the data instead of differences
     }

@@ -67,7 +67,7 @@ class PalettePicker extends React.Component {
     }
 
     const colorEditorRender = colorEditorIsOpen ? (
-      <ColorEditor />
+      <ColorEditor onClose={ () => this.setState( { colorEditorIsOpen: false } ) } />
     ) : null;
 
     return (
