@@ -17,6 +17,9 @@ export default function reducer( state = initialState, action ) {
     }
     case ADD_PALETTE_COLOR: {
       const newPalette = [...state];
+      if ( newPalette.length > 256 ) { // max number of colors is 256
+        return state;
+      }
       const color = action.payload ? action.payload : '000000';
       newPalette.push( color );
       return newPalette;

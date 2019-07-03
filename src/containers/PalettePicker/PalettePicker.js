@@ -8,6 +8,7 @@ import Button from 'Components/Button/Button';
 import Scrollbars from 'Components/Scrollbars/Scrollbars';
 
 import { selectPaletteIndex } from 'State/Palette/selectedIndex';
+import { addPaletteColor } from 'State/Palette/colors';
 
 import ColorEditor from './ColorEditor/ColorEditor';
 
@@ -39,6 +40,11 @@ class PalettePicker extends React.Component {
     }
   }
 
+  handleAddClicked() {
+    const { _addPaletteColor } = this.props;
+    _addPaletteColor( '888888' );
+  }
+
   render() {
     const { palette, selectedIndex } = this.props;
     const { colorEditorIsOpen } = this.state;
@@ -66,18 +72,31 @@ class PalettePicker extends React.Component {
       ) );
     }
 
+    buttonsRender.push( (
+      <Button
+        className="add-color-button"
+        key={ 1024 }
+        title="Add Color"
+        hideTitle
+        icon="play"
+        click={ () => this.handleAddClicked() }
+      />
+    ) );
+
     const colorEditorRender = colorEditorIsOpen ? (
       <ColorEditor onClose={ () => this.setState( { colorEditorIsOpen: false } ) } />
     ) : null;
 
+    const editButtonStyle = { backgroundColor: `#${ palette[selectedIndex] }` };
     return (
       <div className="palette-picker">
         { colorEditorRender }
         <Button
           title="Edit Selected Color"
-          icon="play"
           hideTitle
           click={ () => this.handleEditClicked() }
+          className="edit-button"
+          style={ editButtonStyle }
         />
         <Scrollbars>
           <div className="buttons">
@@ -93,6 +112,7 @@ PalettePicker.propTypes = {
   palette: PropTypes.arrayOf( PropTypes.string ).isRequired,
   selectedIndex: PropTypes.number.isRequired,
   _selectPaletteIndex: PropTypes.func.isRequired,
+  _addPaletteColor: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -105,6 +125,7 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _selectPaletteIndex: selectPaletteIndex,
+    _addPaletteColor: addPaletteColor,
   }, dispatch );
 }
 

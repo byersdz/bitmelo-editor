@@ -9,6 +9,17 @@
   align-items: stretch;
   background-color: $background-dark-color;
 
+  .edit-button {
+    height: 58px;
+    border: 4px solid #aaa;
+    margin-bottom: 8px;
+  }
+
+  .edit-button:hover {
+    border: 4px solid #eee;
+  }
+
+
   .buttons {
     display: flex;
     flex-direction: column;
@@ -28,6 +39,23 @@
       border: 4px solid #fff;
       border-radius: 24px 0 0 0;
     }
+
+    .add-color-button {
+      height: 44px;
+      border: none;
+    }
+
+    .add-color-button:hover {
+      border: none;
+      background-color: $primary-color;
+      border-radius: initial;
+
+      svg {
+        fill: $on-primary-color;
+        stroke: $on-primary-color;
+      }
+    }
+
 
   }
 }
