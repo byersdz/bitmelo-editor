@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import enhanceWithClickOutside from 'react-click-outside';
 
+import Button from 'Components/Button/Button';
 
 import { setPaletteColor } from 'State/Palette/colors';
 
@@ -39,6 +40,10 @@ class ColorEditor extends React.Component {
     _setPaletteColor( selectedIndex, color.hex.slice( 1 ) );
   }
 
+  handleDeleteClicked() {
+    console.log( 'delete' );
+  }
+
   handleClickOutside() {
     this.handleCancel();
   }
@@ -48,10 +53,16 @@ class ColorEditor extends React.Component {
     return (
       <div className="color-editor">
         <PhotoshopPicker
+          header="Edit Palette Color"
           color={ color }
           onAccept={ () => this.handleAccept() }
           onCancel={ () => this.handleCancel() }
           onChange={ c => this.handleColorChange( c ) }
+        />
+        <Button
+          title="Delete Palette Color"
+          click={ () => this.handleDeleteClicked() }
+          standard
         />
       </div>
     );
