@@ -7,7 +7,9 @@ import enhanceWithClickOutside from 'react-click-outside';
 
 import Button from 'Components/Button/Button';
 
-import { setPaletteColor } from 'State/Palette/colors';
+import { setPaletteColor, deletePaletteColor } from 'State/Palette/colors';
+import { selectPaletteIndex } from 'State/Palette/selectedIndex';
+
 
 import './ColorEditor.scss';
 
@@ -41,7 +43,18 @@ class ColorEditor extends React.Component {
   }
 
   handleDeleteClicked() {
-    console.log( 'delete' );
+    const {
+      selectedIndex,
+      _deletePaletteColor,
+      onClose,
+      _selectPaletteIndex,
+    } = this.props;
+    if ( selectedIndex > 0 ) {
+      _deletePaletteColor( selectedIndex );
+      _selectPaletteIndex( selectedIndex - 1 );
+    }
+
+    onClose();
   }
 
   handleClickOutside() {
@@ -74,6 +87,8 @@ ColorEditor.propTypes = {
   color: PropTypes.string.isRequired,
   selectedIndex: PropTypes.number.isRequired,
   _setPaletteColor: PropTypes.func.isRequired,
+  _deletePaletteColor: PropTypes.func.isRequired,
+  _selectPaletteIndex: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -88,6 +103,8 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setPaletteColor: setPaletteColor,
+    _deletePaletteColor: deletePaletteColor,
+    _selectPaletteIndex: selectPaletteIndex,
   }, dispatch );
 }
 

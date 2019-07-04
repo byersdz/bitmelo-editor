@@ -4,6 +4,7 @@ import { standardPalette } from 'bitmelo';
 // Actions
 export const SET_PALETTE_COLOR = 'SET_PALETTE_COLOR';
 export const ADD_PALETTE_COLOR = 'ADD_PALETTE_COLOR';
+export const DELETE_PALETTE_COLOR = 'DELETE_PALETTE_COLOR';
 
 // Reducer
 const initialState = standardPalette;
@@ -22,6 +23,15 @@ export default function reducer( state = initialState, action ) {
       }
       const color = action.payload ? action.payload : '000000';
       newPalette.push( color );
+      return newPalette;
+    }
+    case DELETE_PALETTE_COLOR: {
+      const newPalette = [];
+      for ( let i = 0; i < state.length; i += 1 ) {
+        if ( i === 0 || i !== action.payload ) {
+          newPalette.push( state[i] );
+        }
+      }
       return newPalette;
     }
     default:
@@ -44,5 +54,12 @@ export function addPaletteColor( color ) {
   return {
     type: ADD_PALETTE_COLOR,
     payload: color,
+  };
+}
+
+export function deletePaletteColor( index ) {
+  return {
+    type: DELETE_PALETTE_COLOR,
+    payload: index,
   };
 }
