@@ -12,6 +12,8 @@ import { addPaletteColor } from 'State/Palette/colors';
 
 import ColorEditor from './ColorEditor/ColorEditor';
 
+import eraserBG from './eraser-bg.png';
+
 import './PalettePicker.scss';
 
 class PalettePicker extends React.Component {
@@ -33,9 +35,10 @@ class PalettePicker extends React.Component {
   }
 
   handleEditClicked() {
+    const { selectedIndex } = this.props;
     const { colorEditorIsOpen } = this.state;
 
-    if ( !colorEditorIsOpen ) {
+    if ( !colorEditorIsOpen && selectedIndex !== 0 ) {
       this.setState( { colorEditorIsOpen: true } );
     }
   }
@@ -51,11 +54,16 @@ class PalettePicker extends React.Component {
 
     const buttonsRender = [];
 
-    for ( let i = 1; i < palette.length; i += 1 ) {
+    for ( let i = 0; i < palette.length; i += 1 ) {
       const color = `#${ palette[i] }`;
       let className = '';
       if ( i === selectedIndex ) {
         className = 'active';
+      }
+
+      const style = { backgroundColor: color };
+      if ( i === 0 ) {
+        style.backgroundImage = `url(${ eraserBG })`;
       }
 
       buttonsRender.push( (
@@ -66,7 +74,7 @@ class PalettePicker extends React.Component {
           click={ () => this.handlePaletteSelection( i ) }
           rightClick={ () => console.log( 'right click' ) }
           hideTitle
-          style={ { backgroundColor: color } }
+          style={ style }
           usePointer
         />
       ) );
@@ -88,6 +96,10 @@ class PalettePicker extends React.Component {
     ) : null;
 
     const editButtonStyle = { backgroundColor: `#${ palette[selectedIndex] }` };
+    if ( selectedIndex === 0 ) {
+      editButtonStyle.backgroundImage = `url(${ eraserBG })`;
+    }
+
     return (
       <div className="palette-picker">
         { colorEditorRender }
