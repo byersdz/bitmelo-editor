@@ -1,5 +1,6 @@
 
 import { CHANGE_TILE_SIZE } from 'State/Project/tileSize';
+import { DELETE_PALETTE_COLOR } from 'State/Palette/colors';
 
 // Actions
 export const SET_TILESET_LAYER_DATA = 'SET_TILESET_LAYER_DATA';
@@ -66,6 +67,32 @@ export default function reducer( state = initialState, action ) {
       }
       return newState;
     }
+    case DELETE_PALETTE_COLOR: {
+      const newState = [];
+      for ( let i = 0; i < state.length; i += 1 ) {
+        const oldTileset = state[i];
+        const newTileset = { ...oldTileset };
+        newTileset.layers = [];
+        for ( let j = 0; j < oldTileset.layers.length; j += 1 ) {
+          const newLayer = { ...oldTileset.layers[j] };
+          newLayer.data = [...oldTileset.layers[j].data];
+          for ( let k = 0; k < newLayer.data.length; k += 1 ) {
+            const color = newLayer.data[k];
+            if ( color === action.payload ) {
+              newLayer.data[k] = 0;
+            }
+            else if ( color > action.payload ) {
+              newLayer.data[k] = color - 1;
+            }
+          }
+          newTileset.layers.push( newLayer );
+        }
+
+        newState.push( newTileset );
+      }
+      return newState;
+    }
+
     case SET_TILESET_SIZE: {
       const {
         tilesetIndex,

@@ -9,7 +9,7 @@ import Button from 'Components/Button/Button';
 
 import { setPaletteColor, deletePaletteColor } from 'State/Palette/colors';
 import { selectPaletteIndex } from 'State/Palette/selectedIndex';
-
+import { clearTilesetsHistory } from 'State/Tileset/index';
 
 import './ColorEditor.scss';
 
@@ -48,9 +48,11 @@ class ColorEditor extends React.Component {
       _deletePaletteColor,
       onClose,
       _selectPaletteIndex,
+      _clearTilesetsHistory,
     } = this.props;
     if ( selectedIndex > 0 ) {
       _deletePaletteColor( selectedIndex );
+      _clearTilesetsHistory();
       _selectPaletteIndex( selectedIndex - 1 );
     }
 
@@ -89,6 +91,7 @@ ColorEditor.propTypes = {
   _setPaletteColor: PropTypes.func.isRequired,
   _deletePaletteColor: PropTypes.func.isRequired,
   _selectPaletteIndex: PropTypes.func.isRequired,
+  _clearTilesetsHistory: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -105,6 +108,7 @@ function mapDispatchToProps( dispatch ) {
     _setPaletteColor: setPaletteColor,
     _deletePaletteColor: deletePaletteColor,
     _selectPaletteIndex: selectPaletteIndex,
+    _clearTilesetsHistory: clearTilesetsHistory,
   }, dispatch );
 }
 
