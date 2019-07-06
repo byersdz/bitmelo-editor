@@ -13,8 +13,11 @@ import { setProjectName } from 'State/Project/name';
 import { setMiscSettings } from 'State/Project/misc';
 import { resetProject } from 'State/globalActions';
 
+import { downloadProjectData } from 'Utils/download';
+
 import ScreenSettings from './ScreenSettings/ScreenSettings';
 import TileSizeModal from './TileSizeModal/TileSizeModal';
+
 
 import './ProjectEditor.scss';
 
@@ -96,6 +99,11 @@ class ProjectEditor extends React.Component {
           minValue={ 1 }
           maxValue={ 500 }
           onValueChange={ v => this.handleStartFramesChange( v ) }
+        />
+        <Button
+          title="Download Project Data"
+          click={ () => downloadProjectData() }
+          standard
         />
         <Button
           title="Reset Project"

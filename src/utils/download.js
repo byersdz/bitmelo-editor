@@ -1,4 +1,6 @@
 
+import cloneDeep from 'lodash.clonedeep';
+
 import storeRegistry from 'State/storeRegistry';
 
 export const downloadJSON = ( jsonObject, fileName ) => {
@@ -15,4 +17,11 @@ export const downloadJSON = ( jsonObject, fileName ) => {
 export const downloadSoundData = () => {
   const state = storeRegistry.getStore().getState();
   downloadJSON( state.sound.sounds, 'sounds.json' );
+};
+
+export const downloadProjectData = () => {
+  const state = cloneDeep( storeRegistry.getStore().getState() );
+  state.tileset = state.tileset.present;
+  const projectName = state.project.name;
+  downloadJSON( state, `${ projectName }.project.json` );
 };

@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
 import TabbedCard from 'Components/TabbedCard/TabbedCard';
-import Button from 'Components/Button/Button';
+// import Button from 'Components/Button/Button';
 
 import VolumeTicsEditor from 'Containers/SoundEditor/VolumeTicsEditor/VolumeTicsEditor';
 import PitchTicsEditor from 'Containers/SoundEditor/PitchTicsEditor/PitchTicsEditor';
@@ -14,8 +14,6 @@ import WavePicker from 'Containers/SoundEditor/WavePicker/WavePicker';
 import SoundPicker from 'Containers/SoundEditor/SoundPicker/SoundPicker';
 import SoundPiano from 'Containers/SoundEditor/SoundPiano/SoundPiano';
 import ReleaseEditor from 'Containers/SoundEditor/ReleaseEditor/ReleaseEditor';
-
-import { downloadSoundData } from 'Utils/download';
 
 import {
   VOLUME_TAB,
@@ -77,13 +75,6 @@ class SoundEditor extends React.Component {
         </TabbedCard>
         <SoundPiano />
         <ReleaseEditor />
-        <div className="buttons">
-          <Button
-            title="Export Sound Data"
-            click={ () => downloadSoundData() }
-            standard
-          />
-        </div>
       </div>
     );
   }
