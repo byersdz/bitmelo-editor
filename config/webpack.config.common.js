@@ -1,5 +1,6 @@
 
-var path = require( 'path' );
+const webpack = require( 'webpack' );
+const path = require( 'path' );
 const HtmlWebPackPlugin = require( 'html-webpack-plugin' );
 
 module.exports = {
@@ -67,7 +68,10 @@ module.exports = {
     new HtmlWebPackPlugin( {
       template: './src/index.html',
       filename: './index.html'
-    } )
+    } ),
+    new webpack.DefinePlugin( {
+      EDITOR_VERSION: JSON.stringify( require( '../package.json' ).version ),
+    } ),
   ],
   resolve: {
     alias: {

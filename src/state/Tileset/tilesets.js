@@ -24,26 +24,11 @@ const initialState = [
         isVisible: true,
         data: new Array( initialWidth * initialHeight * initialTileSize * initialTileSize ),
       },
-      {
-        isVisible: true,
-        data: new Array( initialWidth * initialHeight * initialTileSize * initialTileSize ),
-      },
-      {
-        isVisible: true,
-        data: new Array( initialWidth * initialHeight * initialTileSize * initialTileSize ),
-      },
-      {
-        isVisible: true,
-        data: new Array( initialWidth * initialHeight * initialTileSize * initialTileSize ),
-      },
     ],
   },
 ];
 
 initialState[0].layers[0].data.fill( 0 );
-initialState[0].layers[1].data.fill( 0 );
-initialState[0].layers[2].data.fill( 0 );
-initialState[0].layers[3].data.fill( 0 );
 
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {

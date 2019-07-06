@@ -30,7 +30,8 @@ module.exports = {
     "react/forbid-prop-types": "off",
   },
   "globals": {
-    "minnow": "readonly"
+    "bitmelo": "readonly",
+    "EDITOR_VERSION": "readonly",
   },
   "settings": {
     "import/resolver": {
