@@ -1,4 +1,6 @@
 
+import { RESET_PROJECT } from 'State/globalActions';
+
 // Constants
 export const VOLUME_TAB = 'volume';
 export const PITCH_TAB = 'pitch';
@@ -8,8 +10,13 @@ export const ARP_TAB = 'arp';
 export const SET_SOUND_TIC_TAB = 'SET_SOUND_TIC_TAB';
 
 // Reducer
-export default function reducer( state = VOLUME_TAB, action ) {
+const initialState = VOLUME_TAB;
+
+export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
+    case RESET_PROJECT: {
+      return initialState;
+    }
     case SET_SOUND_TIC_TAB: {
       return action.payload;
     }

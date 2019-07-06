@@ -1,5 +1,7 @@
 
 import { Screen } from 'bitmelo';
+import { RESET_PROJECT } from 'State/globalActions';
+
 
 // Actions
 export const SET_SCREEN_SETTINGS = 'SET_SCREEN_SETTINGS';
@@ -19,6 +21,9 @@ const initialState = {
 
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
+    case RESET_PROJECT: {
+      return initialState;
+    }
     case SET_SCREEN_SETTINGS: {
       return { ...action.payload };
     }

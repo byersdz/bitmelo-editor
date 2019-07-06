@@ -11,6 +11,7 @@ import Button from 'Components/Button/Button';
 
 import { setProjectName } from 'State/Project/name';
 import { setMiscSettings } from 'State/Project/misc';
+import { resetProject } from 'State/globalActions';
 
 import ScreenSettings from './ScreenSettings/ScreenSettings';
 import TileSizeModal from './TileSizeModal/TileSizeModal';
@@ -47,7 +48,12 @@ class ProjectEditor extends React.Component {
   }
 
   render() {
-    const { name, misc, tileSize } = this.props;
+    const {
+      name,
+      misc,
+      tileSize,
+      _resetProject,
+    } = this.props;
     const { tileSizeModalIsOpen } = this.state;
 
     const tileSizeString = `Tile Size: ${ tileSize }px`;
@@ -91,6 +97,11 @@ class ProjectEditor extends React.Component {
           maxValue={ 500 }
           onValueChange={ v => this.handleStartFramesChange( v ) }
         />
+        <Button
+          title="Reset Project"
+          click={ () => _resetProject() }
+          standard
+        />
       </div>
     );
   }
@@ -102,6 +113,7 @@ ProjectEditor.propTypes = {
   misc: PropTypes.object.isRequired,
   _setMiscSettings: PropTypes.func.isRequired,
   tileSize: PropTypes.number.isRequired,
+  _resetProject: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -116,6 +128,7 @@ function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setProjectName: setProjectName,
     _setMiscSettings: setMiscSettings,
+    _resetProject: resetProject,
   }, dispatch );
 }
 

@@ -1,4 +1,6 @@
 
+import { RESET_PROJECT } from 'State/globalActions';
+
 // Actions
 export const SET_SCRIPT = 'SET_SCRIPT';
 
@@ -21,6 +23,9 @@ engine.onUpdate = () => {
 ];
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
+    case RESET_PROJECT: {
+      return initialState;
+    }
     case SET_SCRIPT: {
       const { scriptIndex, script } = action.payload;
       const newState = [...state];

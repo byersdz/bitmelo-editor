@@ -1,4 +1,6 @@
 
+import { RESET_PROJECT } from 'State/globalActions';
+
 // Actions
 export const SET_MISC_SETTINGS = 'SET_MISC_SETTINGS';
 
@@ -11,6 +13,9 @@ const initialState = {
 
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
+    case RESET_PROJECT: {
+      return initialState;
+    }
     case SET_MISC_SETTINGS: {
       return { ...action.payload };
     }

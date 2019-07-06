@@ -1,4 +1,6 @@
+
 import { Sound } from 'bitmelo';
+import { RESET_PROJECT } from 'State/globalActions';
 
 // Actions
 export const SET_SOUND_DATA = 'SET_SOUND_DATA';
@@ -30,6 +32,9 @@ for ( let i = 0; i < 256; i += 1 ) {
 
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
+    case RESET_PROJECT: {
+      return initialState;
+    }
     case SET_SOUND_DATA: {
       const newState = [...state];
       const { soundIndex, data } = action.payload;

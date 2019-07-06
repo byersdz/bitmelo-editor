@@ -1,3 +1,6 @@
+
+import { RESET_PROJECT } from 'State/globalActions';
+
 // Constants
 export const PENCIL_TOOL = 'PENCIL_TOOL';
 export const ERASER_TOOL = 'ERASER_TOOL';
@@ -6,8 +9,12 @@ export const ERASER_TOOL = 'ERASER_TOOL';
 export const SELECT_PIXEL_TOOL = 'SELECT_PIXEL_TOOL';
 
 // Reducer
-export default function reducer( state = PENCIL_TOOL, action ) {
+const initialState = PENCIL_TOOL;
+export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
+    case RESET_PROJECT: {
+      return initialState;
+    }
     case SELECT_PIXEL_TOOL: {
       return action.payload;
     }

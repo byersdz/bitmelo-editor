@@ -1,10 +1,17 @@
 
+import { RESET_PROJECT } from 'State/globalActions';
+
 // Actions
 export const SELECT_SCRIPT = 'SELECT_SCRIPT';
 
 // reducer
-export default function reducer( state = 0, action ) {
+const initialState = 0;
+
+export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
+    case RESET_PROJECT: {
+      return initialState;
+    }
     case SELECT_SCRIPT: {
       return action.payload;
     }

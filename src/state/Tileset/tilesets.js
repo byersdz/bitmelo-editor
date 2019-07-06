@@ -1,6 +1,7 @@
 
 import { CHANGE_TILE_SIZE } from 'State/Project/tileSize';
 import { DELETE_PALETTE_COLOR } from 'State/Palette/colors';
+import { RESET_PROJECT } from 'State/globalActions';
 
 // Actions
 export const SET_TILESET_LAYER_DATA = 'SET_TILESET_LAYER_DATA';
@@ -32,6 +33,9 @@ initialState[0].layers[0].data.fill( 0 );
 
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
+    case RESET_PROJECT: {
+      return initialState;
+    }
     case CHANGE_TILE_SIZE: {
       const { newTileSize } = action.payload;
       const newState = [];

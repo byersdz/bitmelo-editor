@@ -1,10 +1,17 @@
 
+import { RESET_PROJECT } from 'State/globalActions';
+
 // Actions
 export const CHANGE_TILE_SIZE = 'CHANGE_TILE_SIZE';
 
 // Reducer
-export default function reducer( state = 16, action ) { // eslint-disable-line
+const initialState = 16;
+
+export default function reducer( state = initialState, action ) { // eslint-disable-line
   switch ( action.type ) {
+    case RESET_PROJECT: {
+      return initialState;
+    }
     case CHANGE_TILE_SIZE: {
       return action.payload.newTileSize;
     }

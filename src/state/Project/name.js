@@ -1,10 +1,16 @@
 
+import { RESET_PROJECT } from 'State/globalActions';
+
 // Actions
 export const SET_PROJECT_NAME = 'SET_PROJECT_NAME';
 
 // Reducer
-export default function reducer( state = 'My Project', action ) {
+const initialState = 'My Project';
+export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
+    case RESET_PROJECT: {
+      return initialState;
+    }
     case SET_PROJECT_NAME: {
       return action.payload;
     }

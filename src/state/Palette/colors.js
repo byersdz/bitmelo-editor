@@ -1,5 +1,6 @@
 
 import { standardPalette } from 'bitmelo';
+import { RESET_PROJECT } from 'State/globalActions';
 
 // Actions
 export const SET_PALETTE_COLOR = 'SET_PALETTE_COLOR';
@@ -11,6 +12,9 @@ const initialState = standardPalette;
 
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
+    case RESET_PROJECT: {
+      return initialState;
+    }
     case SET_PALETTE_COLOR: {
       const newPalette = [...state];
       newPalette[action.payload.index] = action.payload.color;
