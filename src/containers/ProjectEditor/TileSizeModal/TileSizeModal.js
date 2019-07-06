@@ -59,11 +59,9 @@ class TileSizeModal extends React.Component {
   }
 
   render() {
-    const { isOpen } = this.props;
     const { tempTileSize } = this.state;
     return (
       <Modal
-        isOpen={ isOpen }
         className="tile-size-modal"
         showHeader
         title="Edit Tile Size"
@@ -99,7 +97,6 @@ class TileSizeModal extends React.Component {
 }
 
 TileSizeModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   tileSize: PropTypes.number.isRequired,
   _changeTileSize: PropTypes.func.isRequired,

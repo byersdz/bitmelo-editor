@@ -60,13 +60,17 @@ class ProjectEditor extends React.Component {
     const { tileSizeModalIsOpen } = this.state;
 
     const tileSizeString = `Tile Size: ${ tileSize }px`;
+    const tileSizeModalRender = tileSizeModalIsOpen ? (
+      <TileSizeModal
+        onClose={ () => this.setState( { tileSizeModalIsOpen: false } ) }
+      />
+    ) : null;
+
+    console.log( tileSizeModalRender );
 
     return (
       <div className="project-editor">
-        <TileSizeModal
-          isOpen={ tileSizeModalIsOpen }
-          onClose={ () => this.setState( { tileSizeModalIsOpen: false } ) }
-        />
+        { tileSizeModalRender }
         <TextInput
           title="Project Name"
           value={ name }
@@ -101,12 +105,12 @@ class ProjectEditor extends React.Component {
           onValueChange={ v => this.handleStartFramesChange( v ) }
         />
         <Button
-          title="Download Project Data"
+          title="Export Project Data"
           click={ () => downloadProjectData() }
           standard
         />
         <Button
-          title="Reset Project"
+          title="Start New Project"
           click={ () => _resetProject() }
           standard
         />

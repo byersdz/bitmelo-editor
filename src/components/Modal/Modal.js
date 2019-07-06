@@ -10,16 +10,11 @@ import './Modal.scss';
 const Modal = props => {
   const {
     children,
-    isOpen,
     className,
     showHeader,
     title,
     onClose,
   } = props;
-
-  if ( !isOpen ) {
-    return null;
-  }
 
   const contentClassName = `modal-content-container ${ className }`;
   const headerRender = showHeader ? (
@@ -55,7 +50,6 @@ const Modal = props => {
 
 Modal.propTypes = {
   children: PropTypes.node.isRequired,
-  isOpen: PropTypes.bool.isRequired,
   showHeader: PropTypes.bool,
   className: PropTypes.string,
   title: PropTypes.string,

@@ -49,11 +49,9 @@ class EditTilesetModal extends React.Component {
 
   render() {
     const { tempColumns, tempRows } = this.state;
-    const { isOpen } = this.props;
 
     return (
       <Modal
-        isOpen={ isOpen }
         onClose={ () => this.handleClose() }
         title="Edit Tileset"
         showHeader
@@ -95,7 +93,6 @@ class EditTilesetModal extends React.Component {
 }
 
 EditTilesetModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   activeIndex: PropTypes.number.isRequired,
   columns: PropTypes.number.isRequired,

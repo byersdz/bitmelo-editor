@@ -66,16 +66,19 @@ class TileSelector extends React.Component {
       </div>
     );
 
+    const editModalRender = editModalIsOpen ? (
+      <EditTilesetModal
+        onClose={ () => this.setState( { editModalIsOpen: false } ) }
+      />
+    ) : null;
+
     return (
       <div className={ className }>
         <ToggleHeader
           title="Tiles"
           onToggle={ _toggleTileSelector }
         />
-        <EditTilesetModal
-          isOpen={ editModalIsOpen }
-          onClose={ () => this.setState( { editModalIsOpen: false } ) }
-        />
+        { editModalRender }
         { content }
       </div>
     );
