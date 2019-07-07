@@ -2,6 +2,7 @@
 import { combineReducers } from 'redux';
 import undoable, { excludeAction } from 'redux-undo';
 
+import { CLEAR_ALL_UNDO_HISTORY } from './globalActions';
 import layout from './Layout';
 import sound from './Sound';
 import palette from './Palette';
@@ -24,7 +25,7 @@ export default combineReducers( {
     limit: 32,
     undoType: UNDO_TILESETS,
     redoType: REDO_TILESETS,
-    clearHistoryType: CLEAR_TILESETS_HISTORY,
+    clearHistoryType: [CLEAR_TILESETS_HISTORY, CLEAR_ALL_UNDO_HISTORY],
     filter: excludeAction( [
       SET_TILESET_SELECTION,
     ] ),

@@ -15,3 +15,11 @@ export function importProjectData( data ) {
     payload: data,
   };
 }
+
+export const CLEAR_ALL_UNDO_HISTORY = 'CLEAR_ALL_UNDO_HISTORY';
+
+export function cleatAllUndoHistory() {
+  return {
+    type: CLEAR_ALL_UNDO_HISTORY,
+  };
+}

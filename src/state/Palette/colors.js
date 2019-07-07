@@ -1,11 +1,26 @@
 
 import { standardPalette } from 'bitmelo';
-import { RESET_PROJECT } from 'State/globalActions';
+import { RESET_PROJECT, IMPORT_PROJECT_DATA } from 'State/globalActions';
 
 // Actions
 export const SET_PALETTE_COLOR = 'SET_PALETTE_COLOR';
 export const ADD_PALETTE_COLOR = 'ADD_PALETTE_COLOR';
 export const DELETE_PALETTE_COLOR = 'DELETE_PALETTE_COLOR';
+
+// validation
+export function validate( state ) {
+  if ( !Array.isArray( state ) ) {
+    return false;
+  }
+
+  for ( let i = 0; i < state.length; i += 1 ) {
+    if ( typeof state[i] !== 'string' ) {
+      return false;
+    }
+  }
+
+  return true;
+}
 
 // Reducer
 const initialState = standardPalette;
@@ -14,6 +29,18 @@ export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
     case RESET_PROJECT: {
       return initialState;
+    }
+    case IMPORT_PROJECT_DATA: {
+      try {
+        const importedState = action.payload.palette.colors;
+        if ( validate( importedState ) ) {
+          return [...importedState];
+        }
+        return state;
+      }
+      catch ( e ) {
+        return state;
+      }
     }
     case SET_PALETTE_COLOR: {
       const newPalette = [...state];

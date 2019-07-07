@@ -1,9 +1,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import Modal from 'Components/Modal/Modal';
 import Button from 'Components/Button/Button';
+
+import { importProjectData, resetProject } from 'State/globalActions';
 
 import './ImportProjectModal.scss';
 
@@ -29,6 +33,7 @@ class ImportProjectModal extends React.Component {
   }
 
   handleImport() {
+    const { _resetProject, _importProjectData } = this.props;
     const { file } = this.state;
     if ( file ) {
       const reader = new FileReader();
@@ -39,7 +44,9 @@ class ImportProjectModal extends React.Component {
         let contentsObject = null;
         try {
           contentsObject = JSON.parse( contents );
-          console.log( contentsObject );
+          _resetProject();
+          _importProjectData( contentsObject );
+          this.handleClose();
         }
         catch ( error ) {
           this.setState( { errorText: 'File is not valid JSON!' } );
@@ -102,6 +109,15 @@ class ImportProjectModal extends React.Component {
 
 ImportProjectModal.propTypes = {
   onClose: PropTypes.func.isRequired,
+  _resetProject: PropTypes.func.isRequired,
+  _importProjectData: PropTypes.func.isRequired,
 };
 
-export default ImportProjectModal;
+function mapDispatchToProps( dispatch ) {
+  return bindActionCreators( {
+    _resetProject: resetProject,
+    _importProjectData: importProjectData,
+  }, dispatch );
+}
+
+export default connect( null, mapDispatchToProps )( ImportProjectModal );

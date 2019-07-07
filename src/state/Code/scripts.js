@@ -1,8 +1,27 @@
 
-import { RESET_PROJECT } from 'State/globalActions';
+import { RESET_PROJECT, IMPORT_PROJECT_DATA } from 'State/globalActions';
 
 // Actions
 export const SET_SCRIPT = 'SET_SCRIPT';
+
+// validation
+export function validate( state ) {
+  if ( !Array.isArray( state ) ) {
+    return false;
+  }
+
+  for ( let i = 0; i < state.length; i += 1 ) {
+    if ( typeof state[i] !== 'object' ) {
+      return false;
+    }
+
+    if ( typeof state[i].text !== 'string' ) {
+      return false;
+    }
+  }
+
+  return true;
+}
 
 // Reducer
 const initialState = [
@@ -21,10 +40,23 @@ engine.onUpdate = () => {
   },
 
 ];
+
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
     case RESET_PROJECT: {
       return initialState;
+    }
+    case IMPORT_PROJECT_DATA: {
+      try {
+        const importedState = action.payload.code.scripts;
+        if ( validate( importedState ) ) {
+          return [...importedState];
+        }
+        return state;
+      }
+      catch ( e ) {
+        return state;
+      }
     }
     case SET_SCRIPT: {
       const { scriptIndex, script } = action.payload;
@@ -37,6 +69,7 @@ export default function reducer( state = initialState, action ) {
       return state;
   }
 }
+
 
 // Action Creators
 export function setScript( scriptIndex, script ) {
