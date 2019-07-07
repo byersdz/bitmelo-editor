@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import Modal from 'Components/Modal/Modal';
 import Button from 'Components/Button/Button';
 
-import { importProjectData, resetProject } from 'State/globalActions';
+import { importProjectData, resetProject, clearAllUndoHistory } from 'State/globalActions';
 
 import './ImportProjectModal.scss';
 
@@ -33,7 +33,7 @@ class ImportProjectModal extends React.Component {
   }
 
   handleImport() {
-    const { _resetProject, _importProjectData } = this.props;
+    const { _resetProject, _importProjectData, _clearAllUndoHistory } = this.props;
     const { file } = this.state;
     if ( file ) {
       const reader = new FileReader();
@@ -46,6 +46,7 @@ class ImportProjectModal extends React.Component {
           contentsObject = JSON.parse( contents );
           _resetProject();
           _importProjectData( contentsObject );
+          _clearAllUndoHistory();
           this.handleClose();
         }
         catch ( error ) {
@@ -86,6 +87,8 @@ class ImportProjectModal extends React.Component {
         onClose={ () => this.handleClose() }
       >
         <div className="warning">
+          WARNING! This will permanantly delete your existing data!
+          <br />
           { errorText }
         </div>
         <div className="modal-controls">
@@ -111,12 +114,14 @@ ImportProjectModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   _resetProject: PropTypes.func.isRequired,
   _importProjectData: PropTypes.func.isRequired,
+  _clearAllUndoHistory: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _resetProject: resetProject,
     _importProjectData: importProjectData,
+    _clearAllUndoHistory: clearAllUndoHistory,
   }, dispatch );
 }
 

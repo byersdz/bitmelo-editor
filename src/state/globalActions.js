@@ -18,7 +18,7 @@ export function importProjectData( data ) {
 
 export const CLEAR_ALL_UNDO_HISTORY = 'CLEAR_ALL_UNDO_HISTORY';
 
-export function cleatAllUndoHistory() {
+export function clearAllUndoHistory() {
   return {
     type: CLEAR_ALL_UNDO_HISTORY,
   };

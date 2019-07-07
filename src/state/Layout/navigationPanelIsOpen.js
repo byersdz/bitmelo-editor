@@ -3,7 +3,7 @@
 export const TOGGLE_NAVIGATION_PANEL = 'TOGGLE_NAVIGATION_PANEL';
 
 // Reducer
-export default function reducer( state = false, action ) {
+export default function reducer( state = true, action ) {
   switch ( action.type ) {
     case TOGGLE_NAVIGATION_PANEL: {
       return !state;

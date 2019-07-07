@@ -11,13 +11,13 @@ import Button from 'Components/Button/Button';
 
 import { setProjectName } from 'State/Project/name';
 import { setMiscSettings } from 'State/Project/misc';
-import { resetProject } from 'State/globalActions';
 
 import { downloadProjectData } from 'Utils/download';
 
 import ScreenSettings from './ScreenSettings/ScreenSettings';
 import TileSizeModal from './TileSizeModal/TileSizeModal';
 import ImportProjectModal from './ImportProjectModal/ImportProjectModal';
+import StartNewProjectModal from './StartNewProjectModal/StartNewProjectModal';
 
 
 import './ProjectEditor.scss';
@@ -29,6 +29,7 @@ class ProjectEditor extends React.Component {
     this.state = {
       tileSizeModalIsOpen: false,
       importModalIsOpen: false,
+      startProjectModalIsOpen: false,
     };
   }
 
@@ -57,12 +58,12 @@ class ProjectEditor extends React.Component {
       name,
       misc,
       tileSize,
-      _resetProject,
     } = this.props;
 
     const {
       tileSizeModalIsOpen,
       importModalIsOpen,
+      startProjectModalIsOpen,
     } = this.state;
 
     const tileSizeString = `Tile Size: ${ tileSize }px`;
@@ -78,10 +79,17 @@ class ProjectEditor extends React.Component {
       />
     ) : null;
 
+    const startModalRender = startProjectModalIsOpen ? (
+      <StartNewProjectModal
+        onClose={ () => this.setState( { startProjectModalIsOpen: false } ) }
+      />
+    ) : null;
+
     return (
       <div className="project-editor">
         { tileSizeModalRender }
         { importProjectModalRender }
+        { startModalRender }
         <TextInput
           title="Project Name"
           value={ name }
@@ -121,13 +129,13 @@ class ProjectEditor extends React.Component {
           standard
         />
         <Button
-          title="Export Project Data"
+          title="Download Project Data"
           click={ () => downloadProjectData() }
           standard
         />
         <Button
           title="Start New Project"
-          click={ () => _resetProject() }
+          click={ () => this.setState( { startProjectModalIsOpen: true } ) }
           standard
         />
       </div>
@@ -141,7 +149,6 @@ ProjectEditor.propTypes = {
   misc: PropTypes.object.isRequired,
   _setMiscSettings: PropTypes.func.isRequired,
   tileSize: PropTypes.number.isRequired,
-  _resetProject: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -156,7 +163,6 @@ function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setProjectName: setProjectName,
     _setMiscSettings: setMiscSettings,
-    _resetProject: resetProject,
   }, dispatch );
 }
 
