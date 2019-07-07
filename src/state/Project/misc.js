@@ -1,8 +1,29 @@
 
-import { RESET_PROJECT } from 'State/globalActions';
+import { RESET_PROJECT, IMPORT_PROJECT_DATA } from 'State/globalActions';
 
 // Actions
 export const SET_MISC_SETTINGS = 'SET_MISC_SETTINGS';
+
+// validation
+export function validate( state ) {
+  if ( typeof state !== 'object' ) {
+    return false;
+  }
+
+  if ( typeof state.hideCursor !== 'boolean' ) {
+    return false;
+  }
+
+  if ( typeof state.clickToBegin !== 'boolean' ) {
+    return false;
+  }
+
+  if ( typeof state.startTransitionFrames !== 'number' ) {
+    return false;
+  }
+
+  return true;
+}
 
 // Reducer
 const initialState = {
@@ -15,6 +36,18 @@ export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
     case RESET_PROJECT: {
       return initialState;
+    }
+    case IMPORT_PROJECT_DATA: {
+      try {
+        const importedState = action.payload.project.misc;
+        if ( validate( importedState ) ) {
+          return { ...importedState };
+        }
+        return state;
+      }
+      catch ( e ) {
+        return state;
+      }
     }
     case SET_MISC_SETTINGS: {
       return { ...action.payload };

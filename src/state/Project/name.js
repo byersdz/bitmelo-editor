@@ -1,8 +1,17 @@
 
-import { RESET_PROJECT } from 'State/globalActions';
+import { RESET_PROJECT, IMPORT_PROJECT_DATA } from 'State/globalActions';
 
 // Actions
 export const SET_PROJECT_NAME = 'SET_PROJECT_NAME';
+
+// validation
+export function validate( state ) {
+  if ( typeof state !== 'string' ) {
+    return false;
+  }
+
+  return true;
+}
 
 // Reducer
 const initialState = 'My Project';
@@ -11,6 +20,19 @@ export default function reducer( state = initialState, action ) {
     case RESET_PROJECT: {
       return initialState;
     }
+    case IMPORT_PROJECT_DATA: {
+      try {
+        const importedState = action.payload.project.name;
+        if ( validate( importedState ) ) {
+          return importedState;
+        }
+        return state;
+      }
+      catch ( e ) {
+        return state;
+      }
+    }
+
     case SET_PROJECT_NAME: {
       return action.payload;
     }

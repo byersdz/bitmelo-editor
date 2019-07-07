@@ -1,10 +1,86 @@
 
 import { Sound } from 'bitmelo';
-import { RESET_PROJECT } from 'State/globalActions';
+import { RESET_PROJECT, IMPORT_PROJECT_DATA } from 'State/globalActions';
 
 // Actions
 export const SET_SOUND_DATA = 'SET_SOUND_DATA';
 export const ADDED_SOUND_TO_AUDIO_ENGINE = 'ADDED_SOUND_TO_AUDIO_ENGINE';
+
+// validation
+export function validate( state ) {
+  if ( !Array.isArray( state ) ) {
+    return false;
+  }
+
+  if ( state.length !== 256 ) {
+    return false;
+  }
+
+  for ( let i = 0; i < state.length; i += 1 ) {
+    const sound = state[i];
+    if ( typeof sound !== 'object' ) {
+      return false;
+    }
+
+    if ( !Array.isArray( sound.volumeTics ) ) {
+      return false;
+    }
+
+    if ( sound.volumeTics.length !== 32 ) {
+      return false;
+    }
+
+    if ( !Array.isArray( sound.pitchTics ) ) {
+      return false;
+    }
+
+    if ( sound.pitchTics.length !== 32 ) {
+      return false;
+    }
+
+    if ( !Array.isArray( sound.arpTics ) ) {
+      return false;
+    }
+
+    if ( sound.arpTics.length !== 32 ) {
+      return false;
+    }
+
+    if ( typeof sound.pitchScale !== 'number' ) {
+      return false;
+    }
+
+    if ( typeof sound.wave !== 'number' ) {
+      return false;
+    }
+
+    if ( typeof sound.loopStart !== 'number' ) {
+      return false;
+    }
+
+    if ( typeof sound.loopEnd !== 'number' ) {
+      return false;
+    }
+
+    if ( typeof sound.useLoop !== 'boolean' ) {
+      return false;
+    }
+
+    if ( typeof sound.name !== 'string' ) {
+      return false;
+    }
+
+    if ( typeof sound.releaseLength !== 'number' ) {
+      return false;
+    }
+
+    if ( typeof sound.releaseMode !== 'string' ) {
+      return false;
+    }
+  }
+
+  return true;
+}
 
 // Reducer
 const initialState = new Array( 256 );
@@ -34,6 +110,18 @@ export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
     case RESET_PROJECT: {
       return initialState;
+    }
+    case IMPORT_PROJECT_DATA: {
+      try {
+        const importedState = action.payload.sound.sounds;
+        if ( validate( importedState ) ) {
+          return [...importedState];
+        }
+        return state;
+      }
+      catch ( e ) {
+        return state;
+      }
     }
     case SET_SOUND_DATA: {
       const newState = [...state];

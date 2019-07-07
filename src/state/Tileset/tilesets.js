@@ -1,12 +1,76 @@
 
 import { CHANGE_TILE_SIZE } from 'State/Project/tileSize';
 import { DELETE_PALETTE_COLOR } from 'State/Palette/colors';
-import { RESET_PROJECT } from 'State/globalActions';
+import { RESET_PROJECT, IMPORT_PROJECT_DATA } from 'State/globalActions';
 
 // Actions
 export const SET_TILESET_LAYER_DATA = 'SET_TILESET_LAYER_DATA';
 export const SET_TILESET_SELECTION = 'SET_TILESET_SELECTION';
 export const SET_TILESET_SIZE = 'SET_TILESET_SIZE';
+
+// validation
+export function validate( state ) {
+  if ( !Array.isArray( state ) ) {
+    return false;
+  }
+
+  for ( let i = 0; i < state.length; i += 1 ) {
+    const tileset = state[i];
+    if ( typeof tileset !== 'object' ) {
+      return false;
+    }
+
+    if ( typeof tileset.width !== 'number' ) {
+      return false;
+    }
+
+    if ( typeof tileset.height !== 'number' ) {
+      return false;
+    }
+
+    if ( typeof tileset.selectedTile !== 'number' ) {
+      return false;
+    }
+
+    if ( typeof tileset.selectionWidth !== 'number' ) {
+      return false;
+    }
+
+    if ( typeof tileset.selectionHeight !== 'number' ) {
+      return false;
+    }
+
+    if ( typeof tileset.activeLayer !== 'number' ) {
+      return false;
+    }
+
+    if ( !Array.isArray( tileset.layers ) ) {
+      return false;
+    }
+
+    if ( tileset.layers.length <= 0 ) {
+      return false;
+    }
+
+    for ( let j = 0; j < tileset.layers.length; j += 1 ) {
+      const layer = tileset.layers[j];
+
+      if ( typeof layer !== 'object' ) {
+        return false;
+      }
+
+      if ( typeof layer.isVisible !== 'boolean' ) {
+        return false;
+      }
+
+      if ( !Array.isArray( layer.data ) ) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
 
 // Reducer
 const initialWidth = 8;
@@ -35,6 +99,18 @@ export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
     case RESET_PROJECT: {
       return initialState;
+    }
+    case IMPORT_PROJECT_DATA: {
+      try {
+        const importedState = action.payload.tileset.tilesets;
+        if ( validate( importedState ) ) {
+          return [...importedState];
+        }
+        return state;
+      }
+      catch ( e ) {
+        return state;
+      }
     }
     case CHANGE_TILE_SIZE: {
       const { newTileSize } = action.payload;
