@@ -9,12 +9,11 @@ import App from 'Components/App/App';
 import reducers from 'State/index';
 import storeRegistry from 'State/storeRegistry';
 
-import { loadStateFromLocalStorage, saveStateToLocalStorage } from 'Utils/Saving/localStorage';
+import { saveStateToLocalStorage } from 'Utils/Saving/localStorage';
 
 import 'normalize.css';
 
-const savedState = loadStateFromLocalStorage();
-const store = createStore( reducers, savedState, applyMiddleware() );
+const store = createStore( reducers, undefined, applyMiddleware() );
 
 const saveDebounced = debounce( saveStateToLocalStorage, 1000 );
 store.subscribe( () => {
