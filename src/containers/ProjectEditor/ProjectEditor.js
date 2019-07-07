@@ -17,6 +17,7 @@ import { downloadProjectData } from 'Utils/download';
 
 import ScreenSettings from './ScreenSettings/ScreenSettings';
 import TileSizeModal from './TileSizeModal/TileSizeModal';
+import ImportProjectModal from './ImportProjectModal/ImportProjectModal';
 
 
 import './ProjectEditor.scss';
@@ -27,6 +28,7 @@ class ProjectEditor extends React.Component {
 
     this.state = {
       tileSizeModalIsOpen: false,
+      importModalIsOpen: false,
     };
   }
 
@@ -57,7 +59,11 @@ class ProjectEditor extends React.Component {
       tileSize,
       _resetProject,
     } = this.props;
-    const { tileSizeModalIsOpen } = this.state;
+
+    const {
+      tileSizeModalIsOpen,
+      importModalIsOpen,
+    } = this.state;
 
     const tileSizeString = `Tile Size: ${ tileSize }px`;
     const tileSizeModalRender = tileSizeModalIsOpen ? (
@@ -66,11 +72,16 @@ class ProjectEditor extends React.Component {
       />
     ) : null;
 
-    console.log( tileSizeModalRender );
+    const importProjectModalRender = importModalIsOpen ? (
+      <ImportProjectModal
+        onClose={ () => this.setState( { importModalIsOpen: false } ) }
+      />
+    ) : null;
 
     return (
       <div className="project-editor">
         { tileSizeModalRender }
+        { importProjectModalRender }
         <TextInput
           title="Project Name"
           value={ name }
@@ -103,6 +114,11 @@ class ProjectEditor extends React.Component {
           minValue={ 1 }
           maxValue={ 500 }
           onValueChange={ v => this.handleStartFramesChange( v ) }
+        />
+        <Button
+          title="Import Project Data"
+          click={ () => this.setState( { importModalIsOpen: true } ) }
+          standard
         />
         <Button
           title="Export Project Data"
