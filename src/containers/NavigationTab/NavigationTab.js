@@ -12,6 +12,7 @@ import {
   PLAY_TAB,
   CODE_TAB,
   TILE_TAB,
+  TILEMAP_TAB,
   SOUND_TAB,
 } from 'State/Layout/activeNavigationTab';
 import { toggleNavigationPanel } from 'State/Layout/navigationPanelIsOpen';
@@ -52,6 +53,11 @@ class NavigationTab extends React.Component {
       {
         key: TILE_TAB,
         title: 'Tiles',
+        icon: 'play',
+      },
+      {
+        key: TILEMAP_TAB,
+        title: 'Tile Maps',
         icon: 'play',
       },
       {
