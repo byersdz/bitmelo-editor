@@ -61,6 +61,8 @@ class MainCanvas extends React.Component {
       offsetX,
       offsetY,
       palette,
+      isTileEditor,
+      tileSize,
     } = this.props;
 
     const settings = {
@@ -103,6 +105,11 @@ class MainCanvas extends React.Component {
       width: dataWidth * scale,
       height: dataHeight * scale,
     };
+
+    if ( isTileEditor ) {
+      borderSettings.width *= tileSize;
+      borderSettings.height *= tileSize;
+    }
 
     drawBackgroundBorder( borderSettings, this.canvasRef.current );
   }
@@ -156,6 +163,8 @@ MainCanvas.propTypes = {
   offsetX: PropTypes.number.isRequired,
   offsetY: PropTypes.number.isRequired,
   palette: PropTypes.arrayOf( PropTypes.string ).isRequired,
+  isTileEditor: PropTypes.bool.isRequired,
+  tileSize: PropTypes.number.isRequired,
 };
 
 export default MainCanvas;

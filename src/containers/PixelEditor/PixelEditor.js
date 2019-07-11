@@ -153,6 +153,8 @@ class PixelEditor extends React.Component {
       data,
       dataWidth,
       dataHeight,
+      isTileEditor,
+      tileSize,
     } = this.props;
 
     if ( isPanning || isEditing ) {
@@ -170,16 +172,21 @@ class PixelEditor extends React.Component {
         }
       }
 
+      let actualScale = scales[scale];
+      if ( isTileEditor ) {
+        actualScale *= tileSize;
+      }
+
       const pixelX = PixelEditor.pixelPositionForCanvasPosition(
         event.nativeEvent.offsetX,
         offsetX,
-        scales[scale],
+        actualScale,
       );
 
       let pixelY = PixelEditor.pixelPositionForCanvasPosition(
         event.nativeEvent.offsetY,
         offsetY,
-        scales[scale],
+        actualScale,
       );
 
       pixelY = dataHeight - pixelY - 1;
@@ -277,6 +284,8 @@ class PixelEditor extends React.Component {
       data,
       dataWidth,
       dataHeight,
+      isTileEditor,
+      tileSize,
     } = this.props;
 
     const { clientX, clientY } = event;
@@ -285,16 +294,21 @@ class PixelEditor extends React.Component {
       pointerCurrentY: clientY - top,
     } );
 
+    let actualScale = scales[scale];
+    if ( isTileEditor ) {
+      actualScale *= tileSize;
+    }
+
     const pixelX = PixelEditor.pixelPositionForCanvasPosition(
       clientX - left,
       offsetX,
-      scales[scale],
+      actualScale,
     );
 
     let pixelY = PixelEditor.pixelPositionForCanvasPosition(
       clientY - top,
       offsetY,
-      scales[scale],
+      actualScale,
     );
 
     pixelY = dataHeight - pixelY - 1;
@@ -362,7 +376,11 @@ class PixelEditor extends React.Component {
       scale,
     } = this.state;
 
-    const { dataWidth, dataHeight } = this.props;
+    const {
+      dataWidth,
+      dataHeight,
+      isTileEditor,
+    } = this.props;
 
     if ( isPanning || isEditing ) {
       return;
@@ -386,6 +404,9 @@ class PixelEditor extends React.Component {
     if ( newAmount < -cutoff ) {
       if ( newScale < scales.length - 1 ) {
         newScale += 1;
+        if ( isTileEditor && newScale > 15 ) { // limit the actual scale to 16 when editing tiles
+          newScale = 15;
+        }
       }
       newAmount = 0;
     }
@@ -418,13 +439,23 @@ class PixelEditor extends React.Component {
   }
 
   setInitialPositioning() {
-    const { dataWidth, dataHeight } = this.props;
+    const {
+      dataWidth,
+      dataHeight,
+      isTileEditor,
+      tileSize,
+    } = this.props;
 
     const width = this.containerRef.current.offsetWidth;
     const height = this.containerRef.current.offsetHeight;
 
-    const xScale = width * 0.9 / dataWidth;
-    const yScale = height * 0.9 / dataHeight;
+    let xScale = width * 0.9 / dataWidth;
+    let yScale = height * 0.9 / dataHeight;
+
+    if ( isTileEditor ) {
+      xScale /= tileSize;
+      yScale /= tileSize;
+    }
 
     let targetScale = xScale;
     if ( yScale < targetScale ) {
@@ -444,8 +475,13 @@ class PixelEditor extends React.Component {
       newScale = i;
     }
 
-    const offsetX = ( width - ( dataWidth * scales[newScale] ) ) * 0.5;
-    const offsetY = ( height - ( dataHeight * scales[newScale] ) ) * 0.5;
+    let actualScale = scales[newScale];
+    if ( isTileEditor ) {
+      actualScale *= tileSize;
+    }
+
+    const offsetX = ( width - ( dataWidth * actualScale ) ) * 0.5;
+    const offsetY = ( height - ( dataHeight * actualScale ) ) * 0.5;
 
     this.setState( { scale: newScale, offsetX, offsetY } );
   }
@@ -469,7 +505,13 @@ class PixelEditor extends React.Component {
   }
 
   getLimitedOffset( viewWidth, dataWidth, scale, offset ) {
-    const actualScale = scales[scale];
+    const { isTileEditor, tileSize } = this.props;
+
+    let actualScale = scales[scale];
+    if ( isTileEditor ) {
+      actualScale *= tileSize;
+    }
+
     const scaledDataWidth = dataWidth * actualScale;
     let newOffset = offset;
     if ( scaledDataWidth * 2 < viewWidth ) {
@@ -535,6 +577,8 @@ class PixelEditor extends React.Component {
       dataWidth,
       dataHeight,
       palette,
+      isTileEditor,
+      tileSize,
     } = this.props;
 
     let pannedXOffset = offsetX;
@@ -600,6 +644,8 @@ class PixelEditor extends React.Component {
           indicatorY={ indicatorY }
           scale={ actualScale }
           dataHeight={ dataHeight }
+          isTileEditor={ isTileEditor }
+          tileSize={ tileSize }
         />
         <MainCanvas
           width={ width }
@@ -611,6 +657,8 @@ class PixelEditor extends React.Component {
           offsetX={ Math.floor( pannedXOffset ) }
           offsetY={ Math.floor( pannedYOffset ) }
           palette={ palette }
+          isTileEditor={ isTileEditor }
+          tileSize={ tileSize }
         />
         { children }
       </div>
@@ -633,10 +681,14 @@ PixelEditor.propTypes = {
   referencePanelIsOpen: PropTypes.bool.isRequired,
   selectedTool: PropTypes.string.isRequired,
   onDataChange: PropTypes.func.isRequired,
+  isTileEditor: PropTypes.bool,
+  tileSize: PropTypes.number,
 };
 
 PixelEditor.defaultProps = {
   children: null,
+  isTileEditor: false,
+  tileSize: 1,
 };
 
 function mapStateToProps( state ) {
