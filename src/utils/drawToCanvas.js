@@ -122,7 +122,7 @@ export function drawTileDataToCanvas( settings, canvas ) {
     canvasHeight,
   } = settings;
 
-  const context = canvas.getContext( '2d' ); // eslint-disable-line
+  const context = canvas.getContext( '2d' );
 
   for ( let y = 0; y < dataHeight; y += 1 ) {
     for ( let x = 0; x < dataWidth; x += 1 ) {
@@ -136,7 +136,11 @@ export function drawTileDataToCanvas( settings, canvas ) {
       }
 
       // clear the space of the tile
+      const flippedY = dataHeight - y - 1;
+      const startX = x * tileSize * scale;
+      const startY = flippedY * tileSize * scale;
 
+      context.clearRect( startX, startY, tileSize * scale, tileSize * scale );
 
       if ( tileGID === 0 ) {
         continue;
@@ -173,7 +177,6 @@ export function drawTileDataToCanvas( settings, canvas ) {
         }
       }
 
-      const flippedY = dataHeight - y - 1;
 
       const drawPixelDataSettings = {
         data: tileData,
@@ -183,8 +186,8 @@ export function drawTileDataToCanvas( settings, canvas ) {
         canvasWidth,
         canvasHeight,
         palette,
-        offsetX: x * tileSize * scale,
-        offsetY: flippedY * tileSize * scale,
+        offsetX: startX,
+        offsetY: startY,
       };
 
       drawPixelDataToOffsetCanvas( drawPixelDataSettings, canvas );
