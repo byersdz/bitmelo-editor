@@ -462,7 +462,11 @@ class PixelEditor extends React.Component {
       targetScale = yScale;
     }
 
-    const maxTarget = 24;
+    let maxTarget = 24;
+    if ( isTileEditor ) {
+      maxTarget = 4;
+    }
+
     if ( targetScale > maxTarget ) {
       targetScale = maxTarget;
     }
@@ -579,6 +583,7 @@ class PixelEditor extends React.Component {
       palette,
       isTileEditor,
       tileSize,
+      tilesets,
     } = this.props;
 
     let pannedXOffset = offsetX;
@@ -597,8 +602,6 @@ class PixelEditor extends React.Component {
       pannedYOffset = newOffset.y;
     }
 
-    const actualScale = scales[scale];
-
     const mainData = [...data];
 
     if ( isEditing ) {
@@ -612,8 +615,15 @@ class PixelEditor extends React.Component {
       }
     }
 
-    const indicatorX = PixelEditor.pixelPositionForCanvasPosition( pointerCurrentX, offsetX, actualScale );
-    let indicatorY = PixelEditor.pixelPositionForCanvasPosition( pointerCurrentY, offsetY, actualScale );
+    const actualScale = scales[scale];
+
+    let indicatorScale = actualScale;
+    if ( isTileEditor ) {
+      indicatorScale *= tileSize;
+    }
+
+    const indicatorX = PixelEditor.pixelPositionForCanvasPosition( pointerCurrentX, offsetX, indicatorScale );
+    let indicatorY = PixelEditor.pixelPositionForCanvasPosition( pointerCurrentY, offsetY, indicatorScale );
     indicatorY = dataHeight - indicatorY - 1;
 
     let showIndicator = true;
@@ -659,6 +669,7 @@ class PixelEditor extends React.Component {
           palette={ palette }
           isTileEditor={ isTileEditor }
           tileSize={ tileSize }
+          tilesets={ tilesets }
         />
         { children }
       </div>
@@ -683,12 +694,14 @@ PixelEditor.propTypes = {
   onDataChange: PropTypes.func.isRequired,
   isTileEditor: PropTypes.bool,
   tileSize: PropTypes.number,
+  tilesets: PropTypes.array,
 };
 
 PixelEditor.defaultProps = {
   children: null,
   isTileEditor: false,
   tileSize: 1,
+  tilesets: [],
 };
 
 function mapStateToProps( state ) {

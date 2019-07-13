@@ -9,7 +9,6 @@ module.exports = {
   "rules": {
     "no-underscore-dangle": "off",
     "space-in-parens": ["error", "always"],
-    "template-curly-spacing": ["error", "never"],
     "no-bitwise": "off",
     "template-curly-spacing": ["error", "always"],
     "arrow-body-style": "off",
@@ -28,6 +27,7 @@ module.exports = {
     "react/sort-comp": 'off',
     "no-else-return": 'off',
     "react/forbid-prop-types": "off",
+    "no-continue": "off"
   },
   "globals": {
     "bitmelo": "readonly",

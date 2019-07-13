@@ -33,10 +33,17 @@ class OverlayCanvas extends React.Component {
       showIndicator,
       scale,
       dataHeight,
+      isTileEditor,
+      tileSize,
     } = this.props;
 
     const context = this.canvasRef.current.getContext( '2d' );
     context.clearRect( 0, 0, width, height );
+
+    let modifiedScale = scale;
+    if ( isTileEditor ) {
+      modifiedScale = scale * tileSize;
+    }
 
     if ( showIndicator ) {
       drawIndicator(
@@ -45,24 +52,12 @@ class OverlayCanvas extends React.Component {
           offsetY,
           indicatorX,
           indicatorY,
-          scale,
+          scale: modifiedScale,
           dataHeight,
         },
         this.canvasRef.current,
       );
     }
-  }
-
-  handlePointerDown( event ) {
-    console.log( event );
-  }
-
-  handlePointerMove( event ) {
-    console.log( event );
-  }
-
-  handlePointerUp( event ) {
-    console.log( event );
   }
 
   render() {
@@ -103,6 +98,8 @@ OverlayCanvas.propTypes = {
   showIndicator: PropTypes.bool.isRequired,
   scale: PropTypes.number.isRequired,
   dataHeight: PropTypes.number.isRequired,
+  isTileEditor: PropTypes.bool.isRequired,
+  tileSize: PropTypes.number.isRequired,
 };
 
 export default OverlayCanvas;

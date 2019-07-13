@@ -108,6 +108,90 @@ export function drawPixelDataToOffsetCanvas( settings, canvas ) {
   }
 }
 
+export function drawTileDataToCanvas( settings, canvas ) {
+  const {
+    data,
+    prevData, // eslint-disable-line
+    dataWidth,
+    dataHeight,
+    scale,
+    palette,
+    tileSize,
+    tilesets,
+    canvasWidth,
+    canvasHeight,
+  } = settings;
+
+  const context = canvas.getContext( '2d' ); // eslint-disable-line
+
+  for ( let y = 0; y < dataHeight; y += 1 ) {
+    for ( let x = 0; x < dataWidth; x += 1 ) {
+      const tileGID = data[y * dataWidth + x];
+
+      // ignore tiles that are the same as the previous data
+      if ( prevData ) {
+        if ( tileGID === prevData[y * dataWidth + x] ) {
+          continue;
+        }
+      }
+
+      // clear the space of the tile
+
+
+      if ( tileGID === 0 ) {
+        continue;
+      }
+
+      let tileset = null;
+      let startGID = 1;
+      for ( let i = 0; i < tilesets.length; i += 1 ) {
+        const currentTileset = tilesets[i];
+        const numberOfTiles = currentTileset.width * currentTileset.height;
+        if ( tileGID <= startGID + numberOfTiles ) {
+          // this is the correct tileset
+          tileset = currentTileset;
+          break;
+        }
+        startGID += numberOfTiles;
+      }
+
+      if ( tileset === null ) {
+        console.log( 'GID is too high!' );
+        continue;
+      }
+
+      const localID = tileGID - startGID;
+      const xTilePosition = ( localID % tileset.width ) * tileSize;
+      const yTilePosition = ( Math.floor( localID / tileset.width ) ) * tileSize;
+      const tileData = new Array( tileSize * tileSize );
+      let index = 0;
+      for ( let tileY = 0; tileY < tileSize; tileY += 1 ) {
+        for ( let tileX = 0; tileX < tileSize; tileX += 1 ) {
+          const sourceIndex = ( yTilePosition + tileY ) * tileset.width * tileSize + ( xTilePosition + tileX );
+          tileData[index] = tileset.layers[0].data[sourceIndex];
+          index += 1;
+        }
+      }
+
+      const flippedY = dataHeight - y - 1;
+
+      const drawPixelDataSettings = {
+        data: tileData,
+        dataWidth: tileSize,
+        dataHeight: tileSize,
+        scale,
+        canvasWidth,
+        canvasHeight,
+        palette,
+        offsetX: x * tileSize * scale,
+        offsetY: flippedY * tileSize * scale,
+      };
+
+      drawPixelDataToOffsetCanvas( drawPixelDataSettings, canvas );
+    }
+  }
+}
+
 export function copyCanvasToCanvas( source, destination, xOffset, yOffset ) {
   const destContext = destination.getContext( '2d' );
   destContext.drawImage( source, xOffset, yOffset );

@@ -7,6 +7,7 @@ import {
   drawPixelDataToOffsetCanvas,
   copyCanvasToCanvas,
   drawBackgroundBorder,
+  drawTileDataToCanvas,
 } from 'Utils/drawToCanvas';
 
 import './MainCanvas.scss';
@@ -17,11 +18,12 @@ class MainCanvas extends React.Component {
 
     this.canvasRef = React.createRef();
     this.dataCanvasRef = React.createRef();
+    this.tilesetContainerRef = React.createRef();
     this.maxDataCanvasSize = 4096;
   }
 
   componentDidMount() {
-    this.draw( null );
+    this.draw( null, true );
   }
 
   componentDidUpdate( prevProps ) {
@@ -30,6 +32,7 @@ class MainCanvas extends React.Component {
       dataHeight,
       scale,
       palette,
+      tilesets,
     } = this.props;
 
     let prevData = prevProps.data;
@@ -47,10 +50,20 @@ class MainCanvas extends React.Component {
       prevData = null; // redraw all of the data instead of differences
     }
 
-    this.draw( prevData );
+    const prevTilesets = prevProps.tilesets;
+    let shouldDrawTilesets = false;
+    if (
+      prevTilesets !== tilesets
+      || prevScale !== scale
+      || prevPalette !== palette
+    ) {
+      shouldDrawTilesets = true;
+    }
+
+    this.draw( prevData, shouldDrawTilesets );
   }
 
-  draw( prevData ) {
+  draw( prevData, shouldDrawTilesets ) {
     const {
       scale,
       data,
@@ -63,38 +76,98 @@ class MainCanvas extends React.Component {
       palette,
       isTileEditor,
       tileSize,
+      tilesets,
     } = this.props;
 
-    const settings = {
-      scale,
-      prevData,
-      data,
-      dataWidth,
-      dataHeight,
-      offsetX,
-      offsetY,
-      canvasWidth: width,
-      canvasHeight: height,
-      palette,
-    };
+    // draw tilesets
+    if ( isTileEditor && shouldDrawTilesets ) {
+      const canvases = this.tilesetContainerRef.current.children;
+      if ( tilesets.length && tilesets.length === canvases.length ) {
+        for ( let i = 0; i < tilesets.length; i += 1 ) {
+          const tileset = tilesets[i];
+          const tilesetSettings = {
+            scale,
+            dataWidth: tileset.width * tileSize,
+            dataHeight: tileset.height * tileSize,
+            palette,
+            data: tileset.layers[0].data,
+          };
 
-    const context = this.canvasRef.current.getContext( '2d' );
-    context.clearRect( 0, 0, width, height );
-
-    let isLargeData = false;
-    if ( dataWidth * scale > this.maxDataCanvasSize ) {
-      isLargeData = true;
-    }
-    if ( dataHeight * scale > this.maxDataCanvasSize ) {
-      isLargeData = true;
+          drawPixelDataToCanvas( tilesetSettings, canvases[i] );
+        }
+      }
     }
 
-    if ( isLargeData ) {
-      drawPixelDataToOffsetCanvas( settings, this.canvasRef.current );
+    if ( isTileEditor ) {
+      // draw tiles
+      const context = this.canvasRef.current.getContext( '2d' );
+      context.clearRect( 0, 0, width, height );
+
+      let isLargeData = false;
+      if ( dataWidth * scale * tileSize > this.maxDataCanvasSize ) {
+        isLargeData = true;
+      }
+      if ( dataHeight * scale * tileSize > this.maxDataCanvasSize ) {
+        isLargeData = true;
+      }
+
+      const settings = {
+        scale,
+        prevData,
+        data,
+        dataWidth,
+        dataHeight,
+        offsetX,
+        offsetY,
+        canvasWidth: width,
+        canvasHeight: height,
+        palette,
+        isTileEditor,
+        tilesets,
+        tileSize,
+      };
+
+      if ( isLargeData ) {
+        // do nothing for now
+      }
+      else {
+        drawTileDataToCanvas( settings, this.dataCanvasRef.current );
+        copyCanvasToCanvas( this.dataCanvasRef.current, this.canvasRef.current, offsetX, offsetY );
+      }
     }
     else {
-      drawPixelDataToCanvas( settings, this.dataCanvasRef.current );
-      copyCanvasToCanvas( this.dataCanvasRef.current, this.canvasRef.current, offsetX, offsetY );
+      // draw pixels
+      const settings = {
+        scale,
+        prevData,
+        data,
+        dataWidth,
+        dataHeight,
+        offsetX,
+        offsetY,
+        canvasWidth: width,
+        canvasHeight: height,
+        palette,
+      };
+
+      const context = this.canvasRef.current.getContext( '2d' );
+      context.clearRect( 0, 0, width, height );
+
+      let isLargeData = false;
+      if ( dataWidth * scale > this.maxDataCanvasSize ) {
+        isLargeData = true;
+      }
+      if ( dataHeight * scale > this.maxDataCanvasSize ) {
+        isLargeData = true;
+      }
+
+      if ( isLargeData ) {
+        drawPixelDataToOffsetCanvas( settings, this.canvasRef.current );
+      }
+      else {
+        drawPixelDataToCanvas( settings, this.dataCanvasRef.current );
+        copyCanvasToCanvas( this.dataCanvasRef.current, this.canvasRef.current, offsetX, offsetY );
+      }
     }
 
     const borderSettings = {
@@ -121,10 +194,18 @@ class MainCanvas extends React.Component {
       dataWidth,
       dataHeight,
       scale,
+      isTileEditor,
+      tileSize,
+      tilesets,
     } = this.props;
 
     let dataCanvasWidth = dataWidth * scale;
     let dataCanvasHeight = dataHeight * scale;
+
+    if ( isTileEditor ) {
+      dataCanvasWidth *= tileSize;
+      dataCanvasHeight *= tileSize;
+    }
 
     if ( dataCanvasWidth > this.maxDataCanvasSize ) {
       dataCanvasWidth = this.maxDataCanvasSize;
@@ -132,6 +213,20 @@ class MainCanvas extends React.Component {
 
     if ( dataCanvasHeight > this.maxDataCanvasSize ) {
       dataCanvasHeight = this.maxDataCanvasSize;
+    }
+
+    const tilesetRender = [];
+
+    for ( let i = 0; i < tilesets.length; i += 1 ) {
+      const tileset = tilesets[i];
+      tilesetRender.push( (
+        <canvas
+          className="tileset-canvas"
+          width={ tileset.width * tileSize * scale }
+          height={ tileset.height * tileSize * scale }
+          key={ i }
+        />
+      ) );
     }
 
     return (
@@ -148,6 +243,12 @@ class MainCanvas extends React.Component {
           width={ dataCanvasWidth }
           height={ dataCanvasHeight }
         />
+        <div
+          ref={ this.tilesetContainerRef }
+          className="tileset-canvases"
+        >
+          { tilesetRender }
+        </div>
       </Fragment>
     );
   }
@@ -165,6 +266,7 @@ MainCanvas.propTypes = {
   palette: PropTypes.arrayOf( PropTypes.string ).isRequired,
   isTileEditor: PropTypes.bool.isRequired,
   tileSize: PropTypes.number.isRequired,
+  tilesets: PropTypes.array.isRequired,
 };
 
 export default MainCanvas;
