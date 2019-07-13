@@ -15,7 +15,9 @@ class TilemapPixelEditor extends React.Component {
   render() {
     const { palette, tileSize, tilesets } = this.props;
 
-    const tempData = new Array( 15 * 15 );
+    const tempWidth = 100;
+    const tempHeight = 100;
+    const tempData = new Array( tempWidth * tempHeight );
     for ( let i = 0; i < tempData.length; i += 1 ) {
       tempData[i] = ( i % 16 ) + 1;
     }
@@ -25,8 +27,8 @@ class TilemapPixelEditor extends React.Component {
     return (
       <PixelEditor
         data={ tempData }
-        dataWidth={ 15 }
-        dataHeight={ 15 }
+        dataWidth={ tempWidth }
+        dataHeight={ tempHeight }
         palette={ palette }
         selectedPaletteIndex={ 3 }
         onDataChange={ newData => this.handleDataChange( newData ) }
