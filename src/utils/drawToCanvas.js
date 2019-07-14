@@ -177,7 +177,9 @@ export function drawTileDataToCanvas( settings, canvas ) {
         }
       }
 
-
+      if ( true ) {
+        continue;
+      }
       const drawPixelDataSettings = {
         data: tileData,
         dataWidth: tileSize,

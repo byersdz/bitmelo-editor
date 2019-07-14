@@ -18,6 +18,7 @@ class MainCanvas extends React.Component {
 
     this.canvasRef = React.createRef();
     this.dataCanvasRef = React.createRef();
+    this.tilesetContainerRef = React.createRef();
     this.maxDataCanvasSize = 4096;
   }
 
@@ -31,6 +32,7 @@ class MainCanvas extends React.Component {
       dataHeight,
       scale,
       palette,
+      tilesets,
     } = this.props;
 
     let prevData = prevProps.data;
@@ -48,10 +50,20 @@ class MainCanvas extends React.Component {
       prevData = null; // redraw all of the data instead of differences
     }
 
-    this.draw( prevData );
+    const prevTilesets = prevProps.tilesets;
+    let shouldDrawTilesets = false;
+    if (
+      prevTilesets !== tilesets
+      || prevScale !== scale
+      || prevPalette !== palette
+    ) {
+      shouldDrawTilesets = true;
+    }
+
+    this.draw( prevData, shouldDrawTilesets );
   }
 
-  draw( prevData ) {
+  draw( prevData, shouldDrawTilesets ) {
     const {
       scale,
       data,
@@ -66,6 +78,25 @@ class MainCanvas extends React.Component {
       tileSize,
       tilesets,
     } = this.props;
+
+    // draw tilesets
+    if ( isTileEditor && shouldDrawTilesets ) {
+      const canvases = this.tilesetContainerRef.current.children;
+      if ( tilesets.length && tilesets.length === canvases.length ) {
+        for ( let i = 0; i < tilesets.length; i += 1 ) {
+          const tileset = tilesets[i];
+          const tilesetSettings = {
+            scale,
+            dataWidth: tileset.width * tileSize,
+            dataHeight: tileset.height * tileSize,
+            palette,
+            data: tileset.layers[0].data,
+          };
+
+          drawPixelDataToCanvas( tilesetSettings, canvases[i] );
+        }
+      }
+    }
 
     if ( isTileEditor ) {
       // draw tiles
@@ -212,6 +243,12 @@ class MainCanvas extends React.Component {
           width={ dataCanvasWidth }
           height={ dataCanvasHeight }
         />
+        <div
+          ref={ this.tilesetContainerRef }
+          className="tileset-canvases"
+        >
+          { tilesetRender }
+        </div>
       </Fragment>
     );
   }
