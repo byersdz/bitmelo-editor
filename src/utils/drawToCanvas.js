@@ -115,11 +115,12 @@ export function drawTileDataToCanvas( settings, canvas ) {
     dataWidth,
     dataHeight,
     scale,
-    palette,
+    // palette,
     tileSize,
     tilesets,
-    canvasWidth,
-    canvasHeight,
+    // canvasWidth,
+    // canvasHeight,
+    tilesetCanvases,
   } = settings;
 
   const context = canvas.getContext( '2d' );
@@ -135,18 +136,21 @@ export function drawTileDataToCanvas( settings, canvas ) {
         }
       }
 
+      const drawingSize = tileSize * scale;
+
       // clear the space of the tile
       const flippedY = dataHeight - y - 1;
-      const startX = x * tileSize * scale;
-      const startY = flippedY * tileSize * scale;
+      const startX = x * drawingSize;
+      const startY = flippedY * drawingSize;
 
-      context.clearRect( startX, startY, tileSize * scale, tileSize * scale );
+      context.clearRect( startX, startY, drawingSize, drawingSize );
 
       if ( tileGID === 0 ) {
         continue;
       }
 
       let tileset = null;
+      let tilesetIndex = 0;
       let startGID = 1;
       for ( let i = 0; i < tilesets.length; i += 1 ) {
         const currentTileset = tilesets[i];
@@ -154,6 +158,7 @@ export function drawTileDataToCanvas( settings, canvas ) {
         if ( tileGID <= startGID + numberOfTiles ) {
           // this is the correct tileset
           tileset = currentTileset;
+          tilesetIndex = i;
           break;
         }
         startGID += numberOfTiles;
@@ -165,34 +170,20 @@ export function drawTileDataToCanvas( settings, canvas ) {
       }
 
       const localID = tileGID - startGID;
-      const xTilePosition = ( localID % tileset.width ) * tileSize;
-      const yTilePosition = ( Math.floor( localID / tileset.width ) ) * tileSize;
-      const tileData = new Array( tileSize * tileSize );
-      let index = 0;
-      for ( let tileY = 0; tileY < tileSize; tileY += 1 ) {
-        for ( let tileX = 0; tileX < tileSize; tileX += 1 ) {
-          const sourceIndex = ( yTilePosition + tileY ) * tileset.width * tileSize + ( xTilePosition + tileX );
-          tileData[index] = tileset.layers[0].data[sourceIndex];
-          index += 1;
-        }
-      }
+      const tileX = localID % tileset.width;
+      const tileY = tileset.height - Math.floor( localID / tileset.width ) - 1;
 
-      if ( true ) {
-        continue;
-      }
-      const drawPixelDataSettings = {
-        data: tileData,
-        dataWidth: tileSize,
-        dataHeight: tileSize,
-        scale,
-        canvasWidth,
-        canvasHeight,
-        palette,
-        offsetX: startX,
-        offsetY: startY,
-      };
-
-      drawPixelDataToOffsetCanvas( drawPixelDataSettings, canvas );
+      context.drawImage(
+        tilesetCanvases[tilesetIndex],
+        tileX * drawingSize,
+        tileY * drawingSize,
+        drawingSize,
+        drawingSize,
+        startX,
+        startY,
+        drawingSize,
+        drawingSize,
+      );
     }
   }
 }

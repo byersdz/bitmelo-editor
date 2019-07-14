@@ -79,10 +79,14 @@ class MainCanvas extends React.Component {
       tilesets,
     } = this.props;
 
+    let tilesetCanvases = null;
+    if ( isTileEditor ) {
+      tilesetCanvases = this.tilesetContainerRef.current.children;
+    }
+
     // draw tilesets
     if ( isTileEditor && shouldDrawTilesets ) {
-      const canvases = this.tilesetContainerRef.current.children;
-      if ( tilesets.length && tilesets.length === canvases.length ) {
+      if ( tilesets.length && tilesets.length === tilesetCanvases.length ) {
         for ( let i = 0; i < tilesets.length; i += 1 ) {
           const tileset = tilesets[i];
           const tilesetSettings = {
@@ -93,7 +97,7 @@ class MainCanvas extends React.Component {
             data: tileset.layers[0].data,
           };
 
-          drawPixelDataToCanvas( tilesetSettings, canvases[i] );
+          drawPixelDataToCanvas( tilesetSettings, tilesetCanvases[i] );
         }
       }
     }
@@ -125,6 +129,7 @@ class MainCanvas extends React.Component {
         isTileEditor,
         tilesets,
         tileSize,
+        tilesetCanvases,
       };
 
       if ( isLargeData ) {
