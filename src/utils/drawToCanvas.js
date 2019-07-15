@@ -115,12 +115,14 @@ export function drawTileDataToCanvas( settings, canvas ) {
     dataWidth,
     dataHeight,
     scale,
-    // palette,
     tileSize,
     tilesets,
-    // canvasWidth,
-    // canvasHeight,
+    canvasWidth,
+    canvasHeight,
     tilesetCanvases,
+    offsetX,
+    offsetY,
+    trim,
   } = settings;
 
   const context = canvas.getContext( '2d' );
@@ -140,8 +142,23 @@ export function drawTileDataToCanvas( settings, canvas ) {
 
       // clear the space of the tile
       const flippedY = dataHeight - y - 1;
-      const startX = x * drawingSize;
-      const startY = flippedY * drawingSize;
+      const startX = x * drawingSize + offsetX;
+      const startY = flippedY * drawingSize + offsetY;
+
+      const finishX = startX + tileSize * scale;
+      const finishY = startY + tileSize * scale;
+
+      // ignore tiles that are not visible if trimming
+      if ( trim ) {
+        if (
+          finishX < 0
+          || finishY < 0
+          || startX > canvasWidth
+          || startY > canvasHeight
+        ) {
+          continue;
+        }
+      }
 
       context.clearRect( startX, startY, drawingSize, drawingSize );
 

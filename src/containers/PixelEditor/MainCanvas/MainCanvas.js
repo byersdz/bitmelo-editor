@@ -123,19 +123,24 @@ class MainCanvas extends React.Component {
         dataHeight,
         offsetX,
         offsetY,
-        canvasWidth: dataWidth * tileSize * scale,
-        canvasHeight: dataHeight * tileSize * scale,
-        palette,
+        canvasWidth: width,
+        canvasHeight: height,
         isTileEditor,
         tilesets,
         tileSize,
         tilesetCanvases,
+        trim: false,
       };
 
       if ( isLargeData ) {
         // do nothing for now
+        settings.trim = true;
+        settings.prevData = null;
+        drawTileDataToCanvas( settings, this.canvasRef.current );
       }
       else {
+        settings.offsetX = 0;
+        settings.offsetY = 0;
         drawTileDataToCanvas( settings, this.dataCanvasRef.current );
         copyCanvasToCanvas( this.dataCanvasRef.current, this.canvasRef.current, offsetX, offsetY );
       }
