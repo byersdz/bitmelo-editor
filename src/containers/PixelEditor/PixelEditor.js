@@ -449,8 +449,8 @@ class PixelEditor extends React.Component {
     const width = this.containerRef.current.offsetWidth;
     const height = this.containerRef.current.offsetHeight;
 
-    let xScale = width * 0.9 / dataWidth;
-    let yScale = height * 0.9 / dataHeight;
+    let xScale = width * 0.8 / dataWidth;
+    let yScale = height * 0.8 / dataHeight;
 
     if ( isTileEditor ) {
       xScale /= tileSize;
@@ -460,6 +460,14 @@ class PixelEditor extends React.Component {
     let targetScale = xScale;
     if ( yScale < targetScale ) {
       targetScale = yScale;
+    }
+
+    let dataIsTooLargeForScreen = false;
+    if ( targetScale < 1 ) {
+      dataIsTooLargeForScreen = true;
+    }
+    if ( isTileEditor && targetScale < 2 ) {
+      dataIsTooLargeForScreen = true;
     }
 
     let maxTarget = 24;
@@ -479,13 +487,35 @@ class PixelEditor extends React.Component {
       newScale = i;
     }
 
+    if ( isTileEditor && newScale === 0 ) {
+      newScale = 1; // the minimum initial scale for the tile editor should be 2
+    }
+
     let actualScale = scales[newScale];
     if ( isTileEditor ) {
       actualScale *= tileSize;
     }
 
-    const offsetX = ( width - ( dataWidth * actualScale ) ) * 0.5;
-    const offsetY = ( height - ( dataHeight * actualScale ) ) * 0.5;
+    let offsetX = 0;
+    let offsetY = 0;
+    if ( dataIsTooLargeForScreen ) {
+      // position on the bottom left
+      const margin = 32;
+      offsetX = margin;
+      offsetY = height - dataHeight * actualScale - margin;
+
+      if ( dataWidth * actualScale < width - margin ) {
+        offsetX = ( width - ( dataWidth * actualScale ) ) * 0.5;
+      }
+
+      if ( dataHeight * actualScale < height - margin ) {
+        offsetY = ( height - ( dataHeight * actualScale ) ) * 0.5;
+      }
+    }
+    else {
+      offsetX = ( width - ( dataWidth * actualScale ) ) * 0.5;
+      offsetY = ( height - ( dataHeight * actualScale ) ) * 0.5;
+    }
 
     this.setState( { scale: newScale, offsetX, offsetY } );
   }
