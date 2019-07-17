@@ -179,11 +179,10 @@ class PixelEditor extends React.Component {
 
       if ( event.button === 2 ) {
         // use alternate tools for right click
-        if ( selectedTool === PENCIL_TOOL ) {
-          editingTool = ERASER_TOOL;
-        }
-        else if ( selectedTool === TILE_DRAW_TOOL ) {
-          editingTool = TILE_ERASE_TOOL;
+        if ( !isTileEditor ) {
+          if ( selectedTool === PENCIL_TOOL ) {
+            editingTool = ERASER_TOOL;
+          }
         }
       }
 
@@ -216,7 +215,7 @@ class PixelEditor extends React.Component {
       editingData.currentX = pixelX;
       editingData.currentY = pixelY;
 
-      if ( editingTool === ERASER_TOOL ) {
+      if ( editingTool === ERASER_TOOL || editingTool === TILE_ERASE_TOOL ) {
         editingData.paletteId = 0;
       }
       else {
@@ -224,13 +223,20 @@ class PixelEditor extends React.Component {
       }
 
       if ( editingTool === TILE_DRAW_TOOL ) {
-        editingData.selectionData = selectionData;
+        const selectionDataCopy = [...selectionData];
+        if ( event.button === 2 ) {
+          // erase if right click
+          selectionDataCopy.fill( 0 );
+        }
+        editingData.selectionData = selectionDataCopy;
         editingData.selectionWidth = selectionWidth;
         editingData.selectionHeight = selectionHeight;
       }
 
       editingData.buffer = new Array( dataWidth * dataHeight );
       editingData.buffer.fill( -1 );
+
+      console.log( editingTool );
 
       if (
         editingTool === PENCIL_TOOL
