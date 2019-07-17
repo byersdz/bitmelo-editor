@@ -78,8 +78,8 @@ const initialHeight = 8;
 const initialTileSize = 16;
 const initialState = [
   {
-    width: 8,
-    height: 8,
+    width: initialWidth,
+    height: initialHeight,
     selectedTile: 0,
     selectionWidth: 1,
     selectionHeight: 1,

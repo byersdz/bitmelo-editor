@@ -12,6 +12,12 @@ import tileset, {
   REDO_TILESETS,
   CLEAR_TILESETS_HISTORY,
 } from './Tileset';
+import tilemap, {
+  UNDO_TILEMAPS,
+  REDO_TILEMAPS,
+  CLEAR_TILEMAPS_HISTORY,
+} from './Tilemap';
+
 import { SET_TILESET_SELECTION } from './Tileset/tilesets';
 import project from './Project';
 import code from './Code';
@@ -29,6 +35,12 @@ export default combineReducers( {
     filter: excludeAction( [
       SET_TILESET_SELECTION,
     ] ),
+  } ),
+  tilemap: undoable( tilemap, {
+    limit: 32,
+    undoType: UNDO_TILEMAPS,
+    redoType: REDO_TILEMAPS,
+    clearHistoryType: [CLEAR_TILEMAPS_HISTORY, CLEAR_ALL_UNDO_HISTORY],
   } ),
   project,
   code,
