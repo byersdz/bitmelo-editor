@@ -654,6 +654,9 @@ class PixelEditor extends React.Component {
       isTileEditor,
       tileSize,
       tilesets,
+      selectedTileTool,
+      selectionWidth,
+      selectionHeight,
     } = this.props;
 
     let pannedXOffset = offsetX;
@@ -707,6 +710,16 @@ class PixelEditor extends React.Component {
       showIndicator = false;
     }
 
+    let indicatorWidth = 1;
+    let indicatorHeight = 1;
+
+    if ( isTileEditor ) {
+      if ( selectedTileTool === TILE_DRAW_TOOL ) {
+        indicatorWidth = selectionWidth;
+        indicatorHeight = selectionHeight;
+      }
+    }
+
     const style = {
       backgroundImage: `url(${ backgroundImage })`,
     };
@@ -727,6 +740,8 @@ class PixelEditor extends React.Component {
           showIndicator={ showIndicator }
           indicatorX={ indicatorX }
           indicatorY={ indicatorY }
+          indicatorWidth={ indicatorWidth }
+          indicatorHeight={ indicatorHeight }
           scale={ actualScale }
           dataHeight={ dataHeight }
           isTileEditor={ isTileEditor }

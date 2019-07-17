@@ -232,33 +232,41 @@ export function drawIndicator( settings, canvas ) {
     offsetY,
     indicatorX,
     indicatorY,
+    indicatorWidth,
+    indicatorHeight,
     scale,
     dataHeight,
   } = settings;
 
+  const widthAdjustment = Math.floor( ( indicatorWidth - 1 ) * 0.5 );
+  const heightAdjustment = Math.floor( ( indicatorHeight ) * 0.5 );
+
   const context = canvas.getContext( '2d' );
-  const flippedY = dataHeight - indicatorY - 1; // data is using bottom left origin
-  const xOrigin = indicatorX * scale + offsetX;
+  const flippedY = dataHeight - indicatorY - heightAdjustment - 1; // data is using bottom left origin
+  const xOrigin = ( indicatorX - widthAdjustment ) * scale + offsetX;
   const yOrigin = flippedY * scale + offsetY;
+
+  const xScale = scale * indicatorWidth;
+  const yScale = scale * indicatorHeight;
 
   if ( scale <= 8 ) {
     context.fillStyle = '#00000044';
-    context.fillRect( xOrigin, yOrigin, scale, scale );
+    context.fillRect( xOrigin, yOrigin, xScale, yScale );
   }
   else {
     const lineWidth = 2;
 
     context.fillStyle = '#222222';
-    context.fillRect( xOrigin, yOrigin, scale, lineWidth ); // top
-    context.fillRect( xOrigin, yOrigin + scale - lineWidth, scale, lineWidth ); // bottom
-    context.fillRect( xOrigin, yOrigin, lineWidth, scale ); // left
-    context.fillRect( xOrigin + scale - lineWidth, yOrigin, lineWidth, scale ); // right
+    context.fillRect( xOrigin, yOrigin, xScale, lineWidth ); // top
+    context.fillRect( xOrigin, yOrigin + yScale - lineWidth, xScale, lineWidth ); // bottom
+    context.fillRect( xOrigin, yOrigin, lineWidth, yScale ); // left
+    context.fillRect( xOrigin + xScale - lineWidth, yOrigin, lineWidth, yScale ); // right
 
     context.fillStyle = '#eeeeee';
-    context.fillRect( xOrigin - lineWidth, yOrigin - lineWidth, scale + lineWidth + lineWidth, lineWidth ); // top
-    context.fillRect( xOrigin - lineWidth, yOrigin + scale, scale + lineWidth + lineWidth, lineWidth ); // bottom
-    context.fillRect( xOrigin - lineWidth, yOrigin - lineWidth, lineWidth, scale + lineWidth + lineWidth ); // left
-    context.fillRect( xOrigin + scale, yOrigin - lineWidth, lineWidth, scale + lineWidth + lineWidth ); // right
+    context.fillRect( xOrigin - lineWidth, yOrigin - lineWidth, xScale + lineWidth + lineWidth, lineWidth ); // top
+    context.fillRect( xOrigin - lineWidth, yOrigin + yScale, xScale + lineWidth + lineWidth, lineWidth ); // bottom
+    context.fillRect( xOrigin - lineWidth, yOrigin - lineWidth, lineWidth, yScale + lineWidth + lineWidth ); // left
+    context.fillRect( xOrigin + xScale, yOrigin - lineWidth, lineWidth, yScale + lineWidth + lineWidth ); // right
   }
 }
 
