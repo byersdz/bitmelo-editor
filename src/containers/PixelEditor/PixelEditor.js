@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { PENCIL_TOOL, ERASER_TOOL } from 'State/PixelTools/selectedTool';
+import { TILE_DRAW_TOOL, TILE_ERASE_TOOL } from 'State/PixelTools/selectedTileTool';
+
 import { applyPencilToData } from 'Utils/PixelTools/pencil';
+import { applyTileDrawToData } from 'Utils/PixelTools/tileDraw';
 
 import MainCanvas from './MainCanvas/MainCanvas';
 import OverlayCanvas from './OverlayCanvas/OverlayCanvas';
@@ -149,12 +152,16 @@ class PixelEditor extends React.Component {
 
     const {
       selectedTool,
+      selectedTileTool,
       selectedPaletteIndex,
       data,
       dataWidth,
       dataHeight,
       isTileEditor,
       tileSize,
+      selectionData,
+      selectionWidth,
+      selectionHeight,
     } = this.props;
 
     if ( isPanning || isEditing ) {
@@ -165,10 +172,18 @@ class PixelEditor extends React.Component {
       // left or right click
 
       let editingTool = selectedTool;
+
+      if ( isTileEditor ) {
+        editingTool = selectedTileTool;
+      }
+
       if ( event.button === 2 ) {
         // use alternate tools for right click
         if ( selectedTool === PENCIL_TOOL ) {
           editingTool = ERASER_TOOL;
+        }
+        else if ( selectedTool === TILE_DRAW_TOOL ) {
+          editingTool = TILE_ERASE_TOOL;
         }
       }
 
@@ -208,11 +223,26 @@ class PixelEditor extends React.Component {
         editingData.paletteId = selectedPaletteIndex;
       }
 
+      if ( editingTool === TILE_DRAW_TOOL ) {
+        editingData.selectionData = selectionData;
+        editingData.selectionWidth = selectionWidth;
+        editingData.selectionHeight = selectionHeight;
+      }
+
       editingData.buffer = new Array( dataWidth * dataHeight );
       editingData.buffer.fill( -1 );
 
-      if ( editingTool === PENCIL_TOOL || editingTool === ERASER_TOOL ) {
+      if (
+        editingTool === PENCIL_TOOL
+        || editingTool === ERASER_TOOL
+        || editingTool === TILE_ERASE_TOOL
+      ) {
         editingData = applyPencilToData( data, dataWidth, dataHeight, editingData );
+      }
+      else if (
+        editingTool === TILE_DRAW_TOOL
+      ) {
+        editingData = applyTileDrawToData( data, dataWidth, dataHeight, editingData );
       }
 
       this.setState( {
@@ -319,8 +349,16 @@ class PixelEditor extends React.Component {
       editingData.currentX = pixelX;
       editingData.currentY = pixelY;
 
-      if ( editingTool === PENCIL_TOOL || editingTool === ERASER_TOOL ) {
+      if (
+        editingTool === PENCIL_TOOL
+        || editingTool === ERASER_TOOL
+        || editingTool === TILE_ERASE_TOOL
+      ) {
         const newData = applyPencilToData( data, dataWidth, dataHeight, editingData );
+        this.setState( { editingData: newData } );
+      }
+      else if ( editingTool === TILE_DRAW_TOOL ) {
+        const newData = applyTileDrawToData( data, dataWidth, dataHeight, editingData );
         this.setState( { editingData: newData } );
       }
     }
@@ -336,13 +374,10 @@ class PixelEditor extends React.Component {
       pointerCurrentX,
       pointerCurrentY,
       isEditing,
-      editingTool,
     } = this.state;
 
     if ( isEditing ) {
-      if ( editingTool === PENCIL_TOOL ) {
-        this.commitEditingChanges();
-      }
+      this.commitEditingChanges();
       this.setState( { isEditing: false } );
     }
     else if ( isPanning ) {
@@ -573,7 +608,12 @@ class PixelEditor extends React.Component {
     const { editingData, editingTool } = this.state;
     const { onDataChange, data } = this.props;
 
-    if ( editingTool === PENCIL_TOOL || editingTool === ERASER_TOOL ) {
+    if (
+      editingTool === PENCIL_TOOL
+      || editingTool === ERASER_TOOL
+      || editingTool === TILE_DRAW_TOOL
+      || editingTool === TILE_ERASE_TOOL
+    ) {
       const newData = new Array( data.length );
       const { buffer } = editingData;
       for ( let i = 0; i < newData.length; i += 1 ) {
@@ -635,7 +675,12 @@ class PixelEditor extends React.Component {
     const mainData = [...data];
 
     if ( isEditing ) {
-      if ( editingTool === PENCIL_TOOL || editingTool === ERASER_TOOL ) {
+      if (
+        editingTool === PENCIL_TOOL
+        || editingTool === ERASER_TOOL
+        || editingTool === TILE_DRAW_TOOL
+        || editingTool === TILE_ERASE_TOOL
+      ) {
         for ( let i = 0; i < mainData.length; i += 1 ) {
           const editingDataPoint = editingData.buffer[i];
           if ( editingDataPoint >= 0 ) {
@@ -721,10 +766,14 @@ PixelEditor.propTypes = {
   navigationPanelIsOpen: PropTypes.bool.isRequired,
   referencePanelIsOpen: PropTypes.bool.isRequired,
   selectedTool: PropTypes.string.isRequired,
+  selectedTileTool: PropTypes.string.isRequired,
   onDataChange: PropTypes.func.isRequired,
   isTileEditor: PropTypes.bool,
   tileSize: PropTypes.number,
   tilesets: PropTypes.array,
+  selectionData: PropTypes.array,
+  selectionWidth: PropTypes.number,
+  selectionHeight: PropTypes.number,
 };
 
 PixelEditor.defaultProps = {
@@ -732,6 +781,9 @@ PixelEditor.defaultProps = {
   isTileEditor: false,
   tileSize: 1,
   tilesets: [],
+  selectionData: [],
+  selectionWidth: 0,
+  selectionHeight: 0,
 };
 
 function mapStateToProps( state ) {
@@ -739,6 +791,7 @@ function mapStateToProps( state ) {
     navigationPanelIsOpen: state.layout.navigationPanelIsOpen,
     referencePanelIsOpen: state.layout.referencePanelIsOpen,
     selectedTool: state.pixelTools.selectedTool,
+    selectedTileTool: state.pixelTools.selectedTileTool,
   };
 }
 

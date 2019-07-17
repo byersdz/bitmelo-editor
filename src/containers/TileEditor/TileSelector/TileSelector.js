@@ -36,6 +36,7 @@ class TileSelector extends React.Component {
       tileset,
       tileSize,
       palette,
+      isInMapEditor,
     } = this.props;
 
     const { editModalIsOpen } = this.state;
@@ -44,6 +45,14 @@ class TileSelector extends React.Component {
       : 'tile-selector closed';
 
     const contentClass = isOpen ? 'content' : 'content closed';
+
+    const editButtonRender = !isInMapEditor ? (
+      <Button
+        title="Edit Tileset"
+        click={ () => this.setState( { editModalIsOpen: true } ) }
+        standard
+      />
+    ) : null;
 
     const content = (
       <div className={ contentClass }>
@@ -58,11 +67,7 @@ class TileSelector extends React.Component {
           tileSize={ tileSize }
           onSelectionChange={ s => this.handleSelectionChange( s ) }
         />
-        <Button
-          title="Edit Tileset"
-          click={ () => this.setState( { editModalIsOpen: true } ) }
-          standard
-        />
+        { editButtonRender }
       </div>
     );
 
@@ -93,6 +98,11 @@ TileSelector.propTypes = {
   palette: PropTypes.array.isRequired,
   activeIndex: PropTypes.number.isRequired,
   _setTilesetSelection: PropTypes.func.isRequired,
+  isInMapEditor: PropTypes.bool,
+};
+
+TileSelector.defaultProps = {
+  isInMapEditor: false,
 };
 
 function mapStateToProps( state ) {
