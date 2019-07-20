@@ -2,17 +2,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 import Modal from 'Components/Modal/Modal';
 import NumberPicker from 'Components/NumberPicker/NumberPicker';
 import Button from 'Components/Button/Button';
 
-import { setTilesetSize } from 'State/Tileset/tilesets';
+import './EditTilemapModal.scss';
 
-import './EditTilesetModal.scss';
-
-class EditTilesetModal extends React.Component {
+class EditTilemapModal extends React.Component {
   constructor( props ) {
     super( props );
 
@@ -23,28 +20,12 @@ class EditTilesetModal extends React.Component {
   }
 
   handleClose() {
-    const { onClose, columns, rows } = this.props;
-
-    this.setState( { tempColumns: columns, tempRows: rows } );
+    const { onClose } = this.props;
     onClose();
   }
 
   handleSaveClick() {
-    const {
-      _setTilesetSize,
-      columns,
-      rows,
-      activeIndex,
-      onClose,
-      tileSize,
-    } = this.props;
-    const { tempColumns, tempRows } = this.state;
-
-    if ( tempColumns !== columns || tempRows !== rows ) {
-      _setTilesetSize( activeIndex, tileSize, tempColumns, tempRows );
-    }
-
-    onClose();
+    this.handleClose();
   }
 
   render() {
@@ -53,25 +34,22 @@ class EditTilesetModal extends React.Component {
     return (
       <Modal
         onClose={ () => this.handleClose() }
-        title="Edit Tileset"
+        title="Edit Tilemap"
         showHeader
       >
-        <div className="warning">
-          Warning! Changing the number of rows or columns will alter your tile IDs!
-        </div>
         <div className="modal-controls">
           <NumberPicker
             title="Columns (Width)"
             value={ tempColumns }
             minValue={ 1 }
-            maxValue={ 128 }
+            maxValue={ 1024 }
             onValueChange={ v => this.setState( { tempColumns: v } ) }
           />
           <NumberPicker
             title="Rows (Height)"
             value={ tempRows }
             minValue={ 1 }
-            maxValue={ 128 }
+            maxValue={ 1024 }
             onValueChange={ v => this.setState( { tempRows: v } ) }
           />
         </div>
@@ -87,35 +65,25 @@ class EditTilesetModal extends React.Component {
             standard
           />
         </div>
+
       </Modal>
     );
   }
 }
 
-EditTilesetModal.propTypes = {
+EditTilemapModal.propTypes = {
   onClose: PropTypes.func.isRequired,
-  activeIndex: PropTypes.number.isRequired,
   columns: PropTypes.number.isRequired,
   rows: PropTypes.number.isRequired,
-  _setTilesetSize: PropTypes.func.isRequired,
-  tileSize: PropTypes.number.isRequired,
 };
 
 function mapStateToProps( state ) {
-  const { activeIndex } = state.tileset.present;
-  const tileset = state.tileset.present.tilesets[activeIndex];
+  const { activeIndex } = state.tilemap.present;
+  const tilemap = state.tilemap.present.tilemaps[activeIndex];
   return {
-    activeIndex,
-    columns: tileset.width,
-    rows: tileset.height,
-    tileSize: state.project.tileSize,
+    columns: tilemap.width,
+    rows: tilemap.height,
   };
 }
 
-function mapDispatchToProps( dispatch ) {
-  return bindActionCreators( {
-    _setTilesetSize: setTilesetSize,
-  }, dispatch );
-}
-
-export default connect( mapStateToProps, mapDispatchToProps )( EditTilesetModal );
+export default connect( mapStateToProps )( EditTilemapModal );

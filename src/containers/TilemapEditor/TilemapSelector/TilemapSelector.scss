@@ -14,10 +14,27 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-bottom: 8px;
   }
 
   .content.closed {
     display: none;
+  }
+
+  .text-input {
+
+    input {
+      margin-left: 0;
+    }
+
+    .controls {
+      width: 100%;
+    }
+
+  }
+
+  .std-btn {
+    margin-top: 8px;
   }
 }
 
