@@ -21,7 +21,10 @@ export const downloadSoundData = () => {
 
 export const downloadProjectData = () => {
   const state = cloneDeep( storeRegistry.getStore().getState() );
+
+  // get rid of undo data
   state.tileset = state.tileset.present;
+  state.tilemap = state.tilemap.present;
   const projectName = state.project.name;
   downloadJSON( state, `${ projectName }.project.json` );
 };

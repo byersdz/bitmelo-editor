@@ -37,7 +37,6 @@ class TilemapSelector extends React.Component {
   handleAddTilemap() {
     const { _addTilemap, _selectTilemap, tilemaps } = this.props;
     const newIndex = tilemaps.length;
-    console.log( newIndex );
     _addTilemap();
     _selectTilemap( newIndex );
   }

@@ -19,7 +19,6 @@ class App extends React.Component {
     const { _importProjectData } = this.props;
     const savedState = loadStateFromLocalStorage();
     if ( savedState ) {
-      savedState.tileset = savedState.tileset.present;
       _importProjectData( savedState );
     }
   }

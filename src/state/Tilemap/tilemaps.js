@@ -1,7 +1,7 @@
 
 import cloneDeep from 'lodash.clonedeep';
 
-import { RESET_PROJECT } from 'State/globalActions';
+import { RESET_PROJECT, IMPORT_PROJECT_DATA } from 'State/globalActions';
 
 // Actions
 export const SET_TILEMAP_LAYER_DATA = 'SET_TILEMAP_LAYER_DATA';
@@ -10,6 +10,57 @@ export const ADD_TILEMAP = 'ADD_TILEMAP';
 export const DELETE_TILEMAP = 'DELETE_TILEMAP';
 export const SET_TILEMAP_SIZE = 'SET_TILEMAP_SIZE';
 
+// validation
+export function validate( state ) {
+  if ( !Array.isArray( state ) ) {
+    return false;
+  }
+
+  for ( let i = 0; i < state.length; i += 1 ) {
+    const tilemap = state[i];
+    if ( typeof tilemap !== 'object' ) {
+      return false;
+    }
+
+    if ( typeof tilemap.width !== 'number' ) {
+      return false;
+    }
+
+    if ( typeof tilemap.height !== 'number' ) {
+      return false;
+    }
+
+    if ( typeof tilemap.activeLayer !== 'number' ) {
+      return false;
+    }
+
+    if ( !Array.isArray( tilemap.layers ) ) {
+      return false;
+    }
+
+    if ( tilemap.layers.length <= 0 ) {
+      return false;
+    }
+
+    for ( let j = 0; j < tilemap.layers.length; j += 1 ) {
+      const layer = tilemap.layers[j];
+
+      if ( typeof layer !== 'object' ) {
+        return false;
+      }
+
+      if ( typeof layer.isVisible !== 'boolean' ) {
+        return false;
+      }
+
+      if ( !Array.isArray( layer.data ) ) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
 
 // Reducer
 const initialWidth = 24;
@@ -35,6 +86,18 @@ export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
     case RESET_PROJECT: {
       return initialState;
+    }
+    case IMPORT_PROJECT_DATA: {
+      try {
+        const importedState = action.payload.tilemap.tilemaps;
+        if ( validate( importedState ) ) {
+          return [...importedState];
+        }
+        return state;
+      }
+      catch ( e ) {
+        return state;
+      }
     }
     case DELETE_TILEMAP: {
       return [...state.slice( 0, action.payload ), ...state.slice( action.payload + 1 )];

@@ -14,7 +14,13 @@ export const loadStateFromLocalStorage = () => {
 
 export const saveStateToLocalStorage = state => {
   try {
-    const stateString = JSON.stringify( state );
+    const savedState = { ...state };
+
+    // get rid of undo data
+    savedState.tileset = savedState.tileset.present;
+    savedState.tilemap = savedState.tilemap.present;
+
+    const stateString = JSON.stringify( savedState );
     localStorage.setItem( 'state', stateString );
   }
   catch ( e ) {
