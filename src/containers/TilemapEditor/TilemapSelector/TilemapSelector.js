@@ -11,7 +11,7 @@ import Button from 'Components/Button/Button';
 
 import { toggleTilemapSelector } from 'State/Layout/tilemapEditor';
 import { selectTilemap } from 'State/Tilemap/activeIndex';
-import { addTilemap, deleteTilemap } from 'State/Tilemap/tilemaps';
+import { addTilemap, deleteTilemap, setTilemapName } from 'State/Tilemap/tilemaps';
 
 import EditTilemapModal from '../EditTilemapModal/EditTilemapModal';
 
@@ -49,6 +49,7 @@ class TilemapSelector extends React.Component {
       activeIndex,
       tilemaps,
       _selectTilemap,
+      _setTilemapName,
     } = this.props;
 
     const { editModalIsOpen } = this.state;
@@ -86,7 +87,7 @@ class TilemapSelector extends React.Component {
           <TextInput
             title="Name"
             value={ tilemaps[activeIndex].name }
-            onValueChange={ v => console.log( v ) }
+            onValueChange={ v => _setTilemapName( activeIndex, v ) }
             hideTitle
           />
           <Button
@@ -102,7 +103,7 @@ class TilemapSelector extends React.Component {
           />
         </div>
         <ToggleHeader
-          title="Tilemaps"
+          title={ `Tilemaps: ${ tilemaps[activeIndex].name }` }
           onToggle={ () => _toggleTilemapSelector() }
         />
       </div>
@@ -118,6 +119,7 @@ TilemapSelector.propTypes = {
   _addTilemap: PropTypes.func.isRequired,
   _selectTilemap: PropTypes.func.isRequired,
   _deleteTilemap: PropTypes.func.isRequired,
+  _setTilemapName: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -134,6 +136,7 @@ function mapDispatchToProps( dispatch ) {
     _addTilemap: addTilemap,
     _selectTilemap: selectTilemap,
     _deleteTilemap: deleteTilemap,
+    _setTilemapName: setTilemapName,
   }, dispatch );
 }
 

@@ -44,6 +44,13 @@ export default function reducer( state = initialState, action ) {
       newState.push( cloneDeep( initialState[0] ) );
       return newState;
     }
+    case SET_TILEMAP_NAME: {
+      const { tilemapIndex, name } = action.payload;
+      const newState = [...state];
+      newState[tilemapIndex] = { ...state[tilemapIndex] };
+      newState[tilemapIndex].name = name;
+      return newState;
+    }
     case SET_TILEMAP_SIZE: {
       const {
         tilemapIndex,
