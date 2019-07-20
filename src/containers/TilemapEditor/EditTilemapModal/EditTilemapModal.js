@@ -2,10 +2,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import Modal from 'Components/Modal/Modal';
 import NumberPicker from 'Components/NumberPicker/NumberPicker';
 import Button from 'Components/Button/Button';
+
+import { setTilemapSize } from 'State/Tilemap/tilemaps';
 
 import './EditTilemapModal.scss';
 
@@ -25,6 +28,10 @@ class EditTilemapModal extends React.Component {
   }
 
   handleSaveClick() {
+    const { activeIndex, _setTilemapSize } = this.props;
+    const { tempColumns, tempRows } = this.state;
+
+    _setTilemapSize( activeIndex, tempColumns, tempRows );
     this.handleClose();
   }
 
@@ -75,6 +82,8 @@ EditTilemapModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   columns: PropTypes.number.isRequired,
   rows: PropTypes.number.isRequired,
+  _setTilemapSize: PropTypes.func.isRequired,
+  activeIndex: PropTypes.number.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -83,7 +92,14 @@ function mapStateToProps( state ) {
   return {
     columns: tilemap.width,
     rows: tilemap.height,
+    activeIndex,
   };
 }
 
-export default connect( mapStateToProps )( EditTilemapModal );
+function mapDispatchToProps( dispatch ) {
+  return bindActionCreators( {
+    _setTilemapSize: setTilemapSize,
+  }, dispatch );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( EditTilemapModal );

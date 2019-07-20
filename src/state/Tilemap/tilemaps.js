@@ -8,6 +8,8 @@ export const SET_TILEMAP_LAYER_DATA = 'SET_TILEMAP_LAYER_DATA';
 export const SET_TILEMAP_NAME = 'SET_TILEMAP_NAME';
 export const ADD_TILEMAP = 'ADD_TILEMAP';
 export const DELETE_TILEMAP = 'DELETE_TILEMAP';
+export const SET_TILEMAP_SIZE = 'SET_TILEMAP_SIZE';
+
 
 // Reducer
 const initialWidth = 24;
@@ -40,6 +42,43 @@ export default function reducer( state = initialState, action ) {
     case ADD_TILEMAP: {
       const newState = [...state];
       newState.push( cloneDeep( initialState[0] ) );
+      return newState;
+    }
+    case SET_TILEMAP_SIZE: {
+      const {
+        tilemapIndex,
+        columns,
+        rows,
+      } = action.payload;
+
+      const newState = [...state];
+      const oldTilemap = state[tilemapIndex];
+      const newTilemap = { ...oldTilemap };
+      newTilemap.width = columns;
+      newTilemap.height = rows;
+
+      newTilemap.layers = [];
+      for ( let i = 0; i < oldTilemap.layers.length; i += 1 ) {
+        const newLayer = { ...oldTilemap.layers[i] };
+        newLayer.data = new Array( columns * rows );
+        newLayer.data.fill( 0 );
+        for ( let y = 0; y < oldTilemap.height; y += 1 ) {
+          for ( let x = 0; x < oldTilemap.width; x += 1 ) {
+            const sourceIndex = y * oldTilemap.width + x;
+            const sourceTileId = oldTilemap.layers[i].data[sourceIndex];
+            const destinationIndex = y * newTilemap.width + x;
+            if (
+              x < newTilemap.width
+              && y < newTilemap.height
+            ) {
+              newLayer.data[destinationIndex] = sourceTileId;
+            }
+          }
+        }
+        newTilemap.layers.push( newLayer );
+      }
+
+      newState[tilemapIndex] = newTilemap;
       return newState;
     }
     case SET_TILEMAP_LAYER_DATA: {
@@ -93,5 +132,16 @@ export function deleteTilemap( index ) {
   return {
     type: DELETE_TILEMAP,
     payload: index,
+  };
+}
+
+export function setTilemapSize( tilemapIndex, columns, rows ) {
+  return {
+    type: SET_TILEMAP_SIZE,
+    payload: {
+      tilemapIndex,
+      columns,
+      rows,
+    },
   };
 }
