@@ -66,7 +66,7 @@ class MainContainer extends React.Component {
 
     return (
       <div className="main-container">
-        <TopBar title="Bitmelo Create" />
+        <TopBar title="Bitmelo" />
         { contentRender }
       </div>
     );

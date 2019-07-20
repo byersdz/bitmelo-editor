@@ -52,17 +52,17 @@ class NavigationTab extends React.Component {
       },
       {
         key: TILE_TAB,
-        title: 'Tiles',
+        title: 'Tile Editor',
         icon: 'play',
       },
       {
         key: TILEMAP_TAB,
-        title: 'Tile Maps',
+        title: 'Tilemap Editor',
         icon: 'play',
       },
       {
         key: SOUND_TAB,
-        title: 'Sounds',
+        title: 'Sound Editor',
         icon: 'wave',
       },
     ];

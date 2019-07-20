@@ -10,6 +10,8 @@ import TileSelector from 'Containers/TileEditor/TileSelector/TileSelector';
 import { undoTilemaps, redoTilemaps } from 'State/Tilemap';
 import { setTilemapLayerData } from 'State/Tilemap/tilemaps';
 
+import TilemapSelector from '../TilemapSelector/TilemapSelector';
+
 import './TilemapPixelEditor.scss';
 
 class TilemapPixelEditor extends React.Component {
@@ -85,6 +87,7 @@ class TilemapPixelEditor extends React.Component {
         selectionWidth={ selectionWidth }
         selectionHeight={ selectionHeight }
       >
+        <TilemapSelector />
         <TileSelector isInMapEditor />
       </PixelEditor>
     );

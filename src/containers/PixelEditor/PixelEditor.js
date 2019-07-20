@@ -236,8 +236,6 @@ class PixelEditor extends React.Component {
       editingData.buffer = new Array( dataWidth * dataHeight );
       editingData.buffer.fill( -1 );
 
-      console.log( editingTool );
-
       if (
         editingTool === PENCIL_TOOL
         || editingTool === ERASER_TOOL

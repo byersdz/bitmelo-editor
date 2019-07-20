@@ -8,6 +8,8 @@ import ToggleHeader from 'Components/ToggleHeader/ToggleHeader';
 import Button from 'Components/Button/Button';
 
 import { toggleTileSelector } from 'State/Layout/tileSelectorIsOpen';
+import { toggleTilemapTileSelector } from 'State/Layout/tilemapEditor';
+
 import { setTilesetSelection } from 'State/Tileset/tilesets';
 
 import EditTilesetModal from './EditTilesetModal/EditTilesetModal';
@@ -32,7 +34,9 @@ class TileSelector extends React.Component {
   render() {
     const {
       isOpen,
+      isOpenTilemap,
       _toggleTileSelector,
+      _toggleTilemapTileSelector,
       tileset,
       tileSize,
       palette,
@@ -41,10 +45,15 @@ class TileSelector extends React.Component {
 
     const { editModalIsOpen } = this.state;
 
-    const className = isOpen ? 'tile-selector open'
+    let isOpenLocal = isOpen;
+    if ( isInMapEditor ) {
+      isOpenLocal = isOpenTilemap;
+    }
+
+    const className = isOpenLocal ? 'tile-selector open'
       : 'tile-selector closed';
 
-    const contentClass = isOpen ? 'content' : 'content closed';
+    const contentClass = isOpenLocal ? 'content' : 'content closed';
 
     const editButtonRender = !isInMapEditor ? (
       <Button
@@ -77,11 +86,13 @@ class TileSelector extends React.Component {
       />
     ) : null;
 
+    const toggleFunction = isInMapEditor ? _toggleTilemapTileSelector : _toggleTileSelector;
+
     return (
       <div className={ className }>
         <ToggleHeader
           title="Tiles"
-          onToggle={ _toggleTileSelector }
+          onToggle={ toggleFunction }
         />
         { editModalRender }
         { content }
@@ -92,7 +103,9 @@ class TileSelector extends React.Component {
 
 TileSelector.propTypes = {
   isOpen: PropTypes.bool.isRequired,
+  isOpenTilemap: PropTypes.bool.isRequired,
   _toggleTileSelector: PropTypes.func.isRequired,
+  _toggleTilemapTileSelector: PropTypes.func.isRequired,
   tileset: PropTypes.object.isRequired,
   tileSize: PropTypes.number.isRequired,
   palette: PropTypes.array.isRequired,
@@ -112,6 +125,7 @@ function mapStateToProps( state ) {
 
   return {
     isOpen: state.layout.tileSelectorIsOpen,
+    isOpenTilemap: state.layout.tilemapEditor.tileSelectorIsOpen,
     palette: state.palette.colors,
     activeIndex,
     tileset: activeTileset,
@@ -123,6 +137,7 @@ function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _toggleTileSelector: toggleTileSelector,
     _setTilesetSelection: setTilesetSelection,
+    _toggleTilemapTileSelector: toggleTilemapTileSelector,
   }, dispatch );
 }
 

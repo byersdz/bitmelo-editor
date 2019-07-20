@@ -1,13 +1,13 @@
 
 @import 'Style/colors.scss';
 
-.tile-selector {
-  bottom: 0;
+.tilemap-selector {
+  top: 0;
   right: 0;
   position: absolute;
   z-index: 20;
-  background-color: $background-color;
-  border-top: 2px solid black;
+  background-color: $background-light-color;
+  border-bottom: 2px solid black;
   border-left: 2px solid black;
 
   .content {
@@ -19,21 +19,13 @@
   .content.closed {
     display: none;
   }
-
-  canvas {
-    margin: 8px;
-  }
-
-  .std-btn {
-    margin-bottom: 8px;
-  }
 }
 
-.tile-selector.open {
+.tilemap-selector.open {
   min-width: 300px;
 }
 
-.tile-selector.closed {
+.tilemap-selector.closed {
   min-width: 300px;
   min-height: 32px;
   overflow: hidden;
