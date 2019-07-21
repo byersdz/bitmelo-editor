@@ -15,6 +15,7 @@ class Play extends React.Component {
       scripts,
       palette,
       sounds,
+      tilemaps,
     } = this.props;
 
     const style = `
@@ -44,6 +45,7 @@ class Play extends React.Component {
       tilesets,
       scripts,
       sounds,
+      tilemaps,
     );
 
     const iframeSrc = `
@@ -81,6 +83,7 @@ Play.propTypes = {
   scripts: PropTypes.array.isRequired,
   palette: PropTypes.array.isRequired,
   sounds: PropTypes.array.isRequired,
+  tilemaps: PropTypes.array.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -88,12 +91,14 @@ function mapStateToProps( state ) {
   const { tilesets } = state.tileset.present;
   const { scripts } = state.code;
   const { sounds } = state.sound;
+  const { tilemaps } = state.tilemap.present;
   return {
     tilesets,
     project,
     scripts,
     palette: state.palette.colors,
     sounds,
+    tilemaps,
   };
 }
 

@@ -1,11 +1,15 @@
 
-import bitmelo from 'Utils/Bitmelo/bitmelo.0.3.8.min.txt';
+import bitmelo from 'Utils/Bitmelo/bitmelo.0.3.9.min.txt';
 
 import convertProjectTilesets from './convertProjectTilesets';
+import convertProjectTilemaps from './convertProjectTilemaps';
 
-export default function createProjectScript( project, palette, tilesets, scripts, sounds ) {
+export default function createProjectScript( project, palette, tilesets, scripts, sounds, tilemaps ) {
   const convertedTilesets = convertProjectTilesets( tilesets, project.tileSize );
   const tilesetsString = JSON.stringify( convertedTilesets );
+
+  const convertedTilemaps = convertProjectTilemaps( tilemaps );
+  const tilemapsString = JSON.stringify( convertedTilemaps );
 
   let scriptsString = '';
 
@@ -43,6 +47,11 @@ engine.screen.setPalette(${ paletteString });
 const tilesets = ${ tilesetsString };
 for( let i = 0; i < tilesets.length; i += 1 ) {
   engine.tileData.addTileset( tilesets[i] );
+}
+
+const tilemaps = ${ tilemapsString };
+for( let i = 0; i < tilemaps.length; i += 1 ) {
+  engine.mapData.addTileMap( tilemaps[i] );
 }
 
 const sounds = ${ soundsString };
