@@ -76,6 +76,7 @@ class PixelEditor extends React.Component {
       offsetX: 0,
       offsetY: 0,
       scrollAmount: 0,
+      spaceIsDown: false,
     };
 
     this.containerRef = React.createRef();
@@ -84,6 +85,8 @@ class PixelEditor extends React.Component {
     this.handlePointerMove = this.handlePointerMove.bind( this );
     this.handlePointerUp = this.handlePointerUp.bind( this );
     this.handlePointerExit = this.handlePointerExit.bind( this );
+    this.handleKeyDown = this.handleKeyDown.bind( this );
+    this.handleKeyUp = this.handleKeyUp.bind( this );
   }
 
   componentDidMount() {
@@ -92,6 +95,8 @@ class PixelEditor extends React.Component {
     document.addEventListener( 'pointerup', this.handlePointerUp );
     document.addEventListener( 'pointerleave', this.handlePointerExit );
     document.addEventListener( 'pointercancel', this.handlePointerExit );
+    window.addEventListener( 'keydown', this.handleKeyDown );
+    window.addEventListener( 'keyup', this.handleKeyUp );
 
     this.updateDimensions();
     this.setInitialPositioning();
@@ -129,6 +134,8 @@ class PixelEditor extends React.Component {
     document.removeEventListener( 'pointerup', this.handlePointerUp );
     document.removeEventListener( 'pointerleave', this.handlePointerExit );
     document.removeEventListener( 'pointercancel', this.handlePointerExit );
+    window.removeEventListener( 'keydown', this.handleKeyDown );
+    window.removeEventListener( 'keyup', this.handleKeyUp );
   }
 
   updateDimensions() {
@@ -141,6 +148,19 @@ class PixelEditor extends React.Component {
     } );
   }
 
+  handleKeyDown( event ) {
+    if ( event.which === 32 ) {
+      this.setState( { spaceIsDown: true } );
+      event.preventDefault();
+    }
+  }
+
+  handleKeyUp( event ) {
+    if ( event.which === 32 ) {
+      this.setState( { spaceIsDown: false } );
+    }
+  }
+
   handlePointerDown( event ) {
     const {
       isPanning,
@@ -148,6 +168,7 @@ class PixelEditor extends React.Component {
       offsetX,
       offsetY,
       scale,
+      spaceIsDown,
     } = this.state;
 
     const {
@@ -170,6 +191,11 @@ class PixelEditor extends React.Component {
 
     if ( event.button === 0 || event.button === 2 ) {
       // left or right click
+
+      if ( spaceIsDown ) {
+        this.startPan( event.nativeEvent.offsetX, event.nativeEvent.offsetY );
+        return;
+      }
 
       let editingTool = selectedTool;
 
@@ -257,12 +283,16 @@ class PixelEditor extends React.Component {
     }
     else if ( event.button === 1 ) {
       // middle click
-      this.setState( {
-        isPanning: true,
-        pointerStartX: event.nativeEvent.offsetX,
-        pointerStartY: event.nativeEvent.offsetY,
-      } );
+      this.startPan( event.nativeEvent.offsetX, event.nativeEvent.offsetY );
     }
+  }
+
+  startPan( startX, startY ) {
+    this.setState( {
+      isPanning: true,
+      pointerStartX: startX,
+      pointerStartY: startY,
+    } );
   }
 
   handlePointerUp( event ) {
@@ -279,26 +309,27 @@ class PixelEditor extends React.Component {
 
     const { clientX, clientY } = event;
 
+    if ( isPanning ) {
+      const offsetPosition = this.getOffsetFromPanning(
+        offsetX,
+        offsetY,
+        pointerStartX,
+        pointerStartY,
+        clientX - left,
+        clientY - top,
+      );
+      this.setState( {
+        offsetX: offsetPosition.x,
+        offsetY: offsetPosition.y,
+        isPanning: false,
+      } );
+    }
+
     if ( event.button === 0 || event.button === 2 ) {
       if ( isEditing ) {
         this.commitEditingChanges();
         this.setState( { isEditing: false } );
       }
-    }
-
-    if ( event.button === 1 ) {
-      if ( isPanning ) {
-        const offsetPosition = this.getOffsetFromPanning(
-          offsetX,
-          offsetY,
-          pointerStartX,
-          pointerStartY,
-          clientX - left,
-          clientY - top,
-        );
-        this.setState( { offsetX: offsetPosition.x, offsetY: offsetPosition.y } );
-      }
-      this.setState( { isPanning: false } );
     }
   }
 
