@@ -11,6 +11,29 @@ import { TILE_DRAW_TOOL, TILE_ERASE_TOOL, selectTileTool } from 'State/PixelTool
 import './TilemapToolPicker.scss';
 
 class TilemapToolPicker extends React.Component {
+  constructor( props ) {
+    super( props );
+
+    this.handleKeyDown = this.handleKeyDown.bind( this );
+  }
+
+  componentDidMount() {
+    window.addEventListener( 'keydown', this.handleKeyDown );
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener( 'keydown', this.handleKeyDown );
+  }
+
+  handleKeyDown( event ) {
+    if ( event.which === 66 ) { // b
+      this.handleSelectedToolChange( TILE_DRAW_TOOL );
+    }
+    else if ( event.which === 69 ) { // e
+      this.handleSelectedToolChange( TILE_ERASE_TOOL );
+    }
+  }
+
   handleSelectedToolChange( tool ) {
     const { _selectTileTool } = this.props;
     _selectTileTool( tool );

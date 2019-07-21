@@ -11,6 +11,29 @@ import { PENCIL_TOOL, ERASER_TOOL, selectPixelTool } from 'State/PixelTools/sele
 import './PixelToolPicker.scss';
 
 class PixelToolPicker extends React.Component {
+  constructor( props ) {
+    super( props );
+
+    this.handleKeyDown = this.handleKeyDown.bind( this );
+  }
+
+  componentDidMount() {
+    window.addEventListener( 'keydown', this.handleKeyDown );
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener( 'keydown', this.handleKeyDown );
+  }
+
+  handleKeyDown( event ) {
+    if ( event.which === 66 ) { // b
+      this.handleSelectedToolChange( PENCIL_TOOL );
+    }
+    else if ( event.which === 69 ) { // e
+      this.handleSelectedToolChange( ERASER_TOOL );
+    }
+  }
+
   handleSelectedToolChange( tool ) {
     const { _selectPixelTool } = this.props;
     _selectPixelTool( tool );
