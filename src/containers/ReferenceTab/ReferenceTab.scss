@@ -5,7 +5,7 @@
 .reference-tab {
   background-color: $background-light-color;
   flex-grow: 0;
-  width: 512px;
+  width: 548px;
   position: relative;
   display: flex;
   flex-direction: row;
@@ -59,7 +59,7 @@
 
 @media #{ $desktop-small } {
   .reference-tab {
-    width: 384px;
+    width: 420px;
   }
 }
 

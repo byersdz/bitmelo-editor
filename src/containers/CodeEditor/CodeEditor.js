@@ -64,10 +64,10 @@ class CodeEditor extends React.Component {
     let referencePanelWidth = 20;
     if ( referencePanelIsOpen ) {
       if ( windowWidth <= 1700 ) {
-        referencePanelWidth = 384;
+        referencePanelWidth = 420;
       }
       else {
-        referencePanelWidth = 512;
+        referencePanelWidth = 548;
       }
     }
 

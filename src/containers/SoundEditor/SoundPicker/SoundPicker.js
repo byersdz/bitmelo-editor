@@ -23,13 +23,13 @@ class SoundPicker extends React.Component {
   }
 
   render() {
-    const { soundData, activeSound } = this.props;
+    const { soundData, activeSound, numberOfSounds } = this.props;
     return (
       <div className="sound-picker">
         <NumberPicker
           title="Sound Index"
           minValue={ 0 }
-          maxValue={ 255 }
+          maxValue={ numberOfSounds - 1 }
           value={ activeSound }
           onValueChange={ newValue => this.handleIndexChange( newValue ) }
         />
@@ -48,12 +48,14 @@ SoundPicker.propTypes = {
   activeSound: PropTypes.number.isRequired,
   setSound: PropTypes.func.isRequired,
   selectActiveSound: PropTypes.func.isRequired,
+  numberOfSounds: PropTypes.number.isRequired,
 };
 
 function mapStateToProps( state ) {
   const { sounds, activeSound } = state.sound;
 
   return {
+    numberOfSounds: sounds.length,
     soundData: sounds[activeSound],
     activeSound,
   };

@@ -5,14 +5,12 @@ import { RESET_PROJECT, IMPORT_PROJECT_DATA } from 'State/globalActions';
 // Actions
 export const SET_SOUND_DATA = 'SET_SOUND_DATA';
 export const ADDED_SOUND_TO_AUDIO_ENGINE = 'ADDED_SOUND_TO_AUDIO_ENGINE';
+export const ADD_SOUND = 'ADD_SOUND';
+export const DELETE_SOUND = 'DELETE_SOUND';
 
 // validation
 export function validate( state ) {
   if ( !Array.isArray( state ) ) {
-    return false;
-  }
-
-  if ( state.length !== 256 ) {
     return false;
   }
 
@@ -83,14 +81,12 @@ export function validate( state ) {
 }
 
 // Reducer
-const initialState = new Array( 256 );
-
-for ( let i = 0; i < 256; i += 1 ) {
-  initialState[i] = {
+const initialState = [
+  {
     volumeTics: new Array( 32 ),
     pitchTics: new Array( 32 ),
     arpTics: new Array( 32 ),
-    pitchScale: 10,
+    pitchScale: 100,
     wave: 0,
     loopStart: 0,
     loopEnd: 31,
@@ -99,12 +95,12 @@ for ( let i = 0; i < 256; i += 1 ) {
     releaseLength: 1,
     releaseMode: Sound.RELEASE_LINEAR,
     needToAddToAudioEngine: false,
-  };
+  },
+];
 
-  initialState[i].volumeTics.fill( 15 );
-  initialState[i].pitchTics.fill( 0 );
-  initialState[i].arpTics.fill( 0 );
-}
+initialState[0].volumeTics.fill( 15 );
+initialState[0].pitchTics.fill( 0 );
+initialState[0].arpTics.fill( 0 );
 
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
@@ -150,6 +146,19 @@ export function setSoundData( soundIndex, data ) {
 export function addedSoundToAudioEngine( soundIndex ) {
   return {
     type: ADDED_SOUND_TO_AUDIO_ENGINE,
+    payload: soundIndex,
+  };
+}
+
+export function addSound() {
+  return {
+    type: ADD_SOUND,
+  };
+}
+
+export function deleteSound( soundIndex ) {
+  return {
+    type: DELETE_SOUND,
     payload: soundIndex,
   };
 }
