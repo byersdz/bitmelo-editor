@@ -119,6 +119,14 @@ export default function reducer( state = initialState, action ) {
         return state;
       }
     }
+    case ADD_SOUND: {
+      const newState = [...state];
+      newState.push( { ...initialState[0] } );
+      return newState;
+    }
+    case DELETE_SOUND: {
+      return [...state.slice( 0, action.payload ), ...state.slice( action.payload + 1 )];
+    }
     case SET_SOUND_DATA: {
       const newState = [...state];
       const { soundIndex, data } = action.payload;
