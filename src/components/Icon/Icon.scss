@@ -17,3 +17,16 @@
     stroke: inherit;
   }
 }
+
+.no-fill {
+  fill: none !important;
+
+  svg {
+    fill: none !important;
+  }
+
+  g {
+    fill: none !important;
+  }
+
+}

@@ -51,7 +51,7 @@ class NavigationTab extends React.Component {
       {
         key: CODE_TAB,
         title: 'Code',
-        icon: 'play',
+        icon: 'brackets',
       },
       {
         key: TILE_TAB,
