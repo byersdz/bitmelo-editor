@@ -4,6 +4,7 @@ import { RESET_PROJECT } from 'State/globalActions';
 // Audio Events
 export const PIANO_KEY_DOWN = 'PIANO_KEY_DOWN';
 export const PIANO_KEY_UP = 'PIANO_KEY_UP';
+export const STOP_ALL_AUDIO = 'STOP_ALL_AUDIO';
 
 // Actions
 export const CLEAR_AUDIO_EVENTS = 'CLEAR_AUDIO_EVENTS';

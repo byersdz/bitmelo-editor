@@ -19,7 +19,6 @@ class ReleaseEditor extends React.Component {
   }
 
   handleReleaseTypeChange( newValue ) {
-    console.log( newValue );
     const { _setSoundData, soundData, activeSound } = this.props;
     _setSoundData( activeSound, { ...soundData, releaseMode: newValue } );
   }

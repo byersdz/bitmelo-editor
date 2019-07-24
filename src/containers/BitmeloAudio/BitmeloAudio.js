@@ -5,7 +5,12 @@ import { Audio } from 'bitmelo';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 
-import { clearAudioEvents, PIANO_KEY_DOWN, PIANO_KEY_UP } from 'State/Sound/audioEvents';
+import {
+  clearAudioEvents,
+  PIANO_KEY_DOWN,
+  PIANO_KEY_UP,
+  STOP_ALL_AUDIO,
+} from 'State/Sound/audioEvents';
 import { addedSoundToAudioEngine } from 'State/Sound/sounds';
 
 class BitmeloAudio extends React.Component {
@@ -99,6 +104,9 @@ class BitmeloAudio extends React.Component {
     }
     else if ( event.type === PIANO_KEY_UP ) {
       this.audio.stopInfiniteSound( 0 );
+    }
+    else if ( event.type === STOP_ALL_AUDIO ) {
+      this.audio.stopAllInfiniteSounds();
     }
   }
 

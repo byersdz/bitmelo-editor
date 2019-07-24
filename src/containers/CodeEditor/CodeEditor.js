@@ -125,7 +125,7 @@ class CodeEditor extends React.Component {
             value={ script.text }
             mode="javascript"
             theme="twilight"
-            name="blah1"
+            name="ace1"
             width={ `${ editorWidth }px` }
             height={ `${ editorHeight }px` }
             fontSize={ 14 }
@@ -136,6 +136,7 @@ class CodeEditor extends React.Component {
             tabSize={ 2 }
             setOptions={ {
               enableLiveAutocompletion: true,
+              useSoftTabs: false,
             } }
             focus
           />

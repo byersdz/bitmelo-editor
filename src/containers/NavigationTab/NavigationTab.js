@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 import Button from 'Components/Button/Button';
 import ButtonTabs from 'Components/ButtonTabs/ButtonTabs';
+
 import {
   selectNavigationTab,
   PROJECT_TAB,
@@ -16,6 +17,7 @@ import {
   SOUND_TAB,
 } from 'State/Layout/activeNavigationTab';
 import { toggleNavigationPanel } from 'State/Layout/navigationPanelIsOpen';
+import { STOP_ALL_AUDIO, addAudioEvent } from 'State/Sound/audioEvents';
 
 import './NavigationTab.scss';
 
@@ -27,12 +29,13 @@ class NavigationTab extends React.Component {
   }
 
   handleClick( key ) {
-    const { selectTab } = this.props;
-    selectTab( key );
+    const { _selectNavigationTab, _addAudioEvent } = this.props;
+    _addAudioEvent( { type: STOP_ALL_AUDIO } );
+    _selectNavigationTab( key );
   }
 
   render() {
-    const { activeTab, isOpen, toggle } = this.props;
+    const { activeTab, isOpen, _toggleNavigationPanel } = this.props;
 
     const buttonList = [
       {
@@ -75,7 +78,7 @@ class NavigationTab extends React.Component {
           icon="hamburger"
           title="Toggle Navigation Panel"
           className="toggle-panel"
-          click={ () => toggle() }
+          click={ () => _toggleNavigationPanel() }
           hideTitle
         />
         <ButtonTabs
@@ -91,9 +94,10 @@ class NavigationTab extends React.Component {
 
 NavigationTab.propTypes = {
   activeTab: PropTypes.string.isRequired,
-  selectTab: PropTypes.func.isRequired,
+  _selectNavigationTab: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired,
+  _toggleNavigationPanel: PropTypes.func.isRequired,
+  _addAudioEvent: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -105,8 +109,9 @@ function mapStateToProps( state ) {
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
-    selectTab: selectNavigationTab,
-    toggle: toggleNavigationPanel,
+    _selectNavigationTab: selectNavigationTab,
+    _toggleNavigationPanel: toggleNavigationPanel,
+    _addAudioEvent: addAudioEvent,
   }, dispatch );
 }
 

@@ -18,7 +18,6 @@ class VolumeTicsEditor extends React.Component {
 
   render() {
     const { soundData } = this.props;
-    const showLoop = soundData.useLoop;
     return (
       <div>
         <WaveGrid
@@ -26,9 +25,9 @@ class VolumeTicsEditor extends React.Component {
           minValue={ 0 }
           maxValue={ 15 }
           onDataChange={ ( newData ) => this.handleDataChange( newData ) }
-          showLoop={ showLoop }
-          loopStart={ soundData.loopStart }
-          loopEnd={ soundData.loopEnd }
+          showLoop={ soundData.useVolumeLoop }
+          loopStart={ soundData.volumeLoopStart }
+          loopEnd={ soundData.volumeLoopEnd }
         />
         <LoopControls />
       </div>
@@ -37,7 +36,7 @@ class VolumeTicsEditor extends React.Component {
 }
 
 VolumeTicsEditor.propTypes = {
-  soundData: PropTypes.shape( { volumeTics: PropTypes.arrayOf( PropTypes.number ) } ).isRequired,
+  soundData: PropTypes.object.isRequired,
   activeSound: PropTypes.number.isRequired,
   setSound: PropTypes.func.isRequired,
 };

@@ -14,6 +14,10 @@ export function validate( state ) {
     return false;
   }
 
+  if ( state.length < 1 ) {
+    return false;
+  }
+
   for ( let i = 0; i < state.length; i += 1 ) {
     const sound = state[i];
     if ( typeof sound !== 'object' ) {
@@ -52,15 +56,39 @@ export function validate( state ) {
       return false;
     }
 
-    if ( typeof sound.loopStart !== 'number' ) {
+    if ( typeof sound.useVolumeLoop !== 'boolean' ) {
       return false;
     }
 
-    if ( typeof sound.loopEnd !== 'number' ) {
+    if ( typeof sound.volumeLoopStart !== 'number' ) {
       return false;
     }
 
-    if ( typeof sound.useLoop !== 'boolean' ) {
+    if ( typeof sound.volumeLoopEnd !== 'number' ) {
+      return false;
+    }
+
+    if ( typeof sound.usePitchLoop !== 'boolean' ) {
+      return false;
+    }
+
+    if ( typeof sound.pitchLoopStart !== 'number' ) {
+      return false;
+    }
+
+    if ( typeof sound.pitchLoopEnd !== 'number' ) {
+      return false;
+    }
+
+    if ( typeof sound.useArpLoop !== 'boolean' ) {
+      return false;
+    }
+
+    if ( typeof sound.arpLoopStart !== 'number' ) {
+      return false;
+    }
+
+    if ( typeof sound.arpLoopEnd !== 'number' ) {
       return false;
     }
 
@@ -88,9 +116,15 @@ const initialState = [
     arpTics: new Array( 32 ),
     pitchScale: 100,
     wave: 0,
-    loopStart: 0,
-    loopEnd: 31,
-    useLoop: false,
+    useVolumeLoop: false,
+    volumeLoopStart: 0,
+    volumeLoopEnd: 31,
+    usePitchLoop: false,
+    pitchLoopStart: 0,
+    pitchLoopEnd: 31,
+    useArpLoop: false,
+    arpLoopStart: 0,
+    arpLoopEnd: 31,
     name: '',
     releaseLength: 1,
     releaseMode: Sound.RELEASE_LINEAR,
@@ -111,7 +145,9 @@ export default function reducer( state = initialState, action ) {
       try {
         const importedState = action.payload.sound.sounds;
         if ( validate( importedState ) ) {
-          return [...importedState];
+          const newState = [...importedState];
+          newState[0].needToAddToAudioEngine = true;
+          return newState;
         }
         return state;
       }

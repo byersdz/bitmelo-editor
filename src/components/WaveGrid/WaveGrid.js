@@ -157,8 +157,8 @@ class WaveGrid extends React.Component {
         width={ width }
         height={ height }
         ref={ this.canvasRef }
-        onMouseDown={ e => this.handleSelection( e ) }
-        onMouseMove={ e => {
+        onPointerDown={ e => this.handleSelection( e ) }
+        onPointerMove={ e => {
           if ( e.buttons === 1 ) {
             this.handleSelection( e );
           }
