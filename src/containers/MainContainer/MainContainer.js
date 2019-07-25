@@ -25,8 +25,10 @@ import './MainContainer.scss';
 
 class MainContainer extends React.Component {
   render() {
-    const { activeNavigationTab } = this.props;
+    const { activeNavigationTab, projectName } = this.props;
     let contentRender = null;
+
+    let topBarTitle = 'Bitmelo™';
 
     switch ( activeNavigationTab ) {
       case PROJECT_TAB:
@@ -35,18 +37,23 @@ class MainContainer extends React.Component {
             <ProjectEditor />
           </Scrollbars>
         );
+        topBarTitle = `${ projectName }: Project`;
         break;
       case PLAY_TAB:
         contentRender = <Play />;
+        topBarTitle = `${ projectName }: Play`;
         break;
       case CODE_TAB:
         contentRender = <CodeEditor />;
+        topBarTitle = `${ projectName }: Code`;
         break;
       case TILE_TAB:
         contentRender = <TileEditor />;
+        topBarTitle = `${ projectName }: Tile Editor`;
         break;
       case TILEMAP_TAB:
         contentRender = <TilemapEditor />;
+        topBarTitle = `${ projectName }: Tilemap Editor`;
         break;
       case SOUND_TAB:
         contentRender = (
@@ -54,6 +61,7 @@ class MainContainer extends React.Component {
             <SoundEditor />
           </Scrollbars>
         );
+        topBarTitle = `${ projectName }: Sound Editor`;
         break;
       default:
         contentRender = (
@@ -66,7 +74,7 @@ class MainContainer extends React.Component {
 
     return (
       <div className="main-container">
-        <TopBar title="Bitmelo" />
+        <TopBar title={ topBarTitle } />
         { contentRender }
       </div>
     );
@@ -75,10 +83,12 @@ class MainContainer extends React.Component {
 
 MainContainer.propTypes = {
   activeNavigationTab: PropTypes.string.isRequired,
+  projectName: PropTypes.string.isRequired,
 };
 
 function mapStateToProps( state ) {
   return {
+    projectName: state.project.name,
     activeNavigationTab: state.layout.activeNavigationTab,
   };
 }
