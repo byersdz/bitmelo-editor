@@ -2,6 +2,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Button from 'Components/Button/Button';
+
 import './Piano.scss';
 
 class Piano extends React.Component {
@@ -49,14 +51,62 @@ class Piano extends React.Component {
     }
   }
 
+  renderOctave( octaveNumber ) {
+    const whiteKeysRender = [];
+
+    for ( let i = 0; i < 7; i += 1 ) {
+      // render the white keys
+      whiteKeysRender.push( (
+        <div
+          key={ `${ octaveNumber }-w-${ i }` }
+          className="white-key"
+        />
+      ) );
+    }
+
+    return (
+      <div
+        key={ `o${ octaveNumber }` }
+        className="octave"
+      >
+        { whiteKeysRender }
+      </div>
+    );
+  }
+
   render() {
+    const octavesRender = [];
+
+    for ( let i = 0; i < 8; i += 1 ) {
+      octavesRender.push( this.renderOctave( i ) );
+    }
+
     return (
       <div className="piano">
-        Piano
+        <Button
+          title="left"
+          click={ () => console.log( 'left' ) }
+          icon="play"
+          className="octave-btn left"
+          hideTitle
+        />
+        <div className="scroll-container">
+          <div className="keys-container">
+            { octavesRender }
+          </div>
+        </div>
+        <Button
+          title="right"
+          click={ () => console.log( 'right' ) }
+          icon="play"
+          className="octave-btn right"
+          hideTitle
+        />
       </div>
     );
   }
 }
+
 
 Piano.propTypes = {
   onKeyDown: PropTypes.func.isRequired,
