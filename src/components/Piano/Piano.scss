@@ -1,8 +1,10 @@
 
+@import 'Style/colors.scss';
+
 .piano {
   align-self: stretch;
-  background-color: red;
-  height: 160px;
+  background-color: $background-light-color;
+  height: 140px;
   display: flex;
   justify-content: flex-start;
   margin-right: 10px;
@@ -10,7 +12,26 @@
 
   .btn.octave-btn {
     width: 40px;
-    background-color: blue;
+    background-color: $primary-color;
+
+    svg {
+      fill: $on-primary-color;
+      stroke: $on-primary-color;
+    }
+  }
+
+  .octave-btn.left {
+    border-right: 4px solid black;
+    border-radius: 8px 0 0 8px;
+  }
+
+  .octave-btn.right {
+    border-left: 4px solid black;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .btn.octave-btn:hover {
+    background-color: $primary-dark-color;
   }
 
   .btn.octave-btn.left .isvg {
@@ -24,22 +45,17 @@
 
     .keys-container {
       position: absolute;
-      left: 0;
+      left: 300px;
       display: flex;
       height: 100%;
       align-items: stretch;
+      transition-property: left;
+      transition-duration: 0.5s;
 
       .octave {
         display: flex;
-
-
-        .white-key {
-          width: 48px;
-          border: 1px solid black;
-          background-color: white;
-        }
+        position: relative;
       }
     }
   }
-
 }

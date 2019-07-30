@@ -121,6 +121,7 @@ function mapStateToProps( state ) {
     activeTicTab: state.layout.activeSoundTicTab,
     numberOfSounds: state.sound.sounds.length,
     activeSound: state.sound.activeSound,
+    pianoOctave: state.layout.soundEditor.pianoOctave,
   };
 }
 

@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 
 import Piano from 'Components/Piano/Piano';
 import { addAudioEvent, PIANO_KEY_DOWN, PIANO_KEY_UP } from 'State/Sound/audioEvents';
+import { setSoundEditorPianoOctave } from 'State/Layout/soundEditor';
 
 import './SoundPiano.scss';
 
@@ -33,12 +34,22 @@ class SoundPiano extends React.Component {
     } );
   }
 
+  handleOctaveChange( newOctave ) {
+    const { _setSoundEditorPianoOctave } = this.props;
+
+    _setSoundEditorPianoOctave( newOctave );
+  }
+
   render() {
+    const { pianoOctave } = this.props;
+
     return (
       <div className="sound-piano">
         <Piano
           onKeyDown={ this.handleKeyDown }
           onKeyUp={ this.handleKeyUp }
+          octave={ pianoOctave }
+          onOctaveChange={ o => this.handleOctaveChange( o ) }
         />
       </div>
     );
@@ -46,13 +57,22 @@ class SoundPiano extends React.Component {
 }
 
 SoundPiano.propTypes = {
+  pianoOctave: PropTypes.number.isRequired,
   _addAudioEvent: PropTypes.func.isRequired,
+  _setSoundEditorPianoOctave: PropTypes.func.isRequired,
 };
+
+function mapStateToProps( state ) {
+  return {
+    pianoOctave: state.layout.soundEditor.pianoOctave,
+  };
+}
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _addAudioEvent: addAudioEvent,
+    _setSoundEditorPianoOctave: setSoundEditorPianoOctave,
   }, dispatch );
 }
 
-export default connect( null, mapDispatchToProps )( SoundPiano );
+export default connect( mapStateToProps, mapDispatchToProps )( SoundPiano );

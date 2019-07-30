@@ -11,7 +11,7 @@ import {
 
 import './WaveGrid.scss';
 
-const gridScale = 18;
+const gridScale = 14;
 const borderSize = 2;
 
 class WaveGrid extends React.Component {

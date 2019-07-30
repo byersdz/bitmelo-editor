@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -19,7 +19,7 @@ class VolumeTicsEditor extends React.Component {
   render() {
     const { soundData } = this.props;
     return (
-      <div>
+      <Fragment>
         <WaveGrid
           data={ soundData.volumeTics }
           minValue={ 0 }
@@ -30,7 +30,7 @@ class VolumeTicsEditor extends React.Component {
           loopEnd={ soundData.volumeLoopEnd }
         />
         <LoopControls />
-      </div>
+      </Fragment>
     );
   }
 }

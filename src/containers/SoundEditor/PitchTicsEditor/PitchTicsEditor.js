@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -25,7 +25,7 @@ class PitchTicsEditor extends React.Component {
   render() {
     const { soundData } = this.props;
     return (
-      <div>
+      <Fragment>
         <WaveGrid
           data={ soundData.pitchTics }
           minValue={ -10 }
@@ -45,7 +45,7 @@ class PitchTicsEditor extends React.Component {
             this.handlePitchScaleChange( newValue );
           } }
         />
-      </div>
+      </Fragment>
     );
   }
 }

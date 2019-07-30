@@ -4,6 +4,8 @@
 .loop-controls {
   background-color: $surface-dark-color;
   padding: 8px 0;
+  margin-top: 8px;
+  align-self: stretch;
 
   .checkbox {
     margin: 0;

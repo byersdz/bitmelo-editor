@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import Button from 'Components/Button/Button';
 
+import PianoKey from './PianoKey/PianoKey';
+
 import './Piano.scss';
 
 class Piano extends React.Component {
@@ -52,14 +54,13 @@ class Piano extends React.Component {
   }
 
   renderOctave( octaveNumber ) {
-    const whiteKeysRender = [];
+    const keysRender = [];
 
-    for ( let i = 0; i < 7; i += 1 ) {
-      // render the white keys
-      whiteKeysRender.push( (
-        <div
-          key={ `${ octaveNumber }-w-${ i }` }
-          className="white-key"
+    for ( let i = 0; i < 12; i += 1 ) {
+      keysRender.push( (
+        <PianoKey
+          key={ `${ octaveNumber }_${ i }` }
+          note={ i }
         />
       ) );
     }
@@ -69,35 +70,49 @@ class Piano extends React.Component {
         key={ `o${ octaveNumber }` }
         className="octave"
       >
-        { whiteKeysRender }
+        { keysRender }
       </div>
     );
   }
 
   render() {
+    const { octave, onOctaveChange } = this.props;
+
     const octavesRender = [];
 
     for ( let i = 0; i < 8; i += 1 ) {
       octavesRender.push( this.renderOctave( i ) );
     }
 
+    const offsetDistance = -octave * 350;
+    const containerStyle = {
+      left: offsetDistance,
+    };
     return (
       <div className="piano">
         <Button
           title="left"
-          click={ () => console.log( 'left' ) }
+          click={ () => {
+            if ( octave > 0 ) {
+              onOctaveChange( octave - 1 );
+            }
+          } }
           icon="play"
           className="octave-btn left"
           hideTitle
         />
         <div className="scroll-container">
-          <div className="keys-container">
+          <div className="keys-container" style={ containerStyle }>
             { octavesRender }
           </div>
         </div>
         <Button
           title="right"
-          click={ () => console.log( 'right' ) }
+          click={ () => {
+            if ( octave < 7 ) {
+              onOctaveChange( octave + 1 );
+            }
+          } }
           icon="play"
           className="octave-btn right"
           hideTitle
@@ -111,6 +126,8 @@ class Piano extends React.Component {
 Piano.propTypes = {
   onKeyDown: PropTypes.func.isRequired,
   onKeyUp: PropTypes.func.isRequired,
+  octave: PropTypes.number.isRequired,
+  onOctaveChange: PropTypes.func.isRequired,
 };
 
 export default Piano;

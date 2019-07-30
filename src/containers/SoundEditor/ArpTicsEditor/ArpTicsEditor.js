@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -19,7 +19,7 @@ class ArpTicsEditor extends React.Component {
   render() {
     const { soundData } = this.props;
     return (
-      <div>
+      <Fragment>
         <WaveGrid
           data={ soundData.arpTics }
           minValue={ -12 }
@@ -30,7 +30,7 @@ class ArpTicsEditor extends React.Component {
           loopEnd={ soundData.arpLoopEnd }
         />
         <LoopControls />
-      </div>
+      </Fragment>
     );
   }
 }
