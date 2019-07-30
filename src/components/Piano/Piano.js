@@ -1,6 +1,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Button from 'Components/Button/Button';
 
@@ -12,18 +13,45 @@ class Piano extends React.Component {
   constructor( props ) {
     super( props );
 
+    this.state = {
+      width: 720,
+    };
+
     this.keyDown = this.keyDown.bind( this );
     this.keyUp = this.keyUp.bind( this );
+    this.updateDimensions = this.updateDimensions.bind( this );
+
+    this.scrollContainerRef = React.createRef();
   }
 
   componentDidMount() {
+    window.addEventListener( 'resize', this.updateDimensions );
     document.addEventListener( 'keydown', this.keyDown );
     document.addEventListener( 'keyup', this.keyUp );
+
+    this.updateDimensions();
   }
 
   componentWillUnmount() {
+    window.removeEventListener( 'resize', this.updateDimensions );
     document.removeEventListener( 'keydown', this.keyDown );
     document.removeEventListener( 'keyup', this.keyUp );
+  }
+
+  componentDidUpdate( prevProps ) {
+    const { navigationPanelIsOpen, referencePanelIsOpen } = this.props;
+    if (
+      prevProps.navigationPanelIsOpen !== navigationPanelIsOpen
+      || prevProps.referencePanelIsOpen !== referencePanelIsOpen
+    ) {
+      this.updateDimensions();
+    }
+  }
+
+  updateDimensions() {
+    this.setState( {
+      width: this.scrollContainerRef.current.offsetWidth,
+    } );
   }
 
   keyDown( event ) {
@@ -54,13 +82,18 @@ class Piano extends React.Component {
   }
 
   renderOctave( octaveNumber ) {
+    const { octave } = this.props;
+
     const keysRender = [];
+    const showHotkey = octave === octaveNumber;
 
     for ( let i = 0; i < 12; i += 1 ) {
       keysRender.push( (
         <PianoKey
           key={ `${ octaveNumber }_${ i }` }
           note={ i }
+          octave={ octaveNumber }
+          showHotkey={ showHotkey }
         />
       ) );
     }
@@ -76,15 +109,19 @@ class Piano extends React.Component {
   }
 
   render() {
+    const { width } = this.state;
     const { octave, onOctaveChange } = this.props;
 
     const octavesRender = [];
 
-    for ( let i = 0; i < 8; i += 1 ) {
+    for ( let i = 0; i < 9; i += 1 ) {
       octavesRender.push( this.renderOctave( i ) );
     }
 
-    const offsetDistance = -octave * 350;
+    let offsetDistance = -octave * 350;
+    offsetDistance += width / 2;
+    offsetDistance -= 175; // half of the octave width
+
     const containerStyle = {
       left: offsetDistance,
     };
@@ -101,7 +138,7 @@ class Piano extends React.Component {
           className="octave-btn left"
           hideTitle
         />
-        <div className="scroll-container">
+        <div className="scroll-container" ref={ this.scrollContainerRef }>
           <div className="keys-container" style={ containerStyle }>
             { octavesRender }
           </div>
@@ -109,7 +146,7 @@ class Piano extends React.Component {
         <Button
           title="right"
           click={ () => {
-            if ( octave < 7 ) {
+            if ( octave < 8 ) {
               onOctaveChange( octave + 1 );
             }
           } }
@@ -128,6 +165,15 @@ Piano.propTypes = {
   onKeyUp: PropTypes.func.isRequired,
   octave: PropTypes.number.isRequired,
   onOctaveChange: PropTypes.func.isRequired,
+  navigationPanelIsOpen: PropTypes.bool.isRequired,
+  referencePanelIsOpen: PropTypes.bool.isRequired,
 };
 
-export default Piano;
+function mapStateToProps( state ) {
+  return {
+    navigationPanelIsOpen: state.layout.navigationPanelIsOpen,
+    referencePanelIsOpen: state.layout.referencePanelIsOpen,
+  };
+}
+
+export default connect( mapStateToProps )( Piano );

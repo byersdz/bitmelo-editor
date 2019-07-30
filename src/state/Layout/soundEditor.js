@@ -4,7 +4,7 @@ export const SET_SOUND_EDITOR_PIANO_OCTAVE = 'SET_SOUND_EDITOR_PIANO_OCTAVE';
 
 // Reducer
 const initialState = {
-  pianoOctave: 3,
+  pianoOctave: 4,
 };
 
 export default function reducer( state = initialState, action ) {

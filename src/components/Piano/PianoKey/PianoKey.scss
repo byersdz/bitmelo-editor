@@ -4,6 +4,13 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  align-items: center;
+  font-size: 14px;
+  padding-bottom: 4px;
+
+  .hotkey {
+    font-weight: bold;
+  }
 }
 
 .piano-key.white {
@@ -11,15 +18,26 @@
   border-left: 1px solid black;
   border-right: 1px solid black;
   background-color: $secondary-color;
+  color: #666;
+
+  .hotkey {
+    color: #222;
+
+  }
 }
 
 .piano-key.black {
   position: absolute;
   top: 0;
   width: 36px;
-  height: 80px;
+  height: 70px;
   background-color: black;
   z-index: 2;
+  color: #888;
+
+  .hotkey {
+    color: #ccc;
+  }
 }
 
 .piano-key.cs {
