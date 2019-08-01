@@ -21,6 +21,10 @@ class BitmeloAudio extends React.Component {
     this.processEvent = this.processEvent.bind( this );
     this.addSoundData = this.addSoundData.bind( this );
     this.updateLoop = this.updateLoop.bind( this );
+
+    this.state = {
+      lastPlayedNote: -1,
+    };
   }
 
   componentDidMount() {
@@ -99,11 +103,18 @@ class BitmeloAudio extends React.Component {
   }
 
   processEvent( event ) {
+    const { lastPlayedNote } = this.state;
+
     if ( event.type === PIANO_KEY_DOWN ) {
-      this.audio.playSound( 0, 40, -1, 1, 0 );
+      const key = event.payload;
+      this.setState( { lastPlayedNote: key } );
+      this.audio.playSound( 0, key, -1, 1, 0 );
     }
     else if ( event.type === PIANO_KEY_UP ) {
-      this.audio.stopInfiniteSound( 0 );
+      const key = event.payload;
+      if ( lastPlayedNote === key ) {
+        this.audio.stopInfiniteSound( 0 );
+      }
     }
     else if ( event.type === STOP_ALL_AUDIO ) {
       this.audio.stopAllInfiniteSounds();

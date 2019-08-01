@@ -72,13 +72,9 @@ class Piano extends React.Component {
 
       if ( prevKeyState !== currentKeyState ) {
         if ( currentKeyState ) {
-          // key down
-          console.log( `${ i } down` );
           onKeyDown( i );
         }
         else {
-          // key up
-          console.log( `${ i } up` );
           onKeyUp( i );
         }
       }
@@ -92,7 +88,6 @@ class Piano extends React.Component {
 
       this.setState( { keyStates: newKeyStates, keyboardStates: newKeyboardStates } );
     }
-
   }
 
   updateDimensions() {
