@@ -24,6 +24,8 @@ class Piano extends React.Component {
       width: 720,
       keyStates, // piano keys
       keyboardStates, // keyboard keys
+      leftIsDown: false,
+      rightIsDown: false,
     };
 
     this.keyDown = this.keyDown.bind( this );
@@ -81,13 +83,22 @@ class Piano extends React.Component {
     }
 
     if ( prevProps.octave !== octave ) {
-      const newKeyStates = new Array( numberOfKeys );
-      const newKeyboardStates = new Array( numberOfKeys );
-      newKeyStates.fill( false );
-      newKeyboardStates.fill( false );
-
-      this.setState( { keyStates: newKeyStates, keyboardStates: newKeyboardStates } );
+      this.clearKeyStates();
     }
+
+    const { leftIsDown, rightIsDown } = this.state;
+    if ( prevState.leftIsDown !== leftIsDown || prevState.rightIsDown !== rightIsDown ) {
+      this.clearKeyStates();
+    }
+  }
+
+  clearKeyStates() {
+    const newKeyStates = new Array( numberOfKeys );
+    const newKeyboardStates = new Array( numberOfKeys );
+    newKeyStates.fill( false );
+    newKeyboardStates.fill( false );
+
+    this.setState( { keyStates: newKeyStates, keyboardStates: newKeyboardStates } );
   }
 
   updateDimensions() {
@@ -97,6 +108,8 @@ class Piano extends React.Component {
   }
 
   keyDown( event ) {
+    const { onOctaveChange, octave } = this.props;
+
     if ( !event.repeat ) {
       const index = this.indexForCode( event.code );
       if ( index >= 0 ) {
@@ -105,6 +118,23 @@ class Piano extends React.Component {
           const newState = [...keyboardStates];
           newState[index] = true;
           this.setState( { keyboardStates: newState } );
+        }
+      }
+
+      if ( event.which === 37 ) { // left arrow
+        this.setState( { leftIsDown: true } );
+      }
+      else if ( event.which === 39 ) { // right arrow
+        this.setState( { rightIsDown: true } );
+      }
+      else if ( event.which === 40 ) { // down arrow
+        if ( octave > 0 ) {
+          onOctaveChange( octave - 1 );
+        }
+      }
+      else if ( event.which === 38 ) { // up arrow
+        if ( octave < 8 ) {
+          onOctaveChange( octave + 1 );
         }
       }
     }
@@ -120,6 +150,13 @@ class Piano extends React.Component {
         this.setState( { keyboardStates: newState } );
       }
     }
+
+    if ( event.which === 37 ) { // left arrow
+      this.setState( { leftIsDown: false } );
+    }
+    else if ( event.which === 39 ) { // right arrow
+      this.setState( { rightIsDown: false } );
+    }
   }
 
   handleKeyStateChange( value, keyIndex ) {
@@ -131,6 +168,8 @@ class Piano extends React.Component {
 
   indexForCode( code ) {
     const { octave } = this.props;
+    const { leftIsDown, rightIsDown } = this.state;
+
     let keyNumber = 0;
 
     switch ( code ) {
@@ -186,15 +225,46 @@ class Piano extends React.Component {
         return -1;
     }
 
-    return octave * 12 + keyNumber;
+    let modifiedOctave = octave;
+
+    if ( leftIsDown ) {
+      if ( octave > 0 ) {
+        modifiedOctave -= 1;
+      }
+    }
+    else if ( rightIsDown ) {
+      if ( octave < 8 ) {
+        modifiedOctave += 1;
+      }
+    }
+
+    return modifiedOctave * 12 + keyNumber;
   }
 
   renderOctave( octaveNumber ) {
-    const { keyStates, keyboardStates } = this.state;
+    const {
+      keyStates,
+      keyboardStates,
+      leftIsDown,
+      rightIsDown,
+    } = this.state;
     const { octave } = this.props;
 
     const keysRender = [];
-    const showHotkey = octave === octaveNumber;
+
+    let hotkeyOctave = octave;
+    if ( leftIsDown ) {
+      if ( octave > 0 ) {
+        hotkeyOctave -= 1;
+      }
+    }
+    else if ( rightIsDown ) {
+      if ( octave < 8 ) {
+        hotkeyOctave += 1;
+      }
+    }
+
+    const showHotkey = octaveNumber === hotkeyOctave;
 
     for ( let i = 0; i < 12; i += 1 ) {
       const keyIndex = octaveNumber * 12 + i;
