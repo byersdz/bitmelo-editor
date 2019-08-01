@@ -123,19 +123,23 @@ class Piano extends React.Component {
 
       if ( event.which === 37 ) { // left arrow
         this.setState( { leftIsDown: true } );
+        event.preventDefault();
       }
       else if ( event.which === 39 ) { // right arrow
         this.setState( { rightIsDown: true } );
+        event.preventDefault();
       }
       else if ( event.which === 40 ) { // down arrow
         if ( octave > 0 ) {
           onOctaveChange( octave - 1 );
         }
+        event.preventDefault();
       }
       else if ( event.which === 38 ) { // up arrow
         if ( octave < 8 ) {
           onOctaveChange( octave + 1 );
         }
+        event.preventDefault();
       }
     }
   }
