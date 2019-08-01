@@ -26,6 +26,14 @@
   }
 }
 
+.piano-key.white:hover {
+  background-color: #aaa;
+}
+
+.piano-key.white.active {
+  background-color: $primary-color;
+}
+
 .piano-key.black {
   position: absolute;
   top: 0;
@@ -38,6 +46,14 @@
   .hotkey {
     color: #ccc;
   }
+}
+
+.piano-key.black:hover {
+  background-color: #222;
+}
+
+.piano-key.black.active {
+  background-color: $primary-dark-color;
 }
 
 .piano-key.cs {

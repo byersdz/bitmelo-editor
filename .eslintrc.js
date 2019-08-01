@@ -27,7 +27,8 @@ module.exports = {
     "react/sort-comp": 'off',
     "no-else-return": 'off',
     "react/forbid-prop-types": "off",
-    "no-continue": "off"
+    "no-continue": "off",
+    "react/no-did-update-set-state": "off",
   },
   "globals": {
     "bitmelo": "readonly",

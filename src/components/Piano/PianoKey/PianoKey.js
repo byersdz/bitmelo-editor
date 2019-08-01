@@ -5,8 +5,35 @@ import PropTypes from 'prop-types';
 import './PianoKey.scss';
 
 class PianoKey extends React.Component {
+  handlePointerDown() {
+    const { isActive, onStateChange } = this.props;
+    if ( !isActive ) {
+      onStateChange( true );
+    }
+  }
+
+  handlePointerUp() {
+    const { isActive, onStateChange } = this.props;
+    if ( isActive ) {
+      onStateChange( false );
+    }
+  }
+
+  handlePointerExit() {
+    const { isActive, onStateChange } = this.props;
+    if ( isActive ) {
+      onStateChange( false );
+    }
+  }
+
   render() {
-    const { note, octave, showHotkey } = this.props;
+    const {
+      note,
+      octave,
+      showHotkey,
+      isActive,
+      keyboardIsActive,
+    } = this.props;
 
     let className = 'piano-key ';
     let noteDisplay = '';
@@ -99,13 +126,22 @@ class PianoKey extends React.Component {
       }
       default: break;
     }
+
     if ( !showHotkey ) {
       hotkey = null;
+    }
+
+    if ( isActive || keyboardIsActive ) {
+      className += ' active';
     }
 
     return (
       <div
         className={ className }
+        onPointerDown={ e => this.handlePointerDown( e ) }
+        onPointerUp={ e => this.handlePointerUp( e ) }
+        onPointerLeave={ e => this.handlePointerExit( e ) }
+        onPointerCancel={ e => this.handlePointerExit( e ) }
       >
         <div className="hotkey">
           { hotkey }
@@ -125,6 +161,9 @@ PianoKey.propTypes = {
   showHotkey: PropTypes.bool.isRequired,
   note: PropTypes.number.isRequired,
   octave: PropTypes.number.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  keyboardIsActive: PropTypes.bool.isRequired,
+  onStateChange: PropTypes.func.isRequired,
 };
 
 
