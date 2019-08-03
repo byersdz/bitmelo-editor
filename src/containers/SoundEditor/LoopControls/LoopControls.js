@@ -6,7 +6,9 @@ import { bindActionCreators } from 'redux';
 
 import NumberPicker from 'Components/NumberPicker/NumberPicker';
 import Checkbox from 'Components/Checkbox/Checkbox';
-import { setSoundData } from 'State/Sound/sounds';
+import Button from 'Components/Button/Button';
+
+import { setSoundData, syncSoundLoops } from 'State/Sound/sounds';
 
 import {
   VOLUME_TAB,
@@ -153,6 +155,43 @@ class LoopControls extends React.Component {
     setSound( activeSound, newSound );
   }
 
+  handleSyncLoops() {
+    const {
+      _syncSoundLoops,
+      soundData,
+      activeTicTab,
+      activeSound,
+    } = this.props;
+
+    let useLoop = false;
+    let loopStart = 0;
+    let loopEnd = 31;
+
+    switch ( activeTicTab ) {
+      case VOLUME_TAB: {
+        useLoop = soundData.useVolumeLoop;
+        loopStart = soundData.volumeLoopStart;
+        loopEnd = soundData.volumeLoopEnd;
+        break;
+      }
+      case PITCH_TAB: {
+        useLoop = soundData.usePitchLoop;
+        loopStart = soundData.pitchLoopStart;
+        loopEnd = soundData.pitchLoopEnd;
+        break;
+      }
+      case ARP_TAB: {
+        useLoop = soundData.useArpLoop;
+        loopStart = soundData.arpLoopStart;
+        loopEnd = soundData.arpLoopEnd;
+        break;
+      }
+      default: break;
+    }
+
+    _syncSoundLoops( activeSound, useLoop, loopStart, loopEnd );
+  }
+
   render() {
     const { soundData, activeTicTab } = this.props;
 
@@ -205,6 +244,14 @@ class LoopControls extends React.Component {
       </div>
     ) : null;
 
+    const syncLoopsRender = useLoop ? (
+      <Button
+        title="Sync Loops"
+        click={ () => this.handleSyncLoops() }
+        standard
+      />
+    ) : null;
+
     return (
       <div className="loop-controls">
         <Checkbox
@@ -213,6 +260,7 @@ class LoopControls extends React.Component {
           onChange={ checked => this.handleUseLoopChange( checked ) }
         />
         { startEndRender }
+        { syncLoopsRender }
       </div>
     );
   }
@@ -223,6 +271,7 @@ LoopControls.propTypes = {
   activeSound: PropTypes.number.isRequired,
   setSound: PropTypes.func.isRequired,
   activeTicTab: PropTypes.string.isRequired,
+  _syncSoundLoops: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -237,6 +286,7 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     setSound: setSoundData,
+    _syncSoundLoops: syncSoundLoops,
   }, dispatch );
 }
 

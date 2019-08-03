@@ -7,6 +7,7 @@ export const SET_SOUND_DATA = 'SET_SOUND_DATA';
 export const ADDED_SOUND_TO_AUDIO_ENGINE = 'ADDED_SOUND_TO_AUDIO_ENGINE';
 export const ADD_SOUND = 'ADD_SOUND';
 export const DELETE_SOUND = 'DELETE_SOUND';
+export const SYNC_SOUND_LOOPS = 'SYNC_SOUND_LOOPS';
 
 // validation
 export function validate( state ) {
@@ -155,6 +156,31 @@ export default function reducer( state = initialState, action ) {
         return state;
       }
     }
+    case SYNC_SOUND_LOOPS: {
+      const {
+        soundIndex,
+        // useLoop,
+        loopStart,
+        loopEnd,
+      } = action.payload;
+      const newState = [...state];
+      newState[soundIndex] = {
+        ...state[soundIndex],
+        needToAddToAudioEngine: true,
+        /*
+        useVolumeLoop: useLoop,
+        usePitchLoop: useLoop,
+        useArpLoop: useLoop,
+        */
+        volumeLoopStart: loopStart,
+        pitchLoopStart: loopStart,
+        arpLoopStart: loopStart,
+        volumeLoopEnd: loopEnd,
+        pitchLoopEnd: loopEnd,
+        arpLoopEnd: loopEnd,
+      };
+      return newState;
+    }
     case ADD_SOUND: {
       const newState = [...state];
       newState.push( { ...initialState[0] } );
@@ -204,5 +230,17 @@ export function deleteSound( soundIndex ) {
   return {
     type: DELETE_SOUND,
     payload: soundIndex,
+  };
+}
+
+export function syncSoundLoops( soundIndex, useLoop, loopStart, loopEnd ) {
+  return {
+    type: SYNC_SOUND_LOOPS,
+    payload: {
+      soundIndex,
+      useLoop,
+      loopStart,
+      loopEnd,
+    },
   };
 }
