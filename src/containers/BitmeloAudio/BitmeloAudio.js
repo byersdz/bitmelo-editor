@@ -13,6 +13,7 @@ import {
 } from 'State/Sound/audioEvents';
 import { addedSoundToAudioEngine } from 'State/Sound/sounds';
 import { SOUND_TAB } from 'State/Layout/activeNavigationTab';
+import { setLastSoundTics } from 'State/Layout/soundEditor';
 
 class BitmeloAudio extends React.Component {
   constructor( props ) {
@@ -25,6 +26,7 @@ class BitmeloAudio extends React.Component {
 
     this.state = {
       lastPlayedNote: -1,
+      isPlayingNote: false,
     };
   }
 
@@ -58,7 +60,7 @@ class BitmeloAudio extends React.Component {
     const { activeSound: prevActiveSound } = prevProps;
     const {
       events,
-      clearEvents,
+      _clearEvents,
       activeSound,
       sounds,
     } = this.props;
@@ -68,7 +70,7 @@ class BitmeloAudio extends React.Component {
     }
 
     if ( events.length > 0 ) {
-      clearEvents();
+      _clearEvents();
     }
 
     if ( activeSound !== prevActiveSound ) {
@@ -84,7 +86,19 @@ class BitmeloAudio extends React.Component {
   }
 
   updateLoop() {
+    const { _setLastSoundTics } = this.props;
+    const { isPlayingNote } = this.state;
+
     this.audio.update();
+
+    if ( isPlayingNote ) {
+      _setLastSoundTics(
+        this.audio.sounds[0].lastVolumeTic,
+        this.audio.sounds[0].lastPitchTic,
+        this.audio.sounds[0].lastArpTic,
+      );
+    }
+
     requestAnimationFrame( this.updateLoop );
   }
 
@@ -105,7 +119,12 @@ class BitmeloAudio extends React.Component {
 
   processEvent( event ) {
     const { lastPlayedNote } = this.state;
-    const { activeNavigationTab, soundPianoSpeed, soundPianoVolume } = this.props;
+    const {
+      activeNavigationTab,
+      soundPianoSpeed,
+      soundPianoVolume,
+      _setLastSoundTics,
+    } = this.props;
 
     let speed = 0;
     let volume = 1;
@@ -117,13 +136,16 @@ class BitmeloAudio extends React.Component {
 
     if ( event.type === PIANO_KEY_DOWN ) {
       const key = event.payload;
-      this.setState( { lastPlayedNote: key } );
+      this.setState( { lastPlayedNote: key, isPlayingNote: true } );
       this.audio.playSound( 0, key, -1, volume, speed );
+      _setLastSoundTics( -1, -1, -1 );
     }
     else if ( event.type === PIANO_KEY_UP ) {
       const key = event.payload;
       if ( lastPlayedNote === key ) {
         this.audio.stopInfiniteSound( 0 );
+        this.setState( { isPlayingNote: false } );
+        _setLastSoundTics( -1, -1, -1 );
       }
     }
     else if ( event.type === STOP_ALL_AUDIO ) {
@@ -138,13 +160,14 @@ class BitmeloAudio extends React.Component {
 
 BitmeloAudio.propTypes = {
   events: PropTypes.arrayOf( PropTypes.object ).isRequired,
-  clearEvents: PropTypes.func.isRequired,
+  _clearEvents: PropTypes.func.isRequired,
   activeSound: PropTypes.number.isRequired,
   sounds: PropTypes.arrayOf( PropTypes.object ).isRequired,
   _addedSoundToAudioEngine: PropTypes.func.isRequired,
   activeNavigationTab: PropTypes.string.isRequired,
   soundPianoSpeed: PropTypes.number.isRequired,
   soundPianoVolume: PropTypes.number.isRequired,
+  _setLastSoundTics: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -160,8 +183,9 @@ function mapStateToProps( state ) {
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
-    clearEvents: clearAudioEvents,
+    _clearEvents: clearAudioEvents,
     _addedSoundToAudioEngine: addedSoundToAudioEngine,
+    _setLastSoundTics: setLastSoundTics,
   }, dispatch );
 }
 

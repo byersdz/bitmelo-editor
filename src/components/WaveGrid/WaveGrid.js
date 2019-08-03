@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import {
   secondaryColor,
   secondaryDarkColor,
-  primaryDarkerColor,
   primaryColor,
 } from 'Style/colors';
 
@@ -46,6 +45,7 @@ class WaveGrid extends React.Component {
       showLoop,
       loopStart,
       loopEnd,
+      lastTic,
     } = this.props;
 
     const gridHeight = maxValue - minValue + 1;
@@ -79,13 +79,16 @@ class WaveGrid extends React.Component {
 
     // draw loop
     if ( showLoop ) {
-      context.fillStyle = primaryDarkerColor;
-      // context.fillRect( 0, height - gridScale, width, gridScale );
-
       context.fillStyle = primaryColor;
       const baseX = loopStart * gridScale;
       const loopWidth = ( loopEnd - loopStart + 1 ) * gridScale;
       context.fillRect( baseX, height - gridScale, loopWidth, gridScale );
+    }
+
+    // drawLastTic
+    if ( lastTic >= 0 && lastTic < data.length ) {
+      context.fillStyle = primaryColor;
+      context.fillRect( lastTic * gridScale, 0, gridScale, height );
     }
 
     // draw borders
@@ -176,6 +179,11 @@ WaveGrid.propTypes = {
   showLoop: PropTypes.bool.isRequired,
   loopStart: PropTypes.number.isRequired,
   loopEnd: PropTypes.number.isRequired,
+  lastTic: PropTypes.number,
+};
+
+WaveGrid.defaultProps = {
+  lastTic: -1,
 };
 
 export default WaveGrid;

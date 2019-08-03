@@ -23,7 +23,7 @@ class PitchTicsEditor extends React.Component {
   }
 
   render() {
-    const { soundData } = this.props;
+    const { soundData, lastTic } = this.props;
     return (
       <Fragment>
         <WaveGrid
@@ -34,6 +34,7 @@ class PitchTicsEditor extends React.Component {
           showLoop={ soundData.usePitchLoop }
           loopStart={ soundData.pitchLoopStart }
           loopEnd={ soundData.pitchLoopEnd }
+          lastTic={ lastTic }
         />
         <LoopControls />
         <NumberPicker
@@ -54,6 +55,7 @@ PitchTicsEditor.propTypes = {
   soundData: PropTypes.object.isRequired,
   activeSound: PropTypes.number.isRequired,
   setSound: PropTypes.func.isRequired,
+  lastTic: PropTypes.number.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -61,6 +63,7 @@ function mapStateToProps( state ) {
   return {
     soundData: sounds[activeSound],
     activeSound,
+    lastTic: state.layout.soundEditor.lastPitchTic,
   };
 }
 
