@@ -1,0 +1,20 @@
+
+@import 'Style/colors.scss';
+
+.reference-console {
+  font-size: 14px;
+  color: $on-background-color;
+
+  .log {
+    padding: 8px;
+    border-bottom: 1px solid $background-dark-color;
+  }
+
+  .warn {
+    color: rgb(239, 245, 185);
+  }
+
+  .error {
+    color: rgb(230, 167, 167);
+  }
+}

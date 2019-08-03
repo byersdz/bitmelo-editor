@@ -8,6 +8,7 @@ import activeSoundTicTab from './activeSoundTicTab';
 import tileSelectorIsOpen from './tileSelectorIsOpen';
 import tilemapEditor from './tilemapEditor';
 import soundEditor from './soundEditor';
+import referenceTabTitle from './referenceTabTitle';
 
 export default combineReducers( {
   activeNavigationTab,
@@ -17,4 +18,5 @@ export default combineReducers( {
   tileSelectorIsOpen,
   tilemapEditor,
   soundEditor,
+  referenceTabTitle,
 } );

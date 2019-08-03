@@ -12,6 +12,9 @@
 
   .reference-main {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .toggle-btn {

@@ -15,11 +15,32 @@ import './App.scss';
 import { loadStateFromLocalStorage } from 'Utils/Saving/localStorage';
 
 class App extends React.Component {
+  constructor( props ) {
+    super( props );
+    this.handleKeyDown = this.handleKeyDown.bind( this );
+  }
+
   componentDidMount() {
     const { _importProjectData } = this.props;
     const savedState = loadStateFromLocalStorage();
     if ( savedState ) {
       _importProjectData( savedState );
+    }
+
+    window.addEventListener( 'keydown', this.handleKeyDown );
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener( 'keydown', this.handleKeyDown );
+  }
+
+  handleKeyDown( event ) {
+    if ( event.which === 83 ) { // s
+      if ( event.ctrlKey ) {
+        // do nothing when the user attempts to save
+        // avoids the annoying save website popup
+        event.preventDefault();
+      }
     }
   }
 
