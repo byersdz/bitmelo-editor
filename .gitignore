@@ -78,3 +78,7 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+dist/
+electron/dist/
+electron/react-build/
