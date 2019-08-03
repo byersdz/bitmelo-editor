@@ -12,6 +12,7 @@ import {
   STOP_ALL_AUDIO,
 } from 'State/Sound/audioEvents';
 import { addedSoundToAudioEngine } from 'State/Sound/sounds';
+import { SOUND_TAB } from 'State/Layout/activeNavigationTab';
 
 class BitmeloAudio extends React.Component {
   constructor( props ) {
@@ -104,11 +105,20 @@ class BitmeloAudio extends React.Component {
 
   processEvent( event ) {
     const { lastPlayedNote } = this.state;
+    const { activeNavigationTab, soundPianoSpeed, soundPianoVolume } = this.props;
+
+    let speed = 0;
+    let volume = 1;
+
+    if ( activeNavigationTab === SOUND_TAB ) {
+      speed = soundPianoSpeed;
+      volume = soundPianoVolume;
+    }
 
     if ( event.type === PIANO_KEY_DOWN ) {
       const key = event.payload;
       this.setState( { lastPlayedNote: key } );
-      this.audio.playSound( 0, key, -1, 1, 0 );
+      this.audio.playSound( 0, key, -1, volume, speed );
     }
     else if ( event.type === PIANO_KEY_UP ) {
       const key = event.payload;
@@ -132,6 +142,9 @@ BitmeloAudio.propTypes = {
   activeSound: PropTypes.number.isRequired,
   sounds: PropTypes.arrayOf( PropTypes.object ).isRequired,
   _addedSoundToAudioEngine: PropTypes.func.isRequired,
+  activeNavigationTab: PropTypes.string.isRequired,
+  soundPianoSpeed: PropTypes.number.isRequired,
+  soundPianoVolume: PropTypes.number.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -139,6 +152,9 @@ function mapStateToProps( state ) {
     events: state.sound.audioEvents,
     activeSound: state.sound.activeSound,
     sounds: state.sound.sounds,
+    activeNavigationTab: state.layout.activeNavigationTab,
+    soundPianoSpeed: state.sound.piano.speed,
+    soundPianoVolume: state.sound.piano.volume,
   };
 }
 
