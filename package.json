@@ -3,11 +3,12 @@
   "version": "0.0.1",
   "description": "",
   "private": true,
-  "main": "index.js",
+  "main": "electron/electronMain.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --open --config config/webpack.config.dev.js",
-    "build": "webpack --config config/webpack.config.prod.js"
+    "build": "webpack --config config/webpack.config.prod.js",
+    "electron-start": "electron ."
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.1",
+    "electron": "^6.0.0",
     "eslint": "^5.15.3",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-import-resolver-webpack": "^0.11.0",
