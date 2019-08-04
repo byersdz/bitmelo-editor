@@ -12,7 +12,7 @@ import Button from 'Components/Button/Button';
 import { setProjectName } from 'State/Project/name';
 import { setMiscSettings } from 'State/Project/misc';
 
-import { downloadProjectData } from 'Utils/download';
+import { downloadProjectData, downloadHTMLGame } from 'Utils/download';
 
 import ScreenSettings from './ScreenSettings/ScreenSettings';
 import TileSizeModal from './TileSizeModal/TileSizeModal';
@@ -129,8 +129,13 @@ class ProjectEditor extends React.Component {
           standard
         />
         <Button
-          title="Download Project Data"
+          title="Export Project Data"
           click={ () => downloadProjectData() }
+          standard
+        />
+        <Button
+          title="Export HTML Game"
+          click={ () => downloadHTMLGame() }
           standard
         />
         <Button

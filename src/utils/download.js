@@ -2,6 +2,7 @@
 import cloneDeep from 'lodash.clonedeep';
 
 import storeRegistry from 'State/storeRegistry';
+import createHTMLGame from './Convert/createHTMLGame';
 
 export const downloadJSON = ( jsonObject, fileName ) => {
   const jsonString = JSON.stringify( jsonObject );
@@ -28,3 +29,20 @@ export const downloadProjectData = () => {
   const projectName = state.project.name;
   downloadJSON( state, `${ projectName }.project.json` );
 };
+
+export function downloadHTMLGame() {
+  const state = cloneDeep( storeRegistry.getStore().getState() );
+  // get rid of undo data
+  state.tileset = state.tileset.present;
+  state.tilemap = state.tilemap.present;
+  const projectName = state.project.name;
+
+  const htmlGame = createHTMLGame( state );
+  const dataString = `data:text/json;charset=utf-8,${ encodeURIComponent( htmlGame ) }`;
+  const anchorNode = document.createElement( 'a' );
+  anchorNode.setAttribute( 'href', dataString );
+  anchorNode.setAttribute( 'download', `${ projectName }.html` );
+  document.body.appendChild( anchorNode );
+  anchorNode.click();
+  anchorNode.remove();
+}
