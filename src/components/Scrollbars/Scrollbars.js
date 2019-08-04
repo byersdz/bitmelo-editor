@@ -5,28 +5,62 @@ import { Scrollbars as RCS } from 'react-custom-scrollbars';
 
 import './Scrollbars.scss';
 
-const Scrollbars = props => {
-  const { children, className } = props;
-  return (
-    <RCS
-      className={ className }
-      // renderTrackHorizontal={ p => <div { ...p } className="track-horizontal" /> }
-      renderTrackVertical={ p => <div { ...p } className="track-vertical" /> }
-      // renderThumbHorizontal={ p => <div { ...p } className="thumb-horizontal" /> }
-      renderThumbVertical={ p => <div { ...p } className="thumb-vertical" /> }
-    >
-      { children }
-    </RCS>
-  );
-};
+class Scrollbars extends React.Component {
+  constructor( props ) {
+    super( props );
+    this.scrollComponent = null;
+    this.updateStickToBottom = this.updateStickToBottom.bind( this );
+  }
+
+  componentDidMount() {
+    const { stickToBottom } = this.props;
+    if ( stickToBottom ) {
+      this.updateStickToBottom();
+    }
+  }
+
+  componentDidUpdate( prevProps ) {
+    const { stickToBottom } = this.props;
+
+    if ( stickToBottom && !prevProps.stickToBottom ) {
+      this.updateStickToBottom();
+    }
+  }
+
+  updateStickToBottom() {
+    const { stickToBottom } = this.props;
+    if ( stickToBottom && this.scrollComponent ) {
+      this.scrollComponent.scrollToBottom();
+      requestAnimationFrame( this.updateStickToBottom );
+    }
+  }
+
+  render() {
+    const { children, className } = this.props;
+    return (
+      <RCS
+        className={ className }
+        ref={ c => {
+          this.scrollComponent = c;
+        } }
+        renderTrackVertical={ p => <div { ...p } className="track-vertical" /> }
+        renderThumbVertical={ p => <div { ...p } className="thumb-vertical" /> }
+      >
+        { children }
+      </RCS>
+    );
+  }
+}
 
 Scrollbars.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
+  stickToBottom: PropTypes.bool,
 };
 
 Scrollbars.defaultProps = {
   className: '',
+  stickToBottom: false,
 };
 
 export default Scrollbars;

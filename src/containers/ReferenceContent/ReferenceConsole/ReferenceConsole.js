@@ -2,8 +2,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import Scrollbars from 'Components/Scrollbars/Scrollbars';
+import Checkbox from 'Components/Checkbox/Checkbox';
+
+import { setStickConsoleToBottom } from 'State/Layout/play';
 
 import './ReferenceConsole.scss';
 
@@ -31,23 +35,45 @@ class ReferenceConsole extends React.Component {
   }
 
   render() {
+    const { stickToBottom, _setStickConsoleToBottom } = this.props;
+
     const logsRender = this.renderLogs();
     return (
-      <Scrollbars className="reference-console">
-        { logsRender }
-      </Scrollbars>
+      <div className="reference-console">
+        <div className="scroll-container">
+          <Scrollbars
+            stickToBottom={ stickToBottom }
+          >
+            { logsRender }
+          </Scrollbars>
+        </div>
+        <Checkbox
+          title="Stick To Bottom"
+          checked={ stickToBottom }
+          onChange={ v => _setStickConsoleToBottom( v ) }
+        />
+      </div>
     );
   }
 }
 
 ReferenceConsole.propTypes = {
   playLogs: PropTypes.array.isRequired,
+  stickToBottom: PropTypes.bool.isRequired,
+  _setStickConsoleToBottom: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
   return {
     playLogs: state.code.playLogs,
+    stickToBottom: state.layout.play.stickConsoleToBottom,
   };
 }
 
-export default connect( mapStateToProps )( ReferenceConsole );
+function mapDispatchToProps( dispatch ) {
+  return bindActionCreators( {
+    _setStickConsoleToBottom: setStickConsoleToBottom,
+  }, dispatch );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( ReferenceConsole );
