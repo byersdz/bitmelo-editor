@@ -57,7 +57,7 @@ export default function exportHTMLGame( state ) {
     <div id="main-container">
       <div id="bitmelo-container"></div>
       <div id="made-with">
-        Made with <a href="http://bitmelo.com">Bitmelo</a>
+        Made with <a href="http://bitmelo.com" target="_blank">Bitmelo</a>
       </div>
     </div>
     <script>
