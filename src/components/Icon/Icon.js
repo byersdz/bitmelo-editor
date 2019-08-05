@@ -9,6 +9,8 @@ import BracketsIcon from './SVG/brackets-o.svg';
 import ClipboardIcon from './SVG/clipboard-o.svg';
 import TilesIcon from './SVG/tiles-o.svg';
 import MapIcon from './SVG/map-o.svg';
+import XIcon from './SVG/x-o.svg';
+import UpIcon from './SVG/up-o.svg';
 
 import './Icon.scss';
 
@@ -52,6 +54,18 @@ const Icon = ( props ) => {
 
     case 'map': {
       svgFile = MapIcon;
+      noFill = true;
+      break;
+    }
+
+    case 'x': {
+      svgFile = XIcon;
+      noFill = true;
+      break;
+    }
+
+    case 'up': {
+      svgFile = UpIcon;
       noFill = true;
       break;
     }

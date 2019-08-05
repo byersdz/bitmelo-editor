@@ -16,7 +16,7 @@ const ToggleHeader = props => {
       <Button
         title="Toggle"
         hideTitle
-        icon="play"
+        icon="up"
         click={ onToggle }
       />
     </div>

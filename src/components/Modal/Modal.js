@@ -24,7 +24,7 @@ const Modal = props => {
       </div>
       <Button
         title="Close"
-        icon="play"
+        icon="x"
         hideTitle
         click={ onClose }
       />

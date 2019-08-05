@@ -5,12 +5,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { importProjectData } from 'State/globalActions';
-import {
-  PLAY_TAB,
-  TILE_TAB,
-  TILEMAP_TAB,
-  CODE_TAB,
-} from 'State/Layout/activeNavigationTab';
 
 import NavigationTab from 'Containers/NavigationTab/NavigationTab';
 import MainContainer from 'Containers/MainContainer/MainContainer';
@@ -51,38 +45,11 @@ class App extends React.Component {
   }
 
   render() {
-    const { activeNavigationTab } = this.props;
-
-    let showReferenceTab = false;
-
-    switch ( activeNavigationTab ) {
-      case PLAY_TAB: {
-        showReferenceTab = true;
-        break;
-      }
-      case TILE_TAB: {
-        showReferenceTab = true;
-        break;
-      }
-      case TILEMAP_TAB: {
-        showReferenceTab = true;
-        break;
-      }
-      case CODE_TAB: {
-        showReferenceTab = true;
-        break;
-      }
-      default: break;
-    }
-
-    const referenceTabRender = showReferenceTab ? (
-      <ReferenceTab />
-    ) : null;
     return (
       <div id="app">
         <NavigationTab />
         <MainContainer />
-        { referenceTabRender }
+        <ReferenceTab />
         <BitmeloAudio />
       </div>
     );
@@ -91,14 +58,7 @@ class App extends React.Component {
 
 App.propTypes = {
   _importProjectData: PropTypes.func.isRequired,
-  activeNavigationTab: PropTypes.string.isRequired,
 };
-
-function mapStateToProps( state ) {
-  return {
-    activeNavigationTab: state.layout.activeNavigationTab,
-  };
-}
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
@@ -106,4 +66,4 @@ function mapDispatchToProps( dispatch ) {
   }, dispatch );
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )( App );
+export default connect( null, mapDispatchToProps )( App );

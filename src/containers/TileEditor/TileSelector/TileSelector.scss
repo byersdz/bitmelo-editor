@@ -32,6 +32,12 @@
 
 .tile-selector.open {
   min-width: 300px;
+
+  .toggle-header {
+    svg {
+      transform: scaleY( -1 );
+    }
+  }
 }
 
 .tile-selector.closed {

@@ -14,4 +14,13 @@
     flex-grow: 1;
     padding-left: 8px;
   }
+
+  .btn {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .btn:hover {
+    background-color: $secondary-dark-color;
+  }
 }
