@@ -86,7 +86,7 @@ class PalettePicker extends React.Component {
         key={ 1024 }
         title="Add Color"
         hideTitle
-        icon="play"
+        icon="plus"
         click={ () => this.handleAddClicked() }
       />
     ) );

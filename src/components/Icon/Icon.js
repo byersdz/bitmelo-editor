@@ -11,6 +11,7 @@ import TilesIcon from './SVG/tiles-o.svg';
 import MapIcon from './SVG/map-o.svg';
 import XIcon from './SVG/x-o.svg';
 import UpIcon from './SVG/up-o.svg';
+import PlusIcon from './SVG/plus-o.svg';
 
 import './Icon.scss';
 
@@ -66,6 +67,12 @@ const Icon = ( props ) => {
 
     case 'up': {
       svgFile = UpIcon;
+      noFill = true;
+      break;
+    }
+
+    case 'plus': {
+      svgFile = PlusIcon;
       noFill = true;
       break;
     }
