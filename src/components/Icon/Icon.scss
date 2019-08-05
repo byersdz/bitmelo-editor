@@ -28,5 +28,17 @@
   g {
     fill: none !important;
   }
+}
+
+.no-stroke {
+  stroke: none !important;
+
+  svg {
+    stroke: none !important;
+  }
+
+  g {
+    stroke: none !important;
+  }
 
 }

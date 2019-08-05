@@ -41,7 +41,7 @@ class NavigationTab extends React.Component {
       {
         key: PROJECT_TAB,
         title: 'Project',
-        icon: 'play',
+        icon: 'clipboard',
       },
       {
         key: PLAY_TAB,
@@ -56,12 +56,12 @@ class NavigationTab extends React.Component {
       {
         key: TILE_TAB,
         title: 'Tile Editor',
-        icon: 'play',
+        icon: 'tiles',
       },
       {
         key: TILEMAP_TAB,
         title: 'Tilemap Editor',
-        icon: 'play',
+        icon: 'map',
       },
       {
         key: SOUND_TAB,
