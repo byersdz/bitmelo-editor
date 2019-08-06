@@ -8,6 +8,7 @@ import Button from 'Components/Button/Button';
 import Scrollbars from 'Components/Scrollbars/Scrollbars';
 
 import { selectPaletteIndex } from 'State/Palette/selectedIndex';
+import { selectAltPaletteIndex } from 'State/Palette/altIndex';
 import { addPaletteColor } from 'State/Palette/colors';
 
 import ColorEditor from './ColorEditor/ColorEditor';
@@ -34,6 +35,11 @@ class PalettePicker extends React.Component {
     }
   }
 
+  handleAltSelection( index ) {
+    const { _selectAltPaletteIndex } = this.props;
+    _selectAltPaletteIndex( index );
+  }
+
   handleEditClicked() {
     const { selectedIndex } = this.props;
     const { colorEditorIsOpen } = this.state;
@@ -49,7 +55,7 @@ class PalettePicker extends React.Component {
   }
 
   render() {
-    const { palette, selectedIndex } = this.props;
+    const { palette, selectedIndex, altIndex } = this.props;
     const { colorEditorIsOpen } = this.state;
 
     const buttonsRender = [];
@@ -59,6 +65,9 @@ class PalettePicker extends React.Component {
       let className = '';
       if ( i === selectedIndex ) {
         className = 'active';
+      }
+      if ( i === altIndex ) {
+        className += ' alt';
       }
 
       const style = { backgroundColor: color };
@@ -72,7 +81,7 @@ class PalettePicker extends React.Component {
           key={ i }
           title="Palette Button"
           click={ () => this.handlePaletteSelection( i ) }
-          rightClick={ () => console.log( 'right click' ) }
+          rightClick={ () => this.handleAltSelection( i ) }
           hideTitle
           style={ style }
           usePointer
@@ -123,14 +132,17 @@ class PalettePicker extends React.Component {
 PalettePicker.propTypes = {
   palette: PropTypes.arrayOf( PropTypes.string ).isRequired,
   selectedIndex: PropTypes.number.isRequired,
+  altIndex: PropTypes.number.isRequired,
   _selectPaletteIndex: PropTypes.func.isRequired,
   _addPaletteColor: PropTypes.func.isRequired,
+  _selectAltPaletteIndex: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
   return {
     palette: state.palette.colors,
     selectedIndex: state.palette.selectedIndex,
+    altIndex: state.palette.altIndex,
   };
 }
 
@@ -138,6 +150,7 @@ function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _selectPaletteIndex: selectPaletteIndex,
     _addPaletteColor: addPaletteColor,
+    _selectAltPaletteIndex: selectAltPaletteIndex,
   }, dispatch );
 }
 

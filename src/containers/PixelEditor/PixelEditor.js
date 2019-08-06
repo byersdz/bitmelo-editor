@@ -175,6 +175,7 @@ class PixelEditor extends React.Component {
       selectedTool,
       selectedTileTool,
       selectedPaletteIndex,
+      altPaletteIndex,
       data,
       dataWidth,
       dataHeight,
@@ -198,6 +199,7 @@ class PixelEditor extends React.Component {
       }
 
       let editingTool = selectedTool;
+      let paletteIndex = selectedPaletteIndex;
 
       if ( isTileEditor ) {
         editingTool = selectedTileTool;
@@ -207,7 +209,7 @@ class PixelEditor extends React.Component {
         // use alternate tools for right click
         if ( !isTileEditor ) {
           if ( selectedTool === PENCIL_TOOL ) {
-            editingTool = ERASER_TOOL;
+            paletteIndex = altPaletteIndex;
           }
         }
       }
@@ -245,7 +247,7 @@ class PixelEditor extends React.Component {
         editingData.paletteId = 0;
       }
       else {
-        editingData.paletteId = selectedPaletteIndex;
+        editingData.paletteId = paletteIndex;
       }
 
       if ( editingTool === TILE_DRAW_TOOL ) {
@@ -813,6 +815,7 @@ PixelEditor.propTypes = {
   dataHeight: PropTypes.number.isRequired,
   palette: PropTypes.arrayOf( PropTypes.string ).isRequired,
   selectedPaletteIndex: PropTypes.number.isRequired,
+  altPaletteIndex: PropTypes.number,
   navigationPanelIsOpen: PropTypes.bool.isRequired,
   referencePanelIsOpen: PropTypes.bool.isRequired,
   selectedTool: PropTypes.string.isRequired,
@@ -834,6 +837,7 @@ PixelEditor.defaultProps = {
   selectionData: [],
   selectionWidth: 0,
   selectionHeight: 0,
+  altPaletteIndex: 0,
 };
 
 function mapStateToProps( state ) {

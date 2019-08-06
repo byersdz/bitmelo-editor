@@ -65,6 +65,7 @@ class TilePixelEditor extends React.Component {
     const {
       palette,
       selectedPaletteIndex,
+      altPaletteIndex,
       tileset,
       tileSize,
     } = this.props;
@@ -101,6 +102,7 @@ class TilePixelEditor extends React.Component {
         dataHeight={ selectedDataHeight }
         palette={ palette }
         selectedPaletteIndex={ selectedPaletteIndex }
+        altPaletteIndex={ altPaletteIndex }
         onDataChange={ newData => this.handleDataChange( newData ) }
       >
         <TileSelector />
@@ -112,6 +114,7 @@ class TilePixelEditor extends React.Component {
 TilePixelEditor.propTypes = {
   palette: PropTypes.arrayOf( PropTypes.string ).isRequired,
   selectedPaletteIndex: PropTypes.number.isRequired,
+  altPaletteIndex: PropTypes.number.isRequired,
   activeIndex: PropTypes.number.isRequired,
   tileset: PropTypes.object.isRequired,
   tileSize: PropTypes.number.isRequired,
@@ -127,6 +130,7 @@ function mapStateToProps( state ) {
   return {
     palette: state.palette.colors,
     selectedPaletteIndex: state.palette.selectedIndex,
+    altPaletteIndex: state.palette.altIndex,
     activeIndex,
     tileset: activeTileset,
     tileSize,
