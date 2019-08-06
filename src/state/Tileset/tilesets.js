@@ -6,6 +6,7 @@ import { RESET_PROJECT, IMPORT_PROJECT_DATA } from 'State/globalActions';
 // Actions
 export const SET_TILESET_LAYER_DATA = 'SET_TILESET_LAYER_DATA';
 export const SET_TILESET_SELECTION = 'SET_TILESET_SELECTION';
+export const SET_TILESET_MAP_SELECTION = 'SET_TILESET_MAP_SELECTION';
 export const SET_TILESET_SIZE = 'SET_TILESET_SIZE';
 
 // validation
@@ -83,6 +84,9 @@ const initialState = [
     selectedTile: 0,
     selectionWidth: 1,
     selectionHeight: 1,
+    mapSelectedTile: 0,
+    mapSelectionWidth: 1,
+    mapSelectionHeight: 1,
     activeLayer: 0,
     layers: [
       {
@@ -104,7 +108,16 @@ export default function reducer( state = initialState, action ) {
       try {
         const importedState = action.payload.tileset.tilesets;
         if ( validate( importedState ) ) {
-          return [...importedState];
+          const newState = [...importedState];
+          for ( let i = 0; i < newState.length; i += 1 ) {
+            newState[i].selectedTile = 0;
+            newState[i].selectionWidth = 1;
+            newState[i].selectionHeight = 1;
+            newState[i].mapSelectedTile = 0;
+            newState[i].mapSelectionWidth = 1;
+            newState[i].mapSelectionHeight = 1;
+          }
+          return newState;
         }
         return state;
       }
@@ -173,6 +186,9 @@ export default function reducer( state = initialState, action ) {
       newState[tilesetIndex].selectedTile = 0;
       newState[tilesetIndex].selectionWidth = 1;
       newState[tilesetIndex].selectionHeight = 1;
+      newState[tilesetIndex].mapSelectedTile = 0;
+      newState[tilesetIndex].mapSelectionWidth = 1;
+      newState[tilesetIndex].mapSelectionHeight = 1;
 
       newState[tilesetIndex].layers = [];
       for ( let i = 0; i < oldTileset.layers.length; i += 1 ) {
@@ -249,6 +265,17 @@ export default function reducer( state = initialState, action ) {
       return newState;
     }
 
+    case SET_TILESET_MAP_SELECTION: {
+      const { selection, tilesetIndex } = action.payload;
+      const { selectedTile, selectionWidth, selectionHeight } = selection;
+      const newState = [...state];
+      newState[tilesetIndex] = { ...state[tilesetIndex] };
+      newState[tilesetIndex].mapSelectedTile = selectedTile;
+      newState[tilesetIndex].mapSelectionWidth = selectionWidth;
+      newState[tilesetIndex].mapSelectionHeight = selectionHeight;
+      return newState;
+    }
+
     default:
       return state;
   }
@@ -270,6 +297,13 @@ export function setTilesetLayerData( data, tilesetIndex, layerIndex, selection )
 export function setTilesetSelection( selection, tilesetIndex ) {
   return {
     type: SET_TILESET_SELECTION,
+    payload: { selection, tilesetIndex },
+  };
+}
+
+export function setTilesetMapSelection( selection, tilesetIndex ) {
+  return {
+    type: SET_TILESET_MAP_SELECTION,
     payload: { selection, tilesetIndex },
   };
 }

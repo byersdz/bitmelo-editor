@@ -64,11 +64,11 @@ class TilemapPixelEditor extends React.Component {
     } = this.props;
 
     const layerData = tilemap.layers[tilemap.activeLayer].data;
-    const { selectionWidth, selectionHeight, selectedTile } = activeTileset;
-    const selectionData = new Array( selectionWidth * selectionHeight );
-    for ( let y = 0; y < selectionHeight; y += 1 ) {
-      for ( let x = 0; x < selectionWidth; x += 1 ) {
-        selectionData[y * selectionWidth + x] = selectedTile + ( y * activeTileset.width ) + x + 1;
+    const { mapSelectionWidth, mapSelectionHeight, mapSelectedTile } = activeTileset;
+    const selectionData = new Array( mapSelectionWidth * mapSelectionHeight );
+    for ( let y = 0; y < mapSelectionHeight; y += 1 ) {
+      for ( let x = 0; x < mapSelectionWidth; x += 1 ) {
+        selectionData[y * mapSelectionWidth + x] = mapSelectedTile + ( y * activeTileset.width ) + x + 1;
       }
     }
 
@@ -78,14 +78,14 @@ class TilemapPixelEditor extends React.Component {
         dataWidth={ tilemap.width }
         dataHeight={ tilemap.height }
         palette={ palette }
-        selectedPaletteIndex={ selectedTile + 1 }
+        selectedPaletteIndex={ mapSelectedTile + 1 }
         onDataChange={ newData => this.handleDataChange( newData ) }
         isTileEditor
         tileSize={ tileSize }
         tilesets={ tilesets }
         selectionData={ selectionData }
-        selectionWidth={ selectionWidth }
-        selectionHeight={ selectionHeight }
+        selectionWidth={ mapSelectionWidth }
+        selectionHeight={ mapSelectionHeight }
       >
         <TilemapSelector />
         <TileSelector isInMapEditor />

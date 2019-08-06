@@ -10,7 +10,7 @@ import Button from 'Components/Button/Button';
 import { toggleTileSelector } from 'State/Layout/tileSelectorIsOpen';
 import { toggleTilemapTileSelector } from 'State/Layout/tilemapEditor';
 
-import { setTilesetSelection } from 'State/Tileset/tilesets';
+import { setTilesetSelection, setTilesetMapSelection } from 'State/Tileset/tilesets';
 
 import EditTilesetModal from './EditTilesetModal/EditTilesetModal';
 import TileSelectorCanvas from './TileSelectorCanvas/TileSelectorCanvas';
@@ -27,8 +27,19 @@ class TileSelector extends React.Component {
   }
 
   handleSelectionChange( selection ) {
-    const { activeIndex, _setTilesetSelection } = this.props;
-    _setTilesetSelection( selection, activeIndex );
+    const {
+      activeIndex,
+      _setTilesetSelection,
+      _setTilesetMapSelection,
+      isInMapEditor,
+    } = this.props;
+
+    if ( isInMapEditor ) {
+      _setTilesetMapSelection( selection, activeIndex );
+    }
+    else {
+      _setTilesetSelection( selection, activeIndex );
+    }
   }
 
   render() {
@@ -70,9 +81,9 @@ class TileSelector extends React.Component {
           height={ tileSize * tileset.height }
           palette={ palette }
           data={ tileset.layers[0].data }
-          selectedTile={ tileset.selectedTile }
-          selectionWidth={ tileset.selectionWidth }
-          selectionHeight={ tileset.selectionHeight }
+          selectedTile={ isInMapEditor ? tileset.mapSelectedTile : tileset.selectedTile }
+          selectionWidth={ isInMapEditor ? tileset.mapSelectionWidth : tileset.selectionWidth }
+          selectionHeight={ isInMapEditor ? tileset.mapSelectionHeight : tileset.selectionHeight }
           tileSize={ tileSize }
           onSelectionChange={ s => this.handleSelectionChange( s ) }
         />
@@ -111,6 +122,7 @@ TileSelector.propTypes = {
   palette: PropTypes.array.isRequired,
   activeIndex: PropTypes.number.isRequired,
   _setTilesetSelection: PropTypes.func.isRequired,
+  _setTilesetMapSelection: PropTypes.func.isRequired,
   isInMapEditor: PropTypes.bool,
 };
 
@@ -137,6 +149,7 @@ function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _toggleTileSelector: toggleTileSelector,
     _setTilesetSelection: setTilesetSelection,
+    _setTilesetMapSelection: setTilesetMapSelection,
     _toggleTilemapTileSelector: toggleTilemapTileSelector,
   }, dispatch );
 }
