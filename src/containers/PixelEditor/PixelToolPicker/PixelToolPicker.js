@@ -43,8 +43,8 @@ class PixelToolPicker extends React.Component {
     const { selectedTool } = this.props;
 
     const tools = [
-      { key: PENCIL_TOOL, title: 'Pencil', icon: 'play' },
-      { key: ERASER_TOOL, title: 'Eraser', icon: 'play' },
+      { key: PENCIL_TOOL, title: 'Pencil', icon: 'pencil' },
+      { key: ERASER_TOOL, title: 'Eraser', icon: 'eraser' },
     ];
 
     return (

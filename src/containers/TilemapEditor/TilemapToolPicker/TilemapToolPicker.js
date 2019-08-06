@@ -43,8 +43,8 @@ class TilemapToolPicker extends React.Component {
     const { selectedTool } = this.props;
 
     const tools = [
-      { key: TILE_DRAW_TOOL, title: 'Draw', icon: 'play' },
-      { key: TILE_ERASE_TOOL, title: 'Eraser', icon: 'play' },
+      { key: TILE_DRAW_TOOL, title: 'Draw', icon: 'pencil' },
+      { key: TILE_ERASE_TOOL, title: 'Eraser', icon: 'eraser' },
     ];
 
     return (

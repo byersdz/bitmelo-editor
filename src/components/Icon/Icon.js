@@ -12,6 +12,8 @@ import MapIcon from './SVG/map-o.svg';
 import XIcon from './SVG/x-o.svg';
 import UpIcon from './SVG/up-o.svg';
 import PlusIcon from './SVG/plus-o.svg';
+import PencilIcon from './SVG/pencil-o.svg';
+import EraserIcon from './SVG/eraser-o.svg';
 
 import './Icon.scss';
 
@@ -74,6 +76,18 @@ const Icon = ( props ) => {
     case 'plus': {
       svgFile = PlusIcon;
       noFill = true;
+      break;
+    }
+
+    case 'pencil': {
+      svgFile = PencilIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'eraser': {
+      svgFile = EraserIcon;
+      noStroke = true;
       break;
     }
 
