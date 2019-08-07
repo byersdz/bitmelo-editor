@@ -14,6 +14,7 @@ import UpIcon from './SVG/up-o.svg';
 import PlusIcon from './SVG/plus-o.svg';
 import PencilIcon from './SVG/pencil-o.svg';
 import EraserIcon from './SVG/eraser-o.svg';
+import InfoIcon from './SVG/info-o.svg';
 
 import './Icon.scss';
 
@@ -87,6 +88,12 @@ const Icon = ( props ) => {
 
     case 'eraser': {
       svgFile = EraserIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'info': {
+      svgFile = InfoIcon;
       noStroke = true;
       break;
     }

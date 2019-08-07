@@ -13,6 +13,12 @@ class About extends React.Component {
           src={ BitmeloLogo }
           alt="Bitmelo Logo"
         />
+        <div className="version">
+          editor v0.0.1
+        </div>
+        <div className="version">
+          engine v0.0.1
+        </div>
       </div>
     );
   }

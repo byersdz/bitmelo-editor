@@ -42,7 +42,7 @@ class NavigationTab extends React.Component {
       {
         key: ABOUT_TAB,
         title: 'About',
-        icon: 'clipboard',
+        icon: 'info',
       },
       {
         key: PROJECT_TAB,
