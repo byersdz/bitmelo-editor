@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {
+  ABOUT_TAB,
   PROJECT_TAB,
   PLAY_TAB,
   CODE_TAB,
@@ -14,6 +15,7 @@ import {
 import TopBar from 'Components/TopBar/TopBar';
 import Scrollbars from 'Components/Scrollbars/Scrollbars';
 
+import About from 'Containers/About/About';
 import ProjectEditor from 'Containers/ProjectEditor/ProjectEditor';
 import Play from 'Containers/Play/Play';
 import CodeEditor from 'Containers/CodeEditor/CodeEditor';
@@ -28,9 +30,18 @@ class MainContainer extends React.Component {
     const { activeNavigationTab, projectName } = this.props;
     let contentRender = null;
 
-    let topBarTitle = 'Bitmelo™';
+    let topBarTitle = 'Bitmelo';
 
     switch ( activeNavigationTab ) {
+      case ABOUT_TAB: {
+        contentRender = (
+          <Scrollbars>
+            <About />
+          </Scrollbars>
+        );
+        topBarTitle += ': About';
+        break;
+      }
       case PROJECT_TAB:
         contentRender = (
           <Scrollbars>

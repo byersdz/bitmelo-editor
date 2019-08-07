@@ -9,6 +9,7 @@ import ButtonTabs from 'Components/ButtonTabs/ButtonTabs';
 
 import {
   selectNavigationTab,
+  ABOUT_TAB,
   PROJECT_TAB,
   PLAY_TAB,
   CODE_TAB,
@@ -38,6 +39,11 @@ class NavigationTab extends React.Component {
     const { activeTab, isOpen, _toggleNavigationPanel } = this.props;
 
     const buttonList = [
+      {
+        key: ABOUT_TAB,
+        title: 'About',
+        icon: 'clipboard',
+      },
       {
         key: PROJECT_TAB,
         title: 'Project',
