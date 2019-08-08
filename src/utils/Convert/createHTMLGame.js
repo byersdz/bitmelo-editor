@@ -1,5 +1,5 @@
 
-import { backgroundColor } from 'Style/colors';
+// import { backgroundColor } from 'Style/colors';
 
 import createProjectScript from './createProjectScript';
 
@@ -9,7 +9,7 @@ export default function exportHTMLGame( state ) {
     body {
       margin: 0;
       padding: 0;
-      background-color: ${ backgroundColor };
+      background-color: #000;
       color: #888;
       font-family: sans-serif;
       font-size: 14px;
