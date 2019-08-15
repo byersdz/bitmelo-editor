@@ -10,7 +10,6 @@ import tilemapEditor from './tilemapEditor';
 import soundEditor from './soundEditor';
 import referenceTabTitle from './referenceTabTitle';
 import play from './play';
-import tileEditor from './tileEditor';
 import referenceRoutes from './referenceRoutes';
 
 export default combineReducers( {
@@ -19,7 +18,6 @@ export default combineReducers( {
   referencePanelIsOpen,
   activeSoundTicTab,
   tileSelectorIsOpen,
-  tileEditor,
   tilemapEditor,
   soundEditor,
   referenceTabTitle,

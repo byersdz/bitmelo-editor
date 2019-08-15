@@ -6,8 +6,8 @@ import { bindActionCreators } from 'redux';
 
 import AButton from 'Components/AButton/AButton';
 
-import { setTileArticlePath } from 'State/Layout/tileEditor';
 import { PIXEL_TUTORIALS } from 'Utils/articles';
+import { setReferenceRoute } from 'State/Layout/referenceRoutes';
 
 import PixelArticles from './PixelArticles/PixelArticles';
 
@@ -15,9 +15,10 @@ import './Articles.scss';
 
 class Articles extends React.Component {
   handleArticleClick( key ) {
-    const { _setTileArticlePath } = this.props;
-
-    _setTileArticlePath( key );
+    const { _setReferenceRoute, section, route } = this.props;
+    const newRoute = [...route.current];
+    newRoute.push( key );
+    _setReferenceRoute( section, newRoute );
   }
 
   renderArticleLinks() {
@@ -49,43 +50,38 @@ class Articles extends React.Component {
   }
 
   render() {
-    const { tileArticlePath } = this.props;
+    const { route } = this.props;
+    const currentRoute = route.current;
 
-    const articlePath = tileArticlePath;
-
-    if ( articlePath ) {
-      switch ( articlePath ) {
-        case PIXEL_TUTORIALS: {
-          return <PixelArticles />;
-        }
-        default: break;
-      }
+    if ( currentRoute.length <= 1 ) {
+      // show the list of articles
+      const linksRender = this.renderArticleLinks();
+      return (
+        <div className="articles">
+          { linksRender }
+        </div>
+      );
     }
 
-    const linksRender = this.renderArticleLinks();
-    return (
-      <div className="articles">
-        { linksRender }
-      </div>
-    );
+    switch ( currentRoute[1] ) {
+      case PIXEL_TUTORIALS: {
+        return <PixelArticles />;
+      }
+      default: return <div>Missing Article</div>;
+    }
   }
 }
 
 Articles.propTypes = {
-  tileArticlePath: PropTypes.string.isRequired,
-  _setTileArticlePath: PropTypes.func.isRequired,
+  route: PropTypes.object.isRequired,
+  section: PropTypes.string.isRequired,
+  _setReferenceRoute: PropTypes.func.isRequired,
 };
-
-function mapStateToProps( state ) {
-  return {
-    tileArticlePath: state.layout.tileEditor.articlePath,
-  };
-}
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
-    _setTileArticlePath: setTileArticlePath,
+    _setReferenceRoute: setReferenceRoute,
   }, dispatch );
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )( Articles );
+export default connect( null, mapDispatchToProps )( Articles );

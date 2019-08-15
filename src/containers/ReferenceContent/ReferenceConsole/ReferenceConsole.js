@@ -8,10 +8,16 @@ import Scrollbars from 'Components/Scrollbars/Scrollbars';
 import Checkbox from 'Components/Checkbox/Checkbox';
 
 import { setStickConsoleToBottom } from 'State/Layout/play';
+import { setReferenceTabTitle } from 'State/Layout/referenceTabTitle';
 
 import './ReferenceConsole.scss';
 
 class ReferenceConsole extends React.Component {
+  componentDidMount() {
+    const { _setReferenceTabTitle } = this.props;
+    _setReferenceTabTitle( 'Console' );
+  }
+
   renderLogs() {
     const { playLogs } = this.props;
     const logsRender = [];
@@ -61,6 +67,7 @@ ReferenceConsole.propTypes = {
   playLogs: PropTypes.array.isRequired,
   stickToBottom: PropTypes.bool.isRequired,
   _setStickConsoleToBottom: PropTypes.func.isRequired,
+  _setReferenceTabTitle: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -73,6 +80,7 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setStickConsoleToBottom: setStickConsoleToBottom,
+    _setReferenceTabTitle: setReferenceTabTitle,
   }, dispatch );
 }
 

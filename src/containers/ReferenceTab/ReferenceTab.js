@@ -10,17 +10,27 @@ import Articles from 'Containers/ReferenceContent/Articles/Articles';
 import TopBar from 'Components/TopBar/TopBar';
 import Button from 'Components/Button/Button';
 import { toggleReferencePanel } from 'State/Layout/referencePanelIsOpen';
-import { CONSOLE, ARTICLES } from 'State/Layout/referenceRoutes';
+import { setReferenceRoute, CONSOLE, ARTICLES } from 'State/Layout/referenceRoutes';
 
 import './ReferenceTab.scss';
 
 class ReferenceTab extends React.Component {
+  handleBackClick() {
+    const { _setReferenceRoute, section, route } = this.props;
+    const newRoute = [...route.current];
+    if ( newRoute.length > 1 ) {
+      newRoute.pop();
+      _setReferenceRoute( section, newRoute );
+    }
+  }
+
   render() {
     const {
-      toggle,
+      _toggleReferencePanel,
       isOpen,
       topBarTitle,
       route,
+      section,
     } = this.props;
     const className = isOpen ? 'reference-tab' : 'reference-tab closed';
 
@@ -40,7 +50,10 @@ class ReferenceTab extends React.Component {
         }
         case ARTICLES: {
           contentRender = (
-            <Articles />
+            <Articles
+              route={ route }
+              section={ section }
+            />
           );
           break;
         }
@@ -48,9 +61,15 @@ class ReferenceTab extends React.Component {
       }
     }
 
+    const showBackButton = route.current.length > 1;
+
     const mainRender = isOpen ? (
       <div className="reference-main">
-        <TopBar title={ topBarTitle } />
+        <TopBar
+          title={ topBarTitle }
+          showBackButton={ showBackButton }
+          onBackClick={ () => this.handleBackClick() }
+        />
         { contentRender }
       </div>
     ) : null;
@@ -61,7 +80,7 @@ class ReferenceTab extends React.Component {
           className="toggle-btn"
           title="Toggle Reference Panel"
           icon="play"
-          click={ () => toggle() }
+          click={ () => _toggleReferencePanel() }
           hideTitle
         />
         { mainRender }
@@ -72,9 +91,11 @@ class ReferenceTab extends React.Component {
 
 ReferenceTab.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired,
+  _toggleReferencePanel: PropTypes.func.isRequired,
   topBarTitle: PropTypes.string.isRequired,
   route: PropTypes.object.isRequired,
+  section: PropTypes.string.isRequired,
+  _setReferenceRoute: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -84,12 +105,14 @@ function mapStateToProps( state ) {
     isOpen: state.layout.referencePanelIsOpen,
     topBarTitle: state.layout.referenceTabTitle,
     route,
+    section: activeNavigationTab,
   };
 }
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
-    toggle: toggleReferencePanel,
+    _toggleReferencePanel: toggleReferencePanel,
+    _setReferenceRoute: setReferenceRoute,
   }, dispatch );
 }
 

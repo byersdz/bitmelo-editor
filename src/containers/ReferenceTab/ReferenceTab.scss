@@ -39,6 +39,17 @@
 
   .top-bar {
     background-color: $secondary-color;
+
+    .btn {
+      svg {
+        fill: $on-secondary-color;
+        stroke: $on-secondary-color;
+      }
+    }
+
+    .btn:hover {
+      background-color: $secondary-dark-color;
+    }
   }
 }
 
