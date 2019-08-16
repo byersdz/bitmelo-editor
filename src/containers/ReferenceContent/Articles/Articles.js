@@ -50,7 +50,7 @@ class Articles extends React.Component {
   }
 
   render() {
-    const { route } = this.props;
+    const { route, section } = this.props;
     const currentRoute = route.current;
 
     if ( currentRoute.length <= 1 ) {
@@ -65,7 +65,12 @@ class Articles extends React.Component {
 
     switch ( currentRoute[1] ) {
       case PIXEL_TUTORIALS: {
-        return <PixelArticles />;
+        return (
+          <PixelArticles
+            route={ route }
+            section={ section }
+          />
+        );
       }
       default: return <div>Missing Article</div>;
     }

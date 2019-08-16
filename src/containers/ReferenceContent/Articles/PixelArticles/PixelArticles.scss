@@ -1,0 +1,13 @@
+
+.pixel-articles {
+  display: flex;
+  flex-direction: column;
+
+  .item {
+    margin-top: 8px;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
