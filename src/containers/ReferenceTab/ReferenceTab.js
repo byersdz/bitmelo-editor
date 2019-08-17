@@ -9,6 +9,8 @@ import Articles from 'Containers/ReferenceContent/Articles/Articles';
 
 import TopBar from 'Components/TopBar/TopBar';
 import Button from 'Components/Button/Button';
+import Scrollbars from 'Components/Scrollbars/Scrollbars';
+
 import { toggleReferencePanel } from 'State/Layout/referencePanelIsOpen';
 import { setReferenceRoute, CONSOLE, ARTICLES } from 'State/Layout/referenceRoutes';
 
@@ -50,10 +52,12 @@ class ReferenceTab extends React.Component {
         }
         case ARTICLES: {
           contentRender = (
-            <Articles
-              route={ route }
-              section={ section }
-            />
+            <Scrollbars>
+              <Articles
+                route={ route }
+                section={ section }
+              />
+            </Scrollbars>
           );
           break;
         }
