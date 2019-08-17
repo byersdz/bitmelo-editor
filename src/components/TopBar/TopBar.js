@@ -13,7 +13,7 @@ const TopBar = ( props ) => {
     <Button
       className="back"
       title="back"
-      icon="play"
+      icon="back"
       hideTitle
       click={ () => onBackClick() }
     />
