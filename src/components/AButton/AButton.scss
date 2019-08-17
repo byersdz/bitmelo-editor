@@ -1,0 +1,13 @@
+
+@import 'Style/colors.scss';
+
+.abutton {
+  font-weight: bold;
+  color: $on-background-color;
+  text-decoration: none;
+}
+
+.abutton:hover {
+  color: $primary-light-color;
+  cursor: pointer;
+}

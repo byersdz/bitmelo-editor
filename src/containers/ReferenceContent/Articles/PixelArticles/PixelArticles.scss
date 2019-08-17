@@ -9,5 +9,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-size: 14px;
+
+    .license {
+      font-size: 12px;
+    }
   }
 }

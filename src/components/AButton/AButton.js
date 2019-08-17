@@ -10,6 +10,7 @@ const AButton = props => {
   if ( href ) {
     return (
       <a
+        className="abutton"
         href={ href }
         target="_blank"
         rel="noreferrer noopener"
@@ -20,14 +21,15 @@ const AButton = props => {
   }
 
   return (
-    <a // eslint-disable-line
+    <span // eslint-disable-line
+      className="abutton"
       onClick={ e => {
         click();
         e.preventDefault();
       } }
     >
       { children }
-    </a>
+    </span>
   );
 };
 

@@ -8,7 +8,7 @@ import AButton from 'Components/AButton/AButton';
 
 import { setReferenceRoute } from 'State/Layout/referenceRoutes';
 
-import articleData from './articleData';
+import articleData, { SAINT_11 } from './articleData';
 
 import './PixelArticles.scss';
 
@@ -37,12 +37,32 @@ class PixelArticles extends React.Component {
   }
 
   renderArticleItem( item ) {
+    let detailsRender = null;
+
+    if ( item.creator === SAINT_11 ) {
+      detailsRender = (
+        <div className="details">
+          { 'Image by ' }
+          <AButton href="http://patreon.com/saint11">
+            { 'Pedro Medeiros ' }
+          </AButton>
+          <span className="license">
+            (
+            <AButton href="https://creativecommons.org/licenses/by/4.0/legalcode">
+              { 'License' }
+            </AButton>
+            )
+          </span>
+        </div>
+      );
+    }
     return (
       <div className="item">
         <img
           src={ item.image }
           alt={ item.title }
         />
+        { detailsRender }
       </div>
     );
   }
