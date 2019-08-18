@@ -51,7 +51,15 @@ class PixelArticles extends React.Component {
   }
 
   renderArticleList() {
-    const items = articleData.map( item => {
+    const sortedArticles = articleData.sort( ( a, b ) => {
+      if ( a.title < b.title ) {
+        return -1;
+      }
+
+      return 1;
+    } );
+
+    const items = sortedArticles.map( item => {
       return {
         title: item.title,
         key: item.key,
