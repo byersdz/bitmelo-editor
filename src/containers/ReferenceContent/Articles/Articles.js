@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import AButton from 'Components/AButton/AButton';
+import ArticleList from 'Components/ArticleList/ArticleList';
 
 import { PIXEL_TUTORIALS } from 'Utils/articles';
 import { setReferenceRoute } from 'State/Layout/referenceRoutes';
@@ -43,31 +43,19 @@ class Articles extends React.Component {
   }
 
   renderArticleLinks() {
-    const linkData = [
+    const items = [
       {
-        display: 'Pixel Art Tutorials',
+        title: 'Pixel Art Tutorials',
         key: PIXEL_TUTORIALS,
       },
     ];
 
-    const linksRender = [];
-
-    for ( let i = 0; i < linkData.length; i += 1 ) {
-      const linkItem = linkData[i];
-      linksRender.push( (
-        <div
-          className="article-link"
-          key={ linkItem.key }
-        >
-          <AButton
-            click={ () => this.handleArticleClick( linkItem.key ) }
-          >
-            { linkItem.display }
-          </AButton>
-        </div>
-      ) );
-    }
-    return linksRender;
+    return (
+      <ArticleList
+        items={ items }
+        onItemSelected={ k => this.handleArticleClick( k ) }
+      />
+    );
   }
 
   render() {

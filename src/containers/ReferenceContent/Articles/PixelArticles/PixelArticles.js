@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import AButton from 'Components/AButton/AButton';
+import ArticleList from 'Components/ArticleList/ArticleList';
 
 import { setReferenceRoute } from 'State/Layout/referenceRoutes';
 import { setReferenceTabTitle } from 'State/Layout/referenceTabTitle';
@@ -50,19 +51,19 @@ class PixelArticles extends React.Component {
   }
 
   renderArticleList() {
-    const articleListRender = [];
-    for ( let i = 0; i < articleData.length; i += 1 ) {
-      const item = articleData[i];
-      articleListRender.push( (
-        <AButton
-          key={ item.key }
-          click={ () => this.handleListClick( item.key ) }
-        >
-          { item.title }
-        </AButton>
-      ) );
-    }
-    return articleListRender;
+    const items = articleData.map( item => {
+      return {
+        title: item.title,
+        key: item.key,
+      };
+    } );
+
+    return (
+      <ArticleList
+        items={ items }
+        onItemSelected={ k => this.handleListClick( k ) }
+      />
+    );
   }
 
   renderArticleItem( item ) {
@@ -86,7 +87,7 @@ class PixelArticles extends React.Component {
       );
     }
     return (
-      <div className="item">
+      <div className="pixel-article">
         <img
           src={ item.image }
           alt={ item.title }
