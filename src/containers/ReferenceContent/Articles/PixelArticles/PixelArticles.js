@@ -7,12 +7,41 @@ import { bindActionCreators } from 'redux';
 import AButton from 'Components/AButton/AButton';
 
 import { setReferenceRoute } from 'State/Layout/referenceRoutes';
+import { setReferenceTabTitle } from 'State/Layout/referenceTabTitle';
 
 import articleData, { SAINT_11 } from './articleData';
 
 import './PixelArticles.scss';
 
 class PixelArticles extends React.Component {
+  componentDidMount() {
+    this.setTitle();
+  }
+
+  componentDidUpdate() {
+    this.setTitle();
+  }
+
+  setTitle() {
+    const { route, _setReferenceTabTitle } = this.props;
+
+    if ( route.current.length <= 2 ) {
+      _setReferenceTabTitle( 'Pixel Art Tutorials' );
+    }
+    else {
+      const key = route.current[route.current.length - 1];
+
+      const title = articleData.reduce( ( acc, item ) => {
+        if ( item.key === key ) {
+          return item.title;
+        }
+        return acc;
+      }, key );
+
+      _setReferenceTabTitle( title );
+    }
+  }
+
   handleListClick( key ) {
     const { _setReferenceRoute, section, route } = this.props;
     const newRoute = [...route.current];
@@ -106,11 +135,13 @@ PixelArticles.propTypes = {
   section: PropTypes.string.isRequired,
   route: PropTypes.object.isRequired,
   _setReferenceRoute: PropTypes.func.isRequired,
+  _setReferenceTabTitle: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setReferenceRoute: setReferenceRoute,
+    _setReferenceTabTitle: setReferenceTabTitle,
   }, dispatch );
 }
 

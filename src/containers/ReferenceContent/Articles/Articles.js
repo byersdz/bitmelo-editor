@@ -8,12 +8,33 @@ import AButton from 'Components/AButton/AButton';
 
 import { PIXEL_TUTORIALS } from 'Utils/articles';
 import { setReferenceRoute } from 'State/Layout/referenceRoutes';
+import { setReferenceTabTitle } from 'State/Layout/referenceTabTitle';
 
 import PixelArticles from './PixelArticles/PixelArticles';
 
 import './Articles.scss';
 
 class Articles extends React.Component {
+  componentDidMount() {
+    this.setTitle();
+  }
+
+  componentDidUpdate( prevProps ) {
+    const { route: prevRoute } = prevProps;
+    const { route } = this.props;
+
+    if ( route !== prevRoute ) {
+      this.setTitle();
+    }
+  }
+
+  setTitle() {
+    const { route, _setReferenceTabTitle } = this.props;
+    if ( route.current.length === 1 ) {
+      _setReferenceTabTitle( 'Articles' );
+    }
+  }
+
   handleArticleClick( key ) {
     const { _setReferenceRoute, section, route } = this.props;
     const newRoute = [...route.current];
@@ -81,11 +102,13 @@ Articles.propTypes = {
   route: PropTypes.object.isRequired,
   section: PropTypes.string.isRequired,
   _setReferenceRoute: PropTypes.func.isRequired,
+  _setReferenceTabTitle: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setReferenceRoute: setReferenceRoute,
+    _setReferenceTabTitle: setReferenceTabTitle,
   }, dispatch );
 }
 
