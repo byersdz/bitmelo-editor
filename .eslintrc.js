@@ -29,6 +29,7 @@ module.exports = {
     "react/forbid-prop-types": "off",
     "no-continue": "off",
     "react/no-did-update-set-state": "off",
+    "react/jsx-curly-brace-presence": "off"
   },
   "globals": {
     "bitmelo": "readonly",
