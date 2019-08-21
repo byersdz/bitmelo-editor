@@ -24,6 +24,7 @@ import {
   API_TILE_MAP,
 } from 'Utils/articles';
 
+import Audio from './Audio/Audio';
 import Engine from './Engine/Engine';
 
 import './ApiReference.scss';
@@ -117,6 +118,10 @@ class ApiReference extends React.Component {
     }
     else {
       switch ( currentRoute[currentRoute.length - 1] ) {
+        case API_AUDIO: {
+          content = <Audio />;
+          break;
+        }
         case API_ENGINE: {
           content = <Engine />;
           break;

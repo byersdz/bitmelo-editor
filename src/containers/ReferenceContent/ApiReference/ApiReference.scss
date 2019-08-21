@@ -28,15 +28,20 @@
     color: $on-secondary-color;
     padding: 4px 8px;
     margin-bottom: 4px;
+    flex-wrap: wrap;
 
     .name {
       font-family: monospace;
       font-size: 18px;
       font-weight: bold;
     }
+
+    pre {
+      margin: 0;
+    }
   }
 
-  pre {
+  .example {
     background-color: $background-dark-color;
     padding: 4px;
     margin: 4px 0;
@@ -45,5 +50,35 @@
 
   .property {
     margin-top: 8px;
+  }
+
+  .method {
+    margin-top: 8px;
+  }
+
+  .param-title {
+    font-weight: bold;
+    color: $primary-color;
+  }
+
+  .param {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    border-bottom: 1px solid $primary-color;
+
+    .header {
+      background-color: initial;
+      color: $on-background-color;
+
+      .name {
+        font-size: 16px;
+      }
+    }
+
+    .description {
+      padding: 4px;
+      font-size: 12px;
+    }
   }
 }

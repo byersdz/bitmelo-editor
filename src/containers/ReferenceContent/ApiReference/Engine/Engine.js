@@ -94,8 +94,8 @@ engine.audio.playSound(
   bitmelo.Notes.C4, // note
   32,               // duration
   0.5,              // volume
-  2,                // speed
-)
+  2                 // speed
+);
 ` )
         }
         {
@@ -119,7 +119,7 @@ const tile = engine.mapData.getTile(
   0, // X position on the map
   0, // Y position on the map
   0, // The tilemap index
-  0, // The layer on the tilemap
+  0  // The layer on the tilemap
 );
 ` )
         }
