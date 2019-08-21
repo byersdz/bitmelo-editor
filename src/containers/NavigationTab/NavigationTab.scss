@@ -10,6 +10,9 @@
   flex-direction: column;
   align-items: stretch;
 
+  user-select: none;
+  -moz-user-select: -moz-none;
+
   .toggle-panel {
     height: 40px;
     background-color: $primary-dark-color;

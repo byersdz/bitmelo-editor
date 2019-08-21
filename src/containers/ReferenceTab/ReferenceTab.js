@@ -6,13 +6,19 @@ import { bindActionCreators } from 'redux';
 
 import ReferenceConsole from 'Containers/ReferenceContent/ReferenceConsole/ReferenceConsole';
 import Articles from 'Containers/ReferenceContent/Articles/Articles';
+import ApiReference from 'Containers/ReferenceContent/ApiReference/ApiReference';
 
 import TopBar from 'Components/TopBar/TopBar';
 import Button from 'Components/Button/Button';
 import Scrollbars from 'Components/Scrollbars/Scrollbars';
 
 import { toggleReferencePanel } from 'State/Layout/referencePanelIsOpen';
-import { setReferenceRoute, CONSOLE, ARTICLES } from 'State/Layout/referenceRoutes';
+import {
+  setReferenceRoute,
+  CONSOLE,
+  ARTICLES,
+  API,
+} from 'State/Layout/referenceRoutes';
 
 import './ReferenceTab.scss';
 
@@ -54,6 +60,17 @@ class ReferenceTab extends React.Component {
           contentRender = (
             <Scrollbars>
               <Articles
+                route={ route }
+                section={ section }
+              />
+            </Scrollbars>
+          );
+          break;
+        }
+        case API: {
+          contentRender = (
+            <Scrollbars>
+              <ApiReference
                 route={ route }
                 section={ section }
               />

@@ -11,6 +11,7 @@ import {
 
 export const CONSOLE = 'CONSOLE';
 export const ARTICLES = 'ARTICLES';
+export const API = 'API';
 
 // Actions
 export const SET_REFERENCE_ROUTE = 'SET_REFERENCE_ROUTE';
@@ -32,7 +33,7 @@ function addInitialStateItem( section, route = [] ) {
 addInitialStateItem( ABOUT_TAB );
 addInitialStateItem( PROJECT_TAB );
 addInitialStateItem( PLAY_TAB, [CONSOLE] );
-addInitialStateItem( CODE_TAB );
+addInitialStateItem( CODE_TAB, [API] );
 addInitialStateItem( TILE_TAB, [ARTICLES] );
 addInitialStateItem( TILEMAP_TAB, [ARTICLES] );
 addInitialStateItem( SOUND_TAB );

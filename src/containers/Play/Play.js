@@ -28,6 +28,10 @@ class Play extends React.Component {
   }
 
   handleMessage( event ) {
+    if ( !event.data.type || !event.data.payload ) {
+      return;
+    }
+
     const { _addPlayLog } = this.props;
     _addPlayLog( event.data.type, event.data.payload );
   }

@@ -26,6 +26,7 @@ export default function reducer( state = initialState, action ) {
 
 // action creators
 export function addPlayLog( type, text ) {
+  console.log( { type, text } );
   return {
     type: ADD_PLAY_LOG,
     payload: {

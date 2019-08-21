@@ -1,0 +1,151 @@
+
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import ArticleList from 'Components/ArticleList/ArticleList';
+
+import { setReferenceRoute } from 'State/Layout/referenceRoutes';
+
+import {
+  API_AUDIO,
+  API_ENGINE,
+  API_FONT,
+  API_FONT_DATA,
+  API_FREQUENCIES,
+  API_INPUT,
+  API_KEYS,
+  API_MAP_DATA,
+  API_NOTES,
+  API_SCREEN,
+  API_SOUND,
+  API_TILE_DATA,
+  API_TILE_MAP,
+} from 'Utils/articles';
+
+import Engine from './Engine/Engine';
+
+import './ApiReference.scss';
+
+class ApiReference extends React.Component {
+  handleClassSelected( key ) {
+    const { _setReferenceRoute, route, section } = this.props;
+    const newRoute = [];
+    newRoute.push( route.current[0] );
+    newRoute.push( key );
+    console.log( newRoute );
+    _setReferenceRoute( section, newRoute );
+  }
+
+  renderClassList() {
+    const items = [
+      {
+        title: 'Quick Start',
+        key: 'qs',
+      },
+      {
+        title: 'bitmelo.Audio',
+        key: API_AUDIO,
+      },
+      {
+        title: 'bitmelo.Engine',
+        key: API_ENGINE,
+      },
+      {
+        title: 'bitmelo.Font',
+        key: API_FONT,
+      },
+      {
+        title: 'bitmelo.FontData',
+        key: API_FONT_DATA,
+      },
+      {
+        title: 'bitmelo.Frequencies',
+        key: API_FREQUENCIES,
+      },
+      {
+        title: 'bitmelo.Input',
+        key: API_INPUT,
+      },
+      {
+        title: 'bitmelo.Keys',
+        key: API_KEYS,
+      },
+      {
+        title: 'bitmelo.MapData',
+        key: API_MAP_DATA,
+      },
+      {
+        title: 'bitmelo.Notes',
+        key: API_NOTES,
+      },
+      {
+        title: 'bitmelo.Screen',
+        key: API_SCREEN,
+      },
+      {
+        title: 'bitmelo.Sound',
+        key: API_SOUND,
+      },
+      {
+        title: 'bitmelo.TileData',
+        key: API_TILE_DATA,
+      },
+      {
+        title: 'bitmelo.TileMap',
+        key: API_TILE_MAP,
+      },
+    ];
+
+    return (
+      <ArticleList
+        items={ items }
+        onItemSelected={ k => this.handleClassSelected( k ) }
+      />
+    );
+  }
+
+  render() {
+    const { route } = this.props;
+
+    const currentRoute = route.current;
+
+    let content = null;
+    if ( currentRoute.length <= 1 ) {
+      content = this.renderClassList();
+    }
+    else {
+      switch ( currentRoute[currentRoute.length - 1] ) {
+        case API_ENGINE: {
+          content = <Engine />;
+          break;
+        }
+        default: {
+          content = this.renderClassList();
+          break;
+        }
+      }
+    }
+
+    return (
+      <div className="api-reference">
+        { content }
+      </div>
+    );
+  }
+}
+
+ApiReference.propTypes = {
+  route: PropTypes.object.isRequired,
+  section: PropTypes.string.isRequired,
+  _setReferenceRoute: PropTypes.func.isRequired,
+};
+
+function mapDispatchToProps( dispatch ) {
+  return bindActionCreators( {
+    _setReferenceRoute: setReferenceRoute,
+  }, dispatch );
+}
+
+export default connect( null, mapDispatchToProps )( ApiReference );
