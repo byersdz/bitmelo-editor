@@ -6,6 +6,7 @@
 
   h2 {
     margin: 8px 0;
+    margin-top: 32px;
     padding: 4px 0 4px 8px;
     background-color: $primary-color;
     color: $on-primary-color;
@@ -28,6 +29,7 @@
     color: $on-secondary-color;
     padding: 4px 8px;
     margin-bottom: 4px;
+    margin-top: 16px;
     flex-wrap: wrap;
 
     .name {
@@ -70,6 +72,7 @@
     .header {
       background-color: initial;
       color: $on-background-color;
+      margin-top: 0;
 
       .name {
         font-size: 16px;
