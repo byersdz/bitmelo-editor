@@ -26,6 +26,7 @@ import {
 
 import Audio from './Audio/Audio';
 import Engine from './Engine/Engine';
+import Font from './Font/Font';
 
 import './ApiReference.scss';
 
@@ -124,6 +125,10 @@ class ApiReference extends React.Component {
         }
         case API_ENGINE: {
           content = <Engine />;
+          break;
+        }
+        case API_FONT: {
+          content = <Font />;
           break;
         }
         default: {

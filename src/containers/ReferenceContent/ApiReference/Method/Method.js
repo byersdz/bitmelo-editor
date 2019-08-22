@@ -12,8 +12,9 @@ const Method = props => {
 
   const trimmedExample = example ? example.trim() : null;
   let styledName = `${ name }()`;
-  if ( params ) {
-    if ( params.length > 1 ) {
+  if ( params && params.length > 0 ) {
+    const numCharacters = name.length + params[0].name.length;
+    if ( params.length > 1 || numCharacters > 30 ) {
       // do nothing for now
       styledName = `${ name }(`;
       for ( let i = 0; i < params.length; i += 1 ) {
@@ -23,7 +24,7 @@ const Method = props => {
       styledName += `
 )`;
     }
-    else if ( params.length === 1 ) {
+    else {
       styledName = `${ name }(${ params[0].name })`;
     }
   }
@@ -53,6 +54,19 @@ const Method = props => {
       </Fragment>
     );
   }
+
+  let exampleRender = null;
+
+  if ( example ) {
+    exampleRender = (
+      <pre className="example">
+        <code>
+          { trimmedExample }
+        </code>
+      </pre>
+    );
+  }
+
   return (
     <div className="method">
       <div className="header">
@@ -65,11 +79,7 @@ const Method = props => {
       <div className="description">
         {description }
       </div>
-      <pre className="example">
-        <code>
-          { trimmedExample }
-        </code>
-      </pre>
+      { exampleRender }
       { params && params.length > 0 ? <span className="param-title">Parameters:</span> : '' }
       { paramsRender }
     </div>
