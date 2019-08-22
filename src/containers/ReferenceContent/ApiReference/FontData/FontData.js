@@ -9,7 +9,7 @@ import './FontData.scss';
 class FontData extends React.Component {
   render() {
     return (
-      <div className="api-font">
+      <div className="api-font-data">
         <div className="description">
           {
 `
