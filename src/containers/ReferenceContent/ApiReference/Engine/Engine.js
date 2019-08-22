@@ -1,7 +1,8 @@
 
 import React from 'react';
 
-import { renderProperty, renderMethod } from 'Utils/renderAPI';
+import Property from '../Property/Property';
+import Method from '../Method/Method';
 
 import './Engine.scss';
 
@@ -21,73 +22,114 @@ The Bitmelo Editor will automatically create an instance of the Engine for you i
         </div>
         <h2>Properties</h2>
         <h3>Callback Functions</h3>
-        {
-          renderProperty( 'engine.onInit',
-            'Function',
-            'Function to be called when the engine is initialized.',
-            `
+        <Property
+          name="engine.onInit"
+          type="Function"
+          description={
+`
+Function to be called when the engine is initialized.
+`
+          }
+          example={
+`
 engine.onInit = () => {
   console.log( 'The engine has initialized!' );
 }
-` )
-        }
-        {
-          renderProperty( 'engine.onUpdate',
-            'Function',
-            'Function to be called every update of the engine. Perform game logic and rendering here.',
-            `
+`
+          }
+        />
+        <Property
+          name="engine.onUpdate"
+          type="Function"
+          description={
+`
+Function to be called every update of the engine. Perform game logic and rendering here.
+`
+          }
+          example={
+`
 engine.onUpdate = () => {
   // game logic
   // drawing code
 }
-` )
-        }
-        {
-          renderProperty( 'engine.onDrawStartScreen',
-            'Function',
-            'Function to draw the initial screen when the engine loads. Only seen when clickToBegin is true.',
-            `
+`
+          }
+        />
+        <Property
+          name="engine.onDrawStartScreen"
+          type="Function"
+          description={
+`
+Function to draw the initial screen when the engine loads. Only seen when clickToBegin is true.
+`
+          }
+          example={
+`
 engine.onDrawStartScreen = () => {
   // drawing logic here
 }
-` )
-        }
-        {
-          renderProperty( 'engine.onUpdateStartTransition',
-            'Function',
-            'Function to draw the transition frames after start click. Only seen when clickToBegin is true.',
-            `
+`
+          }
+        />
+        <Property
+          name="engine.onUpdateStartTransition"
+          type="Function"
+          description={
+`
+Function to draw the transition frames after start click. Only seen when clickToBegin is true.
+`
+          }
+          example={
+`
 engine.onUpdateStartTransition = () => {
   // drawing logic here
 }
-` )
-        }
+`
+          }
+        />
         <h3>Components</h3>
-        {
-          renderProperty( 'engine.screen',
-            'bitmelo.Screen',
-            'Instance of the Screen class used by the Engine. Automatically created by the engine.',
-            `
+        <Property
+          name="engine.screen"
+          type="bitmelo.Screen"
+          description={
+`
+Instance of the Screen class used by the Engine. Automatically created by the engine.
+`
+          }
+          example={
+`
 // Draw palette color 3 at pixel:
 // X: 10, Y: 20
 engine.screen.setPixel( 10, 20, 3 );
-` )
-        }
-        {
-          renderProperty( 'engine.input',
-            'bitmelo.Input',
-            'Instance of the Input class used by the Engine. Automatically created by the engine.',
-            `
+`
+          }
+        />
+        <Property
+          name="engine.input"
+          type="bitmelo.Input"
+          description={
+`
+Instance of the Input class used by the Engine. Automatically created by the engine.
+`
+          }
+          example={
+`
 if ( engine.input.mouse.left.down ) {
   console.log( 'Left mouse button clicked!' );
 }
-` )
-        }
-        {
-          renderProperty( 'engine.audio',
-            'bitmelo.Audio',
-            'Instance of the Audio class used by the Engine. Automatically created by the engine.',
-            `
+`
+          }
+        />
+        <Property
+          name="engine.audio"
+          type="bitmelo.Audio"
+          description={
+`
+Instance of the Audio class used by the Engine. Automatically created by the engine.
+`
+          }
+          example={
+`
 // Play the sound at index 0
 engine.audio.playSound(
   0,                // index
@@ -96,24 +138,36 @@ engine.audio.playSound(
   0.5,              // volume
   2                 // speed
 );
-` )
-        }
-        {
-          renderProperty( 'engine.tileData',
-            'bitmelo.TileData',
-            'Instance of the TileData class used by the Engine. Automatically created by the engine.',
-            `
+`
+          }
+        />
+        <Property
+          name="engine.tileData"
+          type="bitmelo.TileData"
+          description={
+`
+Instance of the TileData class used by the Engine. Automatically created by the engine.
+`
+          }
+          example={
+`
 engine.onInit = () => {
-  // you should only add tile sets in onInit!
+  // you should only add tilesets in onInit!
   engine.tileData.addTileset( myTilesetData );
 }
-` )
-        }
-        {
-          renderProperty( 'engine.mapData',
-            'bitmelo.MapData',
-            'Instance of the MapData class used by the Engine. Automatically created by the engine',
-            `
+`
+          }
+        />
+        <Property
+          name="engine.mapData"
+          type="bitmelo.MapData"
+          description={
+`
+Instance of the MapData class used by the Engine. Automatically created by the engine.
+`
+          }
+          example={
+`
 // Get the tile GID of a tile in a tilemap
 const tile = engine.mapData.getTile(
   0, // X position on the map
@@ -121,58 +175,88 @@ const tile = engine.mapData.getTile(
   0, // The tilemap index
   0  // The layer on the tilemap
 );
-` )
-        }
-        {
-          renderProperty( 'engine.fontData',
-            'bitmelo.FontData',
-            `Instance of the FontData class used by the Engine.
+`
+          }
+        />
+        <Property
+          name="engine.fontData"
+          type="bitmelo.FontData"
+          description={
+`
+Instance of the FontData class used by the Engine.
 Automatically created by the engine.
 The Standard font is automatically added at index 0.
-The Small font is automatically added at index 1.`,
-            `
+The Small font is automatically added at index 1.
+`
+          }
+          example={
+`
 engine.fontData.addFont( myCoolFont );
-` )
-        }
+`
+          }
+        />
         <h3>Configuration</h3>
-        {
-          renderProperty( 'engine.clickToBegin',
-            'boolean',
-            `Should we require the user to click the screen before the game starts?
-            This stops a game from automatically starting in a web page which can be annoying.`,
-            `
+        <Property
+          name="engine.clickToBegin"
+          type="boolean"
+          description={
+`
+Should we require the user to click the screen before the game starts?
+This stops a game from automatically starting in a web page which can be annoying.
+`
+          }
+          example={
+`
 engine.clickToBegin = true;
-` )
-        }
-        {
-          renderProperty( 'engine.containerId',
-            'string',
-            'The id of the div that the engine will be contained by.',
-            `
+`
+          }
+        />
+        <Property
+          name="engine.containerId"
+          type="string"
+          description={
+`
+The id of the div that the engine will be contained by.
+`
+          }
+          example={
+`
 engine.containerId = 'bitmelo-container';
-` )
-        }
-        {
-          renderProperty( 'engine.startTransitionFrames',
-            'number',
-            'Number of frames to show after begin click before the game starts. Only relevant when clickToBegin is true.', // eslint-disable-line
-            `
+`
+          }
+        />
+        <Property
+          name="engine.startTransitionFrames"
+          type="number"
+          description={
+`
+Number of frames to show after begin click before the game starts. Only relevant when clickToBegin is true.
+`
+          }
+          example={
+`
 // Make the start transition last 2 seconds
 // at 60 fps
 engine.startTransitionFrames = 120;
-` )
-        }
+`
+          }
+        />
         <h2>Methods</h2>
-        {
-          renderMethod( 'engine.begin',
-            null,
-            `Begin running the engine.
-            This will perform initial setup, call the onInit function, and begin the game loop.
-            This is automatically called by the Bitmelo Editor`,
-            `
+        <Method
+          name="engine.begin"
+          description={
+`
+Begin running the engine.
+This will perform initial setup, call the onInit function, and begin the game loop.
+This is automatically called by the Bitmelo Editor.
+`
+          }
+          example={
+`
 engine.begin();
-            ` )
-        }
+`
+          }
+        />
       </div>
     );
   }
