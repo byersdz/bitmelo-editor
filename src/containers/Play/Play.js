@@ -116,7 +116,9 @@ class Play extends React.Component {
         <div id="bitmelo-container"></div>
       </div>
       <script>
-      ${ loggingRender }
+        ${ loggingRender }
+      </script>
+      <script>
       ${ projectScript }
       </script>
     </body>
