@@ -30,6 +30,7 @@ import Font from './Font/Font';
 import FontData from './FontData/FontData';
 import FrequenciesAPI from './FrequenciesAPI/FrequenciesAPI';
 import InputAPI from './InputAPI/InputAPI';
+import KeysAPI from './KeysAPI/KeysAPI';
 
 import './ApiReference.scss';
 
@@ -144,6 +145,10 @@ class ApiReference extends React.Component {
         }
         case API_INPUT: {
           content = <InputAPI />;
+          break;
+        }
+        case API_KEYS: {
+          content = <KeysAPI />;
           break;
         }
         default: {

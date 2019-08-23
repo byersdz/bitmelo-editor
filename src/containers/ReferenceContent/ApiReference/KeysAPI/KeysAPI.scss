@@ -1,0 +1,26 @@
+
+@import 'Style/colors.scss';
+
+.api-keys {
+  margin: 10px;
+  margin-bottom: 64px;
+
+  .description {
+    margin-bottom: 16px;
+  }
+
+  .keys-item {
+    padding: 8px 4px;
+    display: flex;
+    align-items: center;
+
+    .value {
+      margin-left: 8px;
+    }
+  }
+
+  .keys-item:nth-child(odd) {
+    background-color: $background-color;
+  }
+
+}
