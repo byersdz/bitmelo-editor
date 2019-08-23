@@ -29,6 +29,7 @@ import Engine from './Engine/Engine';
 import Font from './Font/Font';
 import FontData from './FontData/FontData';
 import FrequenciesAPI from './FrequenciesAPI/FrequenciesAPI';
+import InputAPI from './InputAPI/InputAPI';
 
 import './ApiReference.scss';
 
@@ -139,6 +140,10 @@ class ApiReference extends React.Component {
         }
         case API_FREQUENCIES: {
           content = <FrequenciesAPI />;
+          break;
+        }
+        case API_INPUT: {
+          content = <InputAPI />;
           break;
         }
         default: {
