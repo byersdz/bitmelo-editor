@@ -35,6 +35,7 @@ import MapDataAPI from './MapDataAPI/MapDataAPI';
 import NotesAPI from './NotesAPI/NotesAPI';
 import ScreenAPI from './ScreenAPI/ScreenAPI';
 import SoundAPI from './SoundAPI/SoundAPI';
+import TileDataAPI from './TileDataAPI/TileDataAPI';
 
 import './ApiReference.scss';
 
@@ -169,6 +170,10 @@ class ApiReference extends React.Component {
         }
         case API_SOUND: {
           content = <SoundAPI />;
+          break;
+        }
+        case API_TILE_DATA: {
+          content = <TileDataAPI />;
           break;
         }
         default: {
