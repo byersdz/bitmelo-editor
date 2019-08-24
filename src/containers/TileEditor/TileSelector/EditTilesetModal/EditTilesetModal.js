@@ -48,7 +48,10 @@ class EditTilesetModal extends React.Component {
   }
 
   render() {
+    const { tileSize } = this.props;
     const { tempColumns, tempRows } = this.state;
+
+    const maxDimension = Math.floor( 256 / tileSize );
 
     return (
       <Modal
@@ -64,14 +67,14 @@ class EditTilesetModal extends React.Component {
             title="Columns (Width)"
             value={ tempColumns }
             minValue={ 1 }
-            maxValue={ 128 }
+            maxValue={ maxDimension }
             onValueChange={ v => this.setState( { tempColumns: v } ) }
           />
           <NumberPicker
             title="Rows (Height)"
             value={ tempRows }
             minValue={ 1 }
-            maxValue={ 128 }
+            maxValue={ maxDimension }
             onValueChange={ v => this.setState( { tempRows: v } ) }
           />
         </div>

@@ -76,7 +76,7 @@ class TileSizeModal extends React.Component {
             value={ tempTileSize }
             onValueChange={ v => this.handleTileSizeChange( v ) }
             minValue={ 4 }
-            maxValue={ 64 }
+            maxValue={ 32 }
           />
         </div>
         <div className="exit-buttons">

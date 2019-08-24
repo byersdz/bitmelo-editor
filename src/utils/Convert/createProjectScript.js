@@ -1,5 +1,5 @@
 
-import bitmelo from 'Utils/Bitmelo/bitmelo.0.3.9.min.txt';
+import bitmelo from 'Utils/Bitmelo/bitmelo.0.3.12.min.txt';
 
 import convertProjectTilesets from './convertProjectTilesets';
 import convertProjectTilemaps from './convertProjectTilemaps';

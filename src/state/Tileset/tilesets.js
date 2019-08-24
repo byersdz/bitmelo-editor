@@ -128,9 +128,19 @@ export default function reducer( state = initialState, action ) {
     case CHANGE_TILE_SIZE: {
       const { newTileSize } = action.payload;
       const newState = [];
+      const maxDimension = Math.floor( 256 / newTileSize );
       for ( let i = 0; i < state.length; i += 1 ) {
         const oldTileset = state[i];
         const newTileset = { ...oldTileset };
+
+        if ( newTileset.width > maxDimension ) {
+          newTileset.width = maxDimension;
+        }
+
+        if ( newTileset.height > maxDimension ) {
+          newTileset.height = maxDimension;
+        }
+
         newTileset.layers = [];
         for ( let j = 0; j < oldTileset.layers.length; j += 1 ) {
           const newLayer = { ...oldTileset.layers[j] };
