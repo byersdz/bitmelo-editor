@@ -556,9 +556,344 @@ screen.drawCircleBorder(
           }
         />
         <h3>Text</h3>
+        <Method
+          name="screen.drawText"
+          description={
+`
+Draw a line of text to the screen. Newlines are not supported, this will draw just a single line.
+`
+          }
+          params={
+            [
+              {
+                name: 'text',
+                type: 'string',
+                description: 'the text to draw',
+              },
+              {
+                name: 'x',
+                type: 'number',
+                description: 'the x position on the screen to draw to.',
+              },
+              {
+                name: 'y',
+                type: 'number',
+                description: 'the y position on the screen to draw to.',
+              },
+              {
+                name: 'paletteId',
+                type: 'number',
+                description: 'the palette id for the main color',
+              },
+              {
+                name: 'outlinePaletteId',
+                type: 'number',
+                description: 'the palette id for the outline color',
+              },
+              {
+                name: 'font',
+                type: 'number',
+                description: 'the index of the font to use',
+              },
+            ]
+          }
+          example={
+`
+// by default, the standard font is at index 0
+// and the standard small font is at index 1
+screen.drawText(
+  'This is standard text!', // text
+  60,                       // x
+  30,                       // y
+  2,                        // main paletteId
+  4,                        // outline paletteId
+  0                         // font index
+);
+
+screen.drawText(
+  'This is small text!',
+  60,
+  20,
+  2,
+  0,
+  1
+);
+`
+          }
+        />
+        <Method
+          name="screen.drawChar"
+          description={
+`
+Draw an individual character to the screen.
+`
+          }
+          params={
+            [
+              {
+                name: 'charCode',
+                type: 'number',
+                description: 'the unicode point to draw',
+              },
+              {
+                name: 'x',
+                type: 'number',
+                description: 'the x position on the screen to draw to.',
+              },
+              {
+                name: 'y',
+                type: 'number',
+                description: 'the y position on the screen to draw to.',
+              },
+              {
+                name: 'paletteId',
+                type: 'number',
+                description: 'the palette id for the main color',
+              },
+              {
+                name: 'outlinePaletteId',
+                type: 'number',
+                description: 'the palette id for the outline color',
+              },
+              {
+                name: 'font',
+                type: 'number',
+                description: 'the index of the font to use',
+              },
+            ]
+          }
+          example={
+`
+const hashTag = 35;
+
+screen.drawChar(
+  hashTag,  // unicode point
+  50,       // x
+  50,       // y
+  10,       // main paletteId
+  0,        // outlinePaletteId
+  0         // font index
+);
+`
+          }
+        />
         <h3>Tiles</h3>
+        <Method
+          name="screen.drawTile"
+          description={
+`
+Draw a tile. Tile gid's are global ids unique to each tile. A gid of 0 is empty.
+The gid of 1 is the bottom left tile of the first tileset. As gid's increase they move to the right until
+the edge of a tileset, and then they move up a row all the way to the left. Once the end of a tileset is reached
+the next gid is the bottom left tile of the next tileset.
+`
+          }
+          params={
+            [
+              {
+                name: 'gid',
+                type: 'number',
+                description: 'the gid of the tile.',
+              },
+              {
+                name: 'x',
+                type: 'number',
+                description: 'the x position on the screen to draw to.',
+              },
+              {
+                name: 'y',
+                type: 'number',
+                description: 'the y position on the screen to draw to.',
+              },
+            ]
+          }
+          example={
+`
+const firstTile = 1;
+
+screen.drawTile(
+  firstTile,  // tile gid
+  80,         // x position
+  40          // y position
+);
+
+`
+          }
+        />
+        <Method
+          name="screen.drawMap"
+          description={
+`
+Draw a TileMap layer to the screen.
+`
+          }
+          params={
+            [
+              {
+                name: 'x',
+                type: 'number',
+                description: 'the x origin position on the TileMap.',
+              },
+              {
+                name: 'y',
+                type: 'number',
+                description: 'the y origin position on the TileMap.',
+              },
+              {
+                name: 'width',
+                type: 'number',
+                description: 'how many tiles wide to draw, -1 is the width of the Tile Map',
+              },
+              {
+                name: 'height',
+                type: 'number',
+                description: 'how many tiles high to draw, -1 is the height of the Tile Map',
+              },
+              {
+                name: 'screenX',
+                type: 'number',
+                description: 'origin x position on the screen',
+              },
+              {
+                name: 'screenY',
+                type: 'number',
+                description: 'origin y position on the screen',
+              },
+              {
+                name: 'map',
+                type: 'number',
+                description: 'the index of the tilemap to draw',
+              },
+              {
+                name: 'layer',
+                type: 'number',
+                description: 'the index of the layer to draw',
+              },
+            ]
+          }
+          example={
+`
+screen.drawMap(
+  0,    // map x
+  0,    // map y
+  -1,   // width
+  -1,   // height
+  0,    // screen x
+  0,    // screen y
+  0,    // tile map index
+  0     // layer index
+);
+`
+          }
+        />
         <h3>Palette</h3>
+        <Method
+          name="screen.setPalette"
+          description={
+`
+Set the palette that will used by the Screen.
+All colors are drawn fully opaque exept for the palette index at 0 which is transparent.
+`
+          }
+          params={
+            [
+              {
+                name: 'palette',
+                type: '[string]',
+                description: `The array of colors to be used by the screen.
+Each color is represented by a 6 digit hexcode, and does not include a hash tag (#)`,
+              },
+            ]
+          }
+          example={
+`
+const palette = [
+  '000000', // black, the 0 index is transparent
+  '000000', // black
+  'ffffff', // white
+  'ff0000', // red
+  '00ff00', // green
+  '0000ff' // blue
+ ];
+
+screen.setPalette( palette );
+`
+          }
+        />
+        <Method
+          name="screen.setPaletteColorAtIndex"
+          description={
+`
+Change a single palette color
+`
+          }
+          params={
+            [
+              {
+                name: 'color',
+                type: 'string',
+                description: 'The color we want to add.',
+              },
+              {
+                name: 'index',
+                type: 'number',
+                description: 'The palette index we want to set.',
+              },
+            ]
+          }
+          example={
+`
+screen.setPaletteColorAtIndex(
+  'ffaa00', // color
+  1         // palette index
+);
+`
+          }
+        />
         <h3>Other</h3>
+        <Method
+          name="screen.clear"
+          description={
+`
+Fill the screen with the given palette index
+`
+          }
+          params={
+            [
+              {
+                name: 'paletteId',
+                type: 'number',
+                description: 'the palette index',
+              },
+            ]
+          }
+          example={
+`
+// remove everything from the screen
+screen.clear( 0 );
+
+// fill the screen with the color at index 2
+screen.clear( 2 );
+`
+          }
+        />
+        <Method
+          name="screen.drawScreen"
+          description={
+`
+Draw the current screen data to the screen. Called automatically by the Engine in the update loop.
+`
+          }
+        />
+        <Method
+          name="screen.init"
+          description={
+`
+Do initial setup such as creating the canvas and building the palette.
+Called automatically by the Engine.
+`
+          }
+        />
       </div>
     );
   }
