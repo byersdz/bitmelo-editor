@@ -6,6 +6,8 @@ import PixelToolPicker from 'Containers/PixelEditor/PixelToolPicker/PixelToolPic
 import TilePixelEditor from 'Containers/TileEditor/TilePixelEditor/TilePixelEditor';
 import PalettePicker from 'Containers/PalettePicker/PalettePicker';
 
+import TileStatusBar from './TileStatusBar/TileStatusBar';
+
 import './TileEditor.scss';
 
 class TileEditor extends React.Component {
@@ -18,6 +20,7 @@ class TileEditor extends React.Component {
           <TilePixelEditor />
           <PalettePicker />
         </div>
+        <TileStatusBar />
       </div>
     );
   }
