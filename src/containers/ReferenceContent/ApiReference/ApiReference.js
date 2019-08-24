@@ -32,6 +32,7 @@ import FrequenciesAPI from './FrequenciesAPI/FrequenciesAPI';
 import InputAPI from './InputAPI/InputAPI';
 import KeysAPI from './KeysAPI/KeysAPI';
 import MapDataAPI from './MapDataAPI/MapDataAPI';
+import NotesAPI from './NotesAPI/NotesAPI';
 
 import './ApiReference.scss';
 
@@ -154,6 +155,10 @@ class ApiReference extends React.Component {
         }
         case API_MAP_DATA: {
           content = <MapDataAPI />;
+          break;
+        }
+        case API_NOTES: {
+          content = <NotesAPI />;
           break;
         }
         default: {

@@ -1,0 +1,24 @@
+@import 'Style/colors.scss';
+
+.api-notes {
+  margin: 10px;
+  margin-bottom: 64px;
+
+  .description {
+    margin-bottom: 16px;
+  }
+
+  .notes-item {
+    padding: 8px 4px;
+    display: flex;
+    align-items: center;
+
+    .value {
+      margin-left: 8px;
+    }
+  }
+
+  .notes-item:nth-child(odd) {
+    background-color: $background-color;
+  }
+}
