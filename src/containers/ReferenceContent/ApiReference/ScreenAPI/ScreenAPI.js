@@ -705,6 +705,11 @@ the next gid is the bottom left tile of the next tileset.
                 type: 'number',
                 description: 'the y position on the screen to draw to.',
               },
+              {
+                name: 'flip',
+                type: 'number',
+                description: 'should we flip the tile? 0: no, 1: x, 2: y, 3: xy',
+              },
             ]
           }
           example={
@@ -714,7 +719,8 @@ const firstTile = 1;
 screen.drawTile(
   firstTile,  // tile gid
   80,         // x position
-  40          // y position
+  40,         // y position
+  0           // flip
 );
 
 `
