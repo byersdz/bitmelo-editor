@@ -29,6 +29,16 @@ class TileSelectorCanvas extends React.Component {
   }
 
   componentDidMount() {
+    const { width, height } = this.props;
+
+    const maxDimension = width > height ? width : height;
+    const targetSize = 256;
+    let newScale = Math.floor( targetSize / maxDimension );
+    if ( newScale < 1 ) {
+      newScale = 1;
+    }
+
+    this.setState( { scale: newScale } );
     this.draw();
   }
 
