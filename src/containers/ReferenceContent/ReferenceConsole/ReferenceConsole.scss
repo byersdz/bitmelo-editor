@@ -26,18 +26,24 @@
     }
   }
 
-  .checkbox {
+  .console-controls {
+    background-color: $background-color;
     padding-top: 8px;
     padding-bottom: 8px;
-    background-color: $background-color;
     margin: 0;
+    display: flex;
+    justify-content: space-evenly;
 
-    .title {
-      width: initial;
-    }
+    .checkbox {
 
-    .controls {
-      width: initial;
+
+      .title {
+        width: initial;
+      }
+
+      .controls {
+        width: initial;
+      }
     }
-  }
+}
 }

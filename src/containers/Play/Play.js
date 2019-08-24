@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 
 import createProjectScript from 'Utils/Convert/createProjectScript';
 
-import { addPlayLog, clearPlayLogs } from 'State/Code/playLogs';
+import { addPlayLog } from 'State/Code/playLogs';
 
 import './Play.scss';
 
@@ -21,10 +21,7 @@ class Play extends React.Component {
   }
 
   componentWillUnmount() {
-    const { _clearPlayLogs } = this.props;
-
     window.removeEventListener( 'message', this.handleMessage );
-    _clearPlayLogs();
   }
 
   handleMessage( event ) {
@@ -146,7 +143,6 @@ Play.propTypes = {
   sounds: PropTypes.array.isRequired,
   tilemaps: PropTypes.array.isRequired,
   _addPlayLog: PropTypes.func.isRequired,
-  _clearPlayLogs: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -168,7 +164,6 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _addPlayLog: addPlayLog,
-    _clearPlayLogs: clearPlayLogs,
   }, dispatch );
 }
 

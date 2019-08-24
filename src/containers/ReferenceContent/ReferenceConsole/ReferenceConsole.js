@@ -6,9 +6,11 @@ import { bindActionCreators } from 'redux';
 
 import Scrollbars from 'Components/Scrollbars/Scrollbars';
 import Checkbox from 'Components/Checkbox/Checkbox';
+import Button from 'Components/Button/Button';
 
 import { setStickConsoleToBottom } from 'State/Layout/play';
 import { setReferenceTabTitle } from 'State/Layout/referenceTabTitle';
+import { clearPlayLogs } from 'State/Code/playLogs';
 
 import './ReferenceConsole.scss';
 
@@ -41,7 +43,7 @@ class ReferenceConsole extends React.Component {
   }
 
   render() {
-    const { stickToBottom, _setStickConsoleToBottom } = this.props;
+    const { stickToBottom, _setStickConsoleToBottom, _clearPlayLogs } = this.props;
 
     const logsRender = this.renderLogs();
     return (
@@ -53,11 +55,18 @@ class ReferenceConsole extends React.Component {
             { logsRender }
           </Scrollbars>
         </div>
-        <Checkbox
-          title="Stick To Bottom"
-          checked={ stickToBottom }
-          onChange={ v => _setStickConsoleToBottom( v ) }
-        />
+        <div className="console-controls">
+          <Button
+            title="Clear Console"
+            standard
+            click={ () => _clearPlayLogs() }
+          />
+          <Checkbox
+            title="Stick To Bottom"
+            checked={ stickToBottom }
+            onChange={ v => _setStickConsoleToBottom( v ) }
+          />
+        </div>
       </div>
     );
   }
@@ -68,6 +77,7 @@ ReferenceConsole.propTypes = {
   stickToBottom: PropTypes.bool.isRequired,
   _setStickConsoleToBottom: PropTypes.func.isRequired,
   _setReferenceTabTitle: PropTypes.func.isRequired,
+  _clearPlayLogs: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -81,6 +91,7 @@ function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setStickConsoleToBottom: setStickConsoleToBottom,
     _setReferenceTabTitle: setReferenceTabTitle,
+    _clearPlayLogs: clearPlayLogs,
   }, dispatch );
 }
 

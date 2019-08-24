@@ -56,7 +56,7 @@ const initialState = {
   width: 192,
   height: 108,
   scaleMode: Screen.SCALE_CONSTANT,
-  scale: 2,
+  scale: 3,
   minScale: 1,
   maxScale: 4,
   horizontalScaleCushion: 10,
