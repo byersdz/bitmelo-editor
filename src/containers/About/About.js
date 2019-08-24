@@ -19,6 +19,9 @@ class About extends React.Component {
         <div className="version">
           engine v0.0.1
         </div>
+        <div className="itch">
+          <iframe frameBorder="0" src="https://itch.io/embed/459253?dark=true" width="552" height="167" title="itch" />
+        </div>
       </div>
     );
   }
