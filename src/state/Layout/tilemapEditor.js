@@ -4,17 +4,27 @@ import { RESET_PROJECT } from 'State/globalActions';
 // Actions
 export const TOGGLE_TILEMAP_SELECTOR = 'TOGGLE_TILEMAP_SELECTOR';
 export const TOGGLE_TILEMAP_TILE_SELECTOR = 'TOGGLE_TILEMAP_TILE_SELECTOR';
+export const SET_TILEMAP_CURSOR_POSITION = 'SET_TILEMAP_CURSOR_POSITION';
 
 // Reducer
 const initialState = {
   tilemapSelectorIsOpen: true,
   tileSelectorIsOpen: true,
+  cursorX: 0,
+  cursorY: 0,
 };
 
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
     case RESET_PROJECT: {
       return initialState;
+    }
+    case SET_TILEMAP_CURSOR_POSITION: {
+      const { x, y } = action.payload;
+      const newState = { ...state };
+      newState.cursorX = x;
+      newState.cursorY = y;
+      return newState;
     }
     case TOGGLE_TILEMAP_SELECTOR: {
       const newState = { ...state };
@@ -41,5 +51,15 @@ export function toggleTilemapSelector() {
 export function toggleTilemapTileSelector() {
   return {
     type: TOGGLE_TILEMAP_TILE_SELECTOR,
+  };
+}
+
+export function setTilmapCursorPosition( x, y ) {
+  return {
+    type: SET_TILEMAP_CURSOR_POSITION,
+    payload: {
+      x,
+      y,
+    },
   };
 }

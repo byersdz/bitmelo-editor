@@ -9,6 +9,7 @@ import TileSelector from 'Containers/TileEditor/TileSelector/TileSelector';
 
 import { undoTilemaps, redoTilemaps } from 'State/Tilemap';
 import { setTilemapLayerData } from 'State/Tilemap/tilemaps';
+import { setTilmapCursorPosition } from 'State/Layout/tilemapEditor';
 
 import TilemapSelector from '../TilemapSelector/TilemapSelector';
 
@@ -54,6 +55,11 @@ class TilemapPixelEditor extends React.Component {
     _setTilemapLayerData( newData, activeIndex, tilemap.activeLayer );
   }
 
+  handleCursorChange( { x, y } ) {
+    const { _setTilmapCursorPosition } = this.props;
+    _setTilmapCursorPosition( x, y );
+  }
+
   render() {
     const {
       palette,
@@ -86,6 +92,7 @@ class TilemapPixelEditor extends React.Component {
         selectionData={ selectionData }
         selectionWidth={ mapSelectionWidth }
         selectionHeight={ mapSelectionHeight }
+        onCursorChange={ e => this.handleCursorChange( e ) }
       >
         <TilemapSelector />
         <TileSelector isInMapEditor />
@@ -104,6 +111,7 @@ TilemapPixelEditor.propTypes = {
   _setTilemapLayerData: PropTypes.func.isRequired,
   _undoTilemaps: PropTypes.func.isRequired,
   _redoTilemaps: PropTypes.func.isRequired,
+  _setTilmapCursorPosition: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -128,6 +136,7 @@ function mapDispatchToProps( dispatch ) {
     _setTilemapLayerData: setTilemapLayerData,
     _undoTilemaps: undoTilemaps,
     _redoTilemaps: redoTilemaps,
+    _setTilmapCursorPosition: setTilmapCursorPosition,
   }, dispatch );
 }
 

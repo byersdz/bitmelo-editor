@@ -353,6 +353,7 @@ class PixelEditor extends React.Component {
       dataHeight,
       isTileEditor,
       tileSize,
+      onCursorChange,
     } = this.props;
 
     const { clientX, clientY } = event;
@@ -379,6 +380,13 @@ class PixelEditor extends React.Component {
     );
 
     pixelY = dataHeight - pixelY - 1;
+
+    if ( onCursorChange ) {
+      onCursorChange( {
+        x: pixelX,
+        y: pixelY,
+      } );
+    }
 
     if ( isEditing ) {
       editingData.lastX = editingData.currentX;
@@ -827,6 +835,7 @@ PixelEditor.propTypes = {
   selectionData: PropTypes.array,
   selectionWidth: PropTypes.number,
   selectionHeight: PropTypes.number,
+  onCursorChange: PropTypes.func,
 };
 
 PixelEditor.defaultProps = {
@@ -838,6 +847,7 @@ PixelEditor.defaultProps = {
   selectionWidth: 0,
   selectionHeight: 0,
   altPaletteIndex: 0,
+  onCursorChange: null,
 };
 
 function mapStateToProps( state ) {

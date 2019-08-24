@@ -5,6 +5,8 @@ import TilemapToolSettings from './TilemapToolSettings/TilemapToolSettings';
 import TilemapToolPicker from './TilemapToolPicker/TilemapToolPicker';
 import TilemapPixelEditor from './TilemapPixelEditor/TilemapPixelEditor';
 
+import TilemapStatusBar from './TilemapStatusBar/TilemapStatusBar';
+
 import './TilemapEditor.scss';
 
 class TilemapEditor extends React.Component {
@@ -16,6 +18,7 @@ class TilemapEditor extends React.Component {
         <div className="editor-section">
           <TilemapPixelEditor />
         </div>
+        <TilemapStatusBar />
       </div>
     );
   }
