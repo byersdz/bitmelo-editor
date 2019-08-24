@@ -7,9 +7,9 @@ import enhanceWithClickOutside from 'react-click-outside';
 
 import Button from 'Components/Button/Button';
 
-import { setPaletteColor, deletePaletteColor } from 'State/Palette/colors';
-import { selectPaletteIndex } from 'State/Palette/selectedIndex';
-import { clearTilesetsHistory } from 'State/Tileset/index';
+import { setPaletteColor } from 'State/Palette/colors';
+
+import DeleteColorModal from '../DeleteColorModal/DeleteColorModal';
 
 import './ColorEditor.scss';
 
@@ -19,6 +19,7 @@ class ColorEditor extends React.Component {
 
     this.state = {
       initialColor: props.color,
+      deleteModalIsOpen: false,
     };
   }
 
@@ -42,31 +43,28 @@ class ColorEditor extends React.Component {
     _setPaletteColor( selectedIndex, color.hex.slice( 1 ) );
   }
 
-  handleDeleteClicked() {
-    const {
-      selectedIndex,
-      _deletePaletteColor,
-      onClose,
-      _selectPaletteIndex,
-      _clearTilesetsHistory,
-    } = this.props;
-    if ( selectedIndex > 0 ) {
-      _deletePaletteColor( selectedIndex );
-      _clearTilesetsHistory();
-      _selectPaletteIndex( selectedIndex - 1 );
-    }
-
-    onClose();
-  }
-
   handleClickOutside() {
-    this.handleCancel();
+    const { deleteModalIsOpen } = this.state;
+
+    if ( !deleteModalIsOpen ) {
+      this.handleCancel();
+    }
   }
 
   render() {
-    const { color } = this.props;
+    const { color, onClose } = this.props;
+    const { deleteModalIsOpen } = this.state;
+
+    const deleteModalRender = deleteModalIsOpen ? (
+      <DeleteColorModal
+        onClose={ () => this.setState( { deleteModalIsOpen: false } ) }
+        onDelete={ () => onClose() }
+      />
+    ) : null;
+
     return (
       <div className="color-editor">
+        { deleteModalRender }
         <PhotoshopPicker
           header="Edit Palette Color"
           color={ color }
@@ -76,7 +74,7 @@ class ColorEditor extends React.Component {
         />
         <Button
           title="Delete Palette Color"
-          click={ () => this.handleDeleteClicked() }
+          click={ () => this.setState( { deleteModalIsOpen: true } ) }
           standard
         />
       </div>
@@ -89,9 +87,6 @@ ColorEditor.propTypes = {
   color: PropTypes.string.isRequired,
   selectedIndex: PropTypes.number.isRequired,
   _setPaletteColor: PropTypes.func.isRequired,
-  _deletePaletteColor: PropTypes.func.isRequired,
-  _selectPaletteIndex: PropTypes.func.isRequired,
-  _clearTilesetsHistory: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -106,9 +101,6 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setPaletteColor: setPaletteColor,
-    _deletePaletteColor: deletePaletteColor,
-    _selectPaletteIndex: selectPaletteIndex,
-    _clearTilesetsHistory: clearTilesetsHistory,
   }, dispatch );
 }
 
