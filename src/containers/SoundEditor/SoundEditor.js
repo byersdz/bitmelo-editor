@@ -22,32 +22,27 @@ import {
   setSoundTicTab,
 } from 'State/Layout/activeSoundTicTab';
 
-import { deleteSound } from 'State/Sound/sounds';
-import { selectSound } from 'State/Sound/activeSound';
+import DeleteSoundModal from './DeleteSoundModal/DeleteSoundModal';
 
 import './SoundEditor.scss';
 
 class SoundEditor extends React.Component {
+  constructor( props ) {
+    super( props );
+
+    this.state = {
+      deleteModalIsOpen: false,
+    };
+  }
+
   handleTicTabSelect( key ) {
     const { _setSoundTicTab } = this.props;
     _setSoundTicTab( key );
   }
 
-  handleDelete() {
-    const {
-      _deleteSound,
-      _selectSound,
-      activeSound,
-    } = this.props;
-
-    _deleteSound( activeSound );
-    if ( activeSound > 0 ) {
-      _selectSound( activeSound - 1 );
-    }
-  }
-
   render() {
     const { activeTicTab, numberOfSounds } = this.props;
+    const { deleteModalIsOpen } = this.state;
 
     const tabs = [
       { key: VOLUME_TAB, title: 'Volume' },
@@ -80,13 +75,20 @@ class SoundEditor extends React.Component {
     const deleteButtonRender = numberOfSounds > 1 ? (
       <Button
         title="Delete"
-        click={ () => this.handleDelete() }
+        click={ () => this.setState( { deleteModalIsOpen: true } ) }
         standard
+      />
+    ) : null;
+
+    const deleteModalRender = deleteModalIsOpen ? (
+      <DeleteSoundModal
+        onClose={ () => this.setState( { deleteModalIsOpen: false } ) }
       />
     ) : null;
 
     return (
       <div className="sound-editor">
+        { deleteModalRender }
         <SoundPicker />
         <WavePicker />
         <TabbedCard
@@ -111,16 +113,12 @@ SoundEditor.propTypes = {
   activeTicTab: PropTypes.string.isRequired,
   _setSoundTicTab: PropTypes.func.isRequired,
   numberOfSounds: PropTypes.number.isRequired,
-  _deleteSound: PropTypes.func.isRequired,
-  _selectSound: PropTypes.func.isRequired,
-  activeSound: PropTypes.number.isRequired,
 };
 
 function mapStateToProps( state ) {
   return {
     activeTicTab: state.layout.activeSoundTicTab,
     numberOfSounds: state.sound.sounds.length,
-    activeSound: state.sound.activeSound,
     pianoOctave: state.layout.soundEditor.pianoOctave,
   };
 }
@@ -128,8 +126,6 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setSoundTicTab: setSoundTicTab,
-    _deleteSound: deleteSound,
-    _selectSound: selectSound,
   }, dispatch );
 }
 
