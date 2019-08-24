@@ -33,6 +33,7 @@ import InputAPI from './InputAPI/InputAPI';
 import KeysAPI from './KeysAPI/KeysAPI';
 import MapDataAPI from './MapDataAPI/MapDataAPI';
 import NotesAPI from './NotesAPI/NotesAPI';
+import ScreenAPI from './ScreenAPI/ScreenAPI';
 
 import './ApiReference.scss';
 
@@ -159,6 +160,10 @@ class ApiReference extends React.Component {
         }
         case API_NOTES: {
           content = <NotesAPI />;
+          break;
+        }
+        case API_SCREEN: {
+          content = <ScreenAPI />;
           break;
         }
         default: {
