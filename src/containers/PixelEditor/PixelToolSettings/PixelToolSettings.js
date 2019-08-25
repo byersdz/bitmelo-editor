@@ -14,6 +14,51 @@ import { setPixelToolSettings } from 'State/PixelTools/pixelToolSettings';
 import './PixelToolSettings.scss';
 
 class PixelToolSettings extends React.Component {
+  constructor( props ) {
+    super( props );
+
+    this.handleKeyDown = this.handleKeyDown.bind( this );
+  }
+
+  componentDidMount() {
+    window.addEventListener( 'keydown', this.handleKeyDown );
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener( 'keydown', this.handleKeyDown );
+  }
+
+  handleKeyDown( event ) {
+    const { _setPixelToolSettings, pixelToolSettings, selectedTool } = this.props;
+
+    let newPencilSize = -1;
+    let newEraserSize = -1;
+
+    if ( event.which === 219 ) { // [
+      if ( selectedTool === PENCIL_TOOL ) {
+        newPencilSize = pixelToolSettings.pencilSize - 1;
+      }
+      else if ( selectedTool === ERASER_TOOL ) {
+        newEraserSize = pixelToolSettings.eraserSize - 1;
+      }
+    }
+    else if ( event.which === 221 ) { // ]
+      if ( selectedTool === PENCIL_TOOL ) {
+        newPencilSize = pixelToolSettings.pencilSize + 1;
+      }
+      else if ( selectedTool === ERASER_TOOL ) {
+        newEraserSize = pixelToolSettings.eraserSize + 1;
+      }
+    }
+
+    if ( newPencilSize > 0 && newPencilSize <= 32 ) {
+      _setPixelToolSettings( { ...pixelToolSettings, pencilSize: newPencilSize } );
+    }
+    else if ( newEraserSize > 0 && newEraserSize <= 32 ) {
+      _setPixelToolSettings( { ...pixelToolSettings, eraserSize: newEraserSize } );
+    }
+  }
+
   handlePencilSizeChange( newValue ) {
     const { _setPixelToolSettings, pixelToolSettings } = this.props;
     _setPixelToolSettings( { ...pixelToolSettings, pencilSize: newValue } );
