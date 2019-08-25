@@ -288,7 +288,7 @@ class PixelEditor extends React.Component {
       }
 
       // apply bucket
-      if ( editingTool === BUCKET_TOOL ) {
+      if ( !isTileEditor && editingTool === BUCKET_TOOL ) {
         const newData = applyBucketToData( data, dataWidth, dataHeight, editingData );
         if ( newData ) {
           onDataChange( newData );
