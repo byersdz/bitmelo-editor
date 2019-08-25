@@ -10,7 +10,7 @@ import { undoTilesets, redoTilesets } from 'State/Tileset';
 import { setTilesetLayerData } from 'State/Tileset/tilesets';
 import { selectPaletteIndex } from 'State/Palette/selectedIndex';
 import { selectAltPaletteIndex } from 'State/Palette/altIndex';
-import { PENCIL_TOOL } from 'State/PixelTools/selectedTool';
+import { PENCIL_TOOL, BUCKET_TOOL } from 'State/PixelTools/selectedTool';
 
 import TileSelector from '../TileSelector/TileSelector';
 
@@ -76,15 +76,13 @@ class TilePixelEditor extends React.Component {
       return;
     }
 
-    if ( selectedTool !== PENCIL_TOOL ) {
-      return;
-    }
-
-    if ( alt ) {
-      _selectAltPaletteIndex( id );
-    }
-    else {
-      _selectPaletteIndex( id );
+    if ( selectedTool === PENCIL_TOOL || selectedTool === BUCKET_TOOL ) {
+      if ( alt ) {
+        _selectAltPaletteIndex( id );
+      }
+      else {
+        _selectPaletteIndex( id );
+      }
     }
   }
 
