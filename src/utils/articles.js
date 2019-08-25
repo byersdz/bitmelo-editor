@@ -1,6 +1,7 @@
 
 export const PIXEL_TUTORIALS = 'PIXEL_TUTORIALS';
 
+export const API_QUICK_START = 'API_QUICK_START';
 export const API_AUDIO = 'API_AUDIO';
 export const API_ENGINE = 'API_ENGINE';
 export const API_FONT = 'API_FONT';

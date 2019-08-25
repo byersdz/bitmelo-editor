@@ -7,8 +7,10 @@ import { bindActionCreators } from 'redux';
 import ArticleList from 'Components/ArticleList/ArticleList';
 
 import { setReferenceRoute } from 'State/Layout/referenceRoutes';
+import { setReferenceTabTitle } from 'State/Layout/referenceTabTitle';
 
 import {
+  API_QUICK_START,
   API_AUDIO,
   API_ENGINE,
   API_FONT,
@@ -40,72 +42,116 @@ import TileMapAPI from './TileMapAPI/TileMapAPI';
 
 import './ApiReference.scss';
 
+const ArticleTitles = {};
+ArticleTitles[API_QUICK_START] = 'Quick Start';
+ArticleTitles[API_AUDIO] = 'bitmelo.Audio';
+ArticleTitles[API_ENGINE] = 'bitmelo.Engine';
+ArticleTitles[API_FONT] = 'bitmelo.Font';
+ArticleTitles[API_FONT_DATA] = 'bitmelo.FontData';
+ArticleTitles[API_FREQUENCIES] = 'bitmelo.Frequencies';
+ArticleTitles[API_INPUT] = 'bitmelo.Input';
+ArticleTitles[API_KEYS] = 'bitmelo.Keys';
+ArticleTitles[API_MAP_DATA] = 'bitmelo.MapData';
+ArticleTitles[API_NOTES] = 'bitmelo.Notes';
+ArticleTitles[API_SCREEN] = 'bitmelo.Screen';
+ArticleTitles[API_SOUND] = 'bitmelo.Sound';
+ArticleTitles[API_TILE_DATA] = 'bitmelo.TileData';
+ArticleTitles[API_TILE_MAP] = 'bitmelo.TileMap';
+
 class ApiReference extends React.Component {
+  componentDidMount() {
+    this.setTitle();
+  }
+
+  componentDidUpdate( prevProps ) {
+    const { route: prevRoute } = prevProps;
+    const { route } = this.props;
+
+    if ( route !== prevRoute ) {
+      this.setTitle();
+    }
+  }
+
+  setTitle() {
+    const { route, _setReferenceTabTitle } = this.props;
+    if ( route.current.length <= 1 ) {
+      _setReferenceTabTitle( 'API Reference' );
+    }
+    else {
+      const article = route.current[route.current.length - 1];
+      if ( ArticleTitles[article] ) {
+        _setReferenceTabTitle( ArticleTitles[article] );
+      }
+      else {
+        _setReferenceTabTitle( 'API Reference' );
+      }
+    }
+  }
+
   handleClassSelected( key ) {
     const { _setReferenceRoute, route, section } = this.props;
     const newRoute = [];
     newRoute.push( route.current[0] );
     newRoute.push( key );
-    console.log( newRoute );
     _setReferenceRoute( section, newRoute );
   }
 
   renderClassList() {
     const items = [
       {
-        title: 'Quick Start',
-        key: 'qs',
+        title: ArticleTitles[API_QUICK_START],
+        key: API_QUICK_START,
       },
       {
-        title: 'bitmelo.Audio',
+        title: ArticleTitles[API_AUDIO],
         key: API_AUDIO,
       },
       {
-        title: 'bitmelo.Engine',
+        title: ArticleTitles[API_ENGINE],
         key: API_ENGINE,
       },
       {
-        title: 'bitmelo.Font',
+        title: ArticleTitles[API_FONT],
         key: API_FONT,
       },
       {
-        title: 'bitmelo.FontData',
+        title: ArticleTitles[API_FONT_DATA],
         key: API_FONT_DATA,
       },
       {
-        title: 'bitmelo.Frequencies',
+        title: ArticleTitles[API_FREQUENCIES],
         key: API_FREQUENCIES,
       },
       {
-        title: 'bitmelo.Input',
+        title: ArticleTitles[API_INPUT],
         key: API_INPUT,
       },
       {
-        title: 'bitmelo.Keys',
+        title: ArticleTitles[API_KEYS],
         key: API_KEYS,
       },
       {
-        title: 'bitmelo.MapData',
+        title: ArticleTitles[API_MAP_DATA],
         key: API_MAP_DATA,
       },
       {
-        title: 'bitmelo.Notes',
+        title: ArticleTitles[API_NOTES],
         key: API_NOTES,
       },
       {
-        title: 'bitmelo.Screen',
+        title: ArticleTitles[API_SCREEN],
         key: API_SCREEN,
       },
       {
-        title: 'bitmelo.Sound',
+        title: ArticleTitles[API_SOUND],
         key: API_SOUND,
       },
       {
-        title: 'bitmelo.TileData',
+        title: ArticleTitles[API_TILE_DATA],
         key: API_TILE_DATA,
       },
       {
-        title: 'bitmelo.TileMap',
+        title: ArticleTitles[API_TILE_MAP],
         key: API_TILE_MAP,
       },
     ];
@@ -200,11 +246,13 @@ ApiReference.propTypes = {
   route: PropTypes.object.isRequired,
   section: PropTypes.string.isRequired,
   _setReferenceRoute: PropTypes.func.isRequired,
+  _setReferenceTabTitle: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setReferenceRoute: setReferenceRoute,
+    _setReferenceTabTitle: setReferenceTabTitle,
   }, dispatch );
 }
 
