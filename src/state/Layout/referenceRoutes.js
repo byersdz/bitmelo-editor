@@ -14,6 +14,7 @@ import {
 export const CONSOLE = 'CONSOLE';
 export const ARTICLES = 'ARTICLES';
 export const API = 'API';
+export const HOTKEYS = 'HOTKEYS';
 
 // Actions
 export const SET_REFERENCE_ROUTE = 'SET_REFERENCE_ROUTE';
@@ -38,7 +39,7 @@ addInitialStateItem( PLAY_TAB, [CONSOLE] );
 addInitialStateItem( CODE_TAB, [API, API_QUICK_START] );
 addInitialStateItem( TILE_TAB, [ARTICLES, PIXEL_TUTORIALS] );
 addInitialStateItem( TILEMAP_TAB, [ARTICLES, PIXEL_TUTORIALS] );
-addInitialStateItem( SOUND_TAB );
+addInitialStateItem( SOUND_TAB, [HOTKEYS] );
 
 
 export default function reducer( state = initialState, action ) {

@@ -34,8 +34,8 @@ const player = {
 };
 
 engine.onInit = () => {
-  player.x = engine.screen.width / 2;
-  player.y = engine.screen.height / 2;
+  player.x = Math.floor( engine.screen.width / 2 );
+  player.y = Math.floor( engine.screen.height / 2 );
 };
 
 engine.onUpdate = () => {
@@ -70,12 +70,12 @@ engine.onUpdate = () => {
   );
 
   engine.screen.drawText(
-    'Welcome to Bitmelo!',          // text
-    engine.screen.width / 2 - 48,   // x
-    engine.screen.height / 2 + 16,  // y
-    2,                              // main palette index
-    4,                              // outline palette index
-    0                               // font
+    'Welcome to Bitmelo!',                        // text
+    Math.floor( engine.screen.width / 2 ) - 50,   // x
+    Math.floor( engine.screen.height / 2 ) + 16,  // y
+    2,                                            // main palette index
+    4,                                            // outline palette index
+    0                                             // font
   );
 };
 `,
