@@ -36,7 +36,7 @@ class QuickStart extends React.Component {
         <p>
           {
             `
-            Use the "engine.onInit" function to perform initialization logic. This function is automatically
+            Use the "engine.onInit" callback function to perform initialization logic. This function is automatically
             called for you by the engine when it loads in a web page.
             `
           }
@@ -44,8 +44,8 @@ class QuickStart extends React.Component {
         <p>
           {
             `
-            Use the "engine.onUpdate" function to perform game and rendering logic. This function is automatically
-            called for you by the engine once every frame in the game loop.
+            Use the "engine.onUpdate" callback function to perform game and rendering logic.
+            This function is automatically called for you by the engine once every frame in the game loop.
             `
           }
         </p>
@@ -78,10 +78,33 @@ class QuickStart extends React.Component {
         <p>
           In addition you can get the mouse position, left and right mouse button input, and keyboard input.
         </p>
-
+        <h3>Tiles</h3>
+        <p>
+          {
+            `
+              You can draw a tile set in the Tile Editor. The size of a tile is defined in the Project tab.
+              Be aware, if you change the tile size in the project tab it will delete all of your tile data.
+              The "engine.screen.drawTile" function can be used to draw a tile.
+            `
+          }
+        </p>
+        <h3>Tilemaps</h3>
+        <p>
+          {
+            `
+              You can draw a tilemaps in the Tilemap Editor, using the tiles you created in the Tile Editor.
+              The "engine.screen.drawMap" function can be used to draw a tilemap.
+            `
+          }
+        </p>
         <h3>Sound</h3>
         <p>
-          You can define up to 256 unique sounds in the Sound Editor.
+          {
+            `
+              You can define up to 256 unique sounds in the Sound Editor.
+              The "engine.audio.playSound" function can be used to play a sound.
+            `
+          }
         </p>
 
       </div>
