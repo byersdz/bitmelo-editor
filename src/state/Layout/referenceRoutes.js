@@ -15,6 +15,7 @@ export const CONSOLE = 'CONSOLE';
 export const ARTICLES = 'ARTICLES';
 export const API = 'API';
 export const HOTKEYS = 'HOTKEYS';
+export const REFERENCE_ABOUT = 'REFERENCE_ABOUT';
 
 // Actions
 export const SET_REFERENCE_ROUTE = 'SET_REFERENCE_ROUTE';
@@ -33,7 +34,7 @@ function addInitialStateItem( section, route = [] ) {
   };
 }
 
-addInitialStateItem( ABOUT_TAB );
+addInitialStateItem( ABOUT_TAB, [REFERENCE_ABOUT] );
 addInitialStateItem( PROJECT_TAB );
 addInitialStateItem( PLAY_TAB, [CONSOLE] );
 addInitialStateItem( CODE_TAB, [API, API_QUICK_START] );

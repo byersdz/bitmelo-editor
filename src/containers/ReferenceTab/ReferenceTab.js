@@ -8,6 +8,7 @@ import ReferenceConsole from 'Containers/ReferenceContent/ReferenceConsole/Refer
 import Articles from 'Containers/ReferenceContent/Articles/Articles';
 import ApiReference from 'Containers/ReferenceContent/ApiReference/ApiReference';
 import Hotkeys from 'Containers/ReferenceContent/Hotkeys/Hotkeys';
+import ReferenceAbout from 'Containers/ReferenceContent/ReferenceAbout/ReferenceAbout';
 
 import TopBar from 'Components/TopBar/TopBar';
 import Button from 'Components/Button/Button';
@@ -20,6 +21,7 @@ import {
   ARTICLES,
   API,
   HOTKEYS,
+  REFERENCE_ABOUT,
 } from 'State/Layout/referenceRoutes';
 
 import './ReferenceTab.scss';
@@ -87,6 +89,14 @@ class ReferenceTab extends React.Component {
                 route={ route }
                 section={ section }
               />
+            </Scrollbars>
+          );
+          break;
+        }
+        case REFERENCE_ABOUT: {
+          contentRender = (
+            <Scrollbars>
+              <ReferenceAbout />
             </Scrollbars>
           );
           break;
