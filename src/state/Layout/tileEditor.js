@@ -1,25 +1,26 @@
 
 // Actions
-export const SET_TILE_ARTICLE_PATH = 'SET_TILE_ARTICLE_PATH';
+export const SET_TILE_EDITOR_LAYOUT_SETTINGS = 'SET_TILE_EDITOR_LAYOUT_SETTINGS';
 
 // Reducer
 const initialState = {
   articlePath: '',
+  showGrid: false,
 };
 
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
-    case SET_TILE_ARTICLE_PATH: {
-      return { ...state, articlePath: action.payload };
+    case SET_TILE_EDITOR_LAYOUT_SETTINGS: {
+      return { ...action.payload };
     }
     default: return state;
   }
 }
 
 // Action Creators
-export function setTileArticlePath( path ) {
+export function setTileEditorLayoutSettings( settings ) {
   return {
-    type: SET_TILE_ARTICLE_PATH,
-    payload: path,
+    type: SET_TILE_EDITOR_LAYOUT_SETTINGS,
+    payload: settings,
   };
 }

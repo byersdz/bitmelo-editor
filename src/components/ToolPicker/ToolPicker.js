@@ -8,7 +8,12 @@ import './ToolPicker.scss';
 
 class ToolPicker extends React.Component {
   render() {
-    const { tools, selectedTool, onSelectedToolChange } = this.props;
+    const {
+      tools,
+      selectedTool,
+      onSelectedToolChange,
+      children,
+    } = this.props;
 
     return (
       <div className="tool-picker">
@@ -19,6 +24,9 @@ class ToolPicker extends React.Component {
           hideTitles
           usePointer
         />
+        <div className="custom-tools">
+          { children }
+        </div>
       </div>
     );
   }
@@ -28,6 +36,11 @@ ToolPicker.propTypes = {
   tools: PropTypes.arrayOf( PropTypes.object ).isRequired,
   selectedTool: PropTypes.string.isRequired,
   onSelectedToolChange: PropTypes.func.isRequired,
+  children: PropTypes.node,
+};
+
+ToolPicker.defaultProps = {
+  children: null,
 };
 
 export default ToolPicker;

@@ -4,10 +4,13 @@
   width: 720px;
   height: 32px;
   background-color: $background-dark-color;
+  display: flex;
+  align-items: stretch;
 
   .button-tabs {
     display: flex;
     flex-direction: row;
+    flex-grow: 1;
 
     .isvg {
       display: flex;
@@ -25,6 +28,37 @@
       .isvg {
         fill: $on-primary-color;
         stroke: $on-primary-color;
+      }
+    }
+  }
+
+  .custom-tools {
+    display: flex;
+    align-items: stretch;
+
+    .isvg {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+    }
+
+    .btn {
+      border: 2px solid transparent;
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    .active {
+      border: 2px solid $primary-color;
+
+      .isvg {
+        fill: $primary-color;
+        stroke: $primary-color;
       }
     }
   }

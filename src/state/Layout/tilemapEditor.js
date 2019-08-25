@@ -5,6 +5,7 @@ import { RESET_PROJECT } from 'State/globalActions';
 export const TOGGLE_TILEMAP_SELECTOR = 'TOGGLE_TILEMAP_SELECTOR';
 export const TOGGLE_TILEMAP_TILE_SELECTOR = 'TOGGLE_TILEMAP_TILE_SELECTOR';
 export const SET_TILEMAP_CURSOR_POSITION = 'SET_TILEMAP_CURSOR_POSITION';
+export const SET_TILEMAP_EDITOR_LAYOUT_SETTINGS = 'SET_TILEMAP_EDITOR_LAYOUT_SETTINGS';
 
 // Reducer
 const initialState = {
@@ -12,12 +13,16 @@ const initialState = {
   tileSelectorIsOpen: true,
   cursorX: 0,
   cursorY: 0,
+  showGrid: true,
 };
 
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
     case RESET_PROJECT: {
       return initialState;
+    }
+    case SET_TILEMAP_EDITOR_LAYOUT_SETTINGS: {
+      return { ...action.payload };
     }
     case SET_TILEMAP_CURSOR_POSITION: {
       const { x, y } = action.payload;
@@ -61,5 +66,12 @@ export function setTilmapCursorPosition( x, y ) {
       x,
       y,
     },
+  };
+}
+
+export function setTilemapEditorLayoutSettings( settings ) {
+  return {
+    type: SET_TILEMAP_EDITOR_LAYOUT_SETTINGS,
+    payload: settings,
   };
 }

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import {
   drawIndicator,
+  drawGrid,
 } from 'Utils/drawToCanvas';
 import './OverlayCanvas.scss';
 
@@ -34,6 +35,7 @@ class OverlayCanvas extends React.Component {
       indicatorHeight,
       showIndicator,
       scale,
+      dataWidth,
       dataHeight,
       isTileEditor,
       tileSize,
@@ -45,6 +47,26 @@ class OverlayCanvas extends React.Component {
     let modifiedScale = scale;
     if ( isTileEditor ) {
       modifiedScale = scale * tileSize;
+    }
+
+    const shouldDrawGrid = true;
+    if ( shouldDrawGrid ) {
+      const gridSettings = {
+        interval: 1,
+        lineWidth: 1,
+        style: 'rgba( 0, 0, 0, 0.5 )',
+        offsetX,
+        offsetY,
+        scale,
+        dataWidth,
+        dataHeight,
+      };
+
+      if ( isTileEditor ) {
+        gridSettings.scale = scale * tileSize;
+      }
+
+      drawGrid( gridSettings, this.canvasRef.current );
     }
 
     if ( showIndicator ) {
@@ -103,6 +125,7 @@ OverlayCanvas.propTypes = {
   indicatorHeight: PropTypes.number.isRequired,
   showIndicator: PropTypes.bool.isRequired,
   scale: PropTypes.number.isRequired,
+  dataWidth: PropTypes.number.isRequired,
   dataHeight: PropTypes.number.isRequired,
   isTileEditor: PropTypes.bool.isRequired,
   tileSize: PropTypes.number.isRequired,

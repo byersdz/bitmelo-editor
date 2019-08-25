@@ -859,6 +859,7 @@ class PixelEditor extends React.Component {
           indicatorWidth={ indicatorWidth }
           indicatorHeight={ indicatorHeight }
           scale={ actualScale }
+          dataWidth={ dataWidth }
           dataHeight={ dataHeight }
           isTileEditor={ isTileEditor }
           tileSize={ tileSize }
