@@ -29,6 +29,10 @@ export function applyBucketToData( data, width, height, editingData ) {
   const newData = [...data];
   const targetId = newData[currentY * width + currentX];
 
+  if ( targetId === paletteId ) {
+    return null;
+  }
+
   fill( newData, currentX, currentY, width, height, paletteId, targetId );
 
   return newData;
