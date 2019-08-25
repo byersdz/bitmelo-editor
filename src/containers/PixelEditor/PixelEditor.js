@@ -3,11 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { PENCIL_TOOL, ERASER_TOOL } from 'State/PixelTools/selectedTool';
+import { PENCIL_TOOL, ERASER_TOOL, BUCKET_TOOL } from 'State/PixelTools/selectedTool';
 import { TILE_DRAW_TOOL, TILE_ERASE_TOOL } from 'State/PixelTools/selectedTileTool';
 
 import { applyPencilToData } from 'Utils/PixelTools/pencil';
 import { applyTileDrawToData } from 'Utils/PixelTools/tileDraw';
+import { applyBucketToData } from 'Utils/PixelTools/bucket';
 
 import MainCanvas from './MainCanvas/MainCanvas';
 import OverlayCanvas from './OverlayCanvas/OverlayCanvas';
@@ -205,6 +206,7 @@ class PixelEditor extends React.Component {
       selectionHeight,
       onEyeDropper,
       pixelToolSettings,
+      onDataChange,
     } = this.props;
 
     if ( isPanning || isEditing ) {
@@ -229,7 +231,7 @@ class PixelEditor extends React.Component {
       if ( event.button === 2 ) {
         // use alternate tools for right click
         if ( !isTileEditor ) {
-          if ( selectedTool === PENCIL_TOOL ) {
+          if ( selectedTool === PENCIL_TOOL || selectedTool === BUCKET_TOOL ) {
             paletteIndex = altPaletteIndex;
           }
         }
@@ -283,6 +285,15 @@ class PixelEditor extends React.Component {
       }
       else {
         editingData.paletteId = paletteIndex;
+      }
+
+      // apply bucket
+      if ( editingTool === BUCKET_TOOL ) {
+        const newData = applyBucketToData( data, dataWidth, dataHeight, editingData );
+        if ( newData ) {
+          onDataChange( newData );
+        }
+        return;
       }
 
       // apply tool settings

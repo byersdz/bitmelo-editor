@@ -4,6 +4,7 @@ import { RESET_PROJECT } from 'State/globalActions';
 // Constants
 export const PENCIL_TOOL = 'PENCIL_TOOL';
 export const ERASER_TOOL = 'ERASER_TOOL';
+export const BUCKET_TOOL = 'BUCKET_TOOL';
 
 // Actions
 export const SELECT_PIXEL_TOOL = 'SELECT_PIXEL_TOOL';

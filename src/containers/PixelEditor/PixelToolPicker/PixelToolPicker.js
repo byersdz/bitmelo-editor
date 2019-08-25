@@ -6,7 +6,12 @@ import { bindActionCreators } from 'redux';
 
 import ToolPicker from 'Components/ToolPicker/ToolPicker';
 
-import { PENCIL_TOOL, ERASER_TOOL, selectPixelTool } from 'State/PixelTools/selectedTool';
+import {
+  PENCIL_TOOL,
+  ERASER_TOOL,
+  BUCKET_TOOL,
+  selectPixelTool,
+} from 'State/PixelTools/selectedTool';
 
 import './PixelToolPicker.scss';
 
@@ -45,6 +50,7 @@ class PixelToolPicker extends React.Component {
     const tools = [
       { key: PENCIL_TOOL, title: 'Pencil', icon: 'pencil' },
       { key: ERASER_TOOL, title: 'Eraser', icon: 'eraser' },
+      { key: BUCKET_TOOL, title: 'Paint Bucket', icon: 'play' },
     ];
 
     return (
