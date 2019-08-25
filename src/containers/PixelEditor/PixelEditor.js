@@ -77,6 +77,7 @@ class PixelEditor extends React.Component {
       offsetY: 0,
       scrollAmount: 0,
       spaceIsDown: false,
+      altIsDown: false,
     };
 
     this.containerRef = React.createRef();
@@ -87,6 +88,7 @@ class PixelEditor extends React.Component {
     this.handlePointerExit = this.handlePointerExit.bind( this );
     this.handleKeyDown = this.handleKeyDown.bind( this );
     this.handleKeyUp = this.handleKeyUp.bind( this );
+    this.handleWindowFocus = this.handleWindowFocus.bind( this );
   }
 
   componentDidMount() {
@@ -97,6 +99,7 @@ class PixelEditor extends React.Component {
     document.addEventListener( 'pointercancel', this.handlePointerExit );
     window.addEventListener( 'keydown', this.handleKeyDown );
     window.addEventListener( 'keyup', this.handleKeyUp );
+    window.addEventListener( 'focus', this.handleWindowFocus );
 
     this.updateDimensions();
     this.setInitialPositioning();
@@ -136,6 +139,7 @@ class PixelEditor extends React.Component {
     document.removeEventListener( 'pointercancel', this.handlePointerExit );
     window.removeEventListener( 'keydown', this.handleKeyDown );
     window.removeEventListener( 'keyup', this.handleKeyUp );
+    window.removeEventListener( 'focus', this.handleWindowFocus );
   }
 
   updateDimensions() {
@@ -148,9 +152,18 @@ class PixelEditor extends React.Component {
     } );
   }
 
+  handleWindowFocus() {
+    this.setState( { spaceIsDown: false } );
+    this.setState( { altIsDown: false } );
+  }
+
   handleKeyDown( event ) {
     if ( event.which === 32 ) {
       this.setState( { spaceIsDown: true } );
+      event.preventDefault();
+    }
+    else if ( event.which === 18 ) {
+      this.setState( { altIsDown: true } );
       event.preventDefault();
     }
   }
@@ -158,6 +171,11 @@ class PixelEditor extends React.Component {
   handleKeyUp( event ) {
     if ( event.which === 32 ) {
       this.setState( { spaceIsDown: false } );
+      event.preventDefault();
+    }
+    else if ( event.which === 18 ) {
+      this.setState( { altIsDown: false } );
+      event.preventDefault();
     }
   }
 
@@ -169,6 +187,7 @@ class PixelEditor extends React.Component {
       offsetY,
       scale,
       spaceIsDown,
+      altIsDown,
     } = this.state;
 
     const {
@@ -184,6 +203,7 @@ class PixelEditor extends React.Component {
       selectionData,
       selectionWidth,
       selectionHeight,
+      onEyeDropper,
     } = this.props;
 
     if ( isPanning || isEditing ) {
@@ -232,6 +252,20 @@ class PixelEditor extends React.Component {
       );
 
       pixelY = dataHeight - pixelY - 1;
+
+      // use eyedropper if alt is held down
+      if ( altIsDown && onEyeDropper ) {
+        if ( pixelX >= 0 && pixelX < dataWidth && pixelY >= 0 && pixelY < dataHeight ) {
+          const eyeDroppedId = data[pixelY * dataWidth + pixelX];
+          if ( event.button === 0 ) {
+            onEyeDropper( { id: eyeDroppedId, alt: false } );
+          }
+          else {
+            onEyeDropper( { id: eyeDroppedId, alt: true } );
+          }
+        }
+        return;
+      }
 
       let editingData = {};
       editingData.startX = pixelX;
@@ -836,6 +870,7 @@ PixelEditor.propTypes = {
   selectionWidth: PropTypes.number,
   selectionHeight: PropTypes.number,
   onCursorChange: PropTypes.func,
+  onEyeDropper: PropTypes.func,
 };
 
 PixelEditor.defaultProps = {
@@ -848,6 +883,7 @@ PixelEditor.defaultProps = {
   selectionHeight: 0,
   altPaletteIndex: 0,
   onCursorChange: null,
+  onEyeDropper: null,
 };
 
 function mapStateToProps( state ) {

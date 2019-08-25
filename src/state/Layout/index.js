@@ -11,6 +11,7 @@ import soundEditor from './soundEditor';
 import referenceTabTitle from './referenceTabTitle';
 import play from './play';
 import referenceRoutes from './referenceRoutes';
+import colorPickerIsOpen from './colorPickerIsOpen';
 
 export default combineReducers( {
   activeNavigationTab,
@@ -23,4 +24,5 @@ export default combineReducers( {
   referenceTabTitle,
   play,
   referenceRoutes,
+  colorPickerIsOpen,
 } );

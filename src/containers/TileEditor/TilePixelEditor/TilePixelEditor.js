@@ -8,6 +8,8 @@ import PixelEditor from 'Containers/PixelEditor/PixelEditor';
 
 import { undoTilesets, redoTilesets } from 'State/Tileset';
 import { setTilesetLayerData } from 'State/Tileset/tilesets';
+import { selectPaletteIndex } from 'State/Palette/selectedIndex';
+import { selectAltPaletteIndex } from 'State/Palette/altIndex';
 
 import TileSelector from '../TileSelector/TileSelector';
 
@@ -61,6 +63,21 @@ class TilePixelEditor extends React.Component {
     _setTilesetLayerData( newData, activeIndex, tileset.activeLayer, selection );
   }
 
+  handleEyeDropper( { id, alt } ) {
+    const { _selectPaletteIndex, _selectAltPaletteIndex, colorPickerIsOpen } = this.props;
+
+    if ( colorPickerIsOpen ) {
+      return;
+    }
+
+    if ( alt ) {
+      _selectAltPaletteIndex( id );
+    }
+    else {
+      _selectPaletteIndex( id );
+    }
+  }
+
   render() {
     const {
       palette,
@@ -104,6 +121,7 @@ class TilePixelEditor extends React.Component {
         selectedPaletteIndex={ selectedPaletteIndex }
         altPaletteIndex={ altPaletteIndex }
         onDataChange={ newData => this.handleDataChange( newData ) }
+        onEyeDropper={ e => this.handleEyeDropper( e ) }
       >
         <TileSelector />
       </PixelEditor>
@@ -121,6 +139,9 @@ TilePixelEditor.propTypes = {
   _setTilesetLayerData: PropTypes.func.isRequired,
   _undoTilesets: PropTypes.func.isRequired,
   _redoTilesets: PropTypes.func.isRequired,
+  _selectPaletteIndex: PropTypes.func.isRequired,
+  _selectAltPaletteIndex: PropTypes.func.isRequired,
+  colorPickerIsOpen: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -134,6 +155,7 @@ function mapStateToProps( state ) {
     activeIndex,
     tileset: activeTileset,
     tileSize,
+    colorPickerIsOpen: state.layout.colorPickerIsOpen,
   };
 }
 
@@ -142,6 +164,9 @@ function mapDispatchToProps( dispatch ) {
     _setTilesetLayerData: setTilesetLayerData,
     _undoTilesets: undoTilesets,
     _redoTilesets: redoTilesets,
+    _selectPaletteIndex: selectPaletteIndex,
+    _selectAltPaletteIndex: selectAltPaletteIndex,
+
   }, dispatch );
 }
 

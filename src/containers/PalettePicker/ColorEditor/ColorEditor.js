@@ -8,6 +8,7 @@ import enhanceWithClickOutside from 'react-click-outside';
 import Button from 'Components/Button/Button';
 
 import { setPaletteColor } from 'State/Palette/colors';
+import { setColorPickerIsOpen } from 'State/Layout/colorPickerIsOpen';
 
 import DeleteColorModal from '../DeleteColorModal/DeleteColorModal';
 
@@ -21,6 +22,16 @@ class ColorEditor extends React.Component {
       initialColor: props.color,
       deleteModalIsOpen: false,
     };
+  }
+
+  componentDidMount() {
+    const { _setColorPickerIsOpen } = this.props;
+    _setColorPickerIsOpen( true );
+  }
+
+  componentWillUnmount() {
+    const { _setColorPickerIsOpen } = this.props;
+    _setColorPickerIsOpen( false );
   }
 
   handleAccept() {
@@ -87,6 +98,7 @@ ColorEditor.propTypes = {
   color: PropTypes.string.isRequired,
   selectedIndex: PropTypes.number.isRequired,
   _setPaletteColor: PropTypes.func.isRequired,
+  _setColorPickerIsOpen: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -101,6 +113,7 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setPaletteColor: setPaletteColor,
+    _setColorPickerIsOpen: setColorPickerIsOpen,
   }, dispatch );
 }
 
