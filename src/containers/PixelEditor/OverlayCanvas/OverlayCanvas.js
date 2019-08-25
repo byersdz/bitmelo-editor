@@ -140,7 +140,7 @@ function mapStateToProps( state ) {
   const { activeNavigationTab } = state.layout;
   let showGrid = false;
   if ( activeNavigationTab === TILE_TAB ) {
-    showGrid = false;
+    showGrid = state.layout.tileEditor.showGrid;
   }
   else if ( activeNavigationTab === TILEMAP_TAB ) {
     showGrid = state.layout.tilemapEditor.showGrid;

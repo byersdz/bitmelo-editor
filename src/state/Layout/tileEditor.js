@@ -4,7 +4,6 @@ export const SET_TILE_EDITOR_LAYOUT_SETTINGS = 'SET_TILE_EDITOR_LAYOUT_SETTINGS'
 
 // Reducer
 const initialState = {
-  articlePath: '',
   showGrid: false,
 };
 
