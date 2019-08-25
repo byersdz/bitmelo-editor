@@ -1,11 +1,15 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import {
   drawIndicator,
   drawGrid,
 } from 'Utils/drawToCanvas';
+
+import { TILE_TAB, TILEMAP_TAB } from 'State/Layout/activeNavigationTab';
+
 import './OverlayCanvas.scss';
 
 class OverlayCanvas extends React.Component {
@@ -39,6 +43,7 @@ class OverlayCanvas extends React.Component {
       dataHeight,
       isTileEditor,
       tileSize,
+      showGrid,
     } = this.props;
 
     const context = this.canvasRef.current.getContext( '2d' );
@@ -49,8 +54,7 @@ class OverlayCanvas extends React.Component {
       modifiedScale = scale * tileSize;
     }
 
-    const shouldDrawGrid = true;
-    if ( shouldDrawGrid ) {
+    if ( showGrid ) {
       const gridSettings = {
         interval: 1,
         lineWidth: 1,
@@ -129,6 +133,21 @@ OverlayCanvas.propTypes = {
   dataHeight: PropTypes.number.isRequired,
   isTileEditor: PropTypes.bool.isRequired,
   tileSize: PropTypes.number.isRequired,
+  showGrid: PropTypes.bool.isRequired,
 };
 
-export default OverlayCanvas;
+function mapStateToProps( state ) {
+  const { activeNavigationTab } = state.layout;
+  let showGrid = false;
+  if ( activeNavigationTab === TILE_TAB ) {
+    showGrid = false;
+  }
+  else if ( activeNavigationTab === TILEMAP_TAB ) {
+    showGrid = state.layout.tilemapEditor.showGrid;
+  }
+  return {
+    showGrid,
+  };
+}
+
+export default connect( mapStateToProps )( OverlayCanvas );
