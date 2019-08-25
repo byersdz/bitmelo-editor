@@ -17,6 +17,7 @@ import EraserIcon from './SVG/eraser-o.svg';
 import InfoIcon from './SVG/info-o.svg';
 import BackIcon from './SVG/back-o.svg';
 import BucketIcon from './SVG/bucket-o.svg';
+import GridIcon from './SVG/grid-o.svg';
 
 import './Icon.scss';
 
@@ -109,6 +110,12 @@ const Icon = ( props ) => {
     case 'bucket': {
       svgFile = BucketIcon;
       noStroke = true;
+      break;
+    }
+
+    case 'grid': {
+      svgFile = GridIcon;
+      noFill = true;
       break;
     }
 

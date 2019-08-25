@@ -64,7 +64,7 @@ class TilemapToolPicker extends React.Component {
         <Button
           className={ showGridClass }
           title="Show Grid"
-          icon="play"
+          icon="grid"
           click={ () => this.handleShowGridClick() }
           hideTitle
         />
