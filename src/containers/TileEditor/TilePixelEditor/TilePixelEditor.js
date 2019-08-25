@@ -10,6 +10,7 @@ import { undoTilesets, redoTilesets } from 'State/Tileset';
 import { setTilesetLayerData } from 'State/Tileset/tilesets';
 import { selectPaletteIndex } from 'State/Palette/selectedIndex';
 import { selectAltPaletteIndex } from 'State/Palette/altIndex';
+import { PENCIL_TOOL } from 'State/PixelTools/selectedTool';
 
 import TileSelector from '../TileSelector/TileSelector';
 
@@ -64,9 +65,18 @@ class TilePixelEditor extends React.Component {
   }
 
   handleEyeDropper( { id, alt } ) {
-    const { _selectPaletteIndex, _selectAltPaletteIndex, colorPickerIsOpen } = this.props;
+    const {
+      _selectPaletteIndex,
+      _selectAltPaletteIndex,
+      colorPickerIsOpen,
+      selectedTool,
+    } = this.props;
 
     if ( colorPickerIsOpen ) {
+      return;
+    }
+
+    if ( selectedTool !== PENCIL_TOOL ) {
       return;
     }
 
@@ -142,6 +152,7 @@ TilePixelEditor.propTypes = {
   _selectPaletteIndex: PropTypes.func.isRequired,
   _selectAltPaletteIndex: PropTypes.func.isRequired,
   colorPickerIsOpen: PropTypes.bool.isRequired,
+  selectedTool: PropTypes.string.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -156,6 +167,7 @@ function mapStateToProps( state ) {
     tileset: activeTileset,
     tileSize,
     colorPickerIsOpen: state.layout.colorPickerIsOpen,
+    selectedTool: state.pixelTools.selectedTool,
   };
 }
 

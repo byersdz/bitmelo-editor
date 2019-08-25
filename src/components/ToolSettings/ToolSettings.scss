@@ -4,4 +4,41 @@
   width: 720px;
   height: 32px;
   background-color: $background-light-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 8px;
+
+  .num-picker {
+    margin: 0;
+
+    .title {
+      align-self: center;
+      font-weight: normal;
+      width: initial;
+      font-size: 14px;
+    }
+
+    .controls {
+      width: initial;
+    }
+
+    input {
+      font-size: 14px;
+      padding: 2px;
+      width: 30px;
+      align-self: center;
+      border: 1px solid $primary-color;
+    }
+
+    .btn {
+      width: 32px;
+      height: 32px;
+      margin: 0;
+
+      .isvg, svg {
+        width: 20px;
+      }
+    }
+  }
 }

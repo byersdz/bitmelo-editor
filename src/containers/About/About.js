@@ -22,7 +22,7 @@ class About extends React.Component {
         </div>
         <div className="version">
           {
-            `editor v${ PackageJSON.dependencies.bitmelo }`
+            `engine v${ PackageJSON.dependencies.bitmelo }`
           }
         </div>
       </div>
