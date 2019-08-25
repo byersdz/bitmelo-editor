@@ -37,6 +37,9 @@ class PixelToolPicker extends React.Component {
     else if ( event.which === 69 ) { // e
       this.handleSelectedToolChange( ERASER_TOOL );
     }
+    else if ( event.which === 71 ) { // g
+      this.handleSelectedToolChange( BUCKET_TOOL );
+    }
   }
 
   handleSelectedToolChange( tool ) {
@@ -50,7 +53,7 @@ class PixelToolPicker extends React.Component {
     const tools = [
       { key: PENCIL_TOOL, title: 'Pencil', icon: 'pencil' },
       { key: ERASER_TOOL, title: 'Eraser', icon: 'eraser' },
-      { key: BUCKET_TOOL, title: 'Paint Bucket', icon: 'play' },
+      { key: BUCKET_TOOL, title: 'Paint Bucket', icon: 'bucket' },
     ];
 
     return (

@@ -16,6 +16,7 @@ import PencilIcon from './SVG/pencil-o.svg';
 import EraserIcon from './SVG/eraser-o.svg';
 import InfoIcon from './SVG/info-o.svg';
 import BackIcon from './SVG/back-o.svg';
+import BucketIcon from './SVG/bucket-o.svg';
 
 import './Icon.scss';
 
@@ -102,6 +103,12 @@ const Icon = ( props ) => {
     case 'back': {
       svgFile = BackIcon;
       noFill = true;
+      break;
+    }
+
+    case 'bucket': {
+      svgFile = BucketIcon;
+      noStroke = true;
       break;
     }
 
