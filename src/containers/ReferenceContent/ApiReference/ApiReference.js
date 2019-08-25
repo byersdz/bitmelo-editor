@@ -26,6 +26,7 @@ import {
   API_TILE_MAP,
 } from 'Utils/articles';
 
+import QuickStart from './QuickStart/QuickStart';
 import Audio from './Audio/Audio';
 import Engine from './Engine/Engine';
 import Font from './Font/Font';
@@ -175,6 +176,10 @@ class ApiReference extends React.Component {
     }
     else {
       switch ( currentRoute[currentRoute.length - 1] ) {
+        case API_QUICK_START: {
+          content = <QuickStart />;
+          break;
+        }
         case API_AUDIO: {
           content = <Audio />;
           break;

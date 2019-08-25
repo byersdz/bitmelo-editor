@@ -27,12 +27,56 @@ export function validate( state ) {
 const initialState = [
   {
     text: `
-engine.onInit = () => {
+const player = {
+  x: 0,
+  y: 0,
+  color: 7,
+};
 
+engine.onInit = () => {
+  player.x = engine.screen.width / 2;
+  player.y = engine.screen.height / 2;
 };
 
 engine.onUpdate = () => {
+  engine.screen.clear( 1 );
 
+  if ( engine.input.left.pressed ) {
+    player.x -= 1;
+  }
+  if ( engine.input.right.pressed ) {
+    player.x += 1;
+  }
+  if ( engine.input.up.pressed ) {
+   player.y += 1;
+  }
+  if ( engine.input.down.pressed ) {
+    player.y -= 1;
+  }
+
+  if ( engine.input.action1.down ) {
+    player.color = 9;
+  }
+  else if ( engine.input.action1.up ) {
+    player.color = 7;
+  }
+
+  engine.screen.drawRect(
+   player.x,      // x
+    player.y,     // y
+    8,            // width
+    8,            // height
+    player.color  // palette index
+  );
+
+  engine.screen.drawText(
+    'Welcome to Bitmelo!',          // text
+    engine.screen.width / 2 - 48,   // x
+    engine.screen.height / 2 + 16,  // y
+    2,                              // main palette index
+    4,                              // outline palette index
+    0                               // font
+  );
 };
 `,
     cursorRow: 0,
