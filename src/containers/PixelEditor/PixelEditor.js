@@ -204,6 +204,7 @@ class PixelEditor extends React.Component {
       selectionWidth,
       selectionHeight,
       onEyeDropper,
+      pixelToolSettings,
     } = this.props;
 
     if ( isPanning || isEditing ) {
@@ -282,6 +283,19 @@ class PixelEditor extends React.Component {
       }
       else {
         editingData.paletteId = paletteIndex;
+      }
+
+      // apply tool settings
+      if ( selectedTool === PENCIL_TOOL ) {
+        editingData.toolSize = pixelToolSettings.pencilSize;
+      }
+
+      if ( selectedTool === ERASER_TOOL ) {
+        editingData.toolSize = pixelToolSettings.eraserSize;
+      }
+
+      if ( selectedTool === TILE_ERASE_TOOL ) {
+        editingData.toolSize = 1;
       }
 
       if ( editingTool === TILE_DRAW_TOOL ) {
@@ -736,6 +750,8 @@ class PixelEditor extends React.Component {
       selectedTileTool,
       selectionWidth,
       selectionHeight,
+      selectedTool,
+      pixelToolSettings,
     } = this.props;
 
     let pannedXOffset = offsetX;
@@ -796,6 +812,16 @@ class PixelEditor extends React.Component {
       if ( selectedTileTool === TILE_DRAW_TOOL ) {
         indicatorWidth = selectionWidth;
         indicatorHeight = selectionHeight;
+      }
+    }
+    else {
+      if ( selectedTool === PENCIL_TOOL ) {
+        indicatorWidth = pixelToolSettings.pencilSize;
+        indicatorHeight = pixelToolSettings.pencilSize;
+      }
+      if ( selectedTool === ERASER_TOOL ) {
+        indicatorWidth = pixelToolSettings.eraserSize;
+        indicatorHeight = pixelToolSettings.eraserSize;
       }
     }
 
@@ -871,6 +897,7 @@ PixelEditor.propTypes = {
   selectionHeight: PropTypes.number,
   onCursorChange: PropTypes.func,
   onEyeDropper: PropTypes.func,
+  pixelToolSettings: PropTypes.object.isRequired,
 };
 
 PixelEditor.defaultProps = {
@@ -892,6 +919,7 @@ function mapStateToProps( state ) {
     referencePanelIsOpen: state.layout.referencePanelIsOpen,
     selectedTool: state.pixelTools.selectedTool,
     selectedTileTool: state.pixelTools.selectedTileTool,
+    pixelToolSettings: state.pixelTools.pixelToolSettings,
   };
 }
 
