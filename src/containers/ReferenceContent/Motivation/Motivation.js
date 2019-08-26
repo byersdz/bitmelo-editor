@@ -18,6 +18,16 @@ import StrongIndependent from './img/strong-independent.png';
 import RedPanda from './img/red-panda.png';
 // https://pixabay.com/photos/youth-active-jump-happy-sunrise-570881/
 import DoIt from './img/do-it.png';
+// https://pixabay.com/photos/kitty-cat-kitten-pet-animal-cute-551554/
+import Kitten from './img/kitten.png';
+// https://pixabay.com/photos/hedgehog-animal-baby-cute-small-468228/
+import Hedgehog from './img/hedgehog.png';
+// https://pixabay.com/photos/mallard-ducklings-duck-chicks-cute-3524213/
+import Duck from './img/duck.png';
+// https://pixabay.com/photos/giraffe-baby-giraffe-mammal-1024589/
+import Giraffe from './img/giraffe.png';
+// https://pixabay.com/photos/cat-dachowiec-kitten-kocurek-4294780/
+import Kitten2 from './img/kitten2.png';
 
 
 // Negative motivation images
@@ -28,18 +38,26 @@ import BackToWork from './img/back-to-work.png';
 import NotFinished from './img/not-finished.png';
 // https://pixabay.com/photos/military-drill-instructor-662863/
 import DrillInstructor from './img/drill-instructor.png';
+// https://pixabay.com/photos/military-drill-instructor-662862/
+import DrillInstructor2 from './img/drill-instructor2.png';
 
 const images = [
   PuppyImage,
   StrongIndependent,
   RedPanda,
   DoIt,
+  Kitten,
+  Hedgehog,
+  Duck,
+  Giraffe,
+  Kitten2,
 ];
 
 const negativeImages = [
   BackToWork,
   NotFinished,
   DrillInstructor,
+  DrillInstructor2,
 ];
 
 class Motivation extends React.Component {
