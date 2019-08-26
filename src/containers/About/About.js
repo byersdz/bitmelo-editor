@@ -45,7 +45,7 @@ class About extends React.Component {
           {
             `
             Bitmelo is a game editor and engine for making small pixel art games.
-            This editor has everything you need to develop a game in one convienient location.
+            This editor has everything you need to develop a game in one convenient location.
             You can code, draw tiles and tilemaps, design sound effects, view the documentation,
             and playtest your game, all without having to break focus by switching applications.
             Once complete you can then export your game as a single HTML file.
