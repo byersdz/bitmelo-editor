@@ -5,12 +5,19 @@ import PropTypes from 'prop-types';
 import './AButton.scss';
 
 const AButton = props => {
-  const { href, click, children } = props;
+  const {
+    href,
+    click,
+    children,
+    className,
+  } = props;
+
+  const customClass = `abutton ${ className }`;
 
   if ( href ) {
     return (
       <a
-        className="abutton"
+        className={ customClass }
         href={ href }
         target="_blank"
         rel="noreferrer noopener"
@@ -22,7 +29,7 @@ const AButton = props => {
 
   return (
     <span // eslint-disable-line
-      className="abutton"
+      className={ customClass }
       onClick={ e => {
         click();
         e.preventDefault();
@@ -37,12 +44,14 @@ AButton.propTypes = {
   href: PropTypes.string,
   click: PropTypes.func,
   children: PropTypes.node,
+  className: PropTypes.string,
 };
 
 AButton.defaultProps = {
   href: '',
   click: null,
   children: null,
+  className: '',
 };
 
 export default AButton;
