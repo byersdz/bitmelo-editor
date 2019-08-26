@@ -24,7 +24,7 @@ class ReferenceAbout extends React.Component {
           and more!
         </p>
         <p>
-          Have fun making!
+          Have fun making games!
         </p>
       </div>
     );

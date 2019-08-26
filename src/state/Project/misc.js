@@ -30,6 +30,7 @@ const initialState = {
   hideCursor: false,
   clickToBegin: true,
   startTransitionFrames: 60,
+  useNegativeMotivation: false,
 };
 
 export default function reducer( state = initialState, action ) {

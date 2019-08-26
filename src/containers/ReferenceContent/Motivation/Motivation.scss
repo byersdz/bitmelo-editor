@@ -1,0 +1,30 @@
+
+@import 'Style/colors.scss';
+
+.motivation {
+  margin: 10px;
+  margin-bottom: 64px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    margin-top: 16px;
+    border: 4px solid $primary-dark-color;
+  }
+
+  .checkbox {
+    margin-top: 64px;
+
+    .title {
+      width: initial;
+      font-size: 14px;
+      color: $primary-color;
+    }
+
+    .controls {
+      width: initial;
+    }
+  }
+}
