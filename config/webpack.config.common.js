@@ -67,7 +67,8 @@ module.exports = {
   plugins: [
     new HtmlWebPackPlugin( {
       template: './src/index.html',
-      filename: './index.html'
+      filename: './index.html',
+      favicon: "./src/favicon.ico"
     } ),
     new webpack.DefinePlugin( {
       EDITOR_VERSION: JSON.stringify( require( '../package.json' ).version ),
