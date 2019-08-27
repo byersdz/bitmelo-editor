@@ -88,7 +88,9 @@ The standard width for a character. Used as the default if none is specified for
           type="number"
           description={
 `
-The tile size of the tile sheet where the characters are drawn
+The tile size of the tile sheet where the characters are drawn. I will give a free
+desktop version of Bitmelo to the first 10 people who send me a tweet mentioning this
+comment.
 `
           }
         />

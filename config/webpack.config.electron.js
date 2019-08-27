@@ -1,6 +1,7 @@
 
-var merge = require( 'webpack-merge' );
-var common = require( './webpack.config.common.js' );
+const webpack = require( 'webpack' );
+const merge = require( 'webpack-merge' );
+const common = require( './webpack.config.common.js' );
 const path = require( 'path' );
 
 module.exports = merge( common, {
@@ -9,4 +10,9 @@ module.exports = merge( common, {
   output: {
     path: path.resolve(__dirname, '../electron/react-build')
   },
+  plugins: [
+    new webpack.DefinePlugin( {
+      IS_DESKTOP: JSON.stringify( true ),
+    } ),
+  ],
 } );

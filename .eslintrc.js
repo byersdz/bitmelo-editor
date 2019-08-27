@@ -35,6 +35,7 @@ module.exports = {
   "globals": {
     "bitmelo": "readonly",
     "EDITOR_VERSION": "readonly",
+    "IS_DESKTOP": "readonly"
   },
   "settings": {
     "import/resolver": {

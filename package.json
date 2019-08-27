@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --open --config config/webpack.config.dev.js",
     "build": "webpack --config config/webpack.config.prod.js",
-    "start-electron-dev": "webpack-dev-server --config config/webpack.config.dev.js",
+    "start-electron-dev": "webpack-dev-server --config config/webpack.config.electrondev.js",
     "electron-start": "electron .",
     "electron-dev": "concurrently \"cross-env BROWSER=none npm run start-electron-dev\" \"wait-on http://localhost:9001 && electron .\"",
     "electron-build-react": "webpack --config config/webpack.config.electron.js",
