@@ -53,6 +53,12 @@ class CodeEditor extends React.Component {
   }
 
   componentWillUnmount() {
+    const { script, activeIndex, _setScript } = this.props;
+    _setScript( activeIndex, {
+      ...script,
+      scrollTop: this.editor.session.getScrollTop(),
+    } );
+
     window.removeEventListener( 'resize', this.updateDimensions );
   }
 
@@ -84,6 +90,7 @@ class CodeEditor extends React.Component {
     this.editor = editor;
     const { script } = this.props;
     editor.selection.moveTo( script.cursorRow, script.cursorColumn );
+    editor.session.setScrollTop( script.scrollTop );
   }
 
   handleTextChange( value ) {

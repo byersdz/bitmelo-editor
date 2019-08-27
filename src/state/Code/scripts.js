@@ -81,6 +81,7 @@ engine.onUpdate = () => {
 `,
     cursorRow: 0,
     cursorColumn: 0,
+    scrollTop: 0,
   },
 
 ];
