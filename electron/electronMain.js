@@ -3,7 +3,7 @@ const { app, BrowserWindow, shell } = require( 'electron' );
 const isDev = require( 'electron-is-dev' );
 
 function createWindow() {
-  const win = new BrowserWindow( { width: 1360, height: 720 } );
+  const win = new BrowserWindow( { width: 1360, height: 720, show: false } );
   win.setMenu( null );
 
   if ( isDev ) {
@@ -13,6 +13,9 @@ function createWindow() {
   else {
     win.loadFile( './electron/react-build/index.html' );
   }
+
+  win.maximize();
+  win.show();
 
   // open all links in user's browser
   win.webContents.on( 'new-window', ( event, url ) => {

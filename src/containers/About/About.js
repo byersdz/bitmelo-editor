@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import AButton from 'Components/AButton/AButton';
 
@@ -10,6 +10,58 @@ import './About.scss';
 
 class About extends React.Component {
   render() {
+    const webWelcome = (
+      <Fragment>
+        <p>
+          {
+            `
+            Bitmelo is a game editor and engine for making small pixel art games right here in your browser.
+            This editor has everything you need to develop a game in one convenient location.
+            You can code, draw tiles and tilemaps, design sound effects, view the documentation,
+            and playtest your game, all without having to break focus by switching applications.
+            Once complete you can then export your game as a single HTML file.
+            `
+          }
+
+        </p>
+        <p>
+          {
+            `
+            Bitmelo is currently in early access. Right now it has everything you need to make a minimal game,
+            however many more features are planned for the future.
+            `
+          }
+        </p>
+      </Fragment>
+    );
+
+    const desktopWelcome = (
+      <Fragment>
+        <p>
+          {
+            `
+            Bitmelo is a game editor and engine for making small pixel art games.
+            This editor has everything you need to develop a game in one convenient location.
+            You can code, draw tiles and tilemaps, design sound effects, view the documentation,
+            and playtest your game, all without having to break focus by switching applications.
+            Once complete you can then export your game as a single HTML file.
+            `
+          }
+
+        </p>
+        <p>
+          {
+            `
+            Bitmelo is currently in early access. Right now it has everything you need to make a minimal game,
+            however many more features are planned for the future.
+            `
+          }
+        </p>
+      </Fragment>
+    );
+
+    const welcomeRender = IS_DESKTOP ? desktopWelcome : webWelcome;
+
     const forSaleRender = !IS_DESKTOP ? (
       <AButton
         href="https://davidbyers.itch.io/bitmelo"
@@ -41,26 +93,7 @@ class About extends React.Component {
           }
         </div>
         <h2 className="welcome">Welcome to Bitmelo!</h2>
-        <p>
-          {
-            `
-            Bitmelo is a game editor and engine for making small pixel art games right here in your browser.
-            This editor has everything you need to develop a game in one convenient location.
-            You can code, draw tiles and tilemaps, design sound effects, view the documentation,
-            and playtest your game, all without having to break focus by switching applications.
-            Once complete you can then export your game as a single HTML file.
-            `
-          }
-
-        </p>
-        <p>
-          {
-            `
-            Bitmelo is currently in early access. Right now it has everything you need to make a minimal game,
-            however many more features are planned for the future.
-            `
-          }
-        </p>
+        { welcomeRender }
         { forSaleRender }
         <h2>Community</h2>
         <p>
