@@ -1,5 +1,5 @@
 
-const { app, BrowserWindow } = require( 'electron' );
+const { app, BrowserWindow, shell } = require( 'electron' );
 const isDev = require( 'electron-is-dev' );
 
 function createWindow() {
@@ -13,6 +13,12 @@ function createWindow() {
   else {
     win.loadFile( './electron/react-build/index.html' );
   }
+
+  // open all links in user's browser
+  win.webContents.on( 'new-window', ( event, url ) => {
+    event.preventDefault();
+    shell.openExternal( url );
+  } );
 }
 
 app.on( 'ready', createWindow );
