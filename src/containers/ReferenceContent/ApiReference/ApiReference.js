@@ -11,6 +11,7 @@ import { setReferenceTabTitle } from 'State/Layout/referenceTabTitle';
 
 import {
   API_QUICK_START,
+  API_SCREEN_SNIPPETS,
   API_AUDIO,
   API_ENGINE,
   API_FONT,
@@ -27,6 +28,7 @@ import {
 } from 'Utils/articles';
 
 import QuickStart from './QuickStart/QuickStart';
+import ScreenSnippets from './ScreenSnippets/ScreenSnippets';
 import Audio from './Audio/Audio';
 import Engine from './Engine/Engine';
 import Font from './Font/Font';
@@ -45,6 +47,7 @@ import './ApiReference.scss';
 
 const ArticleTitles = {};
 ArticleTitles[API_QUICK_START] = 'Quick Start';
+ArticleTitles[API_SCREEN_SNIPPETS] = 'Screen Snippets';
 ArticleTitles[API_AUDIO] = 'bitmelo.Audio';
 ArticleTitles[API_ENGINE] = 'bitmelo.Engine';
 ArticleTitles[API_FONT] = 'bitmelo.Font';
@@ -102,6 +105,10 @@ class ApiReference extends React.Component {
       {
         title: ArticleTitles[API_QUICK_START],
         key: API_QUICK_START,
+      },
+      {
+        title: ArticleTitles[API_SCREEN_SNIPPETS],
+        key: API_SCREEN_SNIPPETS,
       },
       {
         title: ArticleTitles[API_AUDIO],
@@ -178,6 +185,10 @@ class ApiReference extends React.Component {
       switch ( currentRoute[currentRoute.length - 1] ) {
         case API_QUICK_START: {
           content = <QuickStart />;
+          break;
+        }
+        case API_SCREEN_SNIPPETS: {
+          content = <ScreenSnippets />;
           break;
         }
         case API_AUDIO: {

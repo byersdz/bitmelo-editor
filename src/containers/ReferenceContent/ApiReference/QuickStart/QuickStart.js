@@ -10,7 +10,7 @@ class QuickStart extends React.Component {
         <h3>Engine</h3>
         <p>
           {
-            `The Bitmelo engine is designed for making small pixel art games and uses
+            `The Bitmelo engine uses
             Javascript as its programming language.
             `
           }

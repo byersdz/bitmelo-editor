@@ -15,3 +15,6 @@ export const API_SCREEN = 'API_SCREEN';
 export const API_SOUND = 'API_SOUND';
 export const API_TILE_DATA = 'API_TILE_DATA';
 export const API_TILE_MAP = 'API_TILE_MAP';
+
+export const API_AUDIO_SNIPPETS = 'API_AUDIO_SNIPPETS';
+export const API_SCREEN_SNIPPETS = 'API_SCREEN_SNIPPETS';
