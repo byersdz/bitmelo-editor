@@ -27,12 +27,15 @@ class ReferenceConsole extends React.Component {
     for ( let i = 0; i < playLogs.length; i += 1 ) {
       const log = playLogs[i];
       const className = `log ${ log.type }`;
+      const logText = typeof log.text === 'string' ? log.text : JSON.stringify( log.text, null, 2 );
       const logItem = (
         <div
           className={ className }
           key={ i }
         >
-          { JSON.stringify( log.text, null, 2 ) }
+          <pre>
+            { logText }
+          </pre>
         </div>
       );
 

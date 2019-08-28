@@ -1,6 +1,8 @@
 
 import React from 'react';
 
+import Snippet from '../Snippet/Snippet';
+
 import './QuickStart.scss';
 
 class QuickStart extends React.Component {
@@ -59,22 +61,34 @@ class QuickStart extends React.Component {
         <p>
           Bitmelo has a standard input layout that contains the following buttons:
         </p>
-        <ul>
-          <li>Up</li>
-          <li>Down</li>
-          <li>Left</li>
-          <li>Right</li>
-          <li>4 Action Buttons</li>
-          <li>Left Trigger</li>
-          <li>Right Trigger</li>
-          <li>Pause</li>
-          <li>Menu Up</li>
-          <li>Menu Down</li>
-          <li>Menu Left</li>
-          <li>Menu Right</li>
-          <li>Menu Confirm</li>
-          <li>Menu Back</li>
-        </ul>
+        <Snippet
+          text={
+            `
+Game Left: Left Arrow
+Game Right: Right Arrow
+Game Up: Up Arrow
+Game Down: Down Arrow
+
+Action 1: Z
+Action 2: X
+Action 3: A
+Action 4: S
+
+Left Trigger: Q
+Right Trigger: W
+
+Pause: P
+
+Menu Left: Left Arrow
+Menu Right: Right Arrow
+Menu Up: Up Arrow
+Menu Down: Down Arrow
+
+Menu Confirm: X
+Menu Back: Z
+            `
+          }
+        />
         <p>
           In addition you can get the mouse position, left and right mouse button input, and keyboard input.
         </p>

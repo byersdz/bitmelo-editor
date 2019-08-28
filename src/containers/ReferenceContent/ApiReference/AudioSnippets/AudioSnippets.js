@@ -8,7 +8,7 @@ import './AudioSnippets.scss';
 class AudioSnippets extends React.Component {
   render() {
     return (
-      <div className="api-screen-snippets">
+      <div className="api-audio-snippets">
         <h3>Sounds</h3>
         <Snippet
           text={

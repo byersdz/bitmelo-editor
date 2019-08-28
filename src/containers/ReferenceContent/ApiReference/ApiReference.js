@@ -14,6 +14,7 @@ import {
   API_QUICK_START,
   API_SCREEN_SNIPPETS,
   API_AUDIO_SNIPPETS,
+  API_INPUT_SNIPPETS,
   API_AUDIO,
   API_ENGINE,
   API_FONT,
@@ -32,6 +33,7 @@ import {
 import QuickStart from './QuickStart/QuickStart';
 import ScreenSnippets from './ScreenSnippets/ScreenSnippets';
 import AudioSnippets from './AudioSnippets/AudioSnippets';
+import InputSnippets from './InputSnippets/InputSnippets';
 import Audio from './Audio/Audio';
 import Engine from './Engine/Engine';
 import Font from './Font/Font';
@@ -52,6 +54,7 @@ const ArticleTitles = {};
 ArticleTitles[API_QUICK_START] = 'Quick Start';
 ArticleTitles[API_SCREEN_SNIPPETS] = 'Screen Snippets';
 ArticleTitles[API_AUDIO_SNIPPETS] = 'Audio Snippets';
+ArticleTitles[API_INPUT_SNIPPETS] = 'Input Snippets';
 ArticleTitles[API_AUDIO] = 'bitmelo.Audio';
 ArticleTitles[API_ENGINE] = 'bitmelo.Engine';
 ArticleTitles[API_FONT] = 'bitmelo.Font';
@@ -117,6 +120,10 @@ class ApiReference extends React.Component {
       {
         title: ArticleTitles[API_AUDIO_SNIPPETS],
         key: API_AUDIO_SNIPPETS,
+      },
+      {
+        title: ArticleTitles[API_INPUT_SNIPPETS],
+        key: API_INPUT_SNIPPETS,
       },
       {
         title: ArticleTitles[API_AUDIO],
@@ -208,6 +215,10 @@ class ApiReference extends React.Component {
         }
         case API_AUDIO_SNIPPETS: {
           content = <AudioSnippets />;
+          break;
+        }
+        case API_INPUT_SNIPPETS: {
+          content = <InputSnippets />;
           break;
         }
         case API_AUDIO: {
