@@ -6,6 +6,8 @@ import { bindActionCreators } from 'redux';
 
 import { setReferenceTabTitle } from 'State/Layout/referenceTabTitle';
 
+import LineBreak from './floral-line-break.png';
+
 import './ReferenceAbout.scss';
 
 class ReferenceAbout extends React.Component {
@@ -18,6 +20,7 @@ class ReferenceAbout extends React.Component {
   render() {
     return (
       <div className="ref-about">
+        <img src={ LineBreak } alt="line break" />
         <p>
           This is the Reference Panel. Here you will find useful contextual information while you
           are creating your game. This includes an API reference, the debug console, pixel art tutorials,
