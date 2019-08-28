@@ -5,8 +5,6 @@ import Snippet from '../Snippet/Snippet';
 
 import './ScreenSnippets.scss';
 
-// Palette
-
 class ScreenSnippets extends React.Component {
   render() {
     return (

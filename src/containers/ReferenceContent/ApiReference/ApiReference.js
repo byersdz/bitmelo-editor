@@ -1,10 +1,11 @@
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import ArticleList from 'Components/ArticleList/ArticleList';
+import AButton from 'Components/AButton/AButton';
 
 import { setReferenceRoute } from 'State/Layout/referenceRoutes';
 import { setReferenceTabTitle } from 'State/Layout/referenceTabTitle';
@@ -12,6 +13,7 @@ import { setReferenceTabTitle } from 'State/Layout/referenceTabTitle';
 import {
   API_QUICK_START,
   API_SCREEN_SNIPPETS,
+  API_AUDIO_SNIPPETS,
   API_AUDIO,
   API_ENGINE,
   API_FONT,
@@ -29,6 +31,7 @@ import {
 
 import QuickStart from './QuickStart/QuickStart';
 import ScreenSnippets from './ScreenSnippets/ScreenSnippets';
+import AudioSnippets from './AudioSnippets/AudioSnippets';
 import Audio from './Audio/Audio';
 import Engine from './Engine/Engine';
 import Font from './Font/Font';
@@ -48,6 +51,7 @@ import './ApiReference.scss';
 const ArticleTitles = {};
 ArticleTitles[API_QUICK_START] = 'Quick Start';
 ArticleTitles[API_SCREEN_SNIPPETS] = 'Screen Snippets';
+ArticleTitles[API_AUDIO_SNIPPETS] = 'Audio Snippets';
 ArticleTitles[API_AUDIO] = 'bitmelo.Audio';
 ArticleTitles[API_ENGINE] = 'bitmelo.Engine';
 ArticleTitles[API_FONT] = 'bitmelo.Font';
@@ -111,6 +115,10 @@ class ApiReference extends React.Component {
         key: API_SCREEN_SNIPPETS,
       },
       {
+        title: ArticleTitles[API_AUDIO_SNIPPETS],
+        key: API_AUDIO_SNIPPETS,
+      },
+      {
         title: ArticleTitles[API_AUDIO],
         key: API_AUDIO,
       },
@@ -165,10 +173,17 @@ class ApiReference extends React.Component {
     ];
 
     return (
-      <ArticleList
-        items={ items }
-        onItemSelected={ k => this.handleClassSelected( k ) }
-      />
+      <Fragment>
+        <ArticleList
+          items={ items }
+          onItemSelected={ k => this.handleClassSelected( k ) }
+        />
+        <div className="full-source">
+          <AButton href="https://github.com/byersdz/bitmelo">
+            Click here to view the entire Bitmelo engine source on Github
+          </AButton>
+        </div>
+      </Fragment>
     );
   }
 
@@ -189,6 +204,10 @@ class ApiReference extends React.Component {
         }
         case API_SCREEN_SNIPPETS: {
           content = <ScreenSnippets />;
+          break;
+        }
+        case API_AUDIO_SNIPPETS: {
+          content = <AudioSnippets />;
           break;
         }
         case API_AUDIO: {
