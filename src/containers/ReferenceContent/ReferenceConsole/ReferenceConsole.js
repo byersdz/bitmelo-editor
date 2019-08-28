@@ -32,7 +32,7 @@ class ReferenceConsole extends React.Component {
           className={ className }
           key={ i }
         >
-          { log.text }
+          { JSON.stringify( log.text, null, 2 ) }
         </div>
       );
 
