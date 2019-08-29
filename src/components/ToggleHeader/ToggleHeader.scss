@@ -1,0 +1,26 @@
+
+@import 'Style/colors.scss';
+
+.toggle-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: $secondary-color;
+  color: $on-secondary-color;
+  height: 32px;
+
+  .title {
+    font-weight: bold;
+    flex-grow: 1;
+    padding-left: 8px;
+  }
+
+  .btn {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .btn:hover {
+    background-color: $secondary-dark-color;
+  }
+}

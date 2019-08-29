@@ -1,0 +1,11 @@
+
+.main-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  overflow: hidden;
+
+  user-select: none;
+  -moz-user-select: -moz-none;
+}

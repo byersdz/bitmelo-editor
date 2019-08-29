@@ -1,0 +1,29 @@
+
+@import 'Style/colors.scss';
+
+.tile-status-bar {
+  height: 28px;
+  background-color: $background-color;
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 12px;
+  font-family: monospace;
+  color: $on-background-color;
+
+  .left {
+    margin-left: 8px;
+  }
+
+  .center {
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  .right {
+    margin-right: 8px;
+  }
+}
+
+

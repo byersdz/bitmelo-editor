@@ -1,0 +1,22 @@
+
+.checkbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+
+  .title {
+    font-weight: bold;
+    width: 50%;
+    text-align: right;
+  }
+
+  .controls {
+    width: 50%;
+
+    input {
+      margin-left: 32px;
+    }
+  }
+}

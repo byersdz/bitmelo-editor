@@ -1,0 +1,14 @@
+
+@import 'Style/colors.scss';
+
+.api-input {
+  margin: 10px;
+  margin-bottom: 64px;
+
+  .quick-access {
+    background-color: $background-dark-color;
+    padding: 4px;
+    margin: 4px 0;
+    font-size: 12px;
+  }
+}

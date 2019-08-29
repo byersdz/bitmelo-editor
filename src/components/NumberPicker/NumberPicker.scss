@@ -1,0 +1,72 @@
+
+@import 'Style/colors.scss';
+
+.num-picker {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: center;
+  margin-top: 8px;
+
+  .controls {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-start;
+    width: 50%;
+  }
+
+  input {
+    border: 2px solid $primary-color;
+    background-color: $background-color;
+    color: $on-background-color;
+    font-size: 18px;
+    text-align: center;
+    padding: 4px;
+    width: 40px;
+    border-radius: 4px;
+    caret-color: transparent;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  .is-editing {
+    background-color: $primary-color;
+    border-radius: 4px;
+    caret-color: $on-primary-color;
+    color: $on-primary-color;
+
+  }
+
+  .title {
+    font-weight: bold;
+    width: 50%;
+    text-align: right;
+  }
+
+  .btn {
+    align-self: center;
+    margin: 0 8px;
+
+    .isvg {
+      fill: $primary-color;
+      stroke: $primary-color;
+    }
+
+    .isvg:hover {
+      fill: $primary-light-color;
+      stroke: $primary-light-color;
+    }
+
+    .isvg, svg {
+      width: 24px;
+    }
+  }
+
+  .lower svg {
+    transform: scaleX( -1 );
+  }
+
+}

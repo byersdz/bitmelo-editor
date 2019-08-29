@@ -1,0 +1,50 @@
+
+@import 'Style/colors.scss';
+
+.about {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 64px;
+
+  .bitmelo-logo {
+    margin-top: 16px;
+  }
+
+  .version {
+    width: 250px;
+    text-align: right;
+    font-size: 13px;
+    color: #bbb;
+  }
+
+  h2 {
+    color: $primary-color;
+    width: 720px;
+    border-bottom: 2px solid $primary-color;
+  }
+
+  p {
+    width: 600px;
+    line-height: 1.25;
+  }
+
+  .welcome {
+    margin-top: 48px;
+  }
+
+  .for-sale {
+    text-align: center;
+    color: rgb(173, 233, 95);
+    font-size: 20px;
+  }
+
+  .for-sale:hover {
+    color: rgb(205, 248, 149);
+  }
+
+  .strike {
+    text-decoration: line-through;
+  }
+}

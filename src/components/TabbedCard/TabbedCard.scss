@@ -1,0 +1,48 @@
+
+@import 'Style/colors.scss';
+
+.tabbed-card{
+  padding: 0;
+
+  .top-tabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-self: stretch;
+    background-color: $primary-color;
+    height: 32px;
+    border-radius: 4px 4px 0 0;
+    box-shadow: 0 2px 3px 0 rgba(0,0,0,0.5);
+    box-sizing: border-box;
+    color: $on-primary-color;
+    font-weight: bold;
+
+    .btn {
+      width: 100%;
+      border-bottom: 4px solid $primary-color;
+
+      .title {
+        text-transform: uppercase;
+        font-size: 14px;
+      }
+    }
+
+    .btn:hover {
+      border-bottom: 4px solid $primary-dark-color;
+    }
+
+    .active {
+      border-bottom: 4px solid $primary-darker-color;
+    }
+
+    .active:hover {
+      border-bottom: 4px solid $primary-darker-color;
+    }
+  }
+
+  .card-content {
+    padding: 8px;
+    align-self: stretch;
+    flex-grow: 1;
+  }
+}

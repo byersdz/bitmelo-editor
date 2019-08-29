@@ -1,0 +1,17 @@
+
+.main-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+.data-canvas {
+  position: absolute;
+  display: none;
+}
+
+.tileset-canvas {
+  position: absolute;
+  display: none;
+}

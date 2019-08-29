@@ -1,0 +1,7 @@
+<svg id="SVGRoot" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+ <g fill="none" stroke="#000" stroke-width="3">
+  <path d="m2 16h28"/>
+  <path d="m2 8h28"/>
+  <path d="m2 24h28"/>
+ </g>
+</svg>

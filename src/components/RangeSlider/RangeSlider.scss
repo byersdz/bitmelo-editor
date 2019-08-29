@@ -1,0 +1,17 @@
+
+.range-slider {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  .title {
+    font-weight: bold;
+    width: 50%;
+    text-align: right;
+  }
+
+  .controls {
+    margin-left: 8px;
+  }
+}

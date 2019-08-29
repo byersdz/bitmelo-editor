@@ -1,0 +1,85 @@
+
+@import 'Style/colors.scss';
+@import 'Style/media.scss';
+
+.navigation-tab {
+  background-color: $background-light-color;
+  flex-grow: 0;
+  width: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  user-select: none;
+  -moz-user-select: -moz-none;
+
+  .toggle-panel {
+    height: 40px;
+    background-color: $primary-dark-color;
+    box-shadow: 0 4px 2px -2px #000;
+
+    svg {
+      fill: $on-primary-color;
+      stroke: $on-primary-color;
+    }
+  }
+
+  .button-tabs {
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn {
+    display: flex;
+    flex-direction: row;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.25s;
+
+    svg {
+      width: 28px;
+    }
+  }
+
+  .btn:hover {
+    background-color: $primary-color;
+    color: $on-primary-color;
+
+    svg {
+      fill: $on-primary-color;
+      stroke: $on-primary-color;
+    }
+  }
+
+  .btn.active {
+    background-color: $secondary-color;
+    color: $on-secondary-color;
+
+    svg {
+      fill: $on-secondary-color;
+      stroke: $on-secondary-color;
+    }
+  }
+
+  .toggle-panel:hover {
+    background-color: $primary-light-color;
+  }
+}
+
+.navigation-tab.open {
+  width: 200px;
+
+  .btn {
+    justify-content: flex-start;
+    padding-left: 12px;
+
+    .btn-title {
+      padding-left: 16px;
+      font-size: 14px;
+    }
+  }
+}
+

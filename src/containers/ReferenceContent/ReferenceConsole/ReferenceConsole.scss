@@ -1,0 +1,53 @@
+
+@import 'Style/colors.scss';
+
+.reference-console {
+  font-size: 14px;
+  color: $on-background-color;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: stretch;
+
+  pre {
+    margin: 0;
+  }
+
+  .scroll-container {
+    flex-grow: 1;
+
+    .log {
+      padding: 8px 16px;
+      border-bottom: 1px solid $background-dark-color;
+    }
+
+    .warn {
+      color: rgb(239, 245, 185);
+    }
+
+    .error {
+      color: rgb(230, 167, 167);
+    }
+  }
+
+  .console-controls {
+    background-color: $background-color;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin: 0;
+    display: flex;
+    justify-content: space-evenly;
+
+    .checkbox {
+
+
+      .title {
+        width: initial;
+      }
+
+      .controls {
+        width: initial;
+      }
+    }
+}
+}

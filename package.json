@@ -1,23 +1,36 @@
 {
-  "name": "minnow-editor",
+  "name": "bitmelo-editor",
   "version": "1.0.0",
   "description": "",
   "private": true,
-  "main": "index.js",
+  "main": "electron/electronMain.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --open --config config/webpack.config.dev.js",
-    "build": "webpack --config config/webpack.config.prod.js"
+    "build": "webpack --config config/webpack.config.prod.js",
+    "start-electron-dev": "webpack-dev-server --config config/webpack.config.electrondev.js",
+    "electron-start": "electron .",
+    "electron-dev": "concurrently \"cross-env BROWSER=none npm run start-electron-dev\" \"wait-on http://localhost:9001 && electron .\"",
+    "electron-build-react": "webpack --config config/webpack.config.electron.js",
+    "electron-build": "electron-builder"
+  },
+  "build": {
+    "directories": {
+      "output": "./electron/dist"
+    },
+    "win": {
+      "target": "portable"
+    }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/byersdz/minnow-editor.git"
+    "url": "git+https://github.com/byersdz/bitmelo-editor.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/byersdz/minnow-editor/issues"
+    "url": "https://github.com/byersdz/bitmelo-editor/issues"
   },
   "homepage": "https://github.com/byersdz/minnow-editor#readme",
   "devDependencies": {
@@ -25,7 +38,11 @@
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
+    "concurrently": "^4.1.1",
+    "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
+    "electron": "^6.0.0",
+    "electron-builder": "^21.2.0",
     "eslint": "^5.15.3",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-import-resolver-webpack": "^0.11.0",
@@ -33,17 +50,36 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
+    "file-loader": "^4.0.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.12.0",
     "prop-types": "^15.7.2",
+    "raw-loader": "^3.0.0",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
+    "svg-inline-loader": "^0.8.0",
+    "wait-on": "^3.3.0",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
     "webpack-dev-server": "^3.2.1",
     "webpack-merge": "^4.2.1"
+  },
+  "dependencies": {
+    "bitmelo": "1.0.0",
+    "brace": "^0.11.1",
+    "electron-is-dev": "^1.1.0",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.debounce": "^4.0.8",
+    "normalize.css": "^8.0.1",
+    "react-ace": "^7.0.2",
+    "react-click-outside": "^3.0.1",
+    "react-color": "^2.17.3",
+    "react-custom-scrollbars": "^4.2.1",
+    "redux-undo": "^1.0.0-beta9-9-7"
   }
 }

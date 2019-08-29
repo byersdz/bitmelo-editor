@@ -1,0 +1,47 @@
+
+@import 'Style/colors.scss';
+
+.tile-selector {
+  bottom: 0;
+  right: 16px;
+  position: absolute;
+  z-index: 20;
+  background-color: $background-light-color;
+  border-top: 2px solid black;
+  border-left: 2px solid black;
+  border-right: 2px solid  black;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content.closed {
+    display: none;
+  }
+
+  canvas {
+    margin: 8px;
+  }
+
+  .std-btn {
+    margin-bottom: 8px;
+  }
+}
+
+.tile-selector.open {
+  min-width: 300px;
+
+  .toggle-header {
+    svg {
+      transform: scaleY( -1 );
+    }
+  }
+}
+
+.tile-selector.closed {
+  min-width: 300px;
+  min-height: 32px;
+  overflow: hidden;
+}

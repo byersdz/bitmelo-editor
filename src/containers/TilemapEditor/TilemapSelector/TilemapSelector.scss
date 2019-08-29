@@ -1,0 +1,62 @@
+
+@import 'Style/colors.scss';
+
+.tilemap-selector {
+  top: 0;
+  right: 16px;
+  position: absolute;
+  z-index: 20;
+  background-color: $background-light-color;
+  border-bottom: 2px solid black;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 8px;
+  }
+
+  .content.closed {
+    display: none;
+  }
+
+  .text-input {
+
+    input {
+      margin-left: 0;
+    }
+
+    .controls {
+      width: 100%;
+    }
+
+  }
+
+  .std-btn {
+    margin-top: 8px;
+  }
+
+  .toggle-header {
+    svg {
+      transform: scaleY( -1 );
+    }
+  }
+}
+
+.tilemap-selector.open {
+  min-width: 300px;
+
+  .toggle-header {
+    svg {
+      transform: scaleY( 1 );
+    }
+  }
+}
+
+.tilemap-selector.closed {
+  min-width: 300px;
+  min-height: 32px;
+  overflow: hidden;
+}

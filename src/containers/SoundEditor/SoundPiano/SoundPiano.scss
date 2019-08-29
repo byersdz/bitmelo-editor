@@ -1,0 +1,30 @@
+
+@import 'Style/colors.scss';
+
+.sound-piano {
+  align-self: stretch;
+  background-color: $background-dark-color;
+  padding: 8px 0 8px 0;
+
+  .piano-controls {
+    width: 100%;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
+
+    .num-picker {
+      margin: 0 8px;
+      .title {
+        width: initial;
+      }
+      .controls {
+        width: initial;
+      }
+    }
+
+    .range-slider {
+      margin: 0 8px;
+    }
+  }
+
+}

@@ -1,0 +1,43 @@
+
+.project-editor {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+
+  .std-btn {
+    margin-top: 16px;
+  }
+
+  .tile-size-display {
+    width: 100%;
+    margin-top: 16px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+  }
+
+
+  .text-input {
+    margin-top: 16px;
+    width: 720px;
+  }
+
+  .num-picker {
+    margin-top: 16px;
+    width: 720px;
+  }
+
+  .card {
+    width: 720px;
+    margin-top: 16px;
+  }
+
+  .checkbox {
+    width: 100%;
+    margin-top: 16px;
+  }
+}

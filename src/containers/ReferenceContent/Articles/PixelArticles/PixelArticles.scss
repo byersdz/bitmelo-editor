@@ -1,0 +1,22 @@
+
+.pixel-articles {
+  display: flex;
+  flex-direction: column;
+
+  .pixel-article {
+    margin-top: 8px;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+
+    .details {
+      margin-top: 4px;
+
+      .license {
+        font-size: 12px;
+      }
+    }
+  }
+}

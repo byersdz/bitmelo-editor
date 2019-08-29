@@ -1,0 +1,77 @@
+@import 'Style/colors.scss';
+
+.piano-key {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 14px;
+  padding-bottom: 4px;
+
+  .hotkey {
+    font-weight: bold;
+  }
+}
+
+.piano-key.white {
+  width: 48px;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  background-color: $secondary-color;
+  color: #666;
+
+  .hotkey {
+    color: #222;
+
+  }
+}
+
+.piano-key.white:hover {
+  background-color: #aaa;
+}
+
+.piano-key.white.active {
+  background-color: $primary-color;
+}
+
+.piano-key.black {
+  position: absolute;
+  top: 0;
+  width: 36px;
+  height: 70px;
+  background-color: black;
+  z-index: 2;
+  color: #888;
+
+  .hotkey {
+    color: #ccc;
+  }
+}
+
+.piano-key.black:hover {
+  background-color: #222;
+}
+
+.piano-key.black.active {
+  background-color: $primary-dark-color;
+}
+
+.piano-key.cs {
+  left: 32px;
+}
+
+.piano-key.ds {
+  left: 82px;
+}
+
+.piano-key.fs {
+  left: 182px;
+}
+
+.piano-key.gs {
+  left: 232px;
+}
+
+.piano-key.as {
+  left: 282px;
+}

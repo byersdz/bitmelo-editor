@@ -1,0 +1,90 @@
+
+@import 'Style/colors.scss';
+@import 'Style/media.scss';
+
+.reference-tab {
+  background-color: $background-light-color;
+  flex-grow: 0;
+  width: 548px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+
+  .reference-main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    img {
+      max-width: 512px;
+    }
+  }
+
+  .toggle-btn {
+    width: 20px;
+    background-color: $background-lighter-color;
+
+    .isvg {
+      svg {
+        width: 12px;
+      }
+    }
+  }
+
+  .toggle-btn:hover {
+    background-color: $primary-dark-color;
+
+    svg {
+      fill: $on-primary-color;
+      stroke: $on-primary-color;
+    }
+  }
+
+  .top-bar {
+    background-color: $secondary-color;
+
+    .btn {
+      svg {
+        fill: $on-secondary-color;
+        stroke: $on-secondary-color;
+      }
+    }
+
+    .btn:hover {
+      background-color: $secondary-dark-color;
+    }
+  }
+}
+
+.reference-tab.closed {
+  width: 20px;
+  border-left: none;
+
+  .reference-main {
+    width: 0;
+  }
+
+  .toggle-btn {
+
+    .isvg {
+      svg {
+        transform: scaleX( -1 );
+      }
+    }
+  }
+}
+
+@media #{ $desktop-small } {
+  .reference-tab {
+    width: 420px;
+
+    .reference-main {
+      img {
+        max-width: 384px;
+      }
+    }
+
+  }
+}
+

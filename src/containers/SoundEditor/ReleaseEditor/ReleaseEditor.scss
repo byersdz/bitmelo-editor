@@ -1,0 +1,16 @@
+
+.release-editor {
+  width: 720px;
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+  margin-bottom: 8px;
+
+  .num-picker {
+    width: 50%;
+  }
+
+  .select {
+    width: 50%;
+  }
+}

@@ -1,0 +1,11 @@
+
+.wave-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 12px 0;
+
+  .select {
+    margin: 0;
+  }
+}

@@ -1,0 +1,24 @@
+@import 'Style/colors.scss';
+
+.api-frequencies {
+  margin: 10px;
+  margin-bottom: 64px;
+
+  .description {
+    margin-bottom: 16px;
+  }
+
+  .freq-item {
+    padding: 8px 4px;
+    display: flex;
+    align-items: center;
+
+    .freq {
+      margin-left: 8px;
+    }
+  }
+
+  .freq-item:nth-child(odd) {
+    background-color: $background-color;
+  }
+}
