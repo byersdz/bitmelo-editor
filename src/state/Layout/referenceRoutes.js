@@ -1,5 +1,5 @@
 
-import { PIXEL_TUTORIALS, API_QUICK_START } from 'Utils/articles';
+import { PIXEL_TUTORIALS } from 'Utils/articles';
 
 import {
   ABOUT_TAB,
@@ -38,7 +38,7 @@ function addInitialStateItem( section, route = [] ) {
 addInitialStateItem( ABOUT_TAB, [REFERENCE_ABOUT] );
 addInitialStateItem( PROJECT_TAB, [MOTIVATION] );
 addInitialStateItem( PLAY_TAB, [CONSOLE] );
-addInitialStateItem( CODE_TAB, [API, API_QUICK_START] );
+addInitialStateItem( CODE_TAB, [API] );
 addInitialStateItem( TILE_TAB, [ARTICLES, PIXEL_TUTORIALS] );
 addInitialStateItem( TILEMAP_TAB, [ARTICLES, PIXEL_TUTORIALS] );
 addInitialStateItem( SOUND_TAB, [HOTKEYS] );
