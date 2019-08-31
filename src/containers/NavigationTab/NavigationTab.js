@@ -40,24 +40,9 @@ class NavigationTab extends React.Component {
 
     const buttonList = [
       {
-        key: ABOUT_TAB,
-        title: 'About',
-        icon: 'info',
-      },
-      {
-        key: PROJECT_TAB,
-        title: 'Project',
-        icon: 'clipboard',
-      },
-      {
         key: PLAY_TAB,
         title: 'Play',
         icon: 'play',
-      },
-      {
-        key: CODE_TAB,
-        title: 'Code',
-        icon: 'brackets',
       },
       {
         key: TILE_TAB,
@@ -73,6 +58,21 @@ class NavigationTab extends React.Component {
         key: SOUND_TAB,
         title: 'Sound Editor',
         icon: 'wave',
+      },
+      {
+        key: CODE_TAB,
+        title: 'Code',
+        icon: 'brackets',
+      },
+      {
+        key: PROJECT_TAB,
+        title: 'Project',
+        icon: 'clipboard',
+      },
+      {
+        key: ABOUT_TAB,
+        title: 'About',
+        icon: 'info',
       },
     ];
 
