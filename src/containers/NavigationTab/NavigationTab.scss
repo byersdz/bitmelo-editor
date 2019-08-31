@@ -67,6 +67,11 @@
   .toggle-panel:hover {
     background-color: $primary-light-color;
   }
+
+  .missing-hamburger {
+    height: 40px;
+    background-color: $primary-dark-color;
+  }
 }
 
 .navigation-tab.open {
