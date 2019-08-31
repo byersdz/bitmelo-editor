@@ -111,9 +111,9 @@ class CodeEditor extends React.Component {
     const { script } = this.props;
     const { containerWidth, containerHeight } = this.state;
     const maxEditorWidth = 1200;
-    const minEditorWidth = 720;
+    const minEditorWidth = 640;
 
-    let editorWidth = containerWidth - 32;
+    let editorWidth = containerWidth - 16;
 
     if ( editorWidth > maxEditorWidth ) {
       editorWidth = maxEditorWidth;
@@ -123,7 +123,7 @@ class CodeEditor extends React.Component {
       editorWidth = minEditorWidth;
     }
 
-    const editorHeight = containerHeight - 32;
+    const editorHeight = containerHeight - 16;
 
     return (
       <div className="code-editor">
