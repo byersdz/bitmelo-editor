@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -97,33 +97,37 @@ class NavigationTab extends React.Component {
       },
     ];
 
-    const forceSmall = windowWidth <= useExtraSmallWidth;
+    const useFloating = windowWidth <= useExtraSmallWidth;
 
-    const className = isOpen && !forceSmall ? 'navigation-tab open' : 'navigation-tab';
-    const hideTitles = !isOpen || forceSmall;
+    let className = isOpen ? 'navigation-tab open' : 'navigation-tab';
 
-    const hamburgerButtonRender = !forceSmall ? (
-      <Button
-        icon="hamburger"
-        title="Toggle Navigation Panel"
-        className="toggle-panel"
-        click={ () => _toggleNavigationPanel() }
-        hideTitle
-      />
-    ) : (
-      <div className="missing-hamburger" />
-    );
+    if ( useFloating ) {
+      className += ' floating';
+    }
+
+    const hideTitles = !isOpen;
+
+    const spacerRender = useFloating ? <div className="nav-spacer" /> : null;
 
     return (
-      <div className={ className }>
-        { hamburgerButtonRender }
-        <ButtonTabs
-          buttonList={ buttonList }
-          activeButton={ activeTab }
-          click={ this.handleClick }
-          hideTitles={ hideTitles }
-        />
-      </div>
+      <Fragment>
+        { spacerRender }
+        <div className={ className }>
+          <Button
+            icon="hamburger"
+            title="Toggle Navigation Panel"
+            className="toggle-panel"
+            click={ () => _toggleNavigationPanel() }
+            hideTitle
+          />
+          <ButtonTabs
+            buttonList={ buttonList }
+            activeButton={ activeTab }
+            click={ this.handleClick }
+            hideTitles={ hideTitles }
+          />
+        </div>
+      </Fragment>
     );
   }
 }

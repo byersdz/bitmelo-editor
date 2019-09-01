@@ -63,6 +63,11 @@
   right: 0;
   top: 0;
   bottom: 0;
+  box-shadow: -8px 0 2px -2px rgba( 0, 0, 0, 0.5 );
+}
+
+.reference-tab.floating.closed {
+  box-shadow: none;
 }
 
 .reference-tab.closed {
