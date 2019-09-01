@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { importProjectData } from 'State/globalActions';
+import { setNavigationPanelIsOpen } from 'State/Layout/navigationPanelIsOpen';
+import { setReferencePanelIsOpen } from 'State/Layout/referencePanelIsOpen';
 
 import NavigationTab from 'Containers/NavigationTab/NavigationTab';
 import MainContainer from 'Containers/MainContainer/MainContainer';
@@ -14,6 +16,8 @@ import './App.scss';
 
 import { loadStateFromLocalStorage } from 'Utils/Saving/localStorage';
 
+import { useExtraSmallWidth } from 'Style/dimensions';
+
 class App extends React.Component {
   constructor( props ) {
     super( props );
@@ -21,10 +25,16 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { _importProjectData } = this.props;
+    const { _importProjectData, _setNavigationPanelIsOpen, _setReferencePanelIsOpen } = this.props;
     const savedState = loadStateFromLocalStorage();
     if ( savedState ) {
       _importProjectData( savedState );
+    }
+
+    // default to closed panels on a small screen
+    if ( window.innerWidth <= useExtraSmallWidth ) {
+      _setNavigationPanelIsOpen( false );
+      _setReferencePanelIsOpen( false );
     }
 
     window.addEventListener( 'keydown', this.handleKeyDown );
@@ -58,11 +68,15 @@ class App extends React.Component {
 
 App.propTypes = {
   _importProjectData: PropTypes.func.isRequired,
+  _setNavigationPanelIsOpen: PropTypes.func.isRequired,
+  _setReferencePanelIsOpen: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _importProjectData: importProjectData,
+    _setNavigationPanelIsOpen: setNavigationPanelIsOpen,
+    _setReferencePanelIsOpen: setReferencePanelIsOpen,
   }, dispatch );
 }
 
