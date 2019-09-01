@@ -23,6 +23,17 @@ export function validate( state ) {
   return true;
 }
 
+export function initAndUpdate( state ) {
+  const newState = [...state];
+  for ( let i = 0; i < state.length; i += 1 ) {
+    newState[i].scrollTop = 0;
+    newState[i].cursorRow = 0;
+    newState[i].cursorColumn = 0;
+  }
+
+  return newState;
+}
+
 // Reducer
 const initialState = [
   {
@@ -95,7 +106,7 @@ export default function reducer( state = initialState, action ) {
       try {
         const importedState = action.payload.code.scripts;
         if ( validate( importedState ) ) {
-          return [...importedState];
+          return initAndUpdate( importedState );
         }
         return state;
       }
