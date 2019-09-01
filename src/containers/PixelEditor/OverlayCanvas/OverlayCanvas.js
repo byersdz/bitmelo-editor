@@ -74,7 +74,6 @@ class OverlayCanvas extends React.Component {
 
       if ( !isTileEditor ) {
         // draw stronger borders at tile edges
-        console.log( tileSize );
         gridSettings.interval = tileSize;
         gridSettings.lineWidth = 2;
 
