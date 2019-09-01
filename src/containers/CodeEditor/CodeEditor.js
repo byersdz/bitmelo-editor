@@ -71,10 +71,13 @@ class CodeEditor extends React.Component {
 
     let navigationPanelWidth = navigationPanelIsOpen ? 200 : 40;
 
+    if ( windowWidth <= useExtraSmallWidth ) {
+      navigationPanelWidth = 40;
+    }
+
     let referencePanelWidth = 20;
     if ( referencePanelIsOpen ) {
       if ( windowWidth <= useExtraSmallWidth ) {
-        navigationPanelWidth = 40;
         referencePanelWidth = 20;
       }
       else if ( windowWidth <= useSmallWidth ) {
@@ -86,6 +89,7 @@ class CodeEditor extends React.Component {
     }
 
     const containerWidth = windowWidth - referencePanelWidth - navigationPanelWidth;
+
     this.setState( {
       containerWidth,
       containerHeight: this.containerRef.current.offsetHeight,
