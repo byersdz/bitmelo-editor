@@ -157,6 +157,7 @@ class WaveGrid extends React.Component {
 
     return (
       <canvas
+        className="wave-grid"
         width={ width }
         height={ height }
         ref={ this.canvasRef }
