@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -26,9 +26,21 @@ import {
   MOTIVATION,
 } from 'State/Layout/referenceRoutes';
 
+import { useExtraSmallWidth } from 'Style/dimensions';
+
 import './ReferenceTab.scss';
 
 class ReferenceTab extends React.Component {
+  constructor( props ) {
+    super( props );
+
+    this.state = {
+      windowWidth: 10000,
+    };
+
+    this.updateDimensions = this.updateDimensions.bind( this );
+  }
+
   handleBackClick() {
     const { _setReferenceRoute, section, route } = this.props;
     const newRoute = [...route.current];
@@ -36,6 +48,19 @@ class ReferenceTab extends React.Component {
       newRoute.pop();
       _setReferenceRoute( section, newRoute );
     }
+  }
+
+  componentDidMount() {
+    this.updateDimensions();
+    window.addEventListener( 'resize', this.updateDimensions );
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener( 'resize', this.updateDimensions );
+  }
+
+  updateDimensions() {
+    this.setState( { windowWidth: window.innerWidth } );
   }
 
   render() {
@@ -46,7 +71,14 @@ class ReferenceTab extends React.Component {
       route,
       section,
     } = this.props;
-    const className = isOpen ? 'reference-tab' : 'reference-tab closed';
+    const { windowWidth } = this.state;
+
+    let className = isOpen ? 'reference-tab' : 'reference-tab closed';
+    const useFloating = windowWidth <= useExtraSmallWidth;
+
+    if ( useFloating ) {
+      className += ' floating';
+    }
 
     let contentRender = (
       <div>
@@ -128,17 +160,22 @@ class ReferenceTab extends React.Component {
       </div>
     ) : null;
 
+    const spacerRender = useFloating ? <div className="ref-spacer" /> : null;
+
     return (
-      <div className={ className }>
-        <Button
-          className="toggle-btn"
-          title="Toggle Reference Panel"
-          icon="play"
-          click={ () => _toggleReferencePanel() }
-          hideTitle
-        />
-        { mainRender }
-      </div>
+      <Fragment>
+        { spacerRender }
+        <div className={ className }>
+          <Button
+            className="toggle-btn"
+            title="Toggle Reference Panel"
+            icon="play"
+            click={ () => _toggleReferencePanel() }
+            hideTitle
+          />
+          { mainRender }
+        </div>
+      </Fragment>
     );
   }
 }

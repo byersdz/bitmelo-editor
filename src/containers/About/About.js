@@ -67,9 +67,10 @@ class About extends React.Component {
         href="https://davidbyers.itch.io/bitmelo"
         className="for-sale"
       >
-        <p>Click here to buy the desktop version of Bitmelo on itch.io!</p>
+        <p>Click here to get the desktop version of Bitmelo on itch.io!</p>
       </AButton>
     ) : null;
+
     return (
       <div className="about">
         <img
