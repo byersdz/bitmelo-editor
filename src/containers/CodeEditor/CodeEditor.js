@@ -75,7 +75,7 @@ class CodeEditor extends React.Component {
     if ( referencePanelIsOpen ) {
       if ( windowWidth <= useExtraSmallWidth ) {
         navigationPanelWidth = 40;
-        referencePanelWidth = 420;
+        referencePanelWidth = 20;
       }
       else if ( windowWidth <= useSmallWidth ) {
         referencePanelWidth = 420;
