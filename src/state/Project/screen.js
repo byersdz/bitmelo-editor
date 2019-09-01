@@ -53,10 +53,10 @@ export function validate( state ) {
 
 // Reducer
 const initialState = {
-  width: 240,
-  height: 160,
+  width: 192,
+  height: 128,
   scaleMode: Screen.SCALE_CONSTANT,
-  scale: 2,
+  scale: 3,
   minScale: 1,
   maxScale: 4,
   horizontalScaleCushion: 10,

@@ -15,6 +15,7 @@ import BitmeloAudio from 'Containers/BitmeloAudio/BitmeloAudio';
 import './App.scss';
 
 import { loadStateFromLocalStorage } from 'Utils/Saving/localStorage';
+import WelcomeDemo from 'Utils/Demos/WelcomeDemo.json';
 
 import { useExtraSmallWidth } from 'Style/dimensions';
 
@@ -29,6 +30,9 @@ class App extends React.Component {
     const savedState = loadStateFromLocalStorage();
     if ( savedState ) {
       _importProjectData( savedState );
+    }
+    else {
+      _importProjectData( WelcomeDemo );
     }
 
     // default to closed panels on a small screen
