@@ -7,7 +7,9 @@ import { bindActionCreators } from 'redux';
 import Modal from 'Components/Modal/Modal';
 import Button from 'Components/Button/Button';
 
-import { resetProject, clearAllUndoHistory } from 'State/globalActions';
+import { resetProject, clearAllUndoHistory, importProjectData } from 'State/globalActions';
+
+import WelcomeDemo from 'Utils/Demos/WelcomeDemo.json';
 
 import './StartNewProjectModal.scss';
 
@@ -25,6 +27,15 @@ class StartNewProjectModal extends React.Component {
     this.handleClose();
   }
 
+  handleWelcomeStartClicked() {
+    const { _resetProject, _clearAllUndoHistory, _importProjectData } = this.props;
+    _resetProject();
+    _clearAllUndoHistory();
+    _importProjectData( WelcomeDemo );
+
+    this.handleClose();
+  }
+
   render() {
     return (
       <Modal
@@ -38,9 +49,14 @@ class StartNewProjectModal extends React.Component {
         </div>
         <div className="modal-controls">
           <Button
-            title="Start New Project"
+            title="Start Blank Project"
             standard
             click={ () => this.handleStartClicked() }
+          />
+          <Button
+            title="Start Project from Welcome Demo"
+            standard
+            click={ () => this.handleWelcomeStartClicked() }
           />
         </div>
         <div className="exit-buttons">
@@ -59,12 +75,14 @@ StartNewProjectModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   _resetProject: PropTypes.func.isRequired,
   _clearAllUndoHistory: PropTypes.func.isRequired,
+  _importProjectData: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _resetProject: resetProject,
     _clearAllUndoHistory: clearAllUndoHistory,
+    _importProjectData: importProjectData,
   }, dispatch );
 }
 

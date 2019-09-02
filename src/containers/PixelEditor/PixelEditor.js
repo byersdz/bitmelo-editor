@@ -96,7 +96,6 @@ class PixelEditor extends React.Component {
     window.addEventListener( 'resize', this.updateDimensions );
     document.addEventListener( 'pointermove', this.handlePointerMove );
     document.addEventListener( 'pointerup', this.handlePointerUp );
-    document.addEventListener( 'pointerleave', this.handlePointerExit );
     document.addEventListener( 'pointercancel', this.handlePointerExit );
     window.addEventListener( 'keydown', this.handleKeyDown );
     window.addEventListener( 'keyup', this.handleKeyUp );
@@ -136,7 +135,6 @@ class PixelEditor extends React.Component {
     window.removeEventListener( 'resize', this.updateDimensions );
     document.removeEventListener( 'pointermove', this.handlePointerMove );
     document.removeEventListener( 'pointerup', this.handlePointerUp );
-    document.removeEventListener( 'pointerleave', this.handlePointerExit );
     document.removeEventListener( 'pointercancel', this.handlePointerExit );
     window.removeEventListener( 'keydown', this.handleKeyDown );
     window.removeEventListener( 'keyup', this.handleKeyUp );
@@ -181,6 +179,7 @@ class PixelEditor extends React.Component {
   }
 
   handlePointerDown( event ) {
+    event.preventDefault();
     const {
       isPanning,
       isEditing,
@@ -357,6 +356,7 @@ class PixelEditor extends React.Component {
   }
 
   handlePointerUp( event ) {
+    event.preventDefault();
     const {
       left,
       top,
@@ -395,6 +395,7 @@ class PixelEditor extends React.Component {
   }
 
   handlePointerMove( event ) {
+    event.preventDefault();
     const {
       left,
       top,
@@ -468,7 +469,8 @@ class PixelEditor extends React.Component {
     }
   }
 
-  handlePointerExit() {
+  handlePointerExit( event ) {
+    event.preventDefault();
     const {
       isPanning,
       offsetX,

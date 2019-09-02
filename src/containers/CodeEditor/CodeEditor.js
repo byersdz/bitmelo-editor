@@ -7,6 +7,8 @@ import { bindActionCreators } from 'redux';
 
 import { setScript } from 'State/Code/scripts';
 
+import { useSmallWidth, useExtraSmallWidth } from 'Style/dimensions';
+
 import 'brace/mode/javascript';
 import 'brace/theme/twilight';
 import 'brace/ext/language_tools';
@@ -67,9 +69,18 @@ class CodeEditor extends React.Component {
 
     const windowWidth = window.innerWidth;
 
+    let navigationPanelWidth = navigationPanelIsOpen ? 200 : 40;
+
+    if ( windowWidth <= useExtraSmallWidth ) {
+      navigationPanelWidth = 40;
+    }
+
     let referencePanelWidth = 20;
     if ( referencePanelIsOpen ) {
-      if ( windowWidth <= 1700 ) {
+      if ( windowWidth <= useExtraSmallWidth ) {
+        referencePanelWidth = 20;
+      }
+      else if ( windowWidth <= useSmallWidth ) {
         referencePanelWidth = 420;
       }
       else {
@@ -77,9 +88,8 @@ class CodeEditor extends React.Component {
       }
     }
 
-    const navigationPanelWidth = navigationPanelIsOpen ? 200 : 40;
-
     const containerWidth = windowWidth - referencePanelWidth - navigationPanelWidth;
+
     this.setState( {
       containerWidth,
       containerHeight: this.containerRef.current.offsetHeight,
@@ -111,9 +121,9 @@ class CodeEditor extends React.Component {
     const { script } = this.props;
     const { containerWidth, containerHeight } = this.state;
     const maxEditorWidth = 1200;
-    const minEditorWidth = 720;
+    const minEditorWidth = 640;
 
-    let editorWidth = containerWidth - 32;
+    let editorWidth = containerWidth - 16;
 
     if ( editorWidth > maxEditorWidth ) {
       editorWidth = maxEditorWidth;
@@ -123,7 +133,7 @@ class CodeEditor extends React.Component {
       editorWidth = minEditorWidth;
     }
 
-    const editorHeight = containerHeight - 32;
+    const editorHeight = containerHeight - 16;
 
     return (
       <div className="code-editor">

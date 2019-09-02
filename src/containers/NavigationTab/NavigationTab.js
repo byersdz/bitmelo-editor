@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -20,13 +20,33 @@ import {
 import { toggleNavigationPanel } from 'State/Layout/navigationPanelIsOpen';
 import { STOP_ALL_AUDIO, addAudioEvent } from 'State/Sound/audioEvents';
 
+import { useExtraSmallWidth } from 'Style/dimensions';
+
 import './NavigationTab.scss';
 
 class NavigationTab extends React.Component {
   constructor( props ) {
     super( props );
 
+    this.state = {
+      windowWidth: 10000,
+    };
+
     this.handleClick = this.handleClick.bind( this );
+    this.updateDimensions = this.updateDimensions.bind( this );
+  }
+
+  componentDidMount() {
+    this.updateDimensions();
+    window.addEventListener( 'resize', this.updateDimensions );
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener( 'resize', this.updateDimensions );
+  }
+
+  updateDimensions() {
+    this.setState( { windowWidth: window.innerWidth } );
   }
 
   handleClick( key ) {
@@ -37,27 +57,13 @@ class NavigationTab extends React.Component {
 
   render() {
     const { activeTab, isOpen, _toggleNavigationPanel } = this.props;
+    const { windowWidth } = this.state;
 
     const buttonList = [
-      {
-        key: ABOUT_TAB,
-        title: 'About',
-        icon: 'info',
-      },
-      {
-        key: PROJECT_TAB,
-        title: 'Project',
-        icon: 'clipboard',
-      },
       {
         key: PLAY_TAB,
         title: 'Play',
         icon: 'play',
-      },
-      {
-        key: CODE_TAB,
-        title: 'Code',
-        icon: 'brackets',
       },
       {
         key: TILE_TAB,
@@ -74,26 +80,54 @@ class NavigationTab extends React.Component {
         title: 'Sound Editor',
         icon: 'wave',
       },
+      {
+        key: CODE_TAB,
+        title: 'Code',
+        icon: 'brackets',
+      },
+      {
+        key: PROJECT_TAB,
+        title: 'Project',
+        icon: 'clipboard',
+      },
+      {
+        key: ABOUT_TAB,
+        title: 'About',
+        icon: 'info',
+      },
     ];
 
-    const className = isOpen ? 'navigation-tab open' : 'navigation-tab';
+    const useFloating = windowWidth <= useExtraSmallWidth;
+
+    let className = isOpen ? 'navigation-tab open' : 'navigation-tab';
+
+    if ( useFloating ) {
+      className += ' floating';
+    }
+
     const hideTitles = !isOpen;
+
+    const spacerRender = useFloating ? <div className="nav-spacer" /> : null;
+
     return (
-      <div className={ className }>
-        <Button
-          icon="hamburger"
-          title="Toggle Navigation Panel"
-          className="toggle-panel"
-          click={ () => _toggleNavigationPanel() }
-          hideTitle
-        />
-        <ButtonTabs
-          buttonList={ buttonList }
-          activeButton={ activeTab }
-          click={ this.handleClick }
-          hideTitles={ hideTitles }
-        />
-      </div>
+      <Fragment>
+        { spacerRender }
+        <div className={ className }>
+          <Button
+            icon="hamburger"
+            title="Toggle Navigation Panel"
+            className="toggle-panel"
+            click={ () => _toggleNavigationPanel() }
+            hideTitle
+          />
+          <ButtonTabs
+            buttonList={ buttonList }
+            activeButton={ activeTab }
+            click={ this.handleClick }
+            hideTitles={ hideTitles }
+          />
+        </div>
+      </Fragment>
     );
   }
 }

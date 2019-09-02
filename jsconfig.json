@@ -9,5 +9,10 @@
       "Style": ["./style"],
       "Utils": ["./utils"]
     }
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
+

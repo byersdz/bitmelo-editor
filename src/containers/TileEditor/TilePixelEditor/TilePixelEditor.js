@@ -123,6 +123,7 @@ class TilePixelEditor extends React.Component {
     return (
       <PixelEditor
         data={ selectedData }
+        tileSize={ tileSize }
         dataWidth={ selectedDataWidth }
         dataHeight={ selectedDataHeight }
         palette={ palette }

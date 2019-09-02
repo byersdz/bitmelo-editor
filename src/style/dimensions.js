@@ -1,5 +1,6 @@
 
 export const useSmallWidth = 1700;
+export const useExtraSmallWidth = 1278;
 
 export const navigationOpenWidth = 200;
 export const navigationClosedWidth = 40;

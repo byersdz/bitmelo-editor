@@ -67,6 +67,11 @@
   .toggle-panel:hover {
     background-color: $primary-light-color;
   }
+
+  .missing-hamburger {
+    height: 40px;
+    background-color: $primary-dark-color;
+  }
 }
 
 .navigation-tab.open {
@@ -81,5 +86,22 @@
       font-size: 14px;
     }
   }
+}
+
+.navigation-tab.floating {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10000;
+}
+
+.navigation-tab.open.floating {
+  box-shadow: 8px 0 2px -2px rgba( 0, 0, 0, 0.5 );
+}
+
+
+.nav-spacer {
+  width: 40px;
 }
 

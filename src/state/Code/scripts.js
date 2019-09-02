@@ -23,61 +23,29 @@ export function validate( state ) {
   return true;
 }
 
+export function initAndUpdate( state ) {
+  const newState = [...state];
+  for ( let i = 0; i < state.length; i += 1 ) {
+    newState[i].scrollTop = 0;
+    newState[i].cursorRow = 0;
+    newState[i].cursorColumn = 0;
+  }
+
+  return newState;
+}
+
 // Reducer
 const initialState = [
   {
     text: `
-const player = {
-  x: 0,
-  y: 0,
-  color: 7,
-};
-
 engine.onInit = () => {
-  player.x = Math.floor( engine.screen.width / 2 );
-  player.y = Math.floor( engine.screen.height / 2 );
+
 };
 
 engine.onUpdate = () => {
-  engine.screen.clear( 1 );
 
-  if ( engine.input.left.pressed ) {
-    player.x -= 1;
-  }
-  if ( engine.input.right.pressed ) {
-    player.x += 1;
-  }
-  if ( engine.input.up.pressed ) {
-   player.y += 1;
-  }
-  if ( engine.input.down.pressed ) {
-    player.y -= 1;
-  }
-
-  if ( engine.input.action1.down ) {
-    player.color = 9;
-  }
-  else if ( engine.input.action1.up ) {
-    player.color = 7;
-  }
-
-  engine.screen.drawRect(
-   player.x,      // x
-    player.y,     // y
-    8,            // width
-    8,            // height
-    player.color  // palette index
-  );
-
-  engine.screen.drawText(
-    'Welcome to Bitmelo!',                        // text
-    Math.floor( engine.screen.width / 2 ) - 50,   // x
-    Math.floor( engine.screen.height / 2 ) + 16,  // y
-    2,                                            // main palette index
-    4,                                            // outline palette index
-    0                                             // font
-  );
 };
+
 `,
     cursorRow: 0,
     cursorColumn: 0,
@@ -95,7 +63,7 @@ export default function reducer( state = initialState, action ) {
       try {
         const importedState = action.payload.code.scripts;
         if ( validate( importedState ) ) {
-          return [...importedState];
+          return initAndUpdate( importedState );
         }
         return state;
       }

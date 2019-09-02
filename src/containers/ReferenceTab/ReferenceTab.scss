@@ -5,8 +5,9 @@
 .reference-tab {
   background-color: $background-light-color;
   flex-grow: 0;
-  width: 548px;
   position: relative;
+  width: 548px;
+  z-index: 5000;
   display: flex;
   flex-direction: row;
 
@@ -57,6 +58,18 @@
   }
 }
 
+.reference-tab.floating {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  box-shadow: -8px 0 2px -2px rgba( 0, 0, 0, 0.5 );
+}
+
+.reference-tab.floating.closed {
+  box-shadow: none;
+}
+
 .reference-tab.closed {
   width: 20px;
   border-left: none;
@@ -73,6 +86,10 @@
       }
     }
   }
+}
+
+.ref-spacer {
+  width: 20px;
 }
 
 @media #{ $desktop-small } {

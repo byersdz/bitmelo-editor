@@ -68,13 +68,9 @@ class About extends React.Component {
         className="for-sale"
       >
         <p>Click here to get the desktop version of Bitmelo on itch.io!</p>
-        <p>
-          { 'Just ' }
-          <span className="strike">$29.99</span>
-          { ' $14.99 while in early access!' }
-        </p>
       </AButton>
     ) : null;
+
     return (
       <div className="about">
         <img
