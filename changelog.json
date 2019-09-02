@@ -1,0 +1,15 @@
+{
+  "versions": [
+    {
+      "version": "1.1.0",
+      "changes": [
+        "Added welcome demo",
+        "Added time properties to Engine",
+        "Heavier borders at tile edges in the tile editor",
+        "Fixed pointer input bugs",
+        "Improved layout for smaller screens",
+        "Show api list by default in code editor"
+      ]
+    }
+  ]
+}

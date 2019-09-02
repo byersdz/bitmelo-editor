@@ -2,6 +2,7 @@
 import React, { Fragment } from 'react';
 
 import AButton from 'Components/AButton/AButton';
+import Changelog from 'Components/Changelog/Changelog';
 
 import PackageJSON from '../../../package.json';
 
@@ -129,6 +130,8 @@ class About extends React.Component {
             }
           </AButton>
         </p>
+        <h2>Recent Changes</h2>
+        <Changelog />
         <h2>Is Bitmelo Open Source?</h2>
         <p>
           {
