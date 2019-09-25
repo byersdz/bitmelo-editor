@@ -269,6 +269,7 @@ class PixelEditor extends React.Component {
         return;
       }
 
+      // Create Editing Data
       let editingData = {};
       editingData.startX = pixelX;
       editingData.startY = pixelY;
@@ -322,6 +323,7 @@ class PixelEditor extends React.Component {
       editingData.buffer = new Array( dataWidth * dataHeight );
       editingData.buffer.fill( -1 );
 
+      // Perform initial drawing for drawing tools
       if (
         editingTool === PENCIL_TOOL
         || editingTool === ERASER_TOOL
@@ -765,6 +767,7 @@ class PixelEditor extends React.Component {
       selectionHeight,
       selectedTool,
       pixelToolSettings,
+      editorSelection,
     } = this.props;
 
     let pannedXOffset = offsetX;
@@ -865,6 +868,7 @@ class PixelEditor extends React.Component {
           dataHeight={ dataHeight }
           isTileEditor={ isTileEditor }
           tileSize={ tileSize }
+          editorSelection={ editorSelection }
         />
         <MainCanvas
           width={ width }
@@ -912,6 +916,7 @@ PixelEditor.propTypes = {
   onCursorChange: PropTypes.func,
   onEyeDropper: PropTypes.func,
   pixelToolSettings: PropTypes.object.isRequired,
+  editorSelection: PropTypes.object,
 };
 
 PixelEditor.defaultProps = {
@@ -925,6 +930,7 @@ PixelEditor.defaultProps = {
   altPaletteIndex: 0,
   onCursorChange: null,
   onEyeDropper: null,
+  editorSelection: null,
 };
 
 function mapStateToProps( state ) {

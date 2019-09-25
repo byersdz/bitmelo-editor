@@ -5,7 +5,7 @@ import { RESET_PROJECT } from 'State/globalActions';
 export const SELECT_ALT_PALETTE_INDEX = 'SELECT_ALT_PALETTE_INDEX';
 
 // Reducer
-const initialState = 2;
+const initialState = 0;
 
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {

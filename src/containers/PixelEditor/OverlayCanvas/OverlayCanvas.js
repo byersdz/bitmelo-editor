@@ -104,8 +104,10 @@ class OverlayCanvas extends React.Component {
       height,
       onPointerDown,
       onWheel,
+      editorSelection,
     } = this.props;
 
+    console.log( editorSelection );
 
     return (
       <canvas
@@ -142,6 +144,11 @@ OverlayCanvas.propTypes = {
   isTileEditor: PropTypes.bool.isRequired,
   tileSize: PropTypes.number.isRequired,
   showGrid: PropTypes.bool.isRequired,
+  editorSelection: PropTypes.object,
+};
+
+OverlayCanvas.defaultProps = {
+  editorSelection: null,
 };
 
 function mapStateToProps( state ) {

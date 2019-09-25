@@ -93,6 +93,7 @@ class TilePixelEditor extends React.Component {
       altPaletteIndex,
       tileset,
       tileSize,
+      editorSelection,
     } = this.props;
 
     const { selectedTile, selectionWidth, selectionHeight } = tileset;
@@ -129,6 +130,7 @@ class TilePixelEditor extends React.Component {
         palette={ palette }
         selectedPaletteIndex={ selectedPaletteIndex }
         altPaletteIndex={ altPaletteIndex }
+        editorSelection={ editorSelection }
         onDataChange={ newData => this.handleDataChange( newData ) }
         onEyeDropper={ e => this.handleEyeDropper( e ) }
       >
@@ -152,6 +154,7 @@ TilePixelEditor.propTypes = {
   _selectAltPaletteIndex: PropTypes.func.isRequired,
   colorPickerIsOpen: PropTypes.bool.isRequired,
   selectedTool: PropTypes.string.isRequired,
+  editorSelection: PropTypes.object.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -167,6 +170,7 @@ function mapStateToProps( state ) {
     tileSize,
     colorPickerIsOpen: state.layout.colorPickerIsOpen,
     selectedTool: state.pixelTools.selectedTool,
+    editorSelection: state.tileset.present.editorSelection,
   };
 }
 
