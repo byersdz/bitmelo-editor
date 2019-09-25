@@ -7,6 +7,7 @@ import {
   drawIndicator,
   drawGrid,
 } from 'Utils/drawToCanvas';
+import { drawEditorSelection } from 'Utils/drawEditorSelection';
 
 import { TILE_TAB, TILEMAP_TAB } from 'State/Layout/activeNavigationTab';
 
@@ -17,14 +18,32 @@ class OverlayCanvas extends React.Component {
     super( props );
 
     this.canvasRef = React.createRef();
+
+    this.updateStep = this.updateStep.bind( this );
+
+    this.state = {
+      step: 0,
+    };
   }
 
   componentDidMount() {
     this.draw();
+    this.stepInterval = setInterval( this.updateStep, 125 );
   }
 
   componentDidUpdate() {
     this.draw();
+  }
+
+  componentWillUnmount() {
+    clearInterval( this.stepInterval );
+  }
+
+  updateStep() {
+    const { step } = this.state;
+
+    const newStep = ( step + 1 ) % 8;
+    this.setState( { step: newStep } );
   }
 
   draw() {
@@ -44,7 +63,9 @@ class OverlayCanvas extends React.Component {
       isTileEditor,
       tileSize,
       showGrid,
+      editorSelection,
     } = this.props;
+    const { step } = this.state;
 
     const context = this.canvasRef.current.getContext( '2d' );
     context.clearRect( 0, 0, width, height );
@@ -96,6 +117,20 @@ class OverlayCanvas extends React.Component {
         this.canvasRef.current,
       );
     }
+
+    if ( editorSelection && editorSelection.isActive ) {
+      drawEditorSelection(
+        {
+          offsetX,
+          offsetY,
+          scale: modifiedScale,
+          dataHeight,
+        },
+        editorSelection,
+        this.canvasRef.current,
+        step,
+      );
+    }
   }
 
   render() {
@@ -104,10 +139,7 @@ class OverlayCanvas extends React.Component {
       height,
       onPointerDown,
       onWheel,
-      editorSelection,
     } = this.props;
-
-    console.log( editorSelection );
 
     return (
       <canvas
