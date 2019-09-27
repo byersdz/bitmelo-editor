@@ -8,6 +8,7 @@ import PixelEditor from 'Containers/PixelEditor/PixelEditor';
 
 import { undoTilesets, redoTilesets } from 'State/Tileset';
 import { setTilesetLayerData } from 'State/Tileset/tilesets';
+import { setTilesetEditorSelection } from 'State/Tileset/editorSelection';
 import { selectPaletteIndex } from 'State/Palette/selectedIndex';
 import { selectAltPaletteIndex } from 'State/Palette/altIndex';
 import { PENCIL_TOOL, BUCKET_TOOL } from 'State/PixelTools/selectedTool';
@@ -94,6 +95,7 @@ class TilePixelEditor extends React.Component {
       tileset,
       tileSize,
       editorSelection,
+      _setTilesetEditorSelection,
     } = this.props;
 
     const { selectedTile, selectionWidth, selectionHeight } = tileset;
@@ -131,6 +133,7 @@ class TilePixelEditor extends React.Component {
         selectedPaletteIndex={ selectedPaletteIndex }
         altPaletteIndex={ altPaletteIndex }
         editorSelection={ editorSelection }
+        onEditorSelectionChange={ v => _setTilesetEditorSelection( v ) }
         onDataChange={ newData => this.handleDataChange( newData ) }
         onEyeDropper={ e => this.handleEyeDropper( e ) }
       >
@@ -155,6 +158,7 @@ TilePixelEditor.propTypes = {
   colorPickerIsOpen: PropTypes.bool.isRequired,
   selectedTool: PropTypes.string.isRequired,
   editorSelection: PropTypes.object.isRequired,
+  _setTilesetEditorSelection: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -181,7 +185,7 @@ function mapDispatchToProps( dispatch ) {
     _redoTilesets: redoTilesets,
     _selectPaletteIndex: selectPaletteIndex,
     _selectAltPaletteIndex: selectAltPaletteIndex,
-
+    _setTilesetEditorSelection: setTilesetEditorSelection,
   }, dispatch );
 }
 

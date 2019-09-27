@@ -6,12 +6,12 @@ export const CLEAR_TILESET_EDITOR_SELECTION = 'CLEAR_TILESET_EDITOR_SELECTION';
 
 // Reducer
 const initialState = {
-  width: 10,
-  height: 5,
-  offsetX: 1,
-  offsetY: 2,
+  width: 0,
+  height: 0,
+  offsetX: 0,
+  offsetY: 0,
   data: [],
-  isActive: true,
+  isActive: false,
 };
 
 export default function reducer( state = initialState, action ) {

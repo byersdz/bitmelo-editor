@@ -93,6 +93,7 @@ class TilemapPixelEditor extends React.Component {
         selectionWidth={ mapSelectionWidth }
         selectionHeight={ mapSelectionHeight }
         onCursorChange={ e => this.handleCursorChange( e ) }
+        onEditorSelectionChange={ v => console.log( v ) }
       >
         <TilemapSelector />
         <TileSelector isInMapEditor />

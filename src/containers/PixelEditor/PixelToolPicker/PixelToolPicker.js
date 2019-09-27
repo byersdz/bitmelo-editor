@@ -11,6 +11,7 @@ import {
   PENCIL_TOOL,
   ERASER_TOOL,
   BUCKET_TOOL,
+  MOVE_TOOL,
   selectPixelTool,
 } from 'State/PixelTools/selectedTool';
 import { setTileEditorLayoutSettings } from 'State/Layout/tileEditor';
@@ -62,6 +63,7 @@ class PixelToolPicker extends React.Component {
       { key: PENCIL_TOOL, title: 'Pencil', icon: 'pencil' },
       { key: ERASER_TOOL, title: 'Eraser', icon: 'eraser' },
       { key: BUCKET_TOOL, title: 'Paint Bucket', icon: 'bucket' },
+      { key: MOVE_TOOL, title: 'Move', icon: 'play' },
     ];
 
     const showGridClass = tileLayoutSettings.showGrid ? 'active' : '';

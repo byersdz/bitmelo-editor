@@ -2,13 +2,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import cloneDeep from 'lodash.clonedeep';
 
-import { PENCIL_TOOL, ERASER_TOOL, BUCKET_TOOL } from 'State/PixelTools/selectedTool';
+import {
+  PENCIL_TOOL,
+  ERASER_TOOL,
+  BUCKET_TOOL,
+  MOVE_TOOL,
+} from 'State/PixelTools/selectedTool';
 import { TILE_DRAW_TOOL, TILE_ERASE_TOOL } from 'State/PixelTools/selectedTileTool';
 
 import { applyPencilToData } from 'Utils/PixelTools/pencil';
 import { applyTileDrawToData } from 'Utils/PixelTools/tileDraw';
 import { applyBucketToData } from 'Utils/PixelTools/bucket';
+import { combineGrids } from 'Utils/gridHelpers';
 
 import MainCanvas from './MainCanvas/MainCanvas';
 import OverlayCanvas from './OverlayCanvas/OverlayCanvas';
@@ -206,6 +213,8 @@ class PixelEditor extends React.Component {
       onEyeDropper,
       pixelToolSettings,
       onDataChange,
+      editorSelection,
+      onEditorSelectionChange,
     } = this.props;
 
     if ( isPanning || isEditing ) {
@@ -320,6 +329,35 @@ class PixelEditor extends React.Component {
         editingData.selectionHeight = selectionHeight;
       }
 
+      if ( editingTool === MOVE_TOOL ) {
+        let newEditorSelection = null;
+        if ( editorSelection && editorSelection.isActive ) {
+          // use existing selection
+          newEditorSelection = cloneDeep( editorSelection );
+        }
+        else {
+          // make a new selection of the entire area
+          const dataCopy = cloneDeep( data );
+          newEditorSelection = {
+            width: dataWidth,
+            height: dataHeight,
+            offsetX: 0,
+            offsetY: 0,
+            data: dataCopy,
+            isActive: true,
+          };
+          const emptyData = cloneDeep( data );
+          emptyData.fill( 0 );
+          onDataChange( emptyData );
+          console.log( newEditorSelection );
+          onEditorSelectionChange( newEditorSelection );
+        }
+
+        editingData.startSelectionXOffset = newEditorSelection.offsetX;
+        editingData.startSelectionYOffset = newEditorSelection.offsetY;
+        // remove selected data and add it to selection
+      }
+
       editingData.buffer = new Array( dataWidth * dataHeight );
       editingData.buffer.fill( -1 );
 
@@ -416,6 +454,8 @@ class PixelEditor extends React.Component {
       isTileEditor,
       tileSize,
       onCursorChange,
+      editorSelection,
+      onEditorSelectionChange,
     } = this.props;
 
     const { clientX, clientY } = event;
@@ -467,6 +507,12 @@ class PixelEditor extends React.Component {
       else if ( editingTool === TILE_DRAW_TOOL ) {
         const newData = applyTileDrawToData( data, dataWidth, dataHeight, editingData );
         this.setState( { editingData: newData } );
+      }
+      else if ( editingTool === MOVE_TOOL ) {
+        const newEditorSelection = cloneDeep( editorSelection );
+        newEditorSelection.offsetX = editingData.startSelectionXOffset + ( editingData.currentX - editingData.startX );
+        newEditorSelection.offsetY = editingData.startSelectionYOffset + ( editingData.currentY - editingData.startY );
+        onEditorSelectionChange( newEditorSelection );
       }
     }
   }
@@ -786,7 +832,18 @@ class PixelEditor extends React.Component {
       pannedYOffset = newOffset.y;
     }
 
-    const mainData = [...data];
+    let mainData = [...data];
+
+    // draw the delection data if active
+    if ( editorSelection && editorSelection.isActive ) {
+      const destination = {
+        data: mainData,
+        width: dataWidth,
+        height: dataHeight,
+      };
+
+      mainData = combineGrids( editorSelection, destination );
+    }
 
     if ( isEditing ) {
       if (
@@ -838,6 +895,9 @@ class PixelEditor extends React.Component {
       if ( selectedTool === ERASER_TOOL ) {
         indicatorWidth = pixelToolSettings.eraserSize;
         indicatorHeight = pixelToolSettings.eraserSize;
+      }
+      if ( selectedTool === MOVE_TOOL ) {
+        showIndicator = false;
       }
     }
 
@@ -917,6 +977,7 @@ PixelEditor.propTypes = {
   onEyeDropper: PropTypes.func,
   pixelToolSettings: PropTypes.object.isRequired,
   editorSelection: PropTypes.object,
+  onEditorSelectionChange: PropTypes.func.isRequired,
 };
 
 PixelEditor.defaultProps = {
