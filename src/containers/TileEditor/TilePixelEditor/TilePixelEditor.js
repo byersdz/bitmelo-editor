@@ -8,10 +8,12 @@ import PixelEditor from 'Containers/PixelEditor/PixelEditor';
 
 import { undoTilesets, redoTilesets } from 'State/Tileset';
 import { setTilesetLayerData } from 'State/Tileset/tilesets';
-import { setTilesetEditorSelection } from 'State/Tileset/editorSelection';
+import { setTilesetEditorSelection, clearTilesetEditorSelection } from 'State/Tileset/editorSelection';
 import { selectPaletteIndex } from 'State/Palette/selectedIndex';
 import { selectAltPaletteIndex } from 'State/Palette/altIndex';
 import { PENCIL_TOOL, BUCKET_TOOL } from 'State/PixelTools/selectedTool';
+
+import { combineGrids } from 'Utils/gridHelpers';
 
 import TileSelector from '../TileSelector/TileSelector';
 
@@ -87,21 +89,36 @@ class TilePixelEditor extends React.Component {
     }
   }
 
-  render() {
+  applyAndClearSelection() {
     const {
-      palette,
-      selectedPaletteIndex,
-      altPaletteIndex,
+      _clearTilesetEditorSelection,
+      editorSelection,
+    } = this.props;
+
+    const selectedTileData = this.dataFromSelectedTiles();
+    const newData = combineGrids(
+      editorSelection,
+      {
+        data: selectedTileData.data,
+        width: selectedTileData.width,
+        height: selectedTileData.height,
+      },
+    );
+
+    console.log( selectedTileData );
+    this.handleDataChange( newData );
+
+    _clearTilesetEditorSelection();
+  }
+
+  dataFromSelectedTiles() {
+    const {
       tileset,
       tileSize,
-      editorSelection,
-      _setTilesetEditorSelection,
     } = this.props;
 
     const { selectedTile, selectionWidth, selectionHeight } = tileset;
-
     const dataWidth = tileset.width * tileSize;
-    // const dataHeight = tileset.height * tileSize;
 
     const activeLayer = tileset.layers[tileset.activeLayer];
     const { data: layerData } = activeLayer;
@@ -123,17 +140,33 @@ class TilePixelEditor extends React.Component {
       }
     }
 
+    return { data: selectedData, width: selectedDataWidth, height: selectedDataHeight };
+  }
+
+  render() {
+    const {
+      palette,
+      selectedPaletteIndex,
+      altPaletteIndex,
+      tileSize,
+      editorSelection,
+      _setTilesetEditorSelection,
+    } = this.props;
+
+    const selectedData = this.dataFromSelectedTiles();
+
     return (
       <PixelEditor
-        data={ selectedData }
+        data={ selectedData.data }
         tileSize={ tileSize }
-        dataWidth={ selectedDataWidth }
-        dataHeight={ selectedDataHeight }
+        dataWidth={ selectedData.width }
+        dataHeight={ selectedData.height }
         palette={ palette }
         selectedPaletteIndex={ selectedPaletteIndex }
         altPaletteIndex={ altPaletteIndex }
         editorSelection={ editorSelection }
         onEditorSelectionChange={ v => _setTilesetEditorSelection( v ) }
+        onDeselect={ () => this.applyAndClearSelection() }
         onDataChange={ newData => this.handleDataChange( newData ) }
         onEyeDropper={ e => this.handleEyeDropper( e ) }
       >
@@ -159,6 +192,7 @@ TilePixelEditor.propTypes = {
   selectedTool: PropTypes.string.isRequired,
   editorSelection: PropTypes.object.isRequired,
   _setTilesetEditorSelection: PropTypes.func.isRequired,
+  _clearTilesetEditorSelection: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -186,6 +220,7 @@ function mapDispatchToProps( dispatch ) {
     _selectPaletteIndex: selectPaletteIndex,
     _selectAltPaletteIndex: selectAltPaletteIndex,
     _setTilesetEditorSelection: setTilesetEditorSelection,
+    _clearTilesetEditorSelection: clearTilesetEditorSelection,
   }, dispatch );
 }
 
