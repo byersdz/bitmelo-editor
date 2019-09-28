@@ -32,7 +32,12 @@ class TileSelector extends React.Component {
       _setTilesetSelection,
       _setTilesetMapSelection,
       isInMapEditor,
+      onSelectionWillChange,
     } = this.props;
+
+    if ( onSelectionWillChange ) {
+      onSelectionWillChange();
+    }
 
     if ( isInMapEditor ) {
       _setTilesetMapSelection( selection, activeIndex );
@@ -124,10 +129,12 @@ TileSelector.propTypes = {
   _setTilesetSelection: PropTypes.func.isRequired,
   _setTilesetMapSelection: PropTypes.func.isRequired,
   isInMapEditor: PropTypes.bool,
+  onSelectionWillChange: PropTypes.func,
 };
 
 TileSelector.defaultProps = {
   isInMapEditor: false,
+  onSelectionWillChange: null,
 };
 
 function mapStateToProps( state ) {

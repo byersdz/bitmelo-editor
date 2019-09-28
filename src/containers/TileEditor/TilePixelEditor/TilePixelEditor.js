@@ -31,6 +31,8 @@ class TilePixelEditor extends React.Component {
   }
 
   componentWillUnmount() {
+    this.applyAndClearSelection();
+
     window.removeEventListener( 'keydown', this.handleKeyDown );
   }
 
@@ -95,6 +97,10 @@ class TilePixelEditor extends React.Component {
       editorSelection,
     } = this.props;
 
+    if ( !editorSelection || !editorSelection.isActive ) {
+      return;
+    }
+
     const selectedTileData = this.dataFromSelectedTiles();
     const newData = combineGrids(
       editorSelection,
@@ -105,7 +111,6 @@ class TilePixelEditor extends React.Component {
       },
     );
 
-    console.log( selectedTileData );
     this.handleDataChange( newData );
 
     _clearTilesetEditorSelection();
@@ -170,7 +175,9 @@ class TilePixelEditor extends React.Component {
         onDataChange={ newData => this.handleDataChange( newData ) }
         onEyeDropper={ e => this.handleEyeDropper( e ) }
       >
-        <TileSelector />
+        <TileSelector
+          onSelectionWillChange={ () => this.applyAndClearSelection() }
+        />
       </PixelEditor>
     );
   }
