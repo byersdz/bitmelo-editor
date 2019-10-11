@@ -28,3 +28,10 @@ export function combineGrids( source, destination, preserveTransparency = false 
 
   return result;
 }
+
+export function subGrid( sourceArray, sourceWidth, sourceHeight, x, y, width, height ) {
+  const result = new Array( width * height );
+
+
+  return result;
+}

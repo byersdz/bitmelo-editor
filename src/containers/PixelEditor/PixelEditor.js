@@ -220,7 +220,7 @@ class PixelEditor extends React.Component {
       pixelToolSettings,
       onDataChange,
       editorSelection,
-      onEditorSelectionChange,
+      onCreateEditorSelection,
     } = this.props;
 
     if ( isPanning || isEditing ) {
@@ -352,10 +352,7 @@ class PixelEditor extends React.Component {
             data: dataCopy,
             isActive: true,
           };
-          const emptyData = cloneDeep( data );
-          emptyData.fill( 0 );
-          onDataChange( emptyData );
-          onEditorSelectionChange( newEditorSelection );
+          onCreateEditorSelection( newEditorSelection );
         }
 
         editingData.startSelectionXOffset = newEditorSelection.offsetX;
@@ -790,6 +787,13 @@ class PixelEditor extends React.Component {
       onDataChange( newData );
     }
     else if ( editingTool === MOVE_TOOL ) {
+      if (
+        editingData.startSelectionXOffset === editingData.currentSelectionXOffset
+        && editingData.startSelectionYOffset === editingData.currentSelectionYOffset
+      ) {
+        // selection did not move
+        return;
+      }
       const newEditorSelection = cloneDeep( editorSelection );
       newEditorSelection.offsetX = editingData.currentSelectionXOffset;
       newEditorSelection.offsetY = editingData.currentSelectionYOffset;
@@ -1001,6 +1005,7 @@ PixelEditor.propTypes = {
   editorSelection: PropTypes.object,
   onEditorSelectionChange: PropTypes.func.isRequired,
   onDeselect: PropTypes.func.isRequired,
+  onCreateEditorSelection: PropTypes.func.isRequired,
 };
 
 PixelEditor.defaultProps = {

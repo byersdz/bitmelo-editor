@@ -1,5 +1,7 @@
 import cloneDeep from 'lodash.clonedeep';
 
+import { CREATE_TILESET_EDITOR_SELECTION } from './actions';
+
 // Actions
 export const SET_TILESET_EDITOR_SELECTION = 'SET_TILESET_EDITOR_SELECTION';
 export const CLEAR_TILESET_EDITOR_SELECTION = 'CLEAR_TILESET_EDITOR_SELECTION';
@@ -18,6 +20,10 @@ export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
     case CLEAR_TILESET_EDITOR_SELECTION: {
       return cloneDeep( initialState );
+    }
+    case CREATE_TILESET_EDITOR_SELECTION: {
+      const newState = cloneDeep( action.payload.editorSelection );
+      return newState;
     }
     case SET_TILESET_EDITOR_SELECTION: {
       const newState = cloneDeep( action.payload );

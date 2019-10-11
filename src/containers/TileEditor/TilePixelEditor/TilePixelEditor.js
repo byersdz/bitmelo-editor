@@ -8,6 +8,7 @@ import PixelEditor from 'Containers/PixelEditor/PixelEditor';
 
 import { undoTilesets, redoTilesets } from 'State/Tileset';
 import { setTilesetLayerData } from 'State/Tileset/tilesets';
+import { createTilesetEditorSelection } from 'State/Tileset/actions';
 import { setTilesetEditorSelection, clearTilesetEditorSelection } from 'State/Tileset/editorSelection';
 import { selectPaletteIndex } from 'State/Palette/selectedIndex';
 import { selectAltPaletteIndex } from 'State/Palette/altIndex';
@@ -89,6 +90,24 @@ class TilePixelEditor extends React.Component {
         _selectPaletteIndex( id );
       }
     }
+  }
+
+  handleCreateEditorSelection( editorSelection ) {
+    const {
+      activeIndex,
+      tileset,
+      tileSize,
+      _createTilesetEditorSelection,
+    } = this.props;
+
+    const selection = {
+      selectedTile: tileset.selectedTile,
+      selectionWidth: tileset.selectionWidth,
+      selectionHeight: tileset.selectionHeight,
+      tileSize,
+    };
+
+    _createTilesetEditorSelection( activeIndex, tileset.activeLayer, selection, editorSelection );
   }
 
   applyAndClearSelection() {
@@ -174,6 +193,7 @@ class TilePixelEditor extends React.Component {
         onDeselect={ () => this.applyAndClearSelection() }
         onDataChange={ newData => this.handleDataChange( newData ) }
         onEyeDropper={ e => this.handleEyeDropper( e ) }
+        onCreateEditorSelection={ d => this.handleCreateEditorSelection( d ) }
       >
         <TileSelector
           onSelectionWillChange={ () => this.applyAndClearSelection() }
@@ -200,6 +220,7 @@ TilePixelEditor.propTypes = {
   editorSelection: PropTypes.object.isRequired,
   _setTilesetEditorSelection: PropTypes.func.isRequired,
   _clearTilesetEditorSelection: PropTypes.func.isRequired,
+  _createTilesetEditorSelection: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -228,6 +249,7 @@ function mapDispatchToProps( dispatch ) {
     _selectAltPaletteIndex: selectAltPaletteIndex,
     _setTilesetEditorSelection: setTilesetEditorSelection,
     _clearTilesetEditorSelection: clearTilesetEditorSelection,
+    _createTilesetEditorSelection: createTilesetEditorSelection,
   }, dispatch );
 }
 
