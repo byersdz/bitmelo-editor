@@ -13,3 +13,15 @@ export function createTilesetEditorSelection( tilesetIndex, layerIndex, selectio
     },
   };
 }
+
+export function applyTilesetEditorSelection( tilesetIndex, layerIndex, selection, editorSelection ) {
+  return {
+    type: APPLY_TILESET_EDITOR_SELECTION,
+    payload: {
+      tilesetIndex,
+      layerIndex,
+      selection,
+      editorSelection,
+    },
+  };
+}

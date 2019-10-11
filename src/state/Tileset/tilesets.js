@@ -3,7 +3,7 @@ import cloneDeep from 'lodash.clonedeep';
 import { CHANGE_TILE_SIZE } from 'State/Project/tileSize';
 import { DELETE_PALETTE_COLOR } from 'State/Palette/colors';
 import { RESET_PROJECT, IMPORT_PROJECT_DATA } from 'State/globalActions';
-import { CREATE_TILESET_EDITOR_SELECTION } from './actions';
+import { CREATE_TILESET_EDITOR_SELECTION, APPLY_TILESET_EDITOR_SELECTION } from './actions';
 
 // Actions
 export const SET_TILESET_LAYER_DATA = 'SET_TILESET_LAYER_DATA';
@@ -247,6 +247,48 @@ export default function reducer( state = initialState, action ) {
         for ( let x = 0; x < editorSelection.width; x += 1 ) {
           const destinationIndex = ( y + originY ) * destinationWidth + x + originX;
           layerData[destinationIndex] = 0;
+        }
+      }
+
+      return newState;
+    }
+    case APPLY_TILESET_EDITOR_SELECTION: {
+      const {
+        tilesetIndex,
+        layerIndex,
+        selection,
+        editorSelection,
+      } = action.payload;
+
+      const {
+        selectedTile,
+        tileSize,
+        selectionWidth,
+        selectionHeight,
+      } = selection;
+
+      const newState = cloneDeep( state );
+      const layerData = newState[tilesetIndex].layers[layerIndex].data;
+
+      const originX = ( selectedTile % newState[tilesetIndex].width ) * tileSize;
+      const originY = Math.floor( selectedTile / newState[tilesetIndex].width ) * tileSize;
+      const destinationWidth = newState[tilesetIndex].width * tileSize;
+
+      for ( let y = 0; y < editorSelection.height; y += 1 ) {
+        for ( let x = 0; x < editorSelection.width; x += 1 ) {
+          const offsetX = x + editorSelection.offsetX;
+          const offsetY = y + editorSelection.offsetY;
+
+          if (
+            offsetX >= 0
+            && offsetX < selectionWidth * tileSize
+            && offsetY >= 0
+            && offsetY < selectionHeight * tileSize
+          ) {
+            const sourceIndex = y * editorSelection.width + x;
+            const destinationIndex = ( offsetY + originY ) * destinationWidth + offsetX + originX;
+            layerData[destinationIndex] = editorSelection.data[sourceIndex];
+          }
         }
       }
 

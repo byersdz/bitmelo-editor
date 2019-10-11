@@ -8,13 +8,13 @@ import PixelEditor from 'Containers/PixelEditor/PixelEditor';
 
 import { undoTilesets, redoTilesets } from 'State/Tileset';
 import { setTilesetLayerData } from 'State/Tileset/tilesets';
-import { createTilesetEditorSelection } from 'State/Tileset/actions';
+import { createTilesetEditorSelection, applyTilesetEditorSelection } from 'State/Tileset/actions';
 import { setTilesetEditorSelection, clearTilesetEditorSelection } from 'State/Tileset/editorSelection';
 import { selectPaletteIndex } from 'State/Palette/selectedIndex';
 import { selectAltPaletteIndex } from 'State/Palette/altIndex';
 import { PENCIL_TOOL, BUCKET_TOOL } from 'State/PixelTools/selectedTool';
 
-import { combineGrids } from 'Utils/gridHelpers';
+// import { combineGrids } from 'Utils/gridHelpers';
 
 import TileSelector from '../TileSelector/TileSelector';
 
@@ -112,6 +112,23 @@ class TilePixelEditor extends React.Component {
 
   applyAndClearSelection() {
     const {
+      activeIndex,
+      tileset,
+      tileSize,
+      editorSelection,
+      _applyTilesetEditorSelection,
+    } = this.props;
+
+    const selection = {
+      selectedTile: tileset.selectedTile,
+      selectionWidth: tileset.selectionWidth,
+      selectionHeight: tileset.selectionHeight,
+      tileSize,
+    };
+
+    _applyTilesetEditorSelection( activeIndex, tileset.activeLayer, selection, editorSelection );
+    /*
+    const {
       _clearTilesetEditorSelection,
       editorSelection,
     } = this.props;
@@ -133,6 +150,7 @@ class TilePixelEditor extends React.Component {
     this.handleDataChange( newData );
 
     _clearTilesetEditorSelection();
+    */
   }
 
   dataFromSelectedTiles() {
@@ -219,8 +237,8 @@ TilePixelEditor.propTypes = {
   selectedTool: PropTypes.string.isRequired,
   editorSelection: PropTypes.object.isRequired,
   _setTilesetEditorSelection: PropTypes.func.isRequired,
-  _clearTilesetEditorSelection: PropTypes.func.isRequired,
   _createTilesetEditorSelection: PropTypes.func.isRequired,
+  _applyTilesetEditorSelection: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -250,6 +268,7 @@ function mapDispatchToProps( dispatch ) {
     _setTilesetEditorSelection: setTilesetEditorSelection,
     _clearTilesetEditorSelection: clearTilesetEditorSelection,
     _createTilesetEditorSelection: createTilesetEditorSelection,
+    _applyTilesetEditorSelection: applyTilesetEditorSelection,
   }, dispatch );
 }
 
