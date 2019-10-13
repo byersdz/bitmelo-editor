@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import cloneDeep from 'lodash.clonedeep';
 
 import PixelEditor from 'Containers/PixelEditor/PixelEditor';
 
@@ -130,12 +131,35 @@ class TilePixelEditor extends React.Component {
       tileSize,
     };
 
+    const combinedSelection = cloneDeep( newEditorSelection );
+
+    for ( let y = 0; y < editorSelection.height; y += 1 ) {
+      for ( let x = 0; x < editorSelection.width; x += 1 ) {
+        const sourceItem = editorSelection.data[y * editorSelection.width + x];
+
+        const targetX = x + editorSelection.offsetX - newEditorSelection.offsetX;
+        const targetY = y + editorSelection.offsetY - newEditorSelection.offsetY;
+
+        if (
+          targetX >= 0
+          && targetX < newEditorSelection.width
+          && targetY >= 0
+          && targetY < newEditorSelection.height
+        ) {
+          const destinationIndex = targetY * newEditorSelection.width + targetX;
+          if ( newEditorSelection.data[destinationIndex] === 0 ) {
+            combinedSelection.data[destinationIndex] = sourceItem;
+          }
+        }
+      }
+    }
+
     _repositionTilesetEditorSelection(
       activeIndex,
       tileset.activeLayer,
       selection,
       editorSelection,
-      newEditorSelection,
+      combinedSelection,
     );
   }
 
