@@ -8,7 +8,11 @@ import PixelEditor from 'Containers/PixelEditor/PixelEditor';
 
 import { undoTilesets, redoTilesets } from 'State/Tileset';
 import { setTilesetLayerData } from 'State/Tileset/tilesets';
-import { createTilesetEditorSelection, applyTilesetEditorSelection } from 'State/Tileset/actions';
+import {
+  createTilesetEditorSelection,
+  applyTilesetEditorSelection,
+  repositionTilesetEditorSelection,
+} from 'State/Tileset/actions';
 import { setTilesetEditorSelection, clearTilesetEditorSelection } from 'State/Tileset/editorSelection';
 import { selectPaletteIndex } from 'State/Palette/selectedIndex';
 import { selectAltPaletteIndex } from 'State/Palette/altIndex';
@@ -110,6 +114,31 @@ class TilePixelEditor extends React.Component {
     _createTilesetEditorSelection( activeIndex, tileset.activeLayer, selection, editorSelection );
   }
 
+  handleRepositionEditorSelection( newEditorSelection ) {
+    const {
+      activeIndex,
+      tileset,
+      tileSize,
+      editorSelection,
+      _repositionTilesetEditorSelection,
+    } = this.props;
+
+    const selection = {
+      selectedTile: tileset.selectedTile,
+      selectionWidth: tileset.selectionWidth,
+      selectionHeight: tileset.selectionHeight,
+      tileSize,
+    };
+
+    _repositionTilesetEditorSelection(
+      activeIndex,
+      tileset.activeLayer,
+      selection,
+      editorSelection,
+      newEditorSelection,
+    );
+  }
+
   applyAndClearSelection() {
     const {
       activeIndex,
@@ -127,30 +156,6 @@ class TilePixelEditor extends React.Component {
     };
 
     _applyTilesetEditorSelection( activeIndex, tileset.activeLayer, selection, editorSelection );
-    /*
-    const {
-      _clearTilesetEditorSelection,
-      editorSelection,
-    } = this.props;
-
-    if ( !editorSelection || !editorSelection.isActive ) {
-      return;
-    }
-
-    const selectedTileData = this.dataFromSelectedTiles();
-    const newData = combineGrids(
-      editorSelection,
-      {
-        data: selectedTileData.data,
-        width: selectedTileData.width,
-        height: selectedTileData.height,
-      },
-    );
-
-    this.handleDataChange( newData );
-
-    _clearTilesetEditorSelection();
-    */
   }
 
   dataFromSelectedTiles() {
@@ -212,6 +217,7 @@ class TilePixelEditor extends React.Component {
         onDataChange={ newData => this.handleDataChange( newData ) }
         onEyeDropper={ e => this.handleEyeDropper( e ) }
         onCreateEditorSelection={ d => this.handleCreateEditorSelection( d ) }
+        onRepositionEditorSelection={ d => this.handleRepositionEditorSelection( d ) }
       >
         <TileSelector
           onSelectionWillChange={ () => this.applyAndClearSelection() }
@@ -239,6 +245,7 @@ TilePixelEditor.propTypes = {
   _setTilesetEditorSelection: PropTypes.func.isRequired,
   _createTilesetEditorSelection: PropTypes.func.isRequired,
   _applyTilesetEditorSelection: PropTypes.func.isRequired,
+  _repositionTilesetEditorSelection: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -269,6 +276,7 @@ function mapDispatchToProps( dispatch ) {
     _clearTilesetEditorSelection: clearTilesetEditorSelection,
     _createTilesetEditorSelection: createTilesetEditorSelection,
     _applyTilesetEditorSelection: applyTilesetEditorSelection,
+    _repositionTilesetEditorSelection: repositionTilesetEditorSelection,
   }, dispatch );
 }
 

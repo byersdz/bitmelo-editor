@@ -64,6 +64,10 @@ class TilemapPixelEditor extends React.Component {
     console.log( data );
   }
 
+  handleRepositionEditorSelection( newEditorSelection ) {
+    console.log( newEditorSelection );
+  }
+
   render() {
     const {
       palette,
@@ -100,6 +104,7 @@ class TilemapPixelEditor extends React.Component {
         onEditorSelectionChange={ v => console.log( v ) }
         onDeselect={ () => console.log( 'deselect' ) }
         onCreateEditorSelection={ d => this.handleCreateEditorSelection( d ) }
+        onRepositionEditorSelection={ d => this.handleRepositionEditorSelection( d ) }
       >
         <TilemapSelector />
         <TileSelector isInMapEditor />
