@@ -18,6 +18,7 @@ import InfoIcon from './SVG/info-o.svg';
 import BackIcon from './SVG/back-o.svg';
 import BucketIcon from './SVG/bucket-o.svg';
 import GridIcon from './SVG/grid-o.svg';
+import MoveIcon from './SVG/move-o.svg';
 
 import './Icon.scss';
 
@@ -116,6 +117,12 @@ const Icon = ( props ) => {
     case 'grid': {
       svgFile = GridIcon;
       noFill = true;
+      break;
+    }
+
+    case 'move': {
+      svgFile = MoveIcon;
+      noStroke = true;
       break;
     }
 

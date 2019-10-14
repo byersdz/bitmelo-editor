@@ -67,7 +67,7 @@ class PixelToolPicker extends React.Component {
       { key: PENCIL_TOOL, title: 'Pencil', icon: 'pencil' },
       { key: ERASER_TOOL, title: 'Eraser', icon: 'eraser' },
       { key: BUCKET_TOOL, title: 'Paint Bucket', icon: 'bucket' },
-      { key: MOVE_TOOL, title: 'Move', icon: 'play' },
+      { key: MOVE_TOOL, title: 'Move', icon: 'move' },
       { key: RECT_SELECT_TOOL, title: 'Rect Select', icon: 'play' },
     ];
 

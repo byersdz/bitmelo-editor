@@ -1,0 +1,10 @@
+<svg id="SVGRoot" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <path d="m16 1-5 7h10z"/>
+  <path d="m31 16-7-5v10z"/>
+  <path d="m16 31 5-7h-10z"/>
+  <path d="m1 16 7-5v10z"/>
+  <path d="m7 17h18v-2h-18z"/>
+  <path d="m15 7v18h2v-18z"/>
+ </g>
+</svg>
