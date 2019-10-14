@@ -296,6 +296,8 @@ class PixelEditor extends React.Component {
       editingData.currentX = pixelX;
       editingData.currentY = pixelY;
 
+      editingData.editorSelection = cloneDeep( editorSelection );
+
       if ( editingTool === ERASER_TOOL || editingTool === TILE_ERASE_TOOL ) {
         editingData.paletteId = 0;
       }
@@ -777,17 +779,23 @@ class PixelEditor extends React.Component {
       || editingTool === TILE_DRAW_TOOL
       || editingTool === TILE_ERASE_TOOL
     ) {
-      const newData = new Array( data.length );
-      const { buffer } = editingData;
-      for ( let i = 0; i < newData.length; i += 1 ) {
-        if ( buffer[i] >= 0 ) {
-          newData[i] = buffer[i];
-        }
-        else {
-          newData[i] = data[i];
-        }
+      if ( editingData.editorSelection && editingData.editorSelection.isActive ) {
+        // use the editor selection
+        onEditorSelectionChange( cloneDeep( editingData.editorSelection ) );
       }
-      onDataChange( newData );
+      else {
+        const newData = new Array( data.length );
+        const { buffer } = editingData;
+        for ( let i = 0; i < newData.length; i += 1 ) {
+          if ( buffer[i] >= 0 ) {
+            newData[i] = buffer[i];
+          }
+          else {
+            newData[i] = data[i];
+          }
+        }
+        onDataChange( newData );
+      }
     }
     else if ( editingTool === MOVE_TOOL ) {
       if (
@@ -932,7 +940,7 @@ class PixelEditor extends React.Component {
 
     let editorSelectionCopy = cloneDeep( editorSelection );
 
-    // draw the delection data if active
+    // draw the selection data if active
     if ( editorSelection && editorSelection.isActive ) {
       const destination = {
         data: mainData,
@@ -940,9 +948,20 @@ class PixelEditor extends React.Component {
         height: dataHeight,
       };
 
-      if ( isEditing && editingTool === MOVE_TOOL ) {
-        editorSelectionCopy.offsetX = editingData.currentSelectionXOffset;
-        editorSelectionCopy.offsetY = editingData.currentSelectionYOffset;
+      if ( isEditing ) {
+        if ( editingTool === MOVE_TOOL ) {
+          editorSelectionCopy.offsetX = editingData.currentSelectionXOffset;
+          editorSelectionCopy.offsetY = editingData.currentSelectionYOffset;
+        }
+        else if (
+          editingTool === PENCIL_TOOL
+          || editingTool === ERASER_TOOL
+        ) {
+          // use the temporary editingData editorSelection instead
+          if ( editingData.editorSelection && editingData.editorSelection.isActive ) {
+            editorSelectionCopy = cloneDeep( editingData.editorSelection );
+          }
+        }
       }
 
       mainData = combineGrids( editorSelectionCopy, destination );
