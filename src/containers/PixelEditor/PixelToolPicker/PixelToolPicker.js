@@ -48,6 +48,9 @@ class PixelToolPicker extends React.Component {
     else if ( event.which === 86 ) { // v
       this.handleSelectedToolChange( MOVE_TOOL );
     }
+    else if ( event.which === 77 ) { // m
+      this.handleSelectedToolChange( RECT_SELECT_TOOL );
+    }
   }
 
   handleSelectedToolChange( tool ) {
