@@ -222,6 +222,7 @@ class PixelEditor extends React.Component {
       onDataChange,
       editorSelection,
       onCreateEditorSelection,
+      onEditorSelectionChange,
     } = this.props;
 
     if ( isPanning || isEditing ) {
@@ -307,9 +308,28 @@ class PixelEditor extends React.Component {
 
       // apply bucket
       if ( !isTileEditor && editingTool === BUCKET_TOOL ) {
-        const newData = applyBucketToData( data, dataWidth, dataHeight, editingData );
-        if ( newData ) {
-          onDataChange( newData );
+        if ( editorSelection && editorSelection.isActive ) {
+          // apply the bucket to the editorSelection
+          editingData.currentX -= editorSelection.offsetX;
+          editingData.currentY -= editorSelection.offsetY;
+
+          const newEditorSelection = cloneDeep( editorSelection );
+          const newData = applyBucketToData(
+            newEditorSelection.data,
+            newEditorSelection.width,
+            newEditorSelection.height,
+            editingData,
+          );
+          if ( newData ) {
+            newEditorSelection.data = newData;
+            onEditorSelectionChange( newEditorSelection );
+          }
+        }
+        else {
+          const newData = applyBucketToData( data, dataWidth, dataHeight, editingData );
+          if ( newData ) {
+            onDataChange( newData );
+          }
         }
         return;
       }
