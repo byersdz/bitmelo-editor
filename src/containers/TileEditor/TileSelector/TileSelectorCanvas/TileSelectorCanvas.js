@@ -1,6 +1,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import cloneDeep from 'lodash.clonedeep';
 
 import {
   drawPixelDataToCanvas,
@@ -78,6 +79,7 @@ class TileSelectorCanvas extends React.Component {
       selectionWidth,
       selectionHeight,
       tileSize,
+      editorSelection,
     } = this.props;
 
     const { scale } = this.state;
@@ -90,12 +92,42 @@ class TileSelectorCanvas extends React.Component {
     const context = this.canvasRef.current.getContext( '2d' );
     context.clearRect( 0, 0, scaledWidth, scaledHeight );
 
+    const dataCopy = cloneDeep( data );
+
+    // draw the editorSelection
+    if ( editorSelection && editorSelection.isActive ) {
+      const originX = ( selectedTile % ( width / tileSize ) ) * tileSize;
+      const originY = Math.floor( selectedTile / 8 ) * tileSize;
+
+      console.log( originX, originY );
+
+      for ( let y = 0; y < editorSelection.height; y += 1 ) {
+        for ( let x = 0; x < editorSelection.width; x += 1 ) {
+          const offsetX = x + editorSelection.offsetX;
+          const offsetY = y + editorSelection.offsetY;
+
+          if (
+            offsetX >= 0
+            && offsetX < selectionWidth * tileSize
+            && offsetY >= 0
+            && offsetY < selectionHeight * tileSize
+          ) {
+            const sourceIndex = y * editorSelection.width + x;
+            if ( editorSelection.data[sourceIndex] ) { // ignore transparent pixels
+              const destinationIndex = ( offsetY + originY ) * width + offsetX + originX;
+              dataCopy[destinationIndex] = editorSelection.data[sourceIndex];
+            }
+          }
+        }
+      }
+    }
+
     const settings = {
       scale,
       dataWidth: width,
       dataHeight: height,
       palette,
-      data,
+      data: dataCopy,
     };
 
     drawPixelDataToCanvas( settings, this.canvasRef.current );
@@ -297,6 +329,7 @@ TileSelectorCanvas.propTypes = {
   selectionHeight: PropTypes.number.isRequired,
   tileSize: PropTypes.number.isRequired,
   onSelectionChange: PropTypes.func.isRequired,
+  editorSelection: PropTypes.object.isRequired,
 };
 
 export default TileSelectorCanvas;

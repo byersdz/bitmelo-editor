@@ -57,6 +57,7 @@ class TileSelector extends React.Component {
       tileSize,
       palette,
       isInMapEditor,
+      editorSelection,
     } = this.props;
 
     const { editModalIsOpen } = this.state;
@@ -91,6 +92,7 @@ class TileSelector extends React.Component {
           selectionHeight={ isInMapEditor ? tileset.mapSelectionHeight : tileset.selectionHeight }
           tileSize={ tileSize }
           onSelectionChange={ s => this.handleSelectionChange( s ) }
+          editorSelection={ editorSelection }
         />
         { editButtonRender }
       </div>
@@ -130,6 +132,7 @@ TileSelector.propTypes = {
   _setTilesetMapSelection: PropTypes.func.isRequired,
   isInMapEditor: PropTypes.bool,
   onSelectionWillChange: PropTypes.func,
+  editorSelection: PropTypes.object.isRequired,
 };
 
 TileSelector.defaultProps = {
@@ -149,6 +152,7 @@ function mapStateToProps( state ) {
     activeIndex,
     tileset: activeTileset,
     tileSize,
+    editorSelection: state.tileset.present.editorSelection,
   };
 }
 
