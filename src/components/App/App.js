@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { importProjectData } from 'State/globalActions';
+import { importProjectData, clearAllUndoHistory } from 'State/globalActions';
 import { setNavigationPanelIsOpen } from 'State/Layout/navigationPanelIsOpen';
 import { setReferencePanelIsOpen } from 'State/Layout/referencePanelIsOpen';
+import { applyTilesetEditorSelection } from 'State/Tileset/actions';
 
 import NavigationTab from 'Containers/NavigationTab/NavigationTab';
 import MainContainer from 'Containers/MainContainer/MainContainer';
@@ -26,13 +27,41 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { _importProjectData, _setNavigationPanelIsOpen, _setReferencePanelIsOpen } = this.props;
+    const {
+      _importProjectData,
+      _setNavigationPanelIsOpen,
+      _setReferencePanelIsOpen,
+      _clearAllUndoHistory,
+      _applyTilesetEditorSelection,
+    } = this.props;
     const savedState = loadStateFromLocalStorage();
     if ( savedState ) {
-      _importProjectData( savedState );
+      // apply the editorSelection if it exists
+      // this can happen if the user reloads or exits the page with an active editorSelection
+      if ( savedState.tileset.editorSelection && savedState.tileset.editorSelection.isActive ) {
+        const { activeIndex } = savedState.tileset;
+        const tileset = savedState.tileset.tilesets[activeIndex];
+        const layerIndex = tileset.activeLayer;
+
+        const selection = {
+          selectedTile: tileset.selectedTile,
+          tileSize: savedState.project.tileSize,
+          selectionWidth: tileset.selectionWidth,
+          selectionHeight: tileset.selectionHeight,
+        };
+
+        _importProjectData( savedState );
+        _applyTilesetEditorSelection( activeIndex, layerIndex, selection, savedState.tileset.editorSelection );
+      }
+      else {
+        _importProjectData( savedState );
+      }
+
+      _clearAllUndoHistory();
     }
     else {
       _importProjectData( WelcomeDemo );
+      _clearAllUndoHistory();
     }
 
     // default to closed panels on a small screen
@@ -74,6 +103,8 @@ App.propTypes = {
   _importProjectData: PropTypes.func.isRequired,
   _setNavigationPanelIsOpen: PropTypes.func.isRequired,
   _setReferencePanelIsOpen: PropTypes.func.isRequired,
+  _clearAllUndoHistory: PropTypes.func.isRequired,
+  _applyTilesetEditorSelection: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps( dispatch ) {
@@ -81,6 +112,8 @@ function mapDispatchToProps( dispatch ) {
     _importProjectData: importProjectData,
     _setNavigationPanelIsOpen: setNavigationPanelIsOpen,
     _setReferencePanelIsOpen: setReferencePanelIsOpen,
+    _clearAllUndoHistory: clearAllUndoHistory,
+    _applyTilesetEditorSelection: applyTilesetEditorSelection,
   }, dispatch );
 }
 

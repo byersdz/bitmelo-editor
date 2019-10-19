@@ -99,8 +99,6 @@ class TileSelectorCanvas extends React.Component {
       const originX = ( selectedTile % ( width / tileSize ) ) * tileSize;
       const originY = Math.floor( selectedTile / 8 ) * tileSize;
 
-      console.log( originX, originY );
-
       for ( let y = 0; y < editorSelection.height; y += 1 ) {
         for ( let x = 0; x < editorSelection.width; x += 1 ) {
           const offsetX = x + editorSelection.offsetX;
