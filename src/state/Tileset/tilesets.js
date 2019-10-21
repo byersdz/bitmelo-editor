@@ -251,6 +251,7 @@ export default function reducer( state = initialState, action ) {
       const originY = Math.floor( selectedTile / newState[tilesetIndex].width ) * tileSize;
       const destinationWidth = newState[tilesetIndex].width * tileSize;
 
+      // apply the old selection
       for ( let y = 0; y < oldEditorSelection.height; y += 1 ) {
         for ( let x = 0; x < oldEditorSelection.width; x += 1 ) {
           const offsetX = x + oldEditorSelection.offsetX;
@@ -271,6 +272,7 @@ export default function reducer( state = initialState, action ) {
         }
       }
 
+      // remove the new selection
       for ( let y = 0; y < newEditorSelection.height; y += 1 ) {
         for ( let x = 0; x < newEditorSelection.width; x += 1 ) {
           const adjustedY = y + newEditorSelection.offsetY + originY;
