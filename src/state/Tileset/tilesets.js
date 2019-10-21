@@ -235,6 +235,7 @@ export default function reducer( state = initialState, action ) {
         selection,
         oldEditorSelection,
         newEditorSelection,
+        preserveData,
       } = action.payload;
 
       const {
@@ -272,13 +273,15 @@ export default function reducer( state = initialState, action ) {
         }
       }
 
-      // remove the new selection
-      for ( let y = 0; y < newEditorSelection.height; y += 1 ) {
-        for ( let x = 0; x < newEditorSelection.width; x += 1 ) {
-          const adjustedY = y + newEditorSelection.offsetY + originY;
-          const adjustedX = x + newEditorSelection.offsetX + originX;
-          const destinationIndex = adjustedY * destinationWidth + adjustedX;
-          layerData[destinationIndex] = 0;
+      if ( !preserveData ) {
+        // remove the new selection
+        for ( let y = 0; y < newEditorSelection.height; y += 1 ) {
+          for ( let x = 0; x < newEditorSelection.width; x += 1 ) {
+            const adjustedY = y + newEditorSelection.offsetY + originY;
+            const adjustedX = x + newEditorSelection.offsetX + originX;
+            const destinationIndex = adjustedY * destinationWidth + adjustedX;
+            layerData[destinationIndex] = 0;
+          }
         }
       }
 

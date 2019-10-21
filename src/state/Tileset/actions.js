@@ -35,6 +35,7 @@ export function repositionTilesetEditorSelection(
   selection,
   oldEditorSelection,
   newEditorSelection,
+  preserveData = false,
 ) {
   return {
     type: REPOSITION_TILESET_EDITOR_SELECTION,
@@ -44,6 +45,7 @@ export function repositionTilesetEditorSelection(
       selection,
       oldEditorSelection,
       newEditorSelection,
+      preserveData,
     },
   };
 }

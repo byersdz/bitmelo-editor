@@ -131,6 +131,7 @@ class PixelToolPicker extends React.Component {
         selection,
         oldEditorSelection,
         newEditorSelection,
+        true,
       );
     }
     else {
