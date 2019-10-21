@@ -19,6 +19,7 @@ import {
 import { setTileEditorLayoutSettings } from 'State/Layout/tileEditor';
 import { setClipboardPixels } from 'State/Clipboard/pixels';
 import { setTilesetEditorSelection } from 'State/Tileset/editorSelection';
+import { repositionTilesetEditorSelection } from 'State/Tileset/actions';
 
 
 import './PixelToolPicker.scss';
@@ -92,7 +93,9 @@ class PixelToolPicker extends React.Component {
     const {
       tilesetState,
       clipboard,
+      tileSize,
       _setTilesetEditorSelection,
+      _repositionTilesetEditorSelection,
     } = this.props;
 
     if ( !clipboard.pixels.isActive ) {
@@ -101,6 +104,34 @@ class PixelToolPicker extends React.Component {
 
     if ( tilesetState.editorSelection && tilesetState.editorSelection.isActive ) {
       // reposition the editorSelection
+      const tilesetIndex = tilesetState.activeIndex;
+      const tileset = tilesetState.tilesets[tilesetIndex];
+
+      const selection = {
+        tileSize,
+        selectedTile: tileset.selectedTile,
+        selectionWidth: tileset.selectionWidth,
+        selectionHeight: tileset.selectionHeight,
+      };
+
+      const oldEditorSelection = tilesetState.editorSelection;
+
+      const newEditorSelection = {
+        width: clipboard.pixels.width,
+        height: clipboard.pixels.height,
+        offsetX: clipboard.pixels.offsetX,
+        offsetY: clipboard.pixels.offsetY,
+        data: cloneDeep( clipboard.pixels.data ),
+        isActive: true,
+      };
+
+      _repositionTilesetEditorSelection(
+        tilesetIndex,
+        tileset.activeLayer,
+        selection,
+        oldEditorSelection,
+        newEditorSelection,
+      );
     }
     else {
       // set the editorSelection
@@ -170,6 +201,8 @@ PixelToolPicker.propTypes = {
   _setClipboardPixels: PropTypes.func.isRequired,
   clipboard: PropTypes.object.isRequired,
   _setTilesetEditorSelection: PropTypes.func.isRequired,
+  tileSize: PropTypes.number.isRequired,
+  _repositionTilesetEditorSelection: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -178,6 +211,7 @@ function mapStateToProps( state ) {
     tileLayoutSettings: state.layout.tileEditor,
     tilesetState: state.tileset.present,
     clipboard: state.clipboard,
+    tileSize: state.project.tileSize,
   };
 }
 
@@ -187,6 +221,7 @@ function mapDispatchToProps( dispatch ) {
     _setTileEditorLayoutSettings: setTileEditorLayoutSettings,
     _setClipboardPixels: setClipboardPixels,
     _setTilesetEditorSelection: setTilesetEditorSelection,
+    _repositionTilesetEditorSelection: repositionTilesetEditorSelection,
   }, dispatch );
 }
 
