@@ -51,10 +51,25 @@ class PixelToolPicker extends React.Component {
       this.handleSelectedToolChange( BUCKET_TOOL );
     }
     else if ( event.which === 86 ) { // v
-      this.handleSelectedToolChange( MOVE_TOOL );
+      if ( event.ctrlKey ) {
+        this.handlePaste();
+      }
+      else {
+        this.handleSelectedToolChange( MOVE_TOOL );
+      }
     }
     else if ( event.which === 77 ) { // m
       this.handleSelectedToolChange( RECT_SELECT_TOOL );
+    }
+    else if ( event.which === 67 ) { // c
+      if ( event.ctrlKey ) {
+        this.handleCopy();
+      }
+    }
+    else if ( event.which === 88 ) { // x
+      if ( event.ctrlKey ) {
+        this.handleCut();
+      }
     }
   }
 
@@ -180,6 +195,9 @@ class PixelToolPicker extends React.Component {
 
       _setTilesetEditorSelection( newEditorSelection );
     }
+
+    // always use move tool after pasting
+    this.handleSelectedToolChange( MOVE_TOOL );
   }
 
   render() {
