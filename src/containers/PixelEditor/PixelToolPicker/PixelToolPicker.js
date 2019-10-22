@@ -21,6 +21,7 @@ import { setClipboardPixels } from 'State/Clipboard/pixels';
 import { setTilesetEditorSelection } from 'State/Tileset/editorSelection';
 import { repositionTilesetEditorSelection } from 'State/Tileset/actions';
 
+import { getSelectedTileData } from 'Utils/tilesetHelpers';
 
 import './PixelToolPicker.scss';
 
@@ -68,7 +69,7 @@ class PixelToolPicker extends React.Component {
   }
 
   handleCopy() {
-    const { tilesetState, _setClipboardPixels } = this.props;
+    const { tilesetState, _setClipboardPixels, tileSize } = this.props;
 
     if ( tilesetState.editorSelection && tilesetState.editorSelection.isActive ) {
       const { editorSelection } = tilesetState;
@@ -85,7 +86,19 @@ class PixelToolPicker extends React.Component {
       _setClipboardPixels( pixels );
     }
     else {
-      console.log( 'copy all' );
+      const tileset = tilesetState.tilesets[tilesetState.activeIndex];
+      const allData = getSelectedTileData( tileset, tileSize );
+
+      const pixels = {
+        width: allData.width,
+        height: allData.height,
+        offsetX: 0,
+        offsetY: 0,
+        data: cloneDeep( allData.data ),
+        isActive: true,
+      };
+
+      _setClipboardPixels( pixels );
     }
   }
 
@@ -147,7 +160,6 @@ class PixelToolPicker extends React.Component {
 
       _setTilesetEditorSelection( newEditorSelection );
     }
-    console.log( 'paste' );
   }
 
   render() {
