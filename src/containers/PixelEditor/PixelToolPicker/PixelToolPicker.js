@@ -18,7 +18,7 @@ import {
 } from 'State/PixelTools/selectedTool';
 import { setTileEditorLayoutSettings } from 'State/Layout/tileEditor';
 import { setClipboardPixels } from 'State/Clipboard/pixels';
-import { setTilesetEditorSelection } from 'State/Tileset/editorSelection';
+import { setTilesetEditorSelection, clearTilesetEditorSelection } from 'State/Tileset/editorSelection';
 import { repositionTilesetEditorSelection } from 'State/Tileset/actions';
 
 import { getSelectedTileData } from 'Utils/tilesetHelpers';
@@ -99,6 +99,26 @@ class PixelToolPicker extends React.Component {
       };
 
       _setClipboardPixels( pixels );
+    }
+  }
+
+  handleCut() {
+    const { tilesetState, _setClipboardPixels, _clearTilesetEditorSelection } = this.props;
+
+    if ( tilesetState.editorSelection && tilesetState.editorSelection.isActive ) {
+      const { editorSelection } = tilesetState;
+
+      const pixels = {
+        width: editorSelection.width,
+        height: editorSelection.height,
+        offsetX: editorSelection.offsetX,
+        offsetY: editorSelection.offsetY,
+        data: cloneDeep( editorSelection.data ),
+        isActive: true,
+      };
+
+      _setClipboardPixels( pixels );
+      _clearTilesetEditorSelection();
     }
   }
 
@@ -188,6 +208,12 @@ class PixelToolPicker extends React.Component {
           hideTitle
         />
         <Button
+          title="Cut"
+          icon="eraser"
+          click={ () => this.handleCut() }
+          hideTitle
+        />
+        <Button
           title="Paste"
           icon="play"
           click={ () => this.handlePaste() }
@@ -216,6 +242,7 @@ PixelToolPicker.propTypes = {
   _setTilesetEditorSelection: PropTypes.func.isRequired,
   tileSize: PropTypes.number.isRequired,
   _repositionTilesetEditorSelection: PropTypes.func.isRequired,
+  _clearTilesetEditorSelection: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -235,6 +262,7 @@ function mapDispatchToProps( dispatch ) {
     _setClipboardPixels: setClipboardPixels,
     _setTilesetEditorSelection: setTilesetEditorSelection,
     _repositionTilesetEditorSelection: repositionTilesetEditorSelection,
+    _clearTilesetEditorSelection: clearTilesetEditorSelection,
   }, dispatch );
 }
 
