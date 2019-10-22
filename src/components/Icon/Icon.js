@@ -20,6 +20,7 @@ import BucketIcon from './SVG/bucket-o.svg';
 import GridIcon from './SVG/grid-o.svg';
 import MoveIcon from './SVG/move-o.svg';
 import RectSelectIcon from './SVG/rect-select-o.svg';
+import CopyIcon from './SVG/copy-o.svg';
 
 import './Icon.scss';
 
@@ -129,6 +130,12 @@ const Icon = ( props ) => {
 
     case 'rect-select': {
       svgFile = RectSelectIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'copy': {
+      svgFile = CopyIcon;
       noStroke = true;
       break;
     }

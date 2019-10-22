@@ -221,7 +221,7 @@ class PixelToolPicker extends React.Component {
       >
         <Button
           title="Copy"
-          icon="rect-select"
+          icon="copy"
           click={ () => this.handleCopy() }
           hideTitle
         />
