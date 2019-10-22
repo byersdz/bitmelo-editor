@@ -21,6 +21,7 @@ import GridIcon from './SVG/grid-o.svg';
 import MoveIcon from './SVG/move-o.svg';
 import RectSelectIcon from './SVG/rect-select-o.svg';
 import CopyIcon from './SVG/copy-o.svg';
+import CutIcon from './SVG/cut-o.svg';
 
 import './Icon.scss';
 
@@ -136,6 +137,12 @@ const Icon = ( props ) => {
 
     case 'copy': {
       svgFile = CopyIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'cut': {
+      svgFile = CutIcon;
       noStroke = true;
       break;
     }

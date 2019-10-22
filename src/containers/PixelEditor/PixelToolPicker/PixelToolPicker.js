@@ -227,7 +227,7 @@ class PixelToolPicker extends React.Component {
         />
         <Button
           title="Cut"
-          icon="eraser"
+          icon="cut"
           click={ () => this.handleCut() }
           hideTitle
         />
