@@ -44,6 +44,8 @@ engine.screen.hideCursor = ${ project.misc.hideCursor };
 
 engine.screen.setPalette(${ paletteString });
 
+engine.tileData.tileSize = ${ project.tileSize };
+
 const tilesets = ${ tilesetsString };
 for( let i = 0; i < tilesets.length; i += 1 ) {
   engine.tileData.addTileset( tilesets[i] );

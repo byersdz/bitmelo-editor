@@ -21,6 +21,24 @@ The Bitmelo Editor will automatically create an instance of the Engine for you i
           }
         </div>
         <h2>Properties</h2>
+        <Property
+          name="engine.realTimeSinceInit"
+          type="number"
+          description={
+`
+The number of seconds since init was called.
+`
+          }
+        />
+        <Property
+          name="engine.realTimeSinceGameStart"
+          type="number"
+          description={
+`
+The number of seconds since the game was started.
+`
+          }
+        />
         <h3>Callback Functions</h3>
         <Property
           name="engine.onInit"

@@ -1,14 +1,16 @@
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import ToolSettings from 'Components/ToolSettings/ToolSettings';
 import NumberPicker from 'Components/NumberPicker/NumberPicker';
+import Button from 'Components/Button/Button';
 
 import { PENCIL_TOOL, ERASER_TOOL } from 'State/PixelTools/selectedTool';
 import { setPixelToolSettings } from 'State/PixelTools/pixelToolSettings';
+import { deselectTilesetEditorSelection } from 'State/Tileset/actions';
 
 
 import './PixelToolSettings.scss';
@@ -69,6 +71,37 @@ class PixelToolSettings extends React.Component {
     _setPixelToolSettings( { ...pixelToolSettings, eraserSize: newValue } );
   }
 
+  handleDeselect() {
+    const { _deselectTilesetEditorSelection, tilesetState, tileSize } = this.props;
+    if ( tilesetState.editorSelection && tilesetState.editorSelection.isActive ) {
+      _deselectTilesetEditorSelection( tilesetState, tileSize );
+    }
+  }
+
+  getTransformsRender() {
+    const { tilesetState } = this.props;
+
+    let selectionButtons = null;
+    if ( tilesetState.editorSelection && tilesetState.editorSelection.isActive ) {
+      selectionButtons = (
+        <Fragment>
+          <Button
+            title="Deselect"
+            icon="deselect"
+            hideTitle
+            click={ () => this.handleDeselect() }
+          />
+        </Fragment>
+      );
+    }
+
+    return (
+      <div className="transforms">
+        { selectionButtons }
+      </div>
+    );
+  }
+
   render() {
     const { selectedTool, pixelToolSettings } = this.props;
 
@@ -98,7 +131,10 @@ class PixelToolSettings extends React.Component {
 
     return (
       <ToolSettings>
-        { toolsRender }
+        <div className="tools">
+          { toolsRender }
+        </div>
+        { this.getTransformsRender() }
       </ToolSettings>
     );
   }
@@ -108,18 +144,24 @@ PixelToolSettings.propTypes = {
   selectedTool: PropTypes.string.isRequired,
   pixelToolSettings: PropTypes.object.isRequired,
   _setPixelToolSettings: PropTypes.func.isRequired,
+  tilesetState: PropTypes.object.isRequired,
+  _deselectTilesetEditorSelection: PropTypes.func.isRequired,
+  tileSize: PropTypes.number.isRequired,
 };
 
 function mapStateToProps( state ) {
   return {
     selectedTool: state.pixelTools.selectedTool,
     pixelToolSettings: state.pixelTools.pixelToolSettings,
+    tilesetState: state.tileset.present,
+    tileSize: state.project.tileSize,
   };
 }
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setPixelToolSettings: setPixelToolSettings,
+    _deselectTilesetEditorSelection: deselectTilesetEditorSelection,
   }, dispatch );
 }
 

@@ -33,14 +33,38 @@ export function applyPencilToData( data, width, height, editingData ) {
         shiftedX = x + position.x - xOffset;
         shiftedY = y + position.y - yOffset;
 
-        drawPixelToBuffer(
-          shiftedX,
-          shiftedY,
-          width,
-          height,
-          paletteId,
-          newData.buffer,
-        );
+        if ( newData.editorSelection && newData.editorSelection.isActive ) {
+          // draw in the editorSelection
+
+          shiftedX = shiftedX - newData.editorSelection.offsetX;
+          shiftedY = shiftedY - newData.editorSelection.offsetY;
+
+          if (
+            shiftedX >= 0
+            && shiftedX < newData.editorSelection.width
+            && shiftedY >= 0
+            && shiftedY < newData.editorSelection.height
+          ) {
+            drawPixelToBuffer(
+              shiftedX,
+              shiftedY,
+              newData.editorSelection.width,
+              newData.editorSelection.height,
+              paletteId,
+              newData.editorSelection.data,
+            );
+          }
+        }
+        else {
+          drawPixelToBuffer(
+            shiftedX,
+            shiftedY,
+            width,
+            height,
+            paletteId,
+            newData.buffer,
+          );
+        }
       }
     }
   }

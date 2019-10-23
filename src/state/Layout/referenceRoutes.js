@@ -1,6 +1,4 @@
 
-import { PIXEL_TUTORIALS } from 'Utils/articles';
-
 import {
   ABOUT_TAB,
   PROJECT_TAB,
@@ -39,8 +37,8 @@ addInitialStateItem( ABOUT_TAB, [REFERENCE_ABOUT] );
 addInitialStateItem( PROJECT_TAB, [MOTIVATION] );
 addInitialStateItem( PLAY_TAB, [CONSOLE] );
 addInitialStateItem( CODE_TAB, [API] );
-addInitialStateItem( TILE_TAB, [ARTICLES, PIXEL_TUTORIALS] );
-addInitialStateItem( TILEMAP_TAB, [ARTICLES, PIXEL_TUTORIALS] );
+addInitialStateItem( TILE_TAB, [ARTICLES] );
+addInitialStateItem( TILEMAP_TAB, [ARTICLES] );
 addInitialStateItem( SOUND_TAB, [HOTKEYS] );
 
 

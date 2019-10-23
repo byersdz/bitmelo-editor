@@ -7,7 +7,43 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-left: 8px;
+
+  .tools {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .transforms {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    min-width: 192px;
+    border-left: 4px solid $background-color;
+    align-self: stretch;
+  }
+
+  .btn {
+    .isvg {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .btn.active {
+    background-color: $primary-color;
+
+    .isvg {
+      fill: $on-primary-color;
+      stroke: $on-primary-color;
+    }
+  }
 
   .num-picker {
     margin: 0;

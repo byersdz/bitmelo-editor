@@ -101,6 +101,22 @@ class CodeEditor extends React.Component {
     const { script } = this.props;
     editor.selection.moveTo( script.cursorRow, script.cursorColumn );
     editor.session.setScrollTop( script.scrollTop );
+
+    editor.session.$worker.send(
+      'changeOptions',
+      [{
+        globals: {
+          engine: false,
+          bitmelo: false,
+          inp: true,
+          scr: true,
+          aud: true,
+        },
+        maxerr: 10000,
+        globalstrict: false,
+        strict: 'implied',
+      }],
+    );
   }
 
   handleTextChange( value ) {

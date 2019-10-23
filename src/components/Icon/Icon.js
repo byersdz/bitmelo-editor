@@ -18,6 +18,12 @@ import InfoIcon from './SVG/info-o.svg';
 import BackIcon from './SVG/back-o.svg';
 import BucketIcon from './SVG/bucket-o.svg';
 import GridIcon from './SVG/grid-o.svg';
+import MoveIcon from './SVG/move-o.svg';
+import RectSelectIcon from './SVG/rect-select-o.svg';
+import CopyIcon from './SVG/copy-o.svg';
+import CutIcon from './SVG/cut-o.svg';
+import PasteIcon from './SVG/paste-o.svg';
+import DeselectIcon from './SVG/deselect-o.svg';
 
 import './Icon.scss';
 
@@ -116,6 +122,42 @@ const Icon = ( props ) => {
     case 'grid': {
       svgFile = GridIcon;
       noFill = true;
+      break;
+    }
+
+    case 'move': {
+      svgFile = MoveIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'rect-select': {
+      svgFile = RectSelectIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'copy': {
+      svgFile = CopyIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'cut': {
+      svgFile = CutIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'paste': {
+      svgFile = PasteIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'deselect': {
+      svgFile = DeselectIcon;
+      noStroke = true;
       break;
     }
 

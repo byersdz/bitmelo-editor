@@ -3,14 +3,23 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import cloneDeep from 'lodash.clonedeep';
 
 import PixelEditor from 'Containers/PixelEditor/PixelEditor';
 
 import { undoTilesets, redoTilesets } from 'State/Tileset';
 import { setTilesetLayerData } from 'State/Tileset/tilesets';
+import {
+  createTilesetEditorSelection,
+  applyTilesetEditorSelection,
+  repositionTilesetEditorSelection,
+} from 'State/Tileset/actions';
+import { setTilesetEditorSelection, clearTilesetEditorSelection } from 'State/Tileset/editorSelection';
 import { selectPaletteIndex } from 'State/Palette/selectedIndex';
 import { selectAltPaletteIndex } from 'State/Palette/altIndex';
 import { PENCIL_TOOL, BUCKET_TOOL } from 'State/PixelTools/selectedTool';
+
+import { getSelectedTileData } from 'Utils/tilesetHelpers';
 
 import TileSelector from '../TileSelector/TileSelector';
 
@@ -28,6 +37,8 @@ class TilePixelEditor extends React.Component {
   }
 
   componentWillUnmount() {
+    this.applyAndClearSelection();
+
     window.removeEventListener( 'keydown', this.handleKeyDown );
   }
 
@@ -86,53 +97,132 @@ class TilePixelEditor extends React.Component {
     }
   }
 
+  handleCreateEditorSelection( editorSelection ) {
+    const {
+      activeIndex,
+      tileset,
+      tileSize,
+      _createTilesetEditorSelection,
+    } = this.props;
+
+    const selection = {
+      selectedTile: tileset.selectedTile,
+      selectionWidth: tileset.selectionWidth,
+      selectionHeight: tileset.selectionHeight,
+      tileSize,
+    };
+
+    _createTilesetEditorSelection( activeIndex, tileset.activeLayer, selection, editorSelection );
+  }
+
+  handleRepositionEditorSelection( newEditorSelection ) {
+    const {
+      activeIndex,
+      tileset,
+      tileSize,
+      editorSelection,
+      _repositionTilesetEditorSelection,
+    } = this.props;
+
+    const selection = {
+      selectedTile: tileset.selectedTile,
+      selectionWidth: tileset.selectionWidth,
+      selectionHeight: tileset.selectionHeight,
+      tileSize,
+    };
+
+    const combinedSelection = cloneDeep( newEditorSelection );
+
+    for ( let y = 0; y < editorSelection.height; y += 1 ) {
+      for ( let x = 0; x < editorSelection.width; x += 1 ) {
+        const sourceItem = editorSelection.data[y * editorSelection.width + x];
+
+        const targetX = x + editorSelection.offsetX - newEditorSelection.offsetX;
+        const targetY = y + editorSelection.offsetY - newEditorSelection.offsetY;
+
+        if (
+          targetX >= 0
+          && targetX < newEditorSelection.width
+          && targetY >= 0
+          && targetY < newEditorSelection.height
+        ) {
+          const destinationIndex = targetY * newEditorSelection.width + targetX;
+          if ( newEditorSelection.data[destinationIndex] === 0 ) {
+            combinedSelection.data[destinationIndex] = sourceItem;
+          }
+        }
+      }
+    }
+
+    _repositionTilesetEditorSelection(
+      activeIndex,
+      tileset.activeLayer,
+      selection,
+      editorSelection,
+      combinedSelection,
+    );
+  }
+
+  applyAndClearSelection() {
+    const {
+      activeIndex,
+      tileset,
+      tileSize,
+      editorSelection,
+      _applyTilesetEditorSelection,
+    } = this.props;
+
+    const selection = {
+      selectedTile: tileset.selectedTile,
+      selectionWidth: tileset.selectionWidth,
+      selectionHeight: tileset.selectionHeight,
+      tileSize,
+    };
+
+    _applyTilesetEditorSelection( activeIndex, tileset.activeLayer, selection, editorSelection );
+  }
+
+  dataFromSelectedTiles() {
+    const {
+      tileset,
+      tileSize,
+    } = this.props;
+
+    return getSelectedTileData( tileset, tileSize );
+  }
+
   render() {
     const {
       palette,
       selectedPaletteIndex,
       altPaletteIndex,
-      tileset,
       tileSize,
+      editorSelection,
+      _setTilesetEditorSelection,
     } = this.props;
 
-    const { selectedTile, selectionWidth, selectionHeight } = tileset;
-
-    const dataWidth = tileset.width * tileSize;
-    // const dataHeight = tileset.height * tileSize;
-
-    const activeLayer = tileset.layers[tileset.activeLayer];
-    const { data: layerData } = activeLayer;
-
-    const selectedDataWidth = selectionWidth * tileSize;
-    const selectedDataHeight = selectionHeight * tileSize;
-    const selectedData = new Array( selectedDataWidth * selectedDataHeight );
-
-    const originX = ( selectedTile % tileset.width ) * tileSize;
-    const originY = Math.floor( selectedTile / tileset.width ) * tileSize;
-
-    let count = 0;
-    let sourceIndex = 0;
-    for ( let y = originY; y < originY + selectedDataHeight; y += 1 ) {
-      for ( let x = originX; x < originX + selectedDataWidth; x += 1 ) {
-        sourceIndex = y * dataWidth + x;
-        selectedData[count] = layerData[sourceIndex];
-        count += 1;
-      }
-    }
+    const selectedData = this.dataFromSelectedTiles();
 
     return (
       <PixelEditor
-        data={ selectedData }
+        data={ selectedData.data }
         tileSize={ tileSize }
-        dataWidth={ selectedDataWidth }
-        dataHeight={ selectedDataHeight }
+        dataWidth={ selectedData.width }
+        dataHeight={ selectedData.height }
         palette={ palette }
         selectedPaletteIndex={ selectedPaletteIndex }
         altPaletteIndex={ altPaletteIndex }
+        editorSelection={ editorSelection }
+        onEditorSelectionChange={ v => _setTilesetEditorSelection( v ) }
+        onDeselect={ () => this.applyAndClearSelection() }
         onDataChange={ newData => this.handleDataChange( newData ) }
         onEyeDropper={ e => this.handleEyeDropper( e ) }
+        onCreateEditorSelection={ d => this.handleCreateEditorSelection( d ) }
+        onRepositionEditorSelection={ d => this.handleRepositionEditorSelection( d ) }
       >
-        <TileSelector />
+        <TileSelector
+          onSelectionWillChange={ () => this.applyAndClearSelection() }
+        />
       </PixelEditor>
     );
   }
@@ -152,6 +242,11 @@ TilePixelEditor.propTypes = {
   _selectAltPaletteIndex: PropTypes.func.isRequired,
   colorPickerIsOpen: PropTypes.bool.isRequired,
   selectedTool: PropTypes.string.isRequired,
+  editorSelection: PropTypes.object.isRequired,
+  _setTilesetEditorSelection: PropTypes.func.isRequired,
+  _createTilesetEditorSelection: PropTypes.func.isRequired,
+  _applyTilesetEditorSelection: PropTypes.func.isRequired,
+  _repositionTilesetEditorSelection: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -167,6 +262,7 @@ function mapStateToProps( state ) {
     tileSize,
     colorPickerIsOpen: state.layout.colorPickerIsOpen,
     selectedTool: state.pixelTools.selectedTool,
+    editorSelection: state.tileset.present.editorSelection,
   };
 }
 
@@ -177,7 +273,11 @@ function mapDispatchToProps( dispatch ) {
     _redoTilesets: redoTilesets,
     _selectPaletteIndex: selectPaletteIndex,
     _selectAltPaletteIndex: selectAltPaletteIndex,
-
+    _setTilesetEditorSelection: setTilesetEditorSelection,
+    _clearTilesetEditorSelection: clearTilesetEditorSelection,
+    _createTilesetEditorSelection: createTilesetEditorSelection,
+    _applyTilesetEditorSelection: applyTilesetEditorSelection,
+    _repositionTilesetEditorSelection: repositionTilesetEditorSelection,
   }, dispatch );
 }
 
