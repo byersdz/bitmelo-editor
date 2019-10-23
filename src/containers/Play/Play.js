@@ -76,7 +76,7 @@ class Play extends React.Component {
 
     const loggingRender = `
     window.onerror = function( message, file, line ) {
-      const actualLine = line - 98;
+      const actualLine = line - 100;
       window.parent.postMessage( { type: 'error', payload: '"' + message + '" on line ' + actualLine }, '*' );
     }
       const console = ( function( oldConsole ) {
