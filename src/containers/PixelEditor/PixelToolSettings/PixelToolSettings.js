@@ -87,7 +87,7 @@ class PixelToolSettings extends React.Component {
         <Fragment>
           <Button
             title="Deselect"
-            icon="rect-select"
+            icon="deselect"
             hideTitle
             click={ () => this.handleDeselect() }
           />

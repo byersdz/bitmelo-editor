@@ -23,6 +23,7 @@ import RectSelectIcon from './SVG/rect-select-o.svg';
 import CopyIcon from './SVG/copy-o.svg';
 import CutIcon from './SVG/cut-o.svg';
 import PasteIcon from './SVG/paste-o.svg';
+import DeselectIcon from './SVG/deselect-o.svg';
 
 import './Icon.scss';
 
@@ -150,6 +151,12 @@ const Icon = ( props ) => {
 
     case 'paste': {
       svgFile = PasteIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'deselect': {
+      svgFile = DeselectIcon;
       noStroke = true;
       break;
     }
