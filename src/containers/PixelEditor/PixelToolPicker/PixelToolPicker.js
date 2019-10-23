@@ -233,7 +233,7 @@ class PixelToolPicker extends React.Component {
         />
         <Button
           title="Paste"
-          icon="play"
+          icon="paste"
           click={ () => this.handlePaste() }
           hideTitle
         />
