@@ -1,8 +1,8 @@
 import cloneDeep from 'lodash.clonedeep';
 
-import { CHANGE_TILE_SIZE } from 'State/Project/tileSize';
-import { DELETE_PALETTE_COLOR } from 'State/Palette/colors';
-import { RESET_PROJECT, IMPORT_PROJECT_DATA } from 'State/globalActions';
+import { CHANGE_TILE_SIZE } from '../Project/tileSize';
+import { DELETE_PALETTE_COLOR } from '../Palette/colors';
+import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 import {
   CREATE_TILESET_EDITOR_SELECTION,
   APPLY_TILESET_EDITOR_SELECTION,

@@ -1,7 +1,7 @@
 
 import cloneDeep from 'lodash.clonedeep';
 
-import { RESET_PROJECT, IMPORT_PROJECT_DATA } from 'State/globalActions';
+import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 
 // Actions
 export const SET_TILEMAP_LAYER_DATA = 'SET_TILEMAP_LAYER_DATA';

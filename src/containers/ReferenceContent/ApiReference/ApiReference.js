@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import ArticleList from 'Components/ArticleList/ArticleList';
-import AButton from 'Components/AButton/AButton';
+import ArticleList from '../../../components/ArticleList/ArticleList';
+import AButton from '../../../components/AButton/AButton';
 
-import { setReferenceRoute } from 'State/Layout/referenceRoutes';
-import { setReferenceTabTitle } from 'State/Layout/referenceTabTitle';
+import { setReferenceRoute } from '../../../state/Layout/referenceRoutes';
+import { setReferenceTabTitle } from '../../../state/Layout/referenceTabTitle';
 
 import {
   API_QUICK_START,
@@ -28,7 +28,7 @@ import {
   API_SOUND,
   API_TILE_DATA,
   API_TILE_MAP,
-} from 'Utils/articles';
+} from '../../../utils/articles';
 
 import QuickStart from './QuickStart/QuickStart';
 import ScreenSnippets from './ScreenSnippets/ScreenSnippets';

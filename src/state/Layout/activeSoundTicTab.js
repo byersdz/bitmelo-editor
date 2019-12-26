@@ -1,5 +1,5 @@
 
-import { RESET_PROJECT } from 'State/globalActions';
+import { RESET_PROJECT } from '../globalActions';
 
 // Constants
 export const VOLUME_TAB = 'volume';

@@ -1,5 +1,5 @@
 
-import { RESET_PROJECT } from 'State/globalActions';
+import { RESET_PROJECT } from '../globalActions';
 
 // Actions
 export const TOGGLE_TILE_SELECTOR = 'TOGGLE_TILE_SELECTOR';

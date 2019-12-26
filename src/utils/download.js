@@ -1,7 +1,7 @@
 
 import cloneDeep from 'lodash.clonedeep';
 
-import storeRegistry from 'State/storeRegistry';
+import storeRegistry from '../state/storeRegistry';
 import createHTMLGame from './Convert/createHTMLGame';
 
 export const downloadJSON = ( jsonObject, fileName ) => {

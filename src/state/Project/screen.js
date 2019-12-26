@@ -1,6 +1,6 @@
 
 import { Screen } from 'bitmelo';
-import { RESET_PROJECT, IMPORT_PROJECT_DATA } from 'State/globalActions';
+import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 
 
 // Actions

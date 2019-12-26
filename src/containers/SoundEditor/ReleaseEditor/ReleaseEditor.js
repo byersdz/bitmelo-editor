@@ -8,7 +8,7 @@ import { Sound } from 'bitmelo';
 import NumberPicker from '../../../components/NumberPicker/NumberPicker';
 import Select from '../../../components/Select/Select';
 
-import { setSoundData } from 'State/Sound/sounds';
+import { setSoundData } from '../../../state/Sound/sounds';
 
 import './ReleaseEditor.scss';
 

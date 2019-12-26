@@ -5,11 +5,11 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import debounce from 'lodash.debounce';
 
-import App from 'Components/App/App';
-import reducers from 'State/index';
-import storeRegistry from 'State/storeRegistry';
+import App from './components/App/App';
+import reducers from './state/index';
+import storeRegistry from './state/storeRegistry';
 
-import { saveStateToLocalStorage } from 'Utils/Saving/localStorage';
+import { saveStateToLocalStorage } from './utils/Saving/localStorage';
 
 import 'normalize.css';
 

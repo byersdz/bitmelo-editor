@@ -1,5 +1,5 @@
 
-import { RESET_PROJECT, IMPORT_PROJECT_DATA } from 'State/globalActions';
+import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 
 // Actions
 export const CHANGE_TILE_SIZE = 'CHANGE_TILE_SIZE';

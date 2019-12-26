@@ -1,5 +1,5 @@
 
-import { RESET_PROJECT } from 'State/globalActions';
+import { RESET_PROJECT } from '../globalActions';
 
 // Audio Events
 export const PIANO_KEY_DOWN = 'PIANO_KEY_DOWN';
