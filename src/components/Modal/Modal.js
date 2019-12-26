@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-import Button from 'Components/Button/Button';
+import Button from '../Button/Button';
 
 import './Modal.scss';
 

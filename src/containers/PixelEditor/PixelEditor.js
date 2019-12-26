@@ -10,19 +10,18 @@ import {
   BUCKET_TOOL,
   MOVE_TOOL,
   RECT_SELECT_TOOL,
-} from 'State/PixelTools/selectedTool';
-import { TILE_DRAW_TOOL, TILE_ERASE_TOOL } from 'State/PixelTools/selectedTileTool';
+} from '../../state/PixelTools/selectedTool';
+import { TILE_DRAW_TOOL, TILE_ERASE_TOOL } from '../../state/PixelTools/selectedTileTool';
 
-import { applyPencilToData } from 'Utils/PixelTools/pencil';
-import { applyTileDrawToData } from 'Utils/PixelTools/tileDraw';
-import { applyBucketToData } from 'Utils/PixelTools/bucket';
-import { combineGrids } from 'Utils/gridHelpers';
+import { applyPencilToData } from '../../utils/PixelTools/pencil';
+import { applyTileDrawToData } from '../../utils/PixelTools/tileDraw';
+import { applyBucketToData } from '../../utils/PixelTools/bucket';
+import { combineGrids } from '../../utils/gridHelpers';
 
 import MainCanvas from './MainCanvas/MainCanvas';
 import OverlayCanvas from './OverlayCanvas/OverlayCanvas';
 
 import backgroundImage from './background.png';
-
 
 import './PixelEditor.scss';
 

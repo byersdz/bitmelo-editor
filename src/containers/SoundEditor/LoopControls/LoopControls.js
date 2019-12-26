@@ -4,17 +4,17 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 
-import NumberPicker from 'Components/NumberPicker/NumberPicker';
-import Checkbox from 'Components/Checkbox/Checkbox';
-import Button from 'Components/Button/Button';
+import NumberPicker from '../../../components/NumberPicker/NumberPicker';
+import Checkbox from '../../../components/Checkbox/Checkbox';
+import Button from '../../../components/Button/Button';
 
-import { setSoundData, syncSoundLoops } from 'State/Sound/sounds';
+import { setSoundData, syncSoundLoops } from '../../../state/Sound/sounds';
 
 import {
   VOLUME_TAB,
   PITCH_TAB,
   ARP_TAB,
-} from 'State/Layout/activeSoundTicTab';
+} from '../../../state/Layout/activeSoundTicTab';
 
 import './LoopControls.scss';
 

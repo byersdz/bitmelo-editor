@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
-import WaveGrid from 'Components/WaveGrid/WaveGrid';
-import LoopControls from 'Containers/SoundEditor/LoopControls/LoopControls';
-import { setSoundData } from 'State/Sound/sounds';
+import WaveGrid from '../../../components/WaveGrid/WaveGrid';
+import LoopControls from '../LoopControls/LoopControls';
+import { setSoundData } from '../../../state/Sound/sounds';
 
 import './VolumeTicsEditor.scss';
 

@@ -8,7 +8,7 @@ import {
   copyCanvasToCanvas,
   drawBackgroundBorder,
   drawTileDataToCanvas,
-} from 'Utils/drawToCanvas';
+} from '../../../utils/drawToCanvas';
 
 import './MainCanvas.scss';
 

@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ButtonTabs from 'Components/ButtonTabs/ButtonTabs';
+import ButtonTabs from '../ButtonTabs/ButtonTabs';
 
 import './ToolPicker.scss';
 

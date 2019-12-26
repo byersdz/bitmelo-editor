@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import AButton from 'Components/AButton/AButton';
-import ArticleList from 'Components/ArticleList/ArticleList';
+import AButton from '../../../../components/AButton/AButton';
+import ArticleList from '../../../../components/ArticleList/ArticleList';
 
-import { setReferenceRoute } from 'State/Layout/referenceRoutes';
-import { setReferenceTabTitle } from 'State/Layout/referenceTabTitle';
+import { setReferenceRoute } from '../../../../state/Layout/referenceRoutes';
+import { setReferenceTabTitle } from '../../../../state/Layout/referenceTabTitle';
 
 import articleData, { SAINT_11 } from './articleData';
 

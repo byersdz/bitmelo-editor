@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import enhanceWithClickOutside from 'react-click-outside';
 
-import Button from 'Components/Button/Button';
+import Button from '../../../components/Button/Button';
 
-import { setPaletteColor } from 'State/Palette/colors';
-import { setColorPickerIsOpen } from 'State/Layout/colorPickerIsOpen';
+import { setPaletteColor } from '../../../state/Palette/colors';
+import { setColorPickerIsOpen } from '../../../state/Layout/colorPickerIsOpen';
 
 import DeleteColorModal from '../DeleteColorModal/DeleteColorModal';
 

@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import Modal from 'Components/Modal/Modal';
-import Button from 'Components/Button/Button';
+import Modal from '../../../components/Modal/Modal';
+import Button from '../../../components/Button/Button';
 
-import { importProjectData, resetProject, clearAllUndoHistory } from 'State/globalActions';
+import { importProjectData, resetProject, clearAllUndoHistory } from '../../../state/globalActions';
 
 import './ImportProjectModal.scss';
 

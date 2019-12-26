@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Piano from 'Components/Piano/Piano';
-import NumberPicker from 'Components/NumberPicker/NumberPicker';
-import RangeSlider from 'Components/RangeSlider/RangeSlider';
+import Piano from '../../../components/Piano/Piano';
+import NumberPicker from '../../../components/NumberPicker/NumberPicker';
+import RangeSlider from '../../../components/RangeSlider/RangeSlider';
 
-import { addAudioEvent, PIANO_KEY_DOWN, PIANO_KEY_UP } from 'State/Sound/audioEvents';
-import { setSoundEditorPianoOctave } from 'State/Layout/soundEditor';
-import { setSoundPianoSpeed, setSoundPianoVolume } from 'State/Sound/piano';
+import { addAudioEvent, PIANO_KEY_DOWN, PIANO_KEY_UP } from '../../../state/Sound/audioEvents';
+import { setSoundEditorPianoOctave } from '../../../state/Layout/soundEditor';
+import { setSoundPianoSpeed, setSoundPianoVolume } from '../../../state/Sound/piano';
 
 import './SoundPiano.scss';
 

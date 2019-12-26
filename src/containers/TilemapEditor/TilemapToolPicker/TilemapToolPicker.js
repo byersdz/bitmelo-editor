@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 
-import ToolPicker from 'Components/ToolPicker/ToolPicker';
-import Button from 'Components/Button/Button';
+import ToolPicker from '../../../components/ToolPicker/ToolPicker';
+import Button from '../../../components/Button/Button';
 
-import { TILE_DRAW_TOOL, TILE_ERASE_TOOL, selectTileTool } from 'State/PixelTools/selectedTileTool';
-import { setTilemapEditorLayoutSettings } from 'State/Layout/tilemapEditor';
+import { TILE_DRAW_TOOL, TILE_ERASE_TOOL, selectTileTool } from '../../../state/PixelTools/selectedTileTool';
+import { setTilemapEditorLayoutSettings } from '../../../state/Layout/tilemapEditor';
 
 import './TilemapToolPicker.scss';
 

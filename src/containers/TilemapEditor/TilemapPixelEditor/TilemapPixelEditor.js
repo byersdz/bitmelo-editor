@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import PixelEditor from 'Containers/PixelEditor/PixelEditor';
-import TileSelector from 'Containers/TileEditor/TileSelector/TileSelector';
+import PixelEditor from '../../PixelEditor/PixelEditor';
+import TileSelector from '../../TileEditor/TileSelector/TileSelector';
 
-import { undoTilemaps, redoTilemaps } from 'State/Tilemap';
-import { setTilemapLayerData } from 'State/Tilemap/tilemaps';
-import { setTilmapCursorPosition } from 'State/Layout/tilemapEditor';
+import { undoTilemaps, redoTilemaps } from '../../../state/Tilemap';
+import { setTilemapLayerData } from '../../../state/Tilemap/tilemaps';
+import { setTilmapCursorPosition } from '../../../state/Layout/tilemapEditor';
 
 import TilemapSelector from '../TilemapSelector/TilemapSelector';
 

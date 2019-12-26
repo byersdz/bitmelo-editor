@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 
-import Button from 'Components/Button/Button';
-import Scrollbars from 'Components/Scrollbars/Scrollbars';
+import Button from '../../components/Button/Button';
+import Scrollbars from '../../components/Scrollbars/Scrollbars';
 
-import { selectPaletteIndex } from 'State/Palette/selectedIndex';
-import { selectAltPaletteIndex } from 'State/Palette/altIndex';
-import { addPaletteColor } from 'State/Palette/colors';
+import { selectPaletteIndex } from '../../state/Palette/selectedIndex';
+import { selectAltPaletteIndex } from '../../state/Palette/altIndex';
+import { addPaletteColor } from '../../state/Palette/colors';
 
 import ColorEditor from './ColorEditor/ColorEditor';
 

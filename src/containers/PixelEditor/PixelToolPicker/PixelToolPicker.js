@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import cloneDeep from 'lodash.clonedeep';
 
-import ToolPicker from 'Components/ToolPicker/ToolPicker';
-import Button from 'Components/Button/Button';
+import ToolPicker from '../../../components/ToolPicker/ToolPicker';
+import Button from '../../../components/Button/Button';
 
 import {
   PENCIL_TOOL,
@@ -15,13 +15,13 @@ import {
   MOVE_TOOL,
   RECT_SELECT_TOOL,
   selectPixelTool,
-} from 'State/PixelTools/selectedTool';
-import { setTileEditorLayoutSettings } from 'State/Layout/tileEditor';
-import { setClipboardPixels } from 'State/Clipboard/pixels';
-import { setTilesetEditorSelection, clearTilesetEditorSelection } from 'State/Tileset/editorSelection';
-import { repositionTilesetEditorSelection } from 'State/Tileset/actions';
+} from '../../../state/PixelTools/selectedTool';
+import { setTileEditorLayoutSettings } from '../../../state/Layout/tileEditor';
+import { setClipboardPixels } from '../../../state/Clipboard/pixels';
+import { setTilesetEditorSelection, clearTilesetEditorSelection } from '../../../state/Tileset/editorSelection';
+import { repositionTilesetEditorSelection } from '../../../state/Tileset/actions';
 
-import { getSelectedTileData } from 'Utils/tilesetHelpers';
+import { getSelectedTileData } from '../../../utils/tilesetHelpers';
 
 import './PixelToolPicker.scss';
 

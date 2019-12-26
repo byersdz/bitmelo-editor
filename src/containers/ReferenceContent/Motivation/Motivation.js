@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Checkbox from 'Components/Checkbox/Checkbox';
+import Checkbox from '../../../components/Checkbox/Checkbox';
 
-import { setReferenceTabTitle } from 'State/Layout/referenceTabTitle';
-import { setMiscSettings } from 'State/Project/misc';
+import { setReferenceTabTitle } from '../../../state/Layout/referenceTabTitle';
+import { setMiscSettings } from '../../../state/Project/misc';
 
 import './Motivation.scss';
 

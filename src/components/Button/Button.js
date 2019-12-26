@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Icon from 'Components/Icon/Icon';
+import Icon from '../Icon/Icon';
 
 import './Button.scss';
 

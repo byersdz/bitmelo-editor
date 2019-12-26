@@ -2,8 +2,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Card from 'Components/Card/Card';
-import ButtonTabs from 'Components/ButtonTabs/ButtonTabs';
+import Card from '../Card/Card';
+import ButtonTabs from '../ButtonTabs/ButtonTabs';
 
 import './TabbedCard.scss';
 

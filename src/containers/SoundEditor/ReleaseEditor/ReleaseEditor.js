@@ -5,8 +5,8 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { Sound } from 'bitmelo';
 
-import NumberPicker from 'Components/NumberPicker/NumberPicker';
-import Select from 'Components/Select/Select';
+import NumberPicker from '../../../components/NumberPicker/NumberPicker';
+import Select from '../../../components/Select/Select';
 
 import { setSoundData } from 'State/Sound/sounds';
 

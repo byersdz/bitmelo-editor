@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 import {
   drawIndicator,
   drawGrid,
-} from 'Utils/drawToCanvas';
-import { drawEditorSelection } from 'Utils/drawEditorSelection';
+} from '../../../utils/drawToCanvas';
+import { drawEditorSelection } from '../../../utils/drawEditorSelection';
 
-import { TILE_TAB, TILEMAP_TAB } from 'State/Layout/activeNavigationTab';
+import { TILE_TAB, TILEMAP_TAB } from '../../../state/Layout/activeNavigationTab';
 
 import './OverlayCanvas.scss';
 

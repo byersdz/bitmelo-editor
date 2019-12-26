@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import createProjectScript from 'Utils/Convert/createProjectScript';
+import createProjectScript from '../../utils/Convert/createProjectScript';
 
-import { addPlayLog } from 'State/Code/playLogs';
+import { addPlayLog } from '../../state/Code/playLogs';
 
 import './Play.scss';
 

@@ -1,8 +1,8 @@
 
 import React, { Fragment } from 'react';
 
-import AButton from 'Components/AButton/AButton';
-import Changelog from 'Components/Changelog/Changelog';
+import AButton from '../../components/AButton/AButton';
+import Changelog from '../../components/Changelog/Changelog';
 
 import PackageJSON from '../../../package.json';
 

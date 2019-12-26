@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Modal from 'Components/Modal/Modal';
-import Button from 'Components/Button/Button';
+import Modal from '../../../components/Modal/Modal';
+import Button from '../../../components/Button/Button';
 
-import { deletePaletteColor } from 'State/Palette/colors';
-import { selectPaletteIndex } from 'State/Palette/selectedIndex';
-import { clearTilesetsHistory } from 'State/Tileset/index';
+import { deletePaletteColor } from '../../../state/Palette/colors';
+import { selectPaletteIndex } from '../../../state/Palette/selectedIndex';
+import { clearTilesetsHistory } from '../../../state/Tileset/index';
 
 
 import './DeleteColorModal.scss';

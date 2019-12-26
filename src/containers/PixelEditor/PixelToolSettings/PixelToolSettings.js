@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import ToolSettings from 'Components/ToolSettings/ToolSettings';
-import NumberPicker from 'Components/NumberPicker/NumberPicker';
-import Button from 'Components/Button/Button';
+import ToolSettings from '../../../components/ToolSettings/ToolSettings';
+import NumberPicker from '../../../components/NumberPicker/NumberPicker';
+import Button from '../../../components/Button/Button';
 
-import { PENCIL_TOOL, ERASER_TOOL } from 'State/PixelTools/selectedTool';
-import { setPixelToolSettings } from 'State/PixelTools/pixelToolSettings';
-import { deselectTilesetEditorSelection } from 'State/Tileset/actions';
-
+import { PENCIL_TOOL, ERASER_TOOL } from '../../../state/PixelTools/selectedTool';
+import { setPixelToolSettings } from '../../../state/PixelTools/pixelToolSettings';
+import { deselectTilesetEditorSelection } from '../../../state/Tileset/actions';
 
 import './PixelToolSettings.scss';
 

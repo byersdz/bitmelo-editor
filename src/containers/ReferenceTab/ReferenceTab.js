@@ -4,18 +4,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import ReferenceConsole from 'Containers/ReferenceContent/ReferenceConsole/ReferenceConsole';
-import Articles from 'Containers/ReferenceContent/Articles/Articles';
-import ApiReference from 'Containers/ReferenceContent/ApiReference/ApiReference';
-import Hotkeys from 'Containers/ReferenceContent/Hotkeys/Hotkeys';
-import ReferenceAbout from 'Containers/ReferenceContent/ReferenceAbout/ReferenceAbout';
-import Motivation from 'Containers/ReferenceContent/Motivation/Motivation';
+import ReferenceConsole from '../ReferenceContent/ReferenceConsole/ReferenceConsole';
+import Articles from '../ReferenceContent/Articles/Articles';
+import ApiReference from '../ReferenceContent/ApiReference/ApiReference';
+import Hotkeys from '../ReferenceContent/Hotkeys/Hotkeys';
+import ReferenceAbout from '../ReferenceContent/ReferenceAbout/ReferenceAbout';
+import Motivation from '../ReferenceContent/Motivation/Motivation';
 
-import TopBar from 'Components/TopBar/TopBar';
-import Button from 'Components/Button/Button';
-import Scrollbars from 'Components/Scrollbars/Scrollbars';
+import TopBar from '../../components/TopBar/TopBar';
+import Button from '../../components/Button/Button';
+import Scrollbars from '../../components/Scrollbars/Scrollbars';
 
-import { toggleReferencePanel } from 'State/Layout/referencePanelIsOpen';
+import { toggleReferencePanel } from '../../state/Layout/referencePanelIsOpen';
 import {
   setReferenceRoute,
   CONSOLE,
@@ -24,9 +24,9 @@ import {
   HOTKEYS,
   REFERENCE_ABOUT,
   MOTIVATION,
-} from 'State/Layout/referenceRoutes';
+} from '../../state/Layout/referenceRoutes';
 
-import { useExtraSmallWidth } from 'Style/dimensions';
+import { useExtraSmallWidth } from '../../style/dimensions';
 
 import './ReferenceTab.scss';
 

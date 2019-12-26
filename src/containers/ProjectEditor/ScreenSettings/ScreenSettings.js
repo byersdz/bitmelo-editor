@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Screen } from 'bitmelo';
 
-import Card from 'Components/Card/Card';
-import NumberPicker from 'Components/NumberPicker/NumberPicker';
-import Select from 'Components/Select/Select';
-import Checkbox from 'Components/Checkbox/Checkbox';
+import Card from '../../../components/Card/Card';
+import NumberPicker from '../../../components/NumberPicker/NumberPicker';
+import Select from '../../../components/Select/Select';
+import Checkbox from '../../../components/Checkbox/Checkbox';
 
-import { setScreenSettings } from 'State/Project/screen';
+import { setScreenSettings } from '../../../state/Project/screen';
 
 import './ScreenSettings.scss';
 

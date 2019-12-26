@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 
-import ToggleHeader from 'Components/ToggleHeader/ToggleHeader';
-import Button from 'Components/Button/Button';
+import ToggleHeader from '../../../components/ToggleHeader/ToggleHeader';
+import Button from '../../../components/Button/Button';
 
-import { toggleTileSelector } from 'State/Layout/tileSelectorIsOpen';
-import { toggleTilemapTileSelector } from 'State/Layout/tilemapEditor';
+import { toggleTileSelector } from '../../../state/Layout/tileSelectorIsOpen';
+import { toggleTilemapTileSelector } from '../../../state/Layout/tilemapEditor';
 
-import { setTilesetSelection, setTilesetMapSelection } from 'State/Tileset/tilesets';
+import { setTilesetSelection, setTilesetMapSelection } from '../../../state/Tileset/tilesets';
 
 import EditTilesetModal from './EditTilesetModal/EditTilesetModal';
 import TileSelectorCanvas from './TileSelectorCanvas/TileSelectorCanvas';

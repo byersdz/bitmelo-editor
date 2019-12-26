@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Modal from 'Components/Modal/Modal';
-import NumberPicker from 'Components/NumberPicker/NumberPicker';
-import Button from 'Components/Button/Button';
+import Modal from '../../../components/Modal/Modal';
+import NumberPicker from '../../../components/NumberPicker/NumberPicker';
+import Button from '../../../components/Button/Button';
 
-import { setTilemapSize } from 'State/Tilemap/tilemaps';
+import { setTilemapSize } from '../../../state/Tilemap/tilemaps';
 
 import './EditTilemapModal.scss';
 

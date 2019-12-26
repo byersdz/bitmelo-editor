@@ -4,15 +4,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import TextInput from 'Components/TextInput/TextInput';
-import NumberPicker from 'Components/NumberPicker/NumberPicker';
-import Checkbox from 'Components/Checkbox/Checkbox';
-import Button from 'Components/Button/Button';
+import TextInput from '../../components/TextInput/TextInput';
+import NumberPicker from '../../components/NumberPicker/NumberPicker';
+import Checkbox from '../../components/Checkbox/Checkbox';
+import Button from '../../components/Button/Button';
 
-import { setProjectName } from 'State/Project/name';
-import { setMiscSettings } from 'State/Project/misc';
+import { setProjectName } from '../../state/Project/name';
+import { setMiscSettings } from '../../state/Project/misc';
 
-import { downloadProjectData, downloadHTMLGame } from 'Utils/download';
+import { downloadProjectData, downloadHTMLGame } from '../../utils/download';
 
 import ScreenSettings from './ScreenSettings/ScreenSettings';
 import TileSizeModal from './TileSizeModal/TileSizeModal';

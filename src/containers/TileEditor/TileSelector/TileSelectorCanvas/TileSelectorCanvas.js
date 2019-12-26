@@ -7,11 +7,11 @@ import {
   drawPixelDataToCanvas,
   drawTileSelection,
   drawGrid,
-} from 'Utils/drawToCanvas';
+} from '../../../../utils/drawToCanvas';
 
-import { applyWheelScroll } from 'Utils/mouse';
+import { applyWheelScroll } from '../../../../utils/mouse';
 
-import backgroundImage from 'Containers/PixelEditor/background.png';
+import backgroundImage from '../../../PixelEditor/background.png';
 
 import './TileSelectorCanvas.scss';
 
