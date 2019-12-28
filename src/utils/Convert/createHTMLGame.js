@@ -1,6 +1,4 @@
 
-// import { backgroundColor } from 'Style/colors';
-
 import createProjectScript from './createProjectScript';
 
 export default function exportHTMLGame( state ) {

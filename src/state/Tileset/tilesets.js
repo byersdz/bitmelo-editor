@@ -1,4 +1,5 @@
 import cloneDeep from 'lodash.clonedeep';
+import { ConvertData } from 'bitmelo';
 
 import { CHANGE_TILE_SIZE } from '../Project/tileSize';
 import { DELETE_PALETTE_COLOR } from '../Palette/colors';
@@ -70,13 +71,46 @@ export function validate( state ) {
         return false;
       }
 
-      if ( !Array.isArray( layer.data ) ) {
-        return false;
+      if ( !layer.format || layer.format === 'array' || layer.format === 'run' ) {
+        if ( !Array.isArray( layer.data ) ) {
+          return false;
+        }
+      }
+      else if ( layer.format === 'rc' || layer.format === 'c' ) {
+        if ( typeof layer.data !== 'string' ) {
+          return false;
+        }
       }
     }
   }
 
   return true;
+}
+
+function modifyImportedState( state ) {
+  const newState = cloneDeep( state );
+
+  for ( let i = 0; i < newState.length; i += 1 ) {
+    const currentTileset = newState[i];
+    currentTileset.selectedTile = 0;
+    currentTileset.selectionWidth = 1;
+    currentTileset.selectionHeight = 1;
+    currentTileset.mapSelectedTile = 0;
+    currentTileset.mapSelectionWidth = 1;
+    currentTileset.mapSelectionHeight = 1;
+
+    for ( let j = 0; j < currentTileset.layers.length; j += 1 ) {
+      const layer = currentTileset.layers[j];
+
+      if ( layer.format && layer.format === 'rc' ) {
+        const runArray = ConvertData.compressedStringToArray( layer.data );
+        layer.data = ConvertData.runToArray( runArray );
+        layer.format = 'array';
+      }
+    }
+  }
+
+  return newState;
 }
 
 // Reducer
@@ -114,16 +148,7 @@ export default function reducer( state = initialState, action ) {
       try {
         const importedState = action.payload.tileset.tilesets;
         if ( validate( importedState ) ) {
-          const newState = [...importedState];
-          for ( let i = 0; i < newState.length; i += 1 ) {
-            newState[i].selectedTile = 0;
-            newState[i].selectionWidth = 1;
-            newState[i].selectionHeight = 1;
-            newState[i].mapSelectedTile = 0;
-            newState[i].mapSelectionWidth = 1;
-            newState[i].mapSelectionHeight = 1;
-          }
-          return newState;
+          return modifyImportedState( importedState );
         }
         return state;
       }

@@ -3,6 +3,7 @@ import cloneDeep from 'lodash.clonedeep';
 
 import storeRegistry from '../state/storeRegistry';
 import createHTMLGame from './Convert/createHTMLGame';
+import compressProjectState from './Convert/compressProjectState';
 
 export const downloadJSON = ( jsonObject, fileName ) => {
   const jsonString = JSON.stringify( jsonObject );
@@ -21,13 +22,12 @@ export const downloadSoundData = () => {
 };
 
 export const downloadProjectData = () => {
-  const state = cloneDeep( storeRegistry.getStore().getState() );
+  const state = storeRegistry.getStore().getState();
 
   // get rid of undo data
-  state.tileset = state.tileset.present;
-  state.tilemap = state.tilemap.present;
-  const projectName = state.project.name;
-  downloadJSON( state, `${ projectName }.project.json` );
+  const compressedState = compressProjectState( state );
+  const projectName = compressedState.project.name;
+  downloadJSON( compressedState, `${ projectName }.project.json` );
 };
 
 export function downloadHTMLGame() {
