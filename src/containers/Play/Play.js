@@ -35,12 +35,7 @@ class Play extends React.Component {
 
   render() {
     const {
-      tilesets,
-      project,
-      scripts,
-      palette,
-      sounds,
-      tilemaps,
+      projectData,
     } = this.props;
 
     const style = `
@@ -65,14 +60,7 @@ class Play extends React.Component {
       </style>
     `;
 
-    const projectScript = createProjectScript(
-      project,
-      palette,
-      tilesets,
-      scripts,
-      sounds,
-      tilemaps,
-    );
+    const projectScript = createProjectScript( projectData );
 
     const loggingRender = `
     window.onerror = function( message, file, line ) {
@@ -136,28 +124,13 @@ class Play extends React.Component {
 }
 
 Play.propTypes = {
-  tilesets: PropTypes.array.isRequired,
-  project: PropTypes.object.isRequired,
-  scripts: PropTypes.array.isRequired,
-  palette: PropTypes.array.isRequired,
-  sounds: PropTypes.array.isRequired,
-  tilemaps: PropTypes.array.isRequired,
+  projectData: PropTypes.object.isRequired,
   _addPlayLog: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
-  const { project } = state;
-  const { tilesets } = state.tileset.present;
-  const { scripts } = state.code;
-  const { sounds } = state.sound;
-  const { tilemaps } = state.tilemap.present;
   return {
-    tilesets,
-    project,
-    scripts,
-    palette: state.palette.colors,
-    sounds,
-    tilemaps,
+    projectData: state,
   };
 }
 
