@@ -334,15 +334,15 @@ class PixelEditor extends React.Component {
       }
 
       // apply tool settings
-      if ( selectedTool === PENCIL_TOOL ) {
+      if ( editingTool === PENCIL_TOOL ) {
         editingData.toolSize = pixelToolSettings.pencilSize;
       }
 
-      if ( selectedTool === ERASER_TOOL ) {
+      if ( editingTool === ERASER_TOOL ) {
         editingData.toolSize = pixelToolSettings.eraserSize;
       }
 
-      if ( selectedTool === TILE_ERASE_TOOL ) {
+      if ( editingTool === TILE_ERASE_TOOL ) {
         editingData.toolSize = 1;
       }
 
