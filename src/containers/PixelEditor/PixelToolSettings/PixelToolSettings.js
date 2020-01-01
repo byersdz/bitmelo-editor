@@ -11,6 +11,7 @@ import Button from '../../../components/Button/Button';
 import { PENCIL_TOOL, ERASER_TOOL } from '../../../state/PixelTools/selectedTool';
 import { setPixelToolSettings } from '../../../state/PixelTools/pixelToolSettings';
 import { deselectTilesetEditorSelection } from '../../../state/Tileset/actions';
+import { flipTilesetEditorSelection } from '../../../state/Tileset/editorSelection';
 
 import './PixelToolSettings.scss';
 
@@ -77,8 +78,45 @@ class PixelToolSettings extends React.Component {
     }
   }
 
+  handleFlipHorizontal() {
+    const { tilesetState, _flipTilesetEditorSelection } = this.props;
+    if ( tilesetState.editorSelection && tilesetState.editorSelection.isActive ) {
+      _flipTilesetEditorSelection( true, false );
+    }
+    else {
+      console.log( 'flip horizontal' );
+    }
+  }
+
+  handleFlipVertical() {
+    const { tilesetState, _flipTilesetEditorSelection } = this.props;
+    if ( tilesetState.editorSelection && tilesetState.editorSelection.isActive ) {
+      _flipTilesetEditorSelection( false, true );
+    }
+    else {
+      console.log( 'flip vertical' );
+    }
+  }
+
   getTransformsRender() {
     const { tilesetState } = this.props;
+
+    const transformButtons = (
+      <Fragment>
+        <Button
+          title="Flip Horizontal"
+          icon="copy"
+          hideTitle
+          click={ () => this.handleFlipHorizontal() }
+        />
+        <Button
+          title="Flip Vertical"
+          icon="copy"
+          hideTitle
+          click={ () => this.handleFlipVertical() }
+        />
+      </Fragment>
+    );
 
     let selectionButtons = null;
     if ( tilesetState.editorSelection && tilesetState.editorSelection.isActive ) {
@@ -97,6 +135,7 @@ class PixelToolSettings extends React.Component {
     return (
       <div className="transforms">
         { selectionButtons }
+        { transformButtons }
       </div>
     );
   }
@@ -146,6 +185,7 @@ PixelToolSettings.propTypes = {
   tilesetState: PropTypes.object.isRequired,
   _deselectTilesetEditorSelection: PropTypes.func.isRequired,
   tileSize: PropTypes.number.isRequired,
+  _flipTilesetEditorSelection: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -161,6 +201,7 @@ function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setPixelToolSettings: setPixelToolSettings,
     _deselectTilesetEditorSelection: deselectTilesetEditorSelection,
+    _flipTilesetEditorSelection: flipTilesetEditorSelection,
   }, dispatch );
 }
 
