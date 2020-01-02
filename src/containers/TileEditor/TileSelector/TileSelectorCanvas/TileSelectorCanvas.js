@@ -97,7 +97,7 @@ class TileSelectorCanvas extends React.Component {
     // draw the editorSelection
     if ( editorSelection && editorSelection.isActive ) {
       const originX = ( selectedTile % ( width / tileSize ) ) * tileSize;
-      const originY = Math.floor( selectedTile / 8 ) * tileSize;
+      const originY = Math.floor( selectedTile / ( width / tileSize ) ) * tileSize;
 
       for ( let y = 0; y < editorSelection.height; y += 1 ) {
         for ( let x = 0; x < editorSelection.width; x += 1 ) {
