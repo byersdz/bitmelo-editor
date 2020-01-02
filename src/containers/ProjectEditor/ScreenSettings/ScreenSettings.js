@@ -134,14 +134,14 @@ class ScreenSettings extends React.Component {
           title="Screen Width"
           value={ screen.width }
           minValue={ 1 }
-          maxValue={ 1024 }
+          maxValue={ 640 }
           onValueChange={ v => this.handleScreenWidthChange( v ) }
         />
         <NumberPicker
           title="Screen Height"
           value={ screen.height }
           minValue={ 1 }
-          maxValue={ 1024 }
+          maxValue={ 640 }
           onValueChange={ v => this.handleScreenHeightChange( v ) }
         />
         { scaleRender }
