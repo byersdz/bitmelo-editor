@@ -10,7 +10,7 @@ import Button from '../../../components/Button/Button';
 
 import { PENCIL_TOOL, ERASER_TOOL } from '../../../state/PixelTools/selectedTool';
 import { setPixelToolSettings } from '../../../state/PixelTools/pixelToolSettings';
-import { deselectTilesetEditorSelection } from '../../../state/Tileset/actions';
+import { deselectTilesetEditorSelection, selectAllTileset } from '../../../state/Tileset/actions';
 import { flipTilesetEditorSelection } from '../../../state/Tileset/editorSelection';
 
 import './PixelToolSettings.scss';
@@ -78,13 +78,19 @@ class PixelToolSettings extends React.Component {
     }
   }
 
+  handleSelectAll() {
+    const { tilesetState, tileSize, _selectAllTileset } = this.props;
+    _selectAllTileset( tilesetState, tileSize );
+  }
+
   handleFlipHorizontal() {
     const { tilesetState, _flipTilesetEditorSelection } = this.props;
     if ( tilesetState.editorSelection && tilesetState.editorSelection.isActive ) {
       _flipTilesetEditorSelection( true, false );
     }
     else {
-      console.log( 'flip horizontal' );
+      this.handleSelectAll();
+      _flipTilesetEditorSelection( true, false );
     }
   }
 
@@ -94,7 +100,8 @@ class PixelToolSettings extends React.Component {
       _flipTilesetEditorSelection( false, true );
     }
     else {
-      console.log( 'flip vertical' );
+      this.handleSelectAll();
+      _flipTilesetEditorSelection( false, true );
     }
   }
 
@@ -186,6 +193,7 @@ PixelToolSettings.propTypes = {
   _deselectTilesetEditorSelection: PropTypes.func.isRequired,
   tileSize: PropTypes.number.isRequired,
   _flipTilesetEditorSelection: PropTypes.func.isRequired,
+  _selectAllTileset: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -202,6 +210,7 @@ function mapDispatchToProps( dispatch ) {
     _setPixelToolSettings: setPixelToolSettings,
     _deselectTilesetEditorSelection: deselectTilesetEditorSelection,
     _flipTilesetEditorSelection: flipTilesetEditorSelection,
+    _selectAllTileset: selectAllTileset,
   }, dispatch );
 }
 

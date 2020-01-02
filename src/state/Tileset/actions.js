@@ -1,6 +1,8 @@
 
 import cloneDeep from 'lodash.clonedeep';
 
+import { getSelectedTileData } from '../../utils/tilesetHelpers';
+
 export const CREATE_TILESET_EDITOR_SELECTION = 'CREATE_TILESET_EDITOR_SELECTION';
 export const APPLY_TILESET_EDITOR_SELECTION = 'APPLY_TILESET_EDITOR_SELECTION';
 export const REPOSITION_TILESET_EDITOR_SELECTION = 'REPOSITION_TILESET_EDITOR_SELECTION';
@@ -65,4 +67,27 @@ export function deselectTilesetEditorSelection( tilesetState, tileSize ) {
   const editorSelection = cloneDeep( tilesetState.editorSelection );
 
   return applyTilesetEditorSelection( tilesetIndex, layerIndex, selection, editorSelection );
+}
+
+export function selectAllTileset( tilesetState, tileSize ) {
+  const tileset = tilesetState.tilesets[tilesetState.activeIndex];
+  const selectedData = getSelectedTileData( tileset, tileSize );
+
+  const selection = {
+    tileSize,
+    selectedTile: tileset.selectedTile,
+    selectionWidth: tileset.selectionWidth,
+    selectionHeight: tileset.selectionHeight,
+  };
+
+  const editorSelection = {
+    width: selectedData.width,
+    height: selectedData.height,
+    offsetX: 0,
+    offsetY: 0,
+    data: selectedData.data,
+    isActive: true,
+  };
+
+  return createTilesetEditorSelection( tilesetState.activeIndex, tileset.activeLayer, selection, editorSelection );
 }
