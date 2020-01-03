@@ -111,6 +111,12 @@ class PixelToolSettings extends React.Component {
     const transformButtons = (
       <Fragment>
         <Button
+          title="Select All"
+          icon="play"
+          hideTitle
+          click={ () => this.handleSelectAll() }
+        />
+        <Button
           title="Flip Horizontal"
           icon="copy"
           hideTitle
