@@ -119,7 +119,7 @@ class PixelToolSettings extends React.Component {
       <Fragment>
         <Button
           title="Select All"
-          icon="play"
+          icon="selectall"
           hideTitle
           click={ () => this.handleSelectAll() }
         />

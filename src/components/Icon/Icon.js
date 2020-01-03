@@ -24,6 +24,7 @@ import CopyIcon from './SVG/copy-o.svg';
 import CutIcon from './SVG/cut-o.svg';
 import PasteIcon from './SVG/paste-o.svg';
 import DeselectIcon from './SVG/deselect-o.svg';
+import SelectAllIcon from './SVG/selectall-o.svg';
 
 import './Icon.scss';
 
@@ -157,6 +158,12 @@ const Icon = ( props ) => {
 
     case 'deselect': {
       svgFile = DeselectIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'selectall': {
+      svgFile = SelectAllIcon;
       noStroke = true;
       break;
     }
