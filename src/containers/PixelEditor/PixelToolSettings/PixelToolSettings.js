@@ -13,6 +13,8 @@ import { setPixelToolSettings } from '../../../state/PixelTools/pixelToolSetting
 import { deselectTilesetEditorSelection, selectAllTileset } from '../../../state/Tileset/actions';
 import { flipTilesetEditorSelection } from '../../../state/Tileset/editorSelection';
 
+import { SELECT_ALL, eventMatchesHotkey } from '../../../utils/hotkeys';
+
 import './PixelToolSettings.scss';
 
 class PixelToolSettings extends React.Component {
@@ -58,6 +60,11 @@ class PixelToolSettings extends React.Component {
     }
     else if ( newEraserSize > 0 && newEraserSize <= 32 ) {
       _setPixelToolSettings( { ...pixelToolSettings, eraserSize: newEraserSize } );
+    }
+
+    if ( eventMatchesHotkey( event, SELECT_ALL ) ) {
+      this.handleSelectAll();
+      event.preventDefault();
     }
   }
 
