@@ -25,6 +25,8 @@ import CutIcon from './SVG/cut-o.svg';
 import PasteIcon from './SVG/paste-o.svg';
 import DeselectIcon from './SVG/deselect-o.svg';
 import SelectAllIcon from './SVG/selectall-o.svg';
+import FlipVIcon from './SVG/flip-v-o.svg';
+import FlipHIcon from './SVG/flip-h-o.svg';
 
 import './Icon.scss';
 
@@ -164,6 +166,18 @@ const Icon = ( props ) => {
 
     case 'selectall': {
       svgFile = SelectAllIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'flip-v': {
+      svgFile = FlipVIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'flip-h': {
+      svgFile = FlipHIcon;
       noStroke = true;
       break;
     }

@@ -125,13 +125,13 @@ class PixelToolSettings extends React.Component {
         />
         <Button
           title="Flip Horizontal"
-          icon="copy"
+          icon="flip-h"
           hideTitle
           click={ () => this.handleFlipHorizontal() }
         />
         <Button
           title="Flip Vertical"
-          icon="copy"
+          icon="flip-v"
           hideTitle
           click={ () => this.handleFlipVertical() }
         />
