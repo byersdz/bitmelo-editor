@@ -7,7 +7,6 @@ import { bindActionCreators } from 'redux';
 import ToggleHeader from '../../../components/ToggleHeader/ToggleHeader';
 import Button from '../../../components/Button/Button';
 import NumberPicker from '../../../components/NumberPicker/NumberPicker';
-import TextInput from '../../../components/TextInput/TextInput';
 
 import { toggleTileSelector } from '../../../state/Layout/tileSelectorIsOpen';
 import { toggleTilemapTileSelector } from '../../../state/Layout/tilemapEditor';
@@ -108,12 +107,6 @@ class TileSelector extends React.Component {
           minValue={ 0 }
           maxValue={ numberOfTilesets - 1 }
           onValueChange={ v => _selectTileset( v ) }
-        />
-        <TextInput
-          title="Name"
-          value={ 'untitled' }
-          onValueChange={ v => console.log( v ) }
-          hideTitle
         />
         <TileSelectorCanvas
           width={ tileSize * tileset.width }

@@ -160,19 +160,16 @@ export default function reducer( state = initialState, action ) {
     }
     case ADD_TILESET: {
       const {
-        name,
         rows,
         columns,
         tileSize,
       } = action.payload;
       const newState = [...state];
       const newTileset = cloneDeep( initialState[0] );
-      newTileset.name = name;
       newTileset.width = columns;
       newTileset.height = rows;
       newTileset.layers[0].data = new Array( rows * columns * tileSize * tileSize );
       newTileset.layers[0].data.fill( 0 );
-      console.log( newTileset );
       newState.push( newTileset );
       return newState;
     }
@@ -514,11 +511,10 @@ export function setTilesetSize( tilesetIndex, tileSize, columns, rows ) {
   };
 }
 
-export function addTileset( name, rows, columns, tileSize ) {
+export function addTileset( rows, columns, tileSize ) {
   return {
     type: ADD_TILESET,
     payload: {
-      name,
       rows,
       columns,
       tileSize,
