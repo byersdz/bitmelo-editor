@@ -15,6 +15,7 @@ export const SET_TILESET_LAYER_DATA = 'SET_TILESET_LAYER_DATA';
 export const SET_TILESET_SELECTION = 'SET_TILESET_SELECTION';
 export const SET_TILESET_MAP_SELECTION = 'SET_TILESET_MAP_SELECTION';
 export const SET_TILESET_SIZE = 'SET_TILESET_SIZE';
+export const ADD_TILESET = 'ADD_TILESET';
 
 // validation
 export function validate( state ) {
@@ -119,6 +120,7 @@ const initialHeight = 8;
 const initialTileSize = 16;
 const initialState = [
   {
+    name: 'untitled',
     width: initialWidth,
     height: initialHeight,
     selectedTile: 0,
@@ -155,6 +157,24 @@ export default function reducer( state = initialState, action ) {
       catch ( e ) {
         return state;
       }
+    }
+    case ADD_TILESET: {
+      const {
+        name,
+        rows,
+        columns,
+        tileSize,
+      } = action.payload;
+      const newState = [...state];
+      const newTileset = cloneDeep( initialState[0] );
+      newTileset.name = name;
+      newTileset.width = columns;
+      newTileset.height = rows;
+      newTileset.layers[0].data = new Array( rows * columns * tileSize * tileSize );
+      newTileset.layers[0].data.fill( 0 );
+      console.log( newTileset );
+      newState.push( newTileset );
+      return newState;
     }
     case CHANGE_TILE_SIZE: {
       const { newTileSize } = action.payload;
@@ -490,6 +510,18 @@ export function setTilesetSize( tilesetIndex, tileSize, columns, rows ) {
       tileSize,
       columns,
       rows,
+    },
+  };
+}
+
+export function addTileset( name, rows, columns, tileSize ) {
+  return {
+    type: ADD_TILESET,
+    payload: {
+      name,
+      rows,
+      columns,
+      tileSize,
     },
   };
 }

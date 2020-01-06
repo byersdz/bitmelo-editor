@@ -11,6 +11,18 @@
   border-left: 2px solid black;
   border-right: 2px solid  black;
 
+  .text-input {
+
+    input {
+      margin-left: 0;
+    }
+
+    .controls {
+      width: 100%;
+    }
+
+  }
+
   .content {
     display: flex;
     flex-direction: column;

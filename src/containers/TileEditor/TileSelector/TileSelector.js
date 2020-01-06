@@ -1,19 +1,23 @@
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 
 import ToggleHeader from '../../../components/ToggleHeader/ToggleHeader';
 import Button from '../../../components/Button/Button';
+import NumberPicker from '../../../components/NumberPicker/NumberPicker';
+import TextInput from '../../../components/TextInput/TextInput';
 
 import { toggleTileSelector } from '../../../state/Layout/tileSelectorIsOpen';
 import { toggleTilemapTileSelector } from '../../../state/Layout/tilemapEditor';
 
 import { setTilesetSelection, setTilesetMapSelection } from '../../../state/Tileset/tilesets';
+import { selectTileset } from '../../../state/Tileset/activeIndex';
 
 import EditTilesetModal from './EditTilesetModal/EditTilesetModal';
 import TileSelectorCanvas from './TileSelectorCanvas/TileSelectorCanvas';
+import AddTilesetModal from './AddTilesetModal/AddTilesetModal';
 
 import './TileSelector.scss';
 
@@ -23,6 +27,7 @@ class TileSelector extends React.Component {
 
     this.state = {
       editModalIsOpen: false,
+      addModalIsOpen: false,
     };
   }
 
@@ -58,9 +63,12 @@ class TileSelector extends React.Component {
       palette,
       isInMapEditor,
       editorSelection,
+      activeIndex,
+      numberOfTilesets,
+      _selectTileset,
     } = this.props;
 
-    const { editModalIsOpen } = this.state;
+    const { editModalIsOpen, addModalIsOpen } = this.state;
 
     let isOpenLocal = isOpen;
     if ( isInMapEditor ) {
@@ -73,15 +81,40 @@ class TileSelector extends React.Component {
     const contentClass = isOpenLocal ? 'content' : 'content closed';
 
     const editButtonRender = !isInMapEditor ? (
-      <Button
-        title="Edit Tileset"
-        click={ () => this.setState( { editModalIsOpen: true } ) }
-        standard
-      />
+      <Fragment>
+        <Button
+          title="Edit Tileset"
+          click={ () => this.setState( { editModalIsOpen: true } ) }
+          standard
+        />
+        <Button
+          title="Delete"
+          click={ () => console.log( 'delete' ) }
+          standard
+        />
+        <Button
+          title="Add Tileset"
+          click={ () => this.setState( { addModalIsOpen: true } ) }
+          standard
+        />
+      </Fragment>
     ) : null;
 
     const content = (
       <div className={ contentClass }>
+        <NumberPicker
+          title="Tileset Index"
+          value={ activeIndex }
+          minValue={ 0 }
+          maxValue={ numberOfTilesets - 1 }
+          onValueChange={ v => _selectTileset( v ) }
+        />
+        <TextInput
+          title="Name"
+          value={ 'untitled' }
+          onValueChange={ v => console.log( v ) }
+          hideTitle
+        />
         <TileSelectorCanvas
           width={ tileSize * tileset.width }
           height={ tileSize * tileset.height }
@@ -104,6 +137,12 @@ class TileSelector extends React.Component {
       />
     ) : null;
 
+    const addModalRender = addModalIsOpen ? (
+      <AddTilesetModal
+        onClose={ () => this.setState( { addModalIsOpen: false } ) }
+      />
+    ) : null;
+
     const toggleFunction = isInMapEditor ? _toggleTilemapTileSelector : _toggleTileSelector;
 
     return (
@@ -113,6 +152,7 @@ class TileSelector extends React.Component {
           onToggle={ toggleFunction }
         />
         { editModalRender }
+        { addModalRender }
         { content }
       </div>
     );
@@ -133,6 +173,8 @@ TileSelector.propTypes = {
   isInMapEditor: PropTypes.bool,
   onSelectionWillChange: PropTypes.func,
   editorSelection: PropTypes.object.isRequired,
+  numberOfTilesets: PropTypes.number.isRequired,
+  _selectTileset: PropTypes.func.isRequired,
 };
 
 TileSelector.defaultProps = {
@@ -144,6 +186,7 @@ function mapStateToProps( state ) {
   const { tileSize } = state.project;
   const { activeIndex } = state.tileset.present;
   const activeTileset = state.tileset.present.tilesets[activeIndex];
+  const numberOfTilesets = state.tileset.present.tilesets.length;
 
   return {
     isOpen: state.layout.tileSelectorIsOpen,
@@ -153,6 +196,7 @@ function mapStateToProps( state ) {
     tileset: activeTileset,
     tileSize,
     editorSelection: state.tileset.present.editorSelection,
+    numberOfTilesets,
   };
 }
 
@@ -162,6 +206,7 @@ function mapDispatchToProps( dispatch ) {
     _setTilesetSelection: setTilesetSelection,
     _setTilesetMapSelection: setTilesetMapSelection,
     _toggleTilemapTileSelector: toggleTilemapTileSelector,
+    _selectTileset: selectTileset,
   }, dispatch );
 }
 
