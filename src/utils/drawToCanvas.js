@@ -172,7 +172,7 @@ export function drawTileDataToCanvas( settings, canvas ) {
       for ( let i = 0; i < tilesets.length; i += 1 ) {
         const currentTileset = tilesets[i];
         const numberOfTiles = currentTileset.width * currentTileset.height;
-        if ( tileGID <= startGID + numberOfTiles ) {
+        if ( tileGID < startGID + numberOfTiles ) {
           // this is the correct tileset
           tileset = currentTileset;
           tilesetIndex = i;

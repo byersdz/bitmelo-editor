@@ -11,6 +11,8 @@ import { undoTilemaps, redoTilemaps } from '../../../state/Tilemap';
 import { setTilemapLayerData } from '../../../state/Tilemap/tilemaps';
 import { setTilmapCursorPosition } from '../../../state/Layout/tilemapEditor';
 
+import { startGidForTileset } from '../../../utils/tilesetHelpers';
+
 import TilemapSelector from '../TilemapSelector/TilemapSelector';
 
 import './TilemapPixelEditor.scss';
@@ -75,14 +77,18 @@ class TilemapPixelEditor extends React.Component {
       tilesets,
       tilemap,
       activeTileset,
+      activeTilesetIndex,
     } = this.props;
 
     const layerData = tilemap.layers[tilemap.activeLayer].data;
     const { mapSelectionWidth, mapSelectionHeight, mapSelectedTile } = activeTileset;
     const selectionData = new Array( mapSelectionWidth * mapSelectionHeight );
+
+    const startGid = startGidForTileset( tilesets, activeTilesetIndex );
+
     for ( let y = 0; y < mapSelectionHeight; y += 1 ) {
       for ( let x = 0; x < mapSelectionWidth; x += 1 ) {
-        selectionData[y * mapSelectionWidth + x] = mapSelectedTile + ( y * activeTileset.width ) + x + 1;
+        selectionData[y * mapSelectionWidth + x] = mapSelectedTile + ( y * activeTileset.width ) + x + startGid;
       }
     }
 
@@ -118,6 +124,7 @@ TilemapPixelEditor.propTypes = {
   tileSize: PropTypes.number.isRequired,
   tilesets: PropTypes.array.isRequired,
   activeTileset: PropTypes.object.isRequired,
+  activeTilesetIndex: PropTypes.number.isRequired,
   tilemap: PropTypes.object.isRequired,
   activeIndex: PropTypes.number.isRequired,
   _setTilemapLayerData: PropTypes.func.isRequired,
@@ -140,6 +147,7 @@ function mapStateToProps( state ) {
     tilemap: activeTilemap,
     activeIndex,
     activeTileset,
+    activeTilesetIndex,
   };
 }
 
