@@ -131,7 +131,9 @@ class TileSelector extends React.Component {
           maxValue={ numberOfTilesets - 1 }
           onValueChange={ v => {
             if ( v !== activeIndex ) {
-              onTilesetWillChange();
+              if ( onTilesetWillChange ) {
+                onTilesetWillChange();
+              }
               _selectTileset( v );
             }
           } }
