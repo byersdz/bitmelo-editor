@@ -222,6 +222,7 @@ class TilePixelEditor extends React.Component {
       >
         <TileSelector
           onSelectionWillChange={ () => this.applyAndClearSelection() }
+          onTilesetWillChange={ () => this.applyAndClearSelection() }
         />
       </PixelEditor>
     );

@@ -67,6 +67,7 @@ class TileSelector extends React.Component {
       activeIndex,
       numberOfTilesets,
       _selectTileset,
+      onTilesetWillChange,
     } = this.props;
 
     const { editModalIsOpen, addModalIsOpen, deleteModalIsOpen } = this.state;
@@ -128,7 +129,12 @@ class TileSelector extends React.Component {
           value={ activeIndex }
           minValue={ 0 }
           maxValue={ numberOfTilesets - 1 }
-          onValueChange={ v => _selectTileset( v ) }
+          onValueChange={ v => {
+            if ( v !== activeIndex ) {
+              onTilesetWillChange();
+              _selectTileset( v );
+            }
+          } }
         />
         { editButtonRender }
       </div>
@@ -185,11 +191,13 @@ TileSelector.propTypes = {
   editorSelection: PropTypes.object.isRequired,
   numberOfTilesets: PropTypes.number.isRequired,
   _selectTileset: PropTypes.func.isRequired,
+  onTilesetWillChange: PropTypes.func,
 };
 
 TileSelector.defaultProps = {
   isInMapEditor: false,
   onSelectionWillChange: null,
+  onTilesetWillChange: null,
 };
 
 function mapStateToProps( state ) {
