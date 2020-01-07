@@ -72,6 +72,11 @@ class About extends React.Component {
       </AButton>
     ) : null;
 
+    let engineVersion = PackageJSON.dependencies.bitmelo;
+    if ( engineVersion[0] === '^' ) {
+      engineVersion = engineVersion.slice( 1 );
+    }
+
     return (
       <div className="about">
         <img
@@ -86,7 +91,7 @@ class About extends React.Component {
         </div>
         <div className="version">
           {
-            `engine v${ PackageJSON.dependencies.bitmelo }`
+            `engine v${ engineVersion }`
           }
         </div>
         <h2 className="welcome">Welcome to Bitmelo!</h2>
