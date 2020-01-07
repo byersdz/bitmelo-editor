@@ -9,6 +9,7 @@ import NumberPicker from '../../../../components/NumberPicker/NumberPicker';
 import Button from '../../../../components/Button/Button';
 
 import { addTileset } from '../../../../state/Tileset/tilesets';
+import { selectTileset } from '../../../../state/Tileset/activeIndex';
 
 class AddTilesetModal extends React.Component {
   constructor( props ) {
@@ -21,10 +22,19 @@ class AddTilesetModal extends React.Component {
   }
 
   handleAddTileset() {
-    const { _addTileset, onClose, tileSize } = this.props;
+    const {
+      _addTileset,
+      onClose,
+      tileSize,
+      _selectTileset,
+      numberOfTilesets,
+      onTilesetWillBeAdded,
+    } = this.props;
     const { columns, rows } = this.state;
 
+    onTilesetWillBeAdded();
     _addTileset( rows, columns, tileSize );
+    _selectTileset( numberOfTilesets );
     onClose();
   }
 
@@ -75,20 +85,25 @@ class AddTilesetModal extends React.Component {
 }
 
 AddTilesetModal.propTypes = {
+  onTilesetWillBeAdded: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   tileSize: PropTypes.number.isRequired,
   _addTileset: PropTypes.func.isRequired,
+  _selectTileset: PropTypes.func.isRequired,
+  numberOfTilesets: PropTypes.number.isRequired,
 };
 
 function mapStateToProps( state ) {
   return {
     tileSize: state.project.tileSize,
+    numberOfTilesets: state.tileset.present.tilesets.length,
   };
 }
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _addTileset: addTileset,
+    _selectTileset: selectTileset,
   }, dispatch );
 }
 

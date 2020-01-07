@@ -157,6 +157,7 @@ class TileSelector extends React.Component {
     const addModalRender = addModalIsOpen ? (
       <AddTilesetModal
         onClose={ () => this.setState( { addModalIsOpen: false } ) }
+        onTilesetWillBeAdded={ () => onTilesetWillChange() }
       />
     ) : null;
 
