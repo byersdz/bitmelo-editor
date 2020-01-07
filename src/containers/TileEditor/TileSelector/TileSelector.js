@@ -17,6 +17,7 @@ import { selectTileset } from '../../../state/Tileset/activeIndex';
 import EditTilesetModal from './EditTilesetModal/EditTilesetModal';
 import TileSelectorCanvas from './TileSelectorCanvas/TileSelectorCanvas';
 import AddTilesetModal from './AddTilesetModal/AddTilesetModal';
+import DeleteTilesetModal from './DeleteTilesetModal/DeleteTilesetModal';
 
 import './TileSelector.scss';
 
@@ -27,6 +28,7 @@ class TileSelector extends React.Component {
     this.state = {
       editModalIsOpen: false,
       addModalIsOpen: false,
+      deleteModalIsOpen: false,
     };
   }
 
@@ -67,7 +69,7 @@ class TileSelector extends React.Component {
       _selectTileset,
     } = this.props;
 
-    const { editModalIsOpen, addModalIsOpen } = this.state;
+    const { editModalIsOpen, addModalIsOpen, deleteModalIsOpen } = this.state;
 
     let isOpenLocal = isOpen;
     if ( isInMapEditor ) {
@@ -79,6 +81,22 @@ class TileSelector extends React.Component {
 
     const contentClass = isOpenLocal ? 'content' : 'content closed';
 
+    const deleteButtonRender = numberOfTilesets > 1 ? (
+      <Button
+        title="Delete"
+        click={ () => this.setState( { deleteModalIsOpen: true } ) }
+        standard
+      />
+    ) : null;
+
+    const addButtonRender = numberOfTilesets < 8 ? (
+      <Button
+        title="Add Tileset"
+        click={ () => this.setState( { addModalIsOpen: true } ) }
+        standard
+      />
+    ) : null;
+
     const editButtonRender = !isInMapEditor ? (
       <Fragment>
         <Button
@@ -86,28 +104,13 @@ class TileSelector extends React.Component {
           click={ () => this.setState( { editModalIsOpen: true } ) }
           standard
         />
-        <Button
-          title="Delete"
-          click={ () => console.log( 'delete' ) }
-          standard
-        />
-        <Button
-          title="Add Tileset"
-          click={ () => this.setState( { addModalIsOpen: true } ) }
-          standard
-        />
+        { deleteButtonRender }
+        { addButtonRender }
       </Fragment>
     ) : null;
 
     const content = (
       <div className={ contentClass }>
-        <NumberPicker
-          title="Tileset Index"
-          value={ activeIndex }
-          minValue={ 0 }
-          maxValue={ numberOfTilesets - 1 }
-          onValueChange={ v => _selectTileset( v ) }
-        />
         <TileSelectorCanvas
           width={ tileSize * tileset.width }
           height={ tileSize * tileset.height }
@@ -120,6 +123,13 @@ class TileSelector extends React.Component {
           onSelectionChange={ s => this.handleSelectionChange( s ) }
           editorSelection={ editorSelection }
         />
+        <NumberPicker
+          title="Tileset Index"
+          value={ activeIndex }
+          minValue={ 0 }
+          maxValue={ numberOfTilesets - 1 }
+          onValueChange={ v => _selectTileset( v ) }
+        />
         { editButtonRender }
       </div>
     );
@@ -127,6 +137,12 @@ class TileSelector extends React.Component {
     const editModalRender = editModalIsOpen ? (
       <EditTilesetModal
         onClose={ () => this.setState( { editModalIsOpen: false } ) }
+      />
+    ) : null;
+
+    const deleteModalRender = deleteModalIsOpen ? (
+      <DeleteTilesetModal
+        onClose={ () => this.setState( { deleteModalIsOpen: false } ) }
       />
     ) : null;
 
@@ -145,6 +161,7 @@ class TileSelector extends React.Component {
           onToggle={ toggleFunction }
         />
         { editModalRender }
+        { deleteModalRender }
         { addModalRender }
         { content }
       </div>

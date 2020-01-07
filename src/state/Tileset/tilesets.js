@@ -16,6 +16,7 @@ export const SET_TILESET_SELECTION = 'SET_TILESET_SELECTION';
 export const SET_TILESET_MAP_SELECTION = 'SET_TILESET_MAP_SELECTION';
 export const SET_TILESET_SIZE = 'SET_TILESET_SIZE';
 export const ADD_TILESET = 'ADD_TILESET';
+export const DELETE_TILESET = 'DELETE_TILESET';
 
 // validation
 export function validate( state ) {
@@ -172,6 +173,9 @@ export default function reducer( state = initialState, action ) {
       newTileset.layers[0].data.fill( 0 );
       newState.push( newTileset );
       return newState;
+    }
+    case DELETE_TILESET: {
+      return [...state.slice( 0, action.payload ), ...state.slice( action.payload + 1 )];
     }
     case CHANGE_TILE_SIZE: {
       const { newTileSize } = action.payload;
@@ -519,5 +523,12 @@ export function addTileset( rows, columns, tileSize ) {
       columns,
       tileSize,
     },
+  };
+}
+
+export function deleteTileset( tilesetIndex ) {
+  return {
+    type: DELETE_TILESET,
+    payload: tilesetIndex,
   };
 }
