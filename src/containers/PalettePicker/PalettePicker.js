@@ -89,16 +89,18 @@ class PalettePicker extends React.Component {
       ) );
     }
 
-    buttonsRender.push( (
-      <Button
-        className="add-color-button"
-        key={ 1024 }
-        title="Add Color"
-        hideTitle
-        icon="plus"
-        click={ () => this.handleAddClicked() }
-      />
-    ) );
+    if ( palette.length < 256 ) {
+      buttonsRender.push( (
+        <Button
+          className="add-color-button"
+          key={ 1024 }
+          title="Add Color"
+          hideTitle
+          icon="plus"
+          click={ () => this.handleAddClicked() }
+        />
+      ) );
+    }
 
     const colorEditorRender = colorEditorIsOpen ? (
       <ColorEditor onClose={ () => this.setState( { colorEditorIsOpen: false } ) } />

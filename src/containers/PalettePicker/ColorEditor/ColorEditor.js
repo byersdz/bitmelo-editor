@@ -7,7 +7,8 @@ import enhanceWithClickOutside from 'react-click-outside';
 
 import Button from '../../../components/Button/Button';
 
-import { setPaletteColor } from '../../../state/Palette/colors';
+import { setPaletteColor, addPaletteColor } from '../../../state/Palette/colors';
+import { selectPaletteIndex } from '../../../state/Palette/selectedIndex';
 import { setColorPickerIsOpen } from '../../../state/Layout/colorPickerIsOpen';
 
 import DeleteColorModal from '../DeleteColorModal/DeleteColorModal';
@@ -40,12 +41,22 @@ class ColorEditor extends React.Component {
     onClose();
   }
 
-  handleCancel() {
-    const { onClose, selectedIndex, _setPaletteColor } = this.props;
+  handleCancel( newSelectedIndex = null ) {
+    const {
+      onClose,
+      selectedIndex,
+      _setPaletteColor,
+      _selectPaletteIndex,
+    } = this.props;
     const { initialColor } = this.state;
 
     _setPaletteColor( selectedIndex, initialColor );
 
+    if ( newSelectedIndex ) {
+      // select a new color index before closing
+      // used when adding a color
+      _selectPaletteIndex( newSelectedIndex );
+    }
     onClose();
   }
 
@@ -63,13 +74,29 @@ class ColorEditor extends React.Component {
   }
 
   render() {
-    const { color, onClose } = this.props;
+    const {
+      color,
+      onClose,
+      _addPaletteColor,
+      numberOfColors,
+    } = this.props;
     const { deleteModalIsOpen } = this.state;
 
     const deleteModalRender = deleteModalIsOpen ? (
       <DeleteColorModal
         onClose={ () => this.setState( { deleteModalIsOpen: false } ) }
         onDelete={ () => onClose() }
+      />
+    ) : null;
+
+    const addButtonRender = numberOfColors < 256 ? (
+      <Button
+        title="Add New Color"
+        click={ () => {
+          _addPaletteColor( color );
+          this.handleCancel( numberOfColors );
+        } }
+        standard
       />
     ) : null;
 
@@ -83,9 +110,20 @@ class ColorEditor extends React.Component {
           onCancel={ () => this.handleCancel() }
           onChange={ c => this.handleColorChange( c ) }
         />
+        { addButtonRender }
         <Button
-          title="Delete Palette Color"
+          title="Modify Selected Color"
+          click={ () => this.handleAccept() }
+          standard
+        />
+        <Button
+          title="Delete Selected Color"
           click={ () => this.setState( { deleteModalIsOpen: true } ) }
+          standard
+        />
+        <Button
+          title="Cancel"
+          click={ () => this.handleCancel() }
           standard
         />
       </div>
@@ -99,6 +137,9 @@ ColorEditor.propTypes = {
   selectedIndex: PropTypes.number.isRequired,
   _setPaletteColor: PropTypes.func.isRequired,
   _setColorPickerIsOpen: PropTypes.func.isRequired,
+  _addPaletteColor: PropTypes.func.isRequired,
+  numberOfColors: PropTypes.number.isRequired,
+  _selectPaletteIndex: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -107,6 +148,7 @@ function mapStateToProps( state ) {
   return {
     selectedIndex,
     color,
+    numberOfColors: state.palette.colors.length,
   };
 }
 
@@ -114,6 +156,8 @@ function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setPaletteColor: setPaletteColor,
     _setColorPickerIsOpen: setColorPickerIsOpen,
+    _addPaletteColor: addPaletteColor,
+    _selectPaletteIndex: selectPaletteIndex,
   }, dispatch );
 }
 
