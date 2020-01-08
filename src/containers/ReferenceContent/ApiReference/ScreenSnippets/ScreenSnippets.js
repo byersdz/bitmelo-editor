@@ -115,7 +115,8 @@ engine.screen.drawTile(
   1,    // gid
   0,    // x
   0,    // y
-  0    // flip
+  0,    // flip
+  0     // rotate
 );
             `
           }
