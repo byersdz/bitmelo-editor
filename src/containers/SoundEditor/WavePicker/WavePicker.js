@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
-import Card from 'Components/Card/Card';
-import Select from 'Components/Select/Select';
-import { setSoundData } from 'State/Sound/sounds';
+import Card from '../../../components/Card/Card';
+import Select from '../../../components/Select/Select';
+import { setSoundData } from '../../../state/Sound/sounds';
 
 import './WavePicker.scss';
 

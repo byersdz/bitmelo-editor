@@ -4,21 +4,22 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { importProjectData, clearAllUndoHistory } from 'State/globalActions';
-import { setNavigationPanelIsOpen } from 'State/Layout/navigationPanelIsOpen';
-import { setReferencePanelIsOpen } from 'State/Layout/referencePanelIsOpen';
-import { applyTilesetEditorSelection } from 'State/Tileset/actions';
+import { importProjectData, clearAllUndoHistory } from '../../state/globalActions';
+import { setNavigationPanelIsOpen } from '../../state/Layout/navigationPanelIsOpen';
+import { setReferencePanelIsOpen } from '../../state/Layout/referencePanelIsOpen';
+import { applyTilesetEditorSelection } from '../../state/Tileset/actions';
 
-import NavigationTab from 'Containers/NavigationTab/NavigationTab';
-import MainContainer from 'Containers/MainContainer/MainContainer';
-import ReferenceTab from 'Containers/ReferenceTab/ReferenceTab';
-import BitmeloAudio from 'Containers/BitmeloAudio/BitmeloAudio';
+import NavigationTab from '../../containers/NavigationTab/NavigationTab';
+import MainContainer from '../../containers/MainContainer/MainContainer';
+import ReferenceTab from '../../containers/ReferenceTab/ReferenceTab';
+import BitmeloAudio from '../../containers/BitmeloAudio/BitmeloAudio';
+
+import { loadStateFromLocalStorage } from '../../utils/Saving/localStorage';
+import WelcomeDemo from '../../utils/Demos/WelcomeDemo.json';
+
+import { useExtraSmallWidth } from '../../style/dimensions';
+
 import './App.scss';
-
-import { loadStateFromLocalStorage } from 'Utils/Saving/localStorage';
-import WelcomeDemo from 'Utils/Demos/WelcomeDemo.json';
-
-import { useExtraSmallWidth } from 'Style/dimensions';
 
 class App extends React.Component {
   constructor( props ) {

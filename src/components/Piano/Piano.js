@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Button from 'Components/Button/Button';
+import Button from '../Button/Button';
 
 import PianoKey from './PianoKey/PianoKey';
 

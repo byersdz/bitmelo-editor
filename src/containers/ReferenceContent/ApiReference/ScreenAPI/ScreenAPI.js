@@ -710,6 +710,11 @@ the next gid is the bottom left tile of the next tileset.
                 type: 'number',
                 description: 'should we flip the tile? 0: no, 1: x, 2: y, 3: xy',
               },
+              {
+                name: 'rotate',
+                type: 'number',
+                description: 'The number of degrees to rotate. Only 90 degree increments are supported.',
+              },
             ]
           }
           example={

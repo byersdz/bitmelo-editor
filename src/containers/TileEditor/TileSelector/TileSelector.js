@@ -1,19 +1,23 @@
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 
-import ToggleHeader from 'Components/ToggleHeader/ToggleHeader';
-import Button from 'Components/Button/Button';
+import ToggleHeader from '../../../components/ToggleHeader/ToggleHeader';
+import Button from '../../../components/Button/Button';
+import NumberPicker from '../../../components/NumberPicker/NumberPicker';
 
-import { toggleTileSelector } from 'State/Layout/tileSelectorIsOpen';
-import { toggleTilemapTileSelector } from 'State/Layout/tilemapEditor';
+import { toggleTileSelector } from '../../../state/Layout/tileSelectorIsOpen';
+import { toggleTilemapTileSelector } from '../../../state/Layout/tilemapEditor';
 
-import { setTilesetSelection, setTilesetMapSelection } from 'State/Tileset/tilesets';
+import { setTilesetSelection, setTilesetMapSelection } from '../../../state/Tileset/tilesets';
+import { selectTileset } from '../../../state/Tileset/activeIndex';
 
 import EditTilesetModal from './EditTilesetModal/EditTilesetModal';
 import TileSelectorCanvas from './TileSelectorCanvas/TileSelectorCanvas';
+import AddTilesetModal from './AddTilesetModal/AddTilesetModal';
+import DeleteTilesetModal from './DeleteTilesetModal/DeleteTilesetModal';
 
 import './TileSelector.scss';
 
@@ -23,6 +27,8 @@ class TileSelector extends React.Component {
 
     this.state = {
       editModalIsOpen: false,
+      addModalIsOpen: false,
+      deleteModalIsOpen: false,
     };
   }
 
@@ -58,9 +64,13 @@ class TileSelector extends React.Component {
       palette,
       isInMapEditor,
       editorSelection,
+      activeIndex,
+      numberOfTilesets,
+      _selectTileset,
+      onTilesetWillChange,
     } = this.props;
 
-    const { editModalIsOpen } = this.state;
+    const { editModalIsOpen, addModalIsOpen, deleteModalIsOpen } = this.state;
 
     let isOpenLocal = isOpen;
     if ( isInMapEditor ) {
@@ -72,12 +82,32 @@ class TileSelector extends React.Component {
 
     const contentClass = isOpenLocal ? 'content' : 'content closed';
 
-    const editButtonRender = !isInMapEditor ? (
+    const deleteButtonRender = numberOfTilesets > 1 ? (
       <Button
-        title="Edit Tileset"
-        click={ () => this.setState( { editModalIsOpen: true } ) }
+        title="Delete"
+        click={ () => this.setState( { deleteModalIsOpen: true } ) }
         standard
       />
+    ) : null;
+
+    const addButtonRender = numberOfTilesets < 8 ? (
+      <Button
+        title="Add Tileset"
+        click={ () => this.setState( { addModalIsOpen: true } ) }
+        standard
+      />
+    ) : null;
+
+    const editButtonRender = !isInMapEditor ? (
+      <Fragment>
+        <Button
+          title="Edit Tileset"
+          click={ () => this.setState( { editModalIsOpen: true } ) }
+          standard
+        />
+        { deleteButtonRender }
+        { addButtonRender }
+      </Fragment>
     ) : null;
 
     const content = (
@@ -94,6 +124,20 @@ class TileSelector extends React.Component {
           onSelectionChange={ s => this.handleSelectionChange( s ) }
           editorSelection={ editorSelection }
         />
+        <NumberPicker
+          title="Tileset Index"
+          value={ activeIndex }
+          minValue={ 0 }
+          maxValue={ numberOfTilesets - 1 }
+          onValueChange={ v => {
+            if ( v !== activeIndex ) {
+              if ( onTilesetWillChange ) {
+                onTilesetWillChange();
+              }
+              _selectTileset( v );
+            }
+          } }
+        />
         { editButtonRender }
       </div>
     );
@@ -101,6 +145,19 @@ class TileSelector extends React.Component {
     const editModalRender = editModalIsOpen ? (
       <EditTilesetModal
         onClose={ () => this.setState( { editModalIsOpen: false } ) }
+      />
+    ) : null;
+
+    const deleteModalRender = deleteModalIsOpen ? (
+      <DeleteTilesetModal
+        onClose={ () => this.setState( { deleteModalIsOpen: false } ) }
+      />
+    ) : null;
+
+    const addModalRender = addModalIsOpen ? (
+      <AddTilesetModal
+        onClose={ () => this.setState( { addModalIsOpen: false } ) }
+        onTilesetWillBeAdded={ () => onTilesetWillChange() }
       />
     ) : null;
 
@@ -113,6 +170,8 @@ class TileSelector extends React.Component {
           onToggle={ toggleFunction }
         />
         { editModalRender }
+        { deleteModalRender }
+        { addModalRender }
         { content }
       </div>
     );
@@ -133,17 +192,22 @@ TileSelector.propTypes = {
   isInMapEditor: PropTypes.bool,
   onSelectionWillChange: PropTypes.func,
   editorSelection: PropTypes.object.isRequired,
+  numberOfTilesets: PropTypes.number.isRequired,
+  _selectTileset: PropTypes.func.isRequired,
+  onTilesetWillChange: PropTypes.func,
 };
 
 TileSelector.defaultProps = {
   isInMapEditor: false,
   onSelectionWillChange: null,
+  onTilesetWillChange: null,
 };
 
 function mapStateToProps( state ) {
   const { tileSize } = state.project;
   const { activeIndex } = state.tileset.present;
   const activeTileset = state.tileset.present.tilesets[activeIndex];
+  const numberOfTilesets = state.tileset.present.tilesets.length;
 
   return {
     isOpen: state.layout.tileSelectorIsOpen,
@@ -153,6 +217,7 @@ function mapStateToProps( state ) {
     tileset: activeTileset,
     tileSize,
     editorSelection: state.tileset.present.editorSelection,
+    numberOfTilesets,
   };
 }
 
@@ -162,6 +227,7 @@ function mapDispatchToProps( dispatch ) {
     _setTilesetSelection: setTilesetSelection,
     _setTilesetMapSelection: setTilesetMapSelection,
     _toggleTilemapTileSelector: toggleTilemapTileSelector,
+    _selectTileset: selectTileset,
   }, dispatch );
 }
 

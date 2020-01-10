@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { setReferenceTabTitle } from 'State/Layout/referenceTabTitle';
+import { setReferenceTabTitle } from '../../../state/Layout/referenceTabTitle';
 
 import LineBreak from './floral-line-break.png';
 

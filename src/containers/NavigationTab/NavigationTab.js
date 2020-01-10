@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
-import Button from 'Components/Button/Button';
-import ButtonTabs from 'Components/ButtonTabs/ButtonTabs';
+import Button from '../../components/Button/Button';
+import ButtonTabs from '../../components/ButtonTabs/ButtonTabs';
 
 import {
   selectNavigationTab,
@@ -16,11 +16,11 @@ import {
   TILE_TAB,
   TILEMAP_TAB,
   SOUND_TAB,
-} from 'State/Layout/activeNavigationTab';
-import { toggleNavigationPanel } from 'State/Layout/navigationPanelIsOpen';
-import { STOP_ALL_AUDIO, addAudioEvent } from 'State/Sound/audioEvents';
+} from '../../state/Layout/activeNavigationTab';
+import { toggleNavigationPanel } from '../../state/Layout/navigationPanelIsOpen';
+import { STOP_ALL_AUDIO, addAudioEvent } from '../../state/Sound/audioEvents';
 
-import { useExtraSmallWidth } from 'Style/dimensions';
+import { useExtraSmallWidth } from '../../style/dimensions';
 
 import './NavigationTab.scss';
 

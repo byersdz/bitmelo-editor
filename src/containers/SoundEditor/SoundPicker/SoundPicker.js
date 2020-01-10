@@ -4,12 +4,18 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
-import NumberPicker from 'Components/NumberPicker/NumberPicker';
-import TextInput from 'Components/TextInput/TextInput';
-import Button from 'Components/Button/Button';
+// import NumberPicker from 'Components/NumberPicker/NumberPicker';
+// import TextInput from 'Components/TextInput/TextInput';
+// import Button from 'Components/Button/Button';
 
-import { setSoundData, addSound } from 'State/Sound/sounds';
-import { selectSound } from 'State/Sound/activeSound';
+// import { setSoundData, addSound } from 'State/Sound/sounds';
+// import { selectSound } from 'State/Sound/activeSound';
+import NumberPicker from '../../../components/NumberPicker/NumberPicker';
+import TextInput from '../../../components/TextInput/TextInput';
+import Button from '../../../components/Button/Button';
+
+import { setSoundData, addSound } from '../../../state/Sound/sounds';
+import { selectSound } from '../../../state/Sound/activeSound';
 
 import './SoundPicker.scss';
 

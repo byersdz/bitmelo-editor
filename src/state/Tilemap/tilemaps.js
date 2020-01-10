@@ -1,7 +1,8 @@
 
 import cloneDeep from 'lodash.clonedeep';
+import { ConvertData } from 'bitmelo';
 
-import { RESET_PROJECT, IMPORT_PROJECT_DATA } from 'State/globalActions';
+import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 
 // Actions
 export const SET_TILEMAP_LAYER_DATA = 'SET_TILEMAP_LAYER_DATA';
@@ -53,13 +54,40 @@ export function validate( state ) {
         return false;
       }
 
-      if ( !Array.isArray( layer.data ) ) {
-        return false;
+      if ( !layer.format || layer.format === 'array' || layer.format === 'run' ) {
+        if ( !Array.isArray( layer.data ) ) {
+          return false;
+        }
+      }
+      else if ( layer.format === 'rc' || layer.format === 'c' ) {
+        if ( typeof layer.data !== 'string' ) {
+          return false;
+        }
       }
     }
   }
 
   return true;
+}
+
+function modifyImportedState( state ) {
+  const newState = cloneDeep( state );
+
+  for ( let i = 0; i < newState.length; i += 1 ) {
+    const currentTilemap = newState[i];
+
+    for ( let j = 0; j < currentTilemap.layers.length; j += 1 ) {
+      const layer = currentTilemap.layers[j];
+
+      if ( layer.format && layer.format === 'rc' ) {
+        const runArray = ConvertData.compressedStringToArray( layer.data );
+        layer.data = ConvertData.runToArray( runArray );
+        layer.format = 'array';
+      }
+    }
+  }
+
+  return newState;
 }
 
 // Reducer
@@ -91,7 +119,7 @@ export default function reducer( state = initialState, action ) {
       try {
         const importedState = action.payload.tilemap.tilemaps;
         if ( validate( importedState ) ) {
-          return [...importedState];
+          return modifyImportedState( importedState );
         }
         return state;
       }

@@ -4,14 +4,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import ToolSettings from 'Components/ToolSettings/ToolSettings';
-import NumberPicker from 'Components/NumberPicker/NumberPicker';
-import Button from 'Components/Button/Button';
+import ToolSettings from '../../../components/ToolSettings/ToolSettings';
+import NumberPicker from '../../../components/NumberPicker/NumberPicker';
+import Button from '../../../components/Button/Button';
 
-import { PENCIL_TOOL, ERASER_TOOL } from 'State/PixelTools/selectedTool';
-import { setPixelToolSettings } from 'State/PixelTools/pixelToolSettings';
-import { deselectTilesetEditorSelection } from 'State/Tileset/actions';
+import { PENCIL_TOOL, ERASER_TOOL } from '../../../state/PixelTools/selectedTool';
+import { setPixelToolSettings } from '../../../state/PixelTools/pixelToolSettings';
+import { deselectTilesetEditorSelection, selectAllTileset } from '../../../state/Tileset/actions';
+import { flipTilesetEditorSelection } from '../../../state/Tileset/editorSelection';
 
+import { SELECT_ALL, eventMatchesHotkey } from '../../../utils/hotkeys';
 
 import './PixelToolSettings.scss';
 
@@ -59,6 +61,11 @@ class PixelToolSettings extends React.Component {
     else if ( newEraserSize > 0 && newEraserSize <= 32 ) {
       _setPixelToolSettings( { ...pixelToolSettings, eraserSize: newEraserSize } );
     }
+
+    if ( eventMatchesHotkey( event, SELECT_ALL ) ) {
+      this.handleSelectAll();
+      event.preventDefault();
+    }
   }
 
   handlePencilSizeChange( newValue ) {
@@ -78,8 +85,58 @@ class PixelToolSettings extends React.Component {
     }
   }
 
+  handleSelectAll() {
+    const { tilesetState, tileSize, _selectAllTileset } = this.props;
+    _selectAllTileset( tilesetState, tileSize );
+  }
+
+  handleFlipHorizontal() {
+    const { tilesetState, _flipTilesetEditorSelection } = this.props;
+    if ( tilesetState.editorSelection && tilesetState.editorSelection.isActive ) {
+      _flipTilesetEditorSelection( true, false );
+    }
+    else {
+      this.handleSelectAll();
+      _flipTilesetEditorSelection( true, false );
+    }
+  }
+
+  handleFlipVertical() {
+    const { tilesetState, _flipTilesetEditorSelection } = this.props;
+    if ( tilesetState.editorSelection && tilesetState.editorSelection.isActive ) {
+      _flipTilesetEditorSelection( false, true );
+    }
+    else {
+      this.handleSelectAll();
+      _flipTilesetEditorSelection( false, true );
+    }
+  }
+
   getTransformsRender() {
     const { tilesetState } = this.props;
+
+    const transformButtons = (
+      <Fragment>
+        <Button
+          title="Select All"
+          icon="selectall"
+          hideTitle
+          click={ () => this.handleSelectAll() }
+        />
+        <Button
+          title="Flip Horizontal"
+          icon="flip-h"
+          hideTitle
+          click={ () => this.handleFlipHorizontal() }
+        />
+        <Button
+          title="Flip Vertical"
+          icon="flip-v"
+          hideTitle
+          click={ () => this.handleFlipVertical() }
+        />
+      </Fragment>
+    );
 
     let selectionButtons = null;
     if ( tilesetState.editorSelection && tilesetState.editorSelection.isActive ) {
@@ -98,6 +155,7 @@ class PixelToolSettings extends React.Component {
     return (
       <div className="transforms">
         { selectionButtons }
+        { transformButtons }
       </div>
     );
   }
@@ -147,6 +205,8 @@ PixelToolSettings.propTypes = {
   tilesetState: PropTypes.object.isRequired,
   _deselectTilesetEditorSelection: PropTypes.func.isRequired,
   tileSize: PropTypes.number.isRequired,
+  _flipTilesetEditorSelection: PropTypes.func.isRequired,
+  _selectAllTileset: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -162,6 +222,8 @@ function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setPixelToolSettings: setPixelToolSettings,
     _deselectTilesetEditorSelection: deselectTilesetEditorSelection,
+    _flipTilesetEditorSelection: flipTilesetEditorSelection,
+    _selectAllTileset: selectAllTileset,
   }, dispatch );
 }
 

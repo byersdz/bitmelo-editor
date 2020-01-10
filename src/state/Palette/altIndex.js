@@ -1,5 +1,5 @@
 
-import { RESET_PROJECT } from 'State/globalActions';
+import { RESET_PROJECT } from '../globalActions';
 
 // Actions
 export const SELECT_ALT_PALETTE_INDEX = 'SELECT_ALT_PALETTE_INDEX';

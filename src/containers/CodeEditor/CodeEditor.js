@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { setScript } from 'State/Code/scripts';
+import { setScript } from '../../state/Code/scripts';
 
-import { useSmallWidth, useExtraSmallWidth } from 'Style/dimensions';
+import { useSmallWidth, useExtraSmallWidth } from '../../style/dimensions';
 
 import 'brace/mode/javascript';
 import 'brace/theme/twilight';

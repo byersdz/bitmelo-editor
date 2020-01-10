@@ -7,11 +7,11 @@ import {
   drawPixelDataToCanvas,
   drawTileSelection,
   drawGrid,
-} from 'Utils/drawToCanvas';
+} from '../../../../utils/drawToCanvas';
 
-import { applyWheelScroll } from 'Utils/mouse';
+import { applyWheelScroll } from '../../../../utils/mouse';
 
-import backgroundImage from 'Containers/PixelEditor/background.png';
+import backgroundImage from '../../../PixelEditor/background.png';
 
 import './TileSelectorCanvas.scss';
 
@@ -97,7 +97,7 @@ class TileSelectorCanvas extends React.Component {
     // draw the editorSelection
     if ( editorSelection && editorSelection.isActive ) {
       const originX = ( selectedTile % ( width / tileSize ) ) * tileSize;
-      const originY = Math.floor( selectedTile / 8 ) * tileSize;
+      const originY = Math.floor( selectedTile / ( width / tileSize ) ) * tileSize;
 
       for ( let y = 0; y < editorSelection.height; y += 1 ) {
         for ( let x = 0; x < editorSelection.width; x += 1 ) {

@@ -1,8 +1,9 @@
 import cloneDeep from 'lodash.clonedeep';
+import { ConvertData } from 'bitmelo';
 
-import { CHANGE_TILE_SIZE } from 'State/Project/tileSize';
-import { DELETE_PALETTE_COLOR } from 'State/Palette/colors';
-import { RESET_PROJECT, IMPORT_PROJECT_DATA } from 'State/globalActions';
+import { CHANGE_TILE_SIZE } from '../Project/tileSize';
+import { DELETE_PALETTE_COLOR } from '../Palette/colors';
+import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 import {
   CREATE_TILESET_EDITOR_SELECTION,
   APPLY_TILESET_EDITOR_SELECTION,
@@ -14,6 +15,8 @@ export const SET_TILESET_LAYER_DATA = 'SET_TILESET_LAYER_DATA';
 export const SET_TILESET_SELECTION = 'SET_TILESET_SELECTION';
 export const SET_TILESET_MAP_SELECTION = 'SET_TILESET_MAP_SELECTION';
 export const SET_TILESET_SIZE = 'SET_TILESET_SIZE';
+export const ADD_TILESET = 'ADD_TILESET';
+export const DELETE_TILESET = 'DELETE_TILESET';
 
 // validation
 export function validate( state ) {
@@ -70,13 +73,46 @@ export function validate( state ) {
         return false;
       }
 
-      if ( !Array.isArray( layer.data ) ) {
-        return false;
+      if ( !layer.format || layer.format === 'array' || layer.format === 'run' ) {
+        if ( !Array.isArray( layer.data ) ) {
+          return false;
+        }
+      }
+      else if ( layer.format === 'rc' || layer.format === 'c' ) {
+        if ( typeof layer.data !== 'string' ) {
+          return false;
+        }
       }
     }
   }
 
   return true;
+}
+
+function modifyImportedState( state ) {
+  const newState = cloneDeep( state );
+
+  for ( let i = 0; i < newState.length; i += 1 ) {
+    const currentTileset = newState[i];
+    currentTileset.selectedTile = 0;
+    currentTileset.selectionWidth = 1;
+    currentTileset.selectionHeight = 1;
+    currentTileset.mapSelectedTile = 0;
+    currentTileset.mapSelectionWidth = 1;
+    currentTileset.mapSelectionHeight = 1;
+
+    for ( let j = 0; j < currentTileset.layers.length; j += 1 ) {
+      const layer = currentTileset.layers[j];
+
+      if ( layer.format && layer.format === 'rc' ) {
+        const runArray = ConvertData.compressedStringToArray( layer.data );
+        layer.data = ConvertData.runToArray( runArray );
+        layer.format = 'array';
+      }
+    }
+  }
+
+  return newState;
 }
 
 // Reducer
@@ -85,6 +121,7 @@ const initialHeight = 8;
 const initialTileSize = 16;
 const initialState = [
   {
+    name: 'untitled',
     width: initialWidth,
     height: initialHeight,
     selectedTile: 0,
@@ -114,22 +151,31 @@ export default function reducer( state = initialState, action ) {
       try {
         const importedState = action.payload.tileset.tilesets;
         if ( validate( importedState ) ) {
-          const newState = [...importedState];
-          for ( let i = 0; i < newState.length; i += 1 ) {
-            newState[i].selectedTile = 0;
-            newState[i].selectionWidth = 1;
-            newState[i].selectionHeight = 1;
-            newState[i].mapSelectedTile = 0;
-            newState[i].mapSelectionWidth = 1;
-            newState[i].mapSelectionHeight = 1;
-          }
-          return newState;
+          return modifyImportedState( importedState );
         }
         return state;
       }
       catch ( e ) {
         return state;
       }
+    }
+    case ADD_TILESET: {
+      const {
+        rows,
+        columns,
+        tileSize,
+      } = action.payload;
+      const newState = [...state];
+      const newTileset = cloneDeep( initialState[0] );
+      newTileset.width = columns;
+      newTileset.height = rows;
+      newTileset.layers[0].data = new Array( rows * columns * tileSize * tileSize );
+      newTileset.layers[0].data.fill( 0 );
+      newState.push( newTileset );
+      return newState;
+    }
+    case DELETE_TILESET: {
+      return [...state.slice( 0, action.payload ), ...state.slice( action.payload + 1 )];
     }
     case CHANGE_TILE_SIZE: {
       const { newTileSize } = action.payload;
@@ -466,5 +512,23 @@ export function setTilesetSize( tilesetIndex, tileSize, columns, rows ) {
       columns,
       rows,
     },
+  };
+}
+
+export function addTileset( rows, columns, tileSize ) {
+  return {
+    type: ADD_TILESET,
+    payload: {
+      rows,
+      columns,
+      tileSize,
+    },
+  };
+}
+
+export function deleteTileset( tilesetIndex ) {
+  return {
+    type: DELETE_TILESET,
+    payload: tilesetIndex,
   };
 }

@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Scrollbars from 'Components/Scrollbars/Scrollbars';
-import Checkbox from 'Components/Checkbox/Checkbox';
-import Button from 'Components/Button/Button';
+import Scrollbars from '../../../components/Scrollbars/Scrollbars';
+import Checkbox from '../../../components/Checkbox/Checkbox';
+import Button from '../../../components/Button/Button';
 
-import { setStickConsoleToBottom } from 'State/Layout/play';
-import { setReferenceTabTitle } from 'State/Layout/referenceTabTitle';
-import { clearPlayLogs } from 'State/Code/playLogs';
+import { setStickConsoleToBottom } from '../../../state/Layout/play';
+import { setReferenceTabTitle } from '../../../state/Layout/referenceTabTitle';
+import { clearPlayLogs } from '../../../state/Code/playLogs';
 
 import './ReferenceConsole.scss';
 

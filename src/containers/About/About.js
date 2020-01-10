@@ -1,8 +1,8 @@
 
 import React, { Fragment } from 'react';
 
-import AButton from 'Components/AButton/AButton';
-import Changelog from 'Components/Changelog/Changelog';
+import AButton from '../../components/AButton/AButton';
+import Changelog from '../../components/Changelog/Changelog';
 
 import PackageJSON from '../../../package.json';
 
@@ -72,6 +72,11 @@ class About extends React.Component {
       </AButton>
     ) : null;
 
+    let engineVersion = PackageJSON.dependencies.bitmelo;
+    if ( engineVersion[0] === '^' ) {
+      engineVersion = engineVersion.slice( 1 );
+    }
+
     return (
       <div className="about">
         <img
@@ -86,7 +91,7 @@ class About extends React.Component {
         </div>
         <div className="version">
           {
-            `engine v${ PackageJSON.dependencies.bitmelo }`
+            `engine v${ engineVersion }`
           }
         </div>
         <h2 className="welcome">Welcome to Bitmelo!</h2>

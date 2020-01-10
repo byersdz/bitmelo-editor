@@ -1,6 +1,6 @@
 
 import { standardPalette } from 'bitmelo'; // eslint-disable-line
-import { RESET_PROJECT, IMPORT_PROJECT_DATA } from 'State/globalActions';
+import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 
 // Actions
 export const SET_PALETTE_COLOR = 'SET_PALETTE_COLOR';

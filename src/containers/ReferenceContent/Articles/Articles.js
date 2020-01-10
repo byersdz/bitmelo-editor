@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import ArticleList from 'Components/ArticleList/ArticleList';
+import ArticleList from '../../../components/ArticleList/ArticleList';
 
-import { PIXEL_TUTORIALS } from 'Utils/articles';
-import { setReferenceRoute } from 'State/Layout/referenceRoutes';
-import { setReferenceTabTitle } from 'State/Layout/referenceTabTitle';
+import { PIXEL_TUTORIALS } from '../../../utils/articles';
+import { setReferenceRoute } from '../../../state/Layout/referenceRoutes';
+import { setReferenceTabTitle } from '../../../state/Layout/referenceTabTitle';
 
 import PixelArticles from './PixelArticles/PixelArticles';
 

@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Modal from 'Components/Modal/Modal';
-import Button from 'Components/Button/Button';
+import Modal from '../../../components/Modal/Modal';
+import Button from '../../../components/Button/Button';
 
-import { resetProject, clearAllUndoHistory, importProjectData } from 'State/globalActions';
+import { resetProject, clearAllUndoHistory, importProjectData } from '../../../state/globalActions';
 
-import WelcomeDemo from 'Utils/Demos/WelcomeDemo.json';
+import WelcomeDemo from '../../../utils/Demos/WelcomeDemo.json';
 
 import './StartNewProjectModal.scss';
 

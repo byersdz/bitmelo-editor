@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import ToggleHeader from 'Components/ToggleHeader/ToggleHeader';
-import NumberPicker from 'Components/NumberPicker/NumberPicker';
-import TextInput from 'Components/TextInput/TextInput';
-import Button from 'Components/Button/Button';
+import ToggleHeader from '../../../components/ToggleHeader/ToggleHeader';
+import NumberPicker from '../../../components/NumberPicker/NumberPicker';
+import TextInput from '../../../components/TextInput/TextInput';
+import Button from '../../../components/Button/Button';
 
-import { toggleTilemapSelector } from 'State/Layout/tilemapEditor';
-import { selectTilemap } from 'State/Tilemap/activeIndex';
-import { addTilemap, deleteTilemap, setTilemapName } from 'State/Tilemap/tilemaps';
+import { toggleTilemapSelector } from '../../../state/Layout/tilemapEditor';
+import { selectTilemap } from '../../../state/Tilemap/activeIndex';
+import { addTilemap, deleteTilemap, setTilemapName } from '../../../state/Tilemap/tilemaps';
 
 import EditTilemapModal from '../EditTilemapModal/EditTilemapModal';
 

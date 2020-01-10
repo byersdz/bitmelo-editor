@@ -1,5 +1,5 @@
 
-@import 'Style/colors.scss';
+@import '../../../style/colors.scss';
 
 .tile-selector {
   bottom: 0;
@@ -10,6 +10,23 @@
   border-top: 2px solid black;
   border-left: 2px solid black;
   border-right: 2px solid  black;
+
+  .num-picker {
+    margin-top: 0;
+    margin-bottom: 8px;
+  }
+
+  .text-input {
+
+    input {
+      margin-left: 0;
+    }
+
+    .controls {
+      width: 100%;
+    }
+
+  }
 
   .content {
     display: flex;

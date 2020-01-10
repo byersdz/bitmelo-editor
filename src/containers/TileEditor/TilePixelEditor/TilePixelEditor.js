@@ -5,21 +5,21 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import cloneDeep from 'lodash.clonedeep';
 
-import PixelEditor from 'Containers/PixelEditor/PixelEditor';
+import PixelEditor from '../../PixelEditor/PixelEditor';
 
-import { undoTilesets, redoTilesets } from 'State/Tileset';
-import { setTilesetLayerData } from 'State/Tileset/tilesets';
+import { undoTilesets, redoTilesets } from '../../../state/Tileset';
+import { setTilesetLayerData } from '../../../state/Tileset/tilesets';
 import {
   createTilesetEditorSelection,
   applyTilesetEditorSelection,
   repositionTilesetEditorSelection,
-} from 'State/Tileset/actions';
-import { setTilesetEditorSelection, clearTilesetEditorSelection } from 'State/Tileset/editorSelection';
-import { selectPaletteIndex } from 'State/Palette/selectedIndex';
-import { selectAltPaletteIndex } from 'State/Palette/altIndex';
-import { PENCIL_TOOL, BUCKET_TOOL } from 'State/PixelTools/selectedTool';
+} from '../../../state/Tileset/actions';
+import { setTilesetEditorSelection, clearTilesetEditorSelection } from '../../../state/Tileset/editorSelection';
+import { selectPaletteIndex } from '../../../state/Palette/selectedIndex';
+import { selectAltPaletteIndex } from '../../../state/Palette/altIndex';
+import { PENCIL_TOOL, BUCKET_TOOL } from '../../../state/PixelTools/selectedTool';
 
-import { getSelectedTileData } from 'Utils/tilesetHelpers';
+import { getSelectedTileData } from '../../../utils/tilesetHelpers';
 
 import TileSelector from '../TileSelector/TileSelector';
 
@@ -222,6 +222,7 @@ class TilePixelEditor extends React.Component {
       >
         <TileSelector
           onSelectionWillChange={ () => this.applyAndClearSelection() }
+          onTilesetWillChange={ () => this.applyAndClearSelection() }
         />
       </PixelEditor>
     );

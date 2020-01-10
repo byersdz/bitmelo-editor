@@ -1,4 +1,4 @@
-import { RESET_PROJECT } from 'State/globalActions';
+import { RESET_PROJECT } from '../globalActions';
 
 // Actions
 export const SELECT_TILEMAP = 'SELECT_TILEMAP';

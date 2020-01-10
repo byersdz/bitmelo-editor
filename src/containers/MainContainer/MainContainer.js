@@ -11,17 +11,17 @@ import {
   TILE_TAB,
   SOUND_TAB,
   TILEMAP_TAB,
-} from 'State/Layout/activeNavigationTab';
-import TopBar from 'Components/TopBar/TopBar';
-import Scrollbars from 'Components/Scrollbars/Scrollbars';
+} from '../../state/Layout/activeNavigationTab';
+import TopBar from '../../components/TopBar/TopBar';
+import Scrollbars from '../../components/Scrollbars/Scrollbars';
 
-import About from 'Containers/About/About';
-import ProjectEditor from 'Containers/ProjectEditor/ProjectEditor';
-import Play from 'Containers/Play/Play';
-import CodeEditor from 'Containers/CodeEditor/CodeEditor';
-import TileEditor from 'Containers/TileEditor/TileEditor';
-import TilemapEditor from 'Containers/TilemapEditor/TilemapEditor';
-import SoundEditor from 'Containers/SoundEditor/SoundEditor';
+import About from '../About/About';
+import ProjectEditor from '../ProjectEditor/ProjectEditor';
+import Play from '../Play/Play';
+import CodeEditor from '../CodeEditor/CodeEditor';
+import TileEditor from '../TileEditor/TileEditor';
+import TilemapEditor from '../TilemapEditor/TilemapEditor';
+import SoundEditor from '../SoundEditor/SoundEditor';
 
 import './MainContainer.scss';
 

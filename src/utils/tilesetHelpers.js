@@ -25,3 +25,17 @@ export function getSelectedTileData( tileset, tileSize ) {
 
   return { data: selectedData, width: selectedDataWidth, height: selectedDataHeight };
 }
+
+export function startGidForTileset( tilesets, tilesetIndex ) {
+  let startIndex = 1;
+
+  for ( let i = 0; i < tilesets.length; i += 1 ) {
+    if ( i === tilesetIndex ) {
+      return startIndex;
+    }
+    const { width, height } = tilesets[i];
+    startIndex += width * height;
+  }
+
+  return startIndex;
+}

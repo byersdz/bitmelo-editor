@@ -10,10 +10,10 @@ import {
   PIANO_KEY_DOWN,
   PIANO_KEY_UP,
   STOP_ALL_AUDIO,
-} from 'State/Sound/audioEvents';
-import { addedSoundToAudioEngine } from 'State/Sound/sounds';
-import { SOUND_TAB } from 'State/Layout/activeNavigationTab';
-import { setLastSoundTics } from 'State/Layout/soundEditor';
+} from '../../state/Sound/audioEvents';
+import { addedSoundToAudioEngine } from '../../state/Sound/sounds';
+import { SOUND_TAB } from '../../state/Layout/activeNavigationTab';
+import { setLastSoundTics } from '../../state/Layout/soundEditor';
 
 class BitmeloAudio extends React.Component {
   constructor( props ) {

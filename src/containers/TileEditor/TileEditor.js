@@ -1,11 +1,10 @@
 
 import React from 'react';
 
-import PixelToolSettings from 'Containers/PixelEditor/PixelToolSettings/PixelToolSettings';
-import PixelToolPicker from 'Containers/PixelEditor/PixelToolPicker/PixelToolPicker';
-import TilePixelEditor from 'Containers/TileEditor/TilePixelEditor/TilePixelEditor';
-import PalettePicker from 'Containers/PalettePicker/PalettePicker';
-
+import PixelToolSettings from '../PixelEditor/PixelToolSettings/PixelToolSettings';
+import PixelToolPicker from '../PixelEditor/PixelToolPicker/PixelToolPicker';
+import TilePixelEditor from './TilePixelEditor/TilePixelEditor';
+import PalettePicker from '../PalettePicker/PalettePicker';
 import TileStatusBar from './TileStatusBar/TileStatusBar';
 
 import './TileEditor.scss';

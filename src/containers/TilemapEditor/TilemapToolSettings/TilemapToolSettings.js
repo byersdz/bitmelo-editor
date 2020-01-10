@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-import ToolSettings from 'Components/ToolSettings/ToolSettings';
+import ToolSettings from '../../../components/ToolSettings/ToolSettings';
 
 import './TilemapToolSettings.scss';
 

@@ -6,7 +6,7 @@ import {
   secondaryColor,
   secondaryDarkColor,
   primaryColor,
-} from 'Style/colors';
+} from '../../style/colors';
 
 import './WaveGrid.scss';
 

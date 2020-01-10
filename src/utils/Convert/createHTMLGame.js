@@ -1,6 +1,4 @@
 
-// import { backgroundColor } from 'Style/colors';
-
 import createProjectScript from './createProjectScript';
 
 export default function exportHTMLGame( state ) {
@@ -39,14 +37,7 @@ export default function exportHTMLGame( state ) {
   </style>
 `;
 
-  const projectScript = createProjectScript(
-    state.project,
-    state.palette.colors,
-    state.tileset.tilesets,
-    state.code.scripts,
-    state.sound.sounds,
-    state.tilemap.tilemaps,
-  );
+  const projectScript = createProjectScript( state );
 
   const htmlGame = `
   <html>

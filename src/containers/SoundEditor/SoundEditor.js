@@ -4,23 +4,23 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
-import TabbedCard from 'Components/TabbedCard/TabbedCard';
-import Button from 'Components/Button/Button';
+import TabbedCard from '../../components/TabbedCard/TabbedCard';
+import Button from '../../components/Button/Button';
 
-import VolumeTicsEditor from 'Containers/SoundEditor/VolumeTicsEditor/VolumeTicsEditor';
-import PitchTicsEditor from 'Containers/SoundEditor/PitchTicsEditor/PitchTicsEditor';
-import ArpTicsEditor from 'Containers/SoundEditor/ArpTicsEditor/ArpTicsEditor';
-import WavePicker from 'Containers/SoundEditor/WavePicker/WavePicker';
-import SoundPicker from 'Containers/SoundEditor/SoundPicker/SoundPicker';
-import SoundPiano from 'Containers/SoundEditor/SoundPiano/SoundPiano';
-import ReleaseEditor from 'Containers/SoundEditor/ReleaseEditor/ReleaseEditor';
+import VolumeTicsEditor from './VolumeTicsEditor/VolumeTicsEditor';
+import PitchTicsEditor from './PitchTicsEditor/PitchTicsEditor';
+import ArpTicsEditor from './ArpTicsEditor/ArpTicsEditor';
+import WavePicker from './WavePicker/WavePicker';
+import SoundPicker from './SoundPicker/SoundPicker';
+import SoundPiano from './SoundPiano/SoundPiano';
+import ReleaseEditor from './ReleaseEditor/ReleaseEditor';
 
 import {
   VOLUME_TAB,
   PITCH_TAB,
   ARP_TAB,
   setSoundTicTab,
-} from 'State/Layout/activeSoundTicTab';
+} from '../../state/Layout/activeSoundTicTab';
 
 import DeleteSoundModal from './DeleteSoundModal/DeleteSoundModal';
 

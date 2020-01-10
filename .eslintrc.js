@@ -31,6 +31,7 @@ module.exports = {
     "react/no-did-update-set-state": "off",
     "react/jsx-curly-brace-presence": "off",
     "prefer-destructuring": "off",
+    "import/order": "off",
   },
   "globals": {
     "bitmelo": "readonly",

@@ -1,4 +1,6 @@
 
+import compressProjectState from '../Convert/compressProjectState';
+
 export const loadStateFromLocalStorage = () => {
   try {
     const state = localStorage.getItem( 'state' );
@@ -14,12 +16,7 @@ export const loadStateFromLocalStorage = () => {
 
 export const saveStateToLocalStorage = state => {
   try {
-    const savedState = { ...state };
-
-    // get rid of undo data
-    savedState.tileset = savedState.tileset.present;
-    savedState.tilemap = savedState.tilemap.present;
-
+    const savedState = compressProjectState( state );
     const stateString = JSON.stringify( savedState );
     localStorage.setItem( 'state', stateString );
   }

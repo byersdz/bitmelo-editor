@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Screen } from 'bitmelo';
 
-import Card from 'Components/Card/Card';
-import NumberPicker from 'Components/NumberPicker/NumberPicker';
-import Select from 'Components/Select/Select';
-import Checkbox from 'Components/Checkbox/Checkbox';
+import Card from '../../../components/Card/Card';
+import NumberPicker from '../../../components/NumberPicker/NumberPicker';
+import Select from '../../../components/Select/Select';
+import Checkbox from '../../../components/Checkbox/Checkbox';
 
-import { setScreenSettings } from 'State/Project/screen';
+import { setScreenSettings } from '../../../state/Project/screen';
 
 import './ScreenSettings.scss';
 
@@ -134,14 +134,14 @@ class ScreenSettings extends React.Component {
           title="Screen Width"
           value={ screen.width }
           minValue={ 1 }
-          maxValue={ 1024 }
+          maxValue={ 640 }
           onValueChange={ v => this.handleScreenWidthChange( v ) }
         />
         <NumberPicker
           title="Screen Height"
           value={ screen.height }
           minValue={ 1 }
-          maxValue={ 1024 }
+          maxValue={ 640 }
           onValueChange={ v => this.handleScreenHeightChange( v ) }
         />
         { scaleRender }
