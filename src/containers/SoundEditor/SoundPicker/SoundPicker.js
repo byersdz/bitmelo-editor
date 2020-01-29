@@ -39,6 +39,14 @@ class SoundPicker extends React.Component {
   render() {
     const { soundData, activeSound, numberOfSounds } = this.props;
 
+    const addButtonRender = numberOfSounds < 128 ? (
+      <Button
+        title="Add Sound"
+        click={ () => this.handleAddSound() }
+        standard
+      />
+    ) : null;
+
     return (
       <div className="sound-picker">
         <div className="row">
@@ -56,11 +64,7 @@ class SoundPicker extends React.Component {
           />
         </div>
         <div className="row">
-          <Button
-            title="Add Sound"
-            click={ () => this.handleAddSound() }
-            standard
-          />
+          { addButtonRender }
         </div>
       </div>
     );
