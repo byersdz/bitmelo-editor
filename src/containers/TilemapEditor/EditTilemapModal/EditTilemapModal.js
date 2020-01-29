@@ -49,14 +49,14 @@ class EditTilemapModal extends React.Component {
             title="Columns (Width)"
             value={ tempColumns }
             minValue={ 1 }
-            maxValue={ 1024 }
+            maxValue={ 256 }
             onValueChange={ v => this.setState( { tempColumns: v } ) }
           />
           <NumberPicker
             title="Rows (Height)"
             value={ tempRows }
             minValue={ 1 }
-            maxValue={ 1024 }
+            maxValue={ 256 }
             onValueChange={ v => this.setState( { tempRows: v } ) }
           />
         </div>
