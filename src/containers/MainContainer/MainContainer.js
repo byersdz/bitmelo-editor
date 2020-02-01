@@ -11,6 +11,7 @@ import {
   TILE_TAB,
   SOUND_TAB,
   TILEMAP_TAB,
+  PUBLISH_TAB,
 } from '../../state/Layout/activeNavigationTab';
 import TopBar from '../../components/TopBar/TopBar';
 import Scrollbars from '../../components/Scrollbars/Scrollbars';
@@ -22,6 +23,7 @@ import CodeEditor from '../CodeEditor/CodeEditor';
 import TileEditor from '../TileEditor/TileEditor';
 import TilemapEditor from '../TilemapEditor/TilemapEditor';
 import SoundEditor from '../SoundEditor/SoundEditor';
+import Publish from '../Publish/Publish';
 
 import './MainContainer.scss';
 
@@ -74,6 +76,15 @@ class MainContainer extends React.Component {
         );
         topBarTitle = `${ projectName }: Sound Editor`;
         break;
+      case PUBLISH_TAB: {
+        contentRender = (
+          <Scrollbars>
+            <Publish />
+          </Scrollbars>
+        );
+        topBarTitle = `${ projectName }: Publish`;
+        break;
+      }
       default:
         contentRender = (
           <Scrollbars>
