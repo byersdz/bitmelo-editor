@@ -15,6 +15,7 @@ import {
 } from '../../state/Layout/activeNavigationTab';
 import TopBar from '../../components/TopBar/TopBar';
 import Scrollbars from '../../components/Scrollbars/Scrollbars';
+import Button from '../../components/Button/Button';
 
 import About from '../About/About';
 import ProjectEditor from '../ProjectEditor/ProjectEditor';
@@ -25,11 +26,23 @@ import TilemapEditor from '../TilemapEditor/TilemapEditor';
 import SoundEditor from '../SoundEditor/SoundEditor';
 import Publish from '../Publish/Publish';
 
+import CreateUserModal from '../User/CreateUserModal/CreateUserModal';
+
 import './MainContainer.scss';
 
 class MainContainer extends React.Component {
+  constructor( props ) {
+    super( props );
+
+    this.state = {
+      createUserModalIsOpen: false,
+    };
+  }
+
   render() {
     const { activeNavigationTab, projectName } = this.props;
+    const { createUserModalIsOpen } = this.state;
+
     let contentRender = null;
 
     let topBarTitle = 'Bitmelo';
@@ -94,10 +107,33 @@ class MainContainer extends React.Component {
         break;
     }
 
+    const rightItemsRender = (
+      <>
+        <Button
+          className="create-account-btn"
+          title="Sign up"
+          click={ () => this.setState( { createUserModalIsOpen: true } ) }
+        />
+        <Button
+          className="log-in-btn"
+          title="Log in"
+          click={ () => console.log( 'log in' ) }
+          standard
+        />
+      </>
+    );
+
+    const createUserModalRender = createUserModalIsOpen ? (
+      <CreateUserModal
+        onClose={ () => this.setState( { createUserModalIsOpen: false } ) }
+      />
+    ) : null;
+
     return (
       <div className="main-container">
-        <TopBar title={ topBarTitle } />
+        <TopBar title={ topBarTitle } rightItems={ rightItemsRender } />
         { contentRender }
+        { createUserModalRender }
       </div>
     );
   }
