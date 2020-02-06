@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 
 import AccountModal from '../../../components/Account/AccountModal/AccountModal';
 import AccountTextInput from '../../../components/Account/AccountTextInput/AccountTextInput';
+import Button from '../../../components/Button/Button';
+
+import { createUser } from '../../../api/user';
 
 import './CreateUserModal.scss';
 
@@ -16,6 +19,17 @@ class CreateUserModal extends React.Component {
       email: '',
       password: '',
     };
+  }
+
+  async handleSignUpClick() {
+    const { userName, email, password } = this.state;
+
+    const response = await createUser( userName, email, password );
+
+    // if we have errors display them
+
+    // if not show a success message and close the modal
+    console.log( response );
   }
 
   render() {
@@ -43,7 +57,11 @@ class CreateUserModal extends React.Component {
           value={ password }
           onValueChange={ v => this.setState( { password: v } ) }
         />
-
+        <Button
+          title="Sign up"
+          click={ () => this.handleSignUpClick() }
+          account
+        />
       </AccountModal>
     );
   }

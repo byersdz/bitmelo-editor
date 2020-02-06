@@ -17,6 +17,7 @@ const Button = ( props ) => {
     standard,
     usePointer,
     rightClick,
+    account,
   } = props;
 
   const iconRender = icon ? (
@@ -32,6 +33,9 @@ const Button = ( props ) => {
   let customClass = `btn ${ className }`;
   if ( standard ) {
     customClass += ' std-btn';
+  }
+  else if ( account ) {
+    customClass += ' account-btn';
   }
 
   return (
@@ -81,6 +85,7 @@ Button.propTypes = {
   standard: PropTypes.bool,
   usePointer: PropTypes.bool,
   rightClick: PropTypes.func,
+  account: PropTypes.bool,
 };
 
 Button.defaultProps = {
@@ -91,6 +96,7 @@ Button.defaultProps = {
   standard: false,
   usePointer: false,
   rightClick: null,
+  account: false,
 };
 
 export default Button;

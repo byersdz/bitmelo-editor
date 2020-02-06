@@ -52,6 +52,12 @@
         background-color: #aaa;
       }
     }
+
+    .modal-content {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
   }
 }
 
