@@ -15,8 +15,6 @@ const AccountModal = props => {
     onClose,
   } = props;
 
-  console.log( onClose );
-
   const contentClassName = `account-modal-content-container ${ className }`;
 
   const render = (

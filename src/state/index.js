@@ -18,6 +18,7 @@ import tilemap, {
   CLEAR_TILEMAPS_HISTORY,
 } from './Tilemap';
 import clipboard from './Clipboard';
+import user from './User';
 
 import { SET_TILESET_SELECTION } from './Tileset/tilesets';
 import project from './Project';
@@ -46,4 +47,5 @@ export default combineReducers( {
   project,
   code,
   clipboard,
+  user,
 } );
