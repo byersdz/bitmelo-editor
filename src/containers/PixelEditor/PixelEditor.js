@@ -17,6 +17,7 @@ import { applyPencilToData } from '../../utils/PixelTools/pencil';
 import { applyTileDrawToData } from '../../utils/PixelTools/tileDraw';
 import { applyBucketToData } from '../../utils/PixelTools/bucket';
 import { combineGrids } from '../../utils/gridHelpers';
+import { DESELECT_SELECTION, eventMatchesHotkey } from '../../utils/hotkeys';
 
 import MainCanvas from './MainCanvas/MainCanvas';
 import OverlayCanvas from './OverlayCanvas/OverlayCanvas';
@@ -174,7 +175,7 @@ class PixelEditor extends React.Component {
       this.setState( { altIsDown: true } );
       event.preventDefault();
     }
-    else if ( event.which === 68 ) { // d
+    else if ( eventMatchesHotkey( event, DESELECT_SELECTION ) ) {
       event.preventDefault();
       onDeselect();
     }
