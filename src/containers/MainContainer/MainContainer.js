@@ -27,6 +27,7 @@ import SoundEditor from '../SoundEditor/SoundEditor';
 import Publish from '../Publish/Publish';
 
 import CreateUserModal from '../User/CreateUserModal/CreateUserModal';
+import LoginUserModal from '../User/LoginUserModal/LoginUserModal';
 
 import './MainContainer.scss';
 
@@ -36,12 +37,13 @@ class MainContainer extends React.Component {
 
     this.state = {
       createUserModalIsOpen: false,
+      loginUserModalIsOpen: false,
     };
   }
 
   render() {
     const { activeNavigationTab, projectName } = this.props;
-    const { createUserModalIsOpen } = this.state;
+    const { createUserModalIsOpen, loginUserModalIsOpen } = this.state;
 
     let contentRender = null;
 
@@ -117,7 +119,7 @@ class MainContainer extends React.Component {
         <Button
           className="log-in-btn"
           title="Log in"
-          click={ () => console.log( 'log in' ) }
+          click={ () => this.setState( { loginUserModalIsOpen: true } ) }
           standard
         />
       </>
@@ -129,11 +131,18 @@ class MainContainer extends React.Component {
       />
     ) : null;
 
+    const loginUserModalRender = loginUserModalIsOpen ? (
+      <LoginUserModal
+        onClose={ () => this.setState( { loginUserModalIsOpen: false } ) }
+      />
+    ) : null;
+
     return (
       <div className="main-container">
         <TopBar title={ topBarTitle } rightItems={ rightItemsRender } />
         { contentRender }
         { createUserModalRender }
+        { loginUserModalRender }
       </div>
     );
   }
