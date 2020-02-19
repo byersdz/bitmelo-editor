@@ -165,7 +165,7 @@ class PixelEditor extends React.Component {
   }
 
   handleKeyDown( event ) {
-    const { onDeselect } = this.props;
+    const { onDeselect, anyModalIsOpen } = this.props;
 
     if ( event.which === 32 ) { // space
       this.setState( { spaceIsDown: true } );
@@ -176,8 +176,10 @@ class PixelEditor extends React.Component {
       event.preventDefault();
     }
     else if ( eventMatchesHotkey( event, DESELECT_SELECTION ) ) {
-      event.preventDefault();
-      onDeselect();
+      if ( !anyModalIsOpen ) {
+        event.preventDefault();
+        onDeselect();
+      }
     }
   }
 
@@ -1134,6 +1136,7 @@ PixelEditor.propTypes = {
   onDeselect: PropTypes.func.isRequired,
   onCreateEditorSelection: PropTypes.func.isRequired,
   onRepositionEditorSelection: PropTypes.func.isRequired,
+  anyModalIsOpen: PropTypes.bool.isRequired,
 };
 
 PixelEditor.defaultProps = {
@@ -1157,6 +1160,7 @@ function mapStateToProps( state ) {
     selectedTool: state.pixelTools.selectedTool,
     selectedTileTool: state.pixelTools.selectedTileTool,
     pixelToolSettings: state.pixelTools.pixelToolSettings,
+    anyModalIsOpen: state.layout.anyModalIsOpen,
   };
 }
 

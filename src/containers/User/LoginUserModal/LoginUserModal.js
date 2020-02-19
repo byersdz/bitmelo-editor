@@ -1,10 +1,17 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import AccountModal from '../../../components/Account/AccountModal/AccountModal';
 import AccountTextInput from '../../../components/Account/AccountTextInput/AccountTextInput';
 import Button from '../../../components/Button/Button';
+import AccountErrorMessage from '../../../components/Account/AccountErrorMessage/AccountErrorMessage';
+
+import { setCurrentUser } from '../../../state/User/currentUser';
+
+import { loginUser } from '../../../api/user';
 
 import './LoginUserModal.scss';
 
@@ -15,12 +22,57 @@ class LoginUserModal extends React.Component {
     this.state = {
       email: '',
       password: '',
+      errors: [],
     };
+  }
+
+  async handleLoginClick() {
+    const { _setCurrentUser, onClose } = this.props;
+    const { email, password } = this.state;
+    const response = await loginUser( email, password );
+
+    if ( response.isError || !response.data ) {
+      this.setState( { errors: response.errors } );
+    }
+    else {
+      _setCurrentUser( { ...response.data, isLoggedIn: true } );
+      onClose();
+    }
   }
 
   render() {
     const { onClose } = this.props;
-    const { email, password } = this.state;
+    const { email, password, errors } = this.state;
+
+    const globalErrors = [];
+    const emailErrors = [];
+    const passwordErrors = [];
+
+    errors.forEach( error => {
+      if ( error.param ) {
+        if ( error.param === 'email' ) {
+          emailErrors.push( error );
+        }
+        else if ( error.param === 'password' ) {
+          passwordErrors.push( error );
+        }
+        else {
+          globalErrors.push( error );
+        }
+      }
+      else {
+        globalErrors.push( error );
+      }
+    } );
+
+    const errorsRender = globalErrors.map( error => {
+      return (
+        <AccountErrorMessage key={ error.msg }>
+          { error.msg }
+        </AccountErrorMessage>
+      );
+    } );
+
 
     return (
       <AccountModal
@@ -28,19 +80,22 @@ class LoginUserModal extends React.Component {
         className="login-user-modal"
         onClose={ onClose }
       >
+        { errorsRender }
         <AccountTextInput
           title="Email"
           value={ email }
           onValueChange={ v => this.setState( { email: v } ) }
+          errors={ emailErrors }
         />
         <AccountTextInput
           title="Password"
           value={ password }
           onValueChange={ v => this.setState( { password: v } ) }
+          errors={ passwordErrors }
         />
         <Button
           title="Log in"
-          click={ () => console.log( 'log in' ) }
+          click={ () => this.handleLoginClick() }
           account
         />
       </AccountModal>
@@ -50,6 +105,13 @@ class LoginUserModal extends React.Component {
 
 LoginUserModal.propTypes = {
   onClose: PropTypes.func.isRequired,
+  _setCurrentUser: PropTypes.func.isRequired,
 };
 
-export default LoginUserModal;
+function mapDispatchToProps( dispatch ) {
+  return bindActionCreators( {
+    _setCurrentUser: setCurrentUser,
+  }, dispatch );
+}
+
+export default connect( null, mapDispatchToProps )( LoginUserModal );
