@@ -42,7 +42,7 @@ class MainContainer extends React.Component {
   }
 
   render() {
-    const { activeNavigationTab, projectName } = this.props;
+    const { activeNavigationTab, projectName, currentUser } = this.props;
     const { createUserModalIsOpen, loginUserModalIsOpen } = this.state;
 
     let contentRender = null;
@@ -109,7 +109,11 @@ class MainContainer extends React.Component {
         break;
     }
 
-    const rightItemsRender = (
+    const userButtonsRender = currentUser.isLoggedIn ? (
+      <>
+        { currentUser.displayName }
+      </>
+    ) : (
       <>
         <Button
           className="create-account-btn"
@@ -122,6 +126,12 @@ class MainContainer extends React.Component {
           click={ () => this.setState( { loginUserModalIsOpen: true } ) }
           standard
         />
+      </>
+    );
+
+    const rightItemsRender = (
+      <>
+        { userButtonsRender }
       </>
     );
 
@@ -151,12 +161,14 @@ class MainContainer extends React.Component {
 MainContainer.propTypes = {
   activeNavigationTab: PropTypes.string.isRequired,
   projectName: PropTypes.string.isRequired,
+  currentUser: PropTypes.object.isRequired,
 };
 
 function mapStateToProps( state ) {
   return {
     projectName: state.project.name,
     activeNavigationTab: state.layout.activeNavigationTab,
+    currentUser: state.user.currentUser,
   };
 }
 

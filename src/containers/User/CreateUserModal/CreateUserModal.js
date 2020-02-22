@@ -25,6 +25,7 @@ class CreateUserModal extends React.Component {
       password: '',
       createSuccessful: false,
       errors: [],
+      isFetching: false,
     };
   }
 
@@ -32,7 +33,9 @@ class CreateUserModal extends React.Component {
     const { _setCurrentUser } = this.props;
     const { userName, email, password } = this.state;
 
+    this.setState( { isFetching: true } );
     const response = await createUser( userName, email, password );
+    this.setState( { isFetching: false } );
 
     // if we have errors display them
     if ( response.isError || !response.data ) {
@@ -53,6 +56,7 @@ class CreateUserModal extends React.Component {
       password,
       createSuccessful,
       errors,
+      isFetching,
     } = this.state;
 
 
@@ -89,6 +93,11 @@ class CreateUserModal extends React.Component {
       );
     } );
 
+    let buttonIsDisabled = false;
+    if ( !userName || !email || !password || isFetching ) {
+      buttonIsDisabled = true;
+    }
+
     const mainRender = createSuccessful ? (
       <div>
         Account creation successful! Welcome to Bitmelo!
@@ -113,11 +122,13 @@ class CreateUserModal extends React.Component {
           value={ password }
           onValueChange={ v => this.setState( { password: v } ) }
           errors={ passwordErrors }
+          isPassword
         />
         <Button
           title="Sign up"
           click={ () => this.handleSignUpClick() }
           account
+          disabled={ buttonIsDisabled }
         />
       </>
     );
@@ -125,7 +136,9 @@ class CreateUserModal extends React.Component {
       <AccountModal
         title="Create Bitmelo Account"
         className="create-user-modal"
-        onClose={ onClose }
+        onClose={ () => {
+          if ( !isFetching ) onClose();
+        } }
       >
         { mainRender }
       </AccountModal>

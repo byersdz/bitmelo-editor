@@ -18,6 +18,7 @@ const Button = ( props ) => {
     usePointer,
     rightClick,
     account,
+    disabled,
   } = props;
 
   const iconRender = icon ? (
@@ -42,6 +43,7 @@ const Button = ( props ) => {
     <button
       style={ style }
       type="button"
+      disabled={ disabled }
       onClick={ () => {
         if ( !usePointer ) {
           click();
@@ -82,6 +84,7 @@ Button.propTypes = {
   className: PropTypes.string,
   click: PropTypes.func.isRequired,
   style: PropTypes.object,
+  disabled: PropTypes.bool,
   standard: PropTypes.bool,
   usePointer: PropTypes.bool,
   rightClick: PropTypes.func,
@@ -93,6 +96,7 @@ Button.defaultProps = {
   hideTitle: false,
   className: '',
   style: {},
+  disabled: false,
   standard: false,
   usePointer: false,
   rightClick: null,

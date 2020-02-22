@@ -23,13 +23,17 @@ class LoginUserModal extends React.Component {
       email: '',
       password: '',
       errors: [],
+      isFetching: false,
     };
   }
 
   async handleLoginClick() {
     const { _setCurrentUser, onClose } = this.props;
     const { email, password } = this.state;
+
+    this.setState( { isFetching: true } );
     const response = await loginUser( email, password );
+    this.setState( { isFetching: false } );
 
     if ( response.isError || !response.data ) {
       this.setState( { errors: response.errors } );
@@ -42,7 +46,12 @@ class LoginUserModal extends React.Component {
 
   render() {
     const { onClose } = this.props;
-    const { email, password, errors } = this.state;
+    const {
+      email,
+      password,
+      errors,
+      isFetching,
+    } = this.state;
 
     const globalErrors = [];
     const emailErrors = [];
@@ -73,12 +82,18 @@ class LoginUserModal extends React.Component {
       );
     } );
 
+    let buttonIsDisabled = false;
+    if ( !email || !password || isFetching ) {
+      buttonIsDisabled = true;
+    }
 
     return (
       <AccountModal
         title="Log in"
         className="login-user-modal"
-        onClose={ onClose }
+        onClose={ () => {
+          if ( !isFetching ) onClose();
+        } }
       >
         { errorsRender }
         <AccountTextInput
@@ -92,11 +107,13 @@ class LoginUserModal extends React.Component {
           value={ password }
           onValueChange={ v => this.setState( { password: v } ) }
           errors={ passwordErrors }
+          isPassword
         />
         <Button
           title="Log in"
           click={ () => this.handleLoginClick() }
           account
+          disabled={ buttonIsDisabled }
         />
       </AccountModal>
     );
