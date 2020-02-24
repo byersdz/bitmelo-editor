@@ -28,6 +28,7 @@ import Publish from '../Publish/Publish';
 
 import CreateUserModal from '../User/CreateUserModal/CreateUserModal';
 import LoginUserModal from '../User/LoginUserModal/LoginUserModal';
+import UserButton from '../User/UserButton/UserButton';
 
 import './MainContainer.scss';
 
@@ -110,9 +111,7 @@ class MainContainer extends React.Component {
     }
 
     const userButtonsRender = currentUser.isLoggedIn ? (
-      <>
-        { currentUser.displayName }
-      </>
+      <UserButton />
     ) : (
       <>
         <Button

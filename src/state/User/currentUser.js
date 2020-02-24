@@ -1,4 +1,6 @@
 
+import { IMPORT_PROJECT_DATA } from '../globalActions';
+
 // Actions
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const LOGIN_USER = 'LOGIN_USER';
@@ -12,8 +14,40 @@ const initialState = {
   isLoggedIn: false,
 };
 
+export function validate( state ) {
+  if ( typeof state.userName !== 'string' ) {
+    return false;
+  }
+
+  if ( typeof state.displayName !== 'string' ) {
+    return false;
+  }
+
+  if ( typeof state.id !== 'string' ) {
+    return false;
+  }
+
+  if ( typeof state.isLoggedIn !== 'boolean' ) {
+    return false;
+  }
+
+  return true;
+}
+
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
+    case IMPORT_PROJECT_DATA: {
+      try {
+        const importedState = action.payload.user.currentUser;
+        if ( validate( importedState ) ) {
+          return { ...importedState };
+        }
+        return state;
+      }
+      catch ( e ) {
+        return state;
+      }
+    }
     case SET_CURRENT_USER: {
       return { ...action.payload };
     }

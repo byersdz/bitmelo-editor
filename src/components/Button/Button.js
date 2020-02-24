@@ -19,6 +19,7 @@ const Button = ( props ) => {
     rightClick,
     account,
     disabled,
+    children,
   } = props;
 
   const iconRender = icon ? (
@@ -73,12 +74,13 @@ const Button = ( props ) => {
     >
       { iconRender }
       { titleRender }
+      { children }
     </button>
   );
 };
 
 Button.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   icon: PropTypes.string,
   hideTitle: PropTypes.bool,
   className: PropTypes.string,
@@ -89,6 +91,7 @@ Button.propTypes = {
   usePointer: PropTypes.bool,
   rightClick: PropTypes.func,
   account: PropTypes.bool,
+  children: PropTypes.node,
 };
 
 Button.defaultProps = {
@@ -101,6 +104,8 @@ Button.defaultProps = {
   usePointer: false,
   rightClick: null,
   account: false,
+  children: null,
+  title: '',
 };
 
 export default Button;

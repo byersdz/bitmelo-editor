@@ -73,6 +73,7 @@ export function validate( state ) {
 function modifyImportedState( state ) {
   const newState = cloneDeep( state );
 
+  // convert any compressed data into flat arrays
   for ( let i = 0; i < newState.length; i += 1 ) {
     const currentTilemap = newState[i];
 

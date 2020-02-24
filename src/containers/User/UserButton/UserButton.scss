@@ -1,0 +1,19 @@
+
+@import '../../../style/colors.scss';
+
+.user-button-container {
+  position: relative;
+
+  .user-button {
+    font-weight: bold;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    background-color: $primary-light-color;
+    padding: 6px 8px !important;
+  }
+
+  .drop-down-menu {
+    margin-top: 34px;
+  }
+}
+
