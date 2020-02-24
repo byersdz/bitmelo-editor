@@ -31,7 +31,16 @@ class CreateUserModal extends React.Component {
 
   async handleSignUpClick() {
     const { _setCurrentUser } = this.props;
-    const { userName, email, password } = this.state;
+    const {
+      userName,
+      email,
+      password,
+      isFetching,
+    } = this.state;
+
+    if ( isFetching ) {
+      return;
+    }
 
     this.setState( { isFetching: true } );
     const response = await createUser( userName, email, password );
@@ -45,6 +54,12 @@ class CreateUserModal extends React.Component {
       // if not show a success message and close the modal
       _setCurrentUser( { ...response.data, isLoggedIn: true } );
       this.setState( { createSuccessful: true } );
+    }
+  }
+
+  handleKeyDown( event ) {
+    if ( event.which === 13 ) {
+      this.handleSignUpClick();
     }
   }
 
@@ -110,12 +125,14 @@ class CreateUserModal extends React.Component {
           value={ userName }
           onValueChange={ v => this.setState( { userName: v } ) }
           errors={ userNameErrors }
+          onKeyDown={ e => this.handleKeyDown( e ) }
         />
         <AccountTextInput
           title="Email"
           value={ email }
           onValueChange={ v => this.setState( { email: v } ) }
           errors={ emailErrors }
+          onKeyDown={ e => this.handleKeyDown( e ) }
         />
         <AccountTextInput
           title="Password"
@@ -123,6 +140,7 @@ class CreateUserModal extends React.Component {
           onValueChange={ v => this.setState( { password: v } ) }
           errors={ passwordErrors }
           isPassword
+          onKeyDown={ e => this.handleKeyDown( e ) }
         />
         <Button
           title="Sign up"

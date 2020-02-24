@@ -12,6 +12,7 @@ const AccountTextInput = props => {
     onValueChange,
     errors,
     isPassword,
+    onKeyDown,
   } = props;
 
   const errorsRender = errors.map( error => {
@@ -34,6 +35,7 @@ const AccountTextInput = props => {
           value={ value }
           onChange={ e => onValueChange( e.target.value ) }
           type={ type }
+          onKeyDown={ onKeyDown }
         />
         { errorsRender }
       </div>
@@ -47,11 +49,13 @@ AccountTextInput.propTypes = {
   onValueChange: PropTypes.func.isRequired,
   errors: PropTypes.arrayOf( PropTypes.object ),
   isPassword: PropTypes.bool,
+  onKeyDown: PropTypes.func,
 };
 
 AccountTextInput.defaultProps = {
   errors: [],
   isPassword: false,
+  onKeyDown: null,
 };
 
 export default AccountTextInput;

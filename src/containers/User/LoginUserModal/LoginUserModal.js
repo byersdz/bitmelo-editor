@@ -29,7 +29,11 @@ class LoginUserModal extends React.Component {
 
   async handleLoginClick() {
     const { _setCurrentUser, onClose } = this.props;
-    const { email, password } = this.state;
+    const { email, password, isFetching } = this.state;
+
+    if ( isFetching ) {
+      return;
+    }
 
     this.setState( { isFetching: true } );
     const response = await loginUser( email, password );
@@ -41,6 +45,12 @@ class LoginUserModal extends React.Component {
     else {
       _setCurrentUser( { ...response.data, isLoggedIn: true } );
       onClose();
+    }
+  }
+
+  handleKeyDown( event ) {
+    if ( event.which === 13 ) {
+      this.handleLoginClick();
     }
   }
 
@@ -101,12 +111,14 @@ class LoginUserModal extends React.Component {
           value={ email }
           onValueChange={ v => this.setState( { email: v } ) }
           errors={ emailErrors }
+          onKeyDown={ e => this.handleKeyDown( e ) }
         />
         <AccountTextInput
           title="Password"
           value={ password }
           onValueChange={ v => this.setState( { password: v } ) }
           errors={ passwordErrors }
+          onKeyDown={ e => this.handleKeyDown( e ) }
           isPassword
         />
         <Button
