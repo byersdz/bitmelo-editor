@@ -7,6 +7,7 @@ import enhanceWithClickOutside from 'react-click-outside';
 
 import Button from '../../../components/Button/Button';
 import DropDownMenu from '../../../components/DropDownMenu/DropDownMenu';
+import CreateProjectModal from '../CreateProjectModal/CreateProjectModal';
 
 import { logoutUser } from '../../../state/User/currentUser';
 
@@ -18,6 +19,7 @@ class UserButton extends React.Component {
 
     this.state = {
       dropDownIsOpen: false,
+      createProjectModalIsOpen: false,
     };
   }
 
@@ -34,26 +36,29 @@ class UserButton extends React.Component {
       case 'logout':
         _logoutUser();
         break;
+      case 'create-project':
+        this.setState( { createProjectModalIsOpen: true, dropDownIsOpen: false } );
+        break;
       default: break;
     }
   }
 
   render() {
     const { currentUser } = this.props;
-    const { dropDownIsOpen } = this.state;
+    const { dropDownIsOpen, createProjectModalIsOpen } = this.state;
 
     const dropDownItems = [
       {
+        key: 'create-project',
+        display: 'Create New Project',
+      },
+      {
+        key: 'my-projects',
+        display: 'My Projects',
+      },
+      {
         key: 'logout',
         display: 'Log Out',
-      },
-      {
-        key: 'two',
-        display: 'two',
-      },
-      {
-        key: 'three',
-        display: 'three',
       },
     ];
 
@@ -65,6 +70,11 @@ class UserButton extends React.Component {
       />
     ) : null;
 
+    const createProjectModalRender = createProjectModalIsOpen ? (
+      <CreateProjectModal
+        onClose={ () => this.setState( { createProjectModalIsOpen: false } ) }
+      />
+    ) : null;
     return (
       <div className="user-button-container">
         <Button
@@ -73,6 +83,7 @@ class UserButton extends React.Component {
           click={ () => this.setState( { dropDownIsOpen: !dropDownIsOpen } ) }
         />
         { dropDownRender }
+        { createProjectModalRender }
       </div>
     );
   }

@@ -16,8 +16,6 @@
   .modal-content-container {
     width: 600px;
     height: 600px;
-    width: 600px;
-    height: 500px;
     background-color: $background-color;
     border: 2px solid $primary-dark-color;
     display: flex;
@@ -105,7 +103,10 @@
     }
   }
 
-
+  .modal-content-container.no-sizing {
+    width: initial;
+    height: initial;
+  }
 }
 
 

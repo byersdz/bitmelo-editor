@@ -14,9 +14,16 @@ const Modal = props => {
     showHeader,
     title,
     onClose,
+    noSizing,
   } = props;
 
-  const contentClassName = `modal-content-container ${ className }`;
+  let contentClassName = 'modal-content-container';
+  if ( className ) {
+    contentClassName += ` ${ className }`;
+  }
+  if ( noSizing ) {
+    contentClassName += ' no-sizing';
+  }
   const headerRender = showHeader ? (
     <div className="modal-header">
       <div className="title">
@@ -54,6 +61,7 @@ Modal.propTypes = {
   className: PropTypes.string,
   title: PropTypes.string,
   onClose: PropTypes.func,
+  noSizing: PropTypes.bool,
 };
 
 Modal.defaultProps = {
@@ -61,6 +69,7 @@ Modal.defaultProps = {
   className: '',
   title: '',
   onClose: null,
+  noSizing: false,
 };
 
 export default Modal;

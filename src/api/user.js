@@ -23,7 +23,7 @@ export async function loginUser( email, password ) {
     const response = await axios.post( `${ BASE_URL }/api/login`, {
       email,
       password,
-    } );
+    }, { withCredentials: true } );
 
     return response;
   }
