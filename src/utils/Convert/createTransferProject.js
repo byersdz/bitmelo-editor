@@ -2,7 +2,6 @@ import compressProjectState from './compressProjectState';
 
 export default function createTransferProject( projectData ) {
   const compressedState = compressProjectState( projectData );
-  console.log( compressedState );
 
   const result = {};
   result.sounds = compressedState.sound.sounds;
