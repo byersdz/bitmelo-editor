@@ -8,6 +8,7 @@ import get from 'lodash.get';
 import AccountModal from '../../../components/Account/AccountModal/AccountModal';
 import Button from '../../../components/Button/Button';
 import AccountTextInput from '../../../components/Account/AccountTextInput/AccountTextInput';
+import AccountErrorMessage from '../../../components/Account/AccountErrorMessage/AccountErrorMessage';
 
 import createTransferProject from '../../../utils/Convert/createTransferProject';
 
@@ -27,6 +28,7 @@ class CreateProjectModal extends React.Component {
       projectName: 'My Project',
       isCreating: false,
       createSuccessful: false,
+      errors: [],
     };
   }
 
@@ -57,12 +59,13 @@ class CreateProjectModal extends React.Component {
         this.setState( { createSuccessful: true } );
       }
       else {
-        // make error later
-        console.log( 'no id' );
+        _setCurrentUserProject( '', false );
+        this.setState( { errors: [{ msg: 'Unkown Error' }] } );
       }
     }
     else {
-      console.log( response.errors );
+      _setCurrentUserProject( '', false );
+      this.setState( { errors: response.errors } );
     }
   }
 
@@ -87,9 +90,22 @@ class CreateProjectModal extends React.Component {
 
   render() {
     const { onClose } = this.props;
-    const { projectName, isCreating, createSuccessful } = this.state;
+    const {
+      projectName,
+      isCreating,
+      createSuccessful,
+      errors,
+    } = this.state;
 
     const buttonsDisabled = isCreating;
+
+    const errorsRender = errors.map( error => {
+      return (
+        <AccountErrorMessage key={ error.msg }>
+          { error.msg }
+        </AccountErrorMessage>
+      );
+    } );
 
     const mainRender = createSuccessful ? (
       <div>
@@ -97,6 +113,7 @@ class CreateProjectModal extends React.Component {
       </div>
     ) : (
       <>
+        { errorsRender }
         <AccountTextInput
           title="Project Name"
           value={ projectName }
