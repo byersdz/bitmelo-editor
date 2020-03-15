@@ -1,0 +1,42 @@
+
+.publish {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .card {
+    width: 640px;
+    padding: 16px 0;
+    margin-top: 32px;
+  }
+
+  .sign-up-content {
+    .btn {
+      display: inline-block;
+      padding: 8px;
+    }
+
+    .create-account-btn {
+      background-color: #7de74c;
+      font-weight: bold;
+      border-radius: 5px;
+      margin: 0 8px;
+      border: 1px solid #000000;
+      color: #000;
+    }
+
+    .log-in-btn {
+      font-weight: bold;
+    }
+  }
+
+  .create-project-content {
+    margin: 0 16px;
+    display: flex;
+    flex-direction: column;
+
+    .btn {
+      align-self: center;
+    }
+  }
+}

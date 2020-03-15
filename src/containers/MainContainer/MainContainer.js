@@ -148,7 +148,11 @@ class MainContainer extends React.Component {
 
     return (
       <div className="main-container">
-        <TopBar title={ topBarTitle } rightItems={ rightItemsRender } />
+        <TopBar
+          className="main-top-bar"
+          title={ topBarTitle }
+          rightItems={ rightItemsRender }
+        />
         { contentRender }
         { createUserModalRender }
         { loginUserModalRender }
