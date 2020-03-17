@@ -9,6 +9,7 @@ import { importProjectData, clearAllUndoHistory } from '../../state/globalAction
 import { setNavigationPanelIsOpen } from '../../state/Layout/navigationPanelIsOpen';
 import { setReferencePanelIsOpen } from '../../state/Layout/referencePanelIsOpen';
 import { applyTilesetEditorSelection } from '../../state/Tileset/actions';
+import { PROJECTS_PAGE } from '../../state/Layout/activePage';
 
 import { loadStateFromLocalStorage } from '../../utils/Saving/localStorage';
 import WelcomeDemo from '../../utils/Demos/WelcomeDemo.json';
@@ -16,6 +17,7 @@ import WelcomeDemo from '../../utils/Demos/WelcomeDemo.json';
 import { useExtraSmallWidth } from '../../style/dimensions';
 
 import EditorPage from '../../pages/EditorPage/EditorPage';
+import ProjectsPage from '../../pages/ProjectsPage/ProjectsPage';
 
 import './App.scss';
 
@@ -66,11 +68,15 @@ class App extends React.Component {
   }
 
   render() {
-    return (
-      <>
-        <EditorPage />
-      </>
-    );
+    const { activePage } = this.props;
+
+    let mainRender = <EditorPage />;
+
+    if ( activePage === PROJECTS_PAGE ) {
+      mainRender = <ProjectsPage />;
+    }
+
+    return mainRender;
   }
 }
 
@@ -80,7 +86,14 @@ App.propTypes = {
   _setReferencePanelIsOpen: PropTypes.func.isRequired,
   _clearAllUndoHistory: PropTypes.func.isRequired,
   _applyTilesetEditorSelection: PropTypes.func.isRequired,
+  activePage: PropTypes.string.isRequired,
 };
+
+function mapStateToProps( state ) {
+  return {
+    activePage: state.layout.activePage,
+  };
+}
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
@@ -92,4 +105,4 @@ function mapDispatchToProps( dispatch ) {
   }, dispatch );
 }
 
-export default connect( null, mapDispatchToProps )( App );
+export default connect( mapStateToProps, mapDispatchToProps )( App );
