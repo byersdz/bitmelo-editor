@@ -10,6 +10,7 @@ import DropDownMenu from '../../../components/DropDownMenu/DropDownMenu';
 import CreateProjectModal from '../CreateProjectModal/CreateProjectModal';
 
 import { logoutUser } from '../../../state/User/currentUser';
+import { selectActivePage, PROJECTS_PAGE } from '../../../state/Layout/activePage';
 
 import './UserButton.scss';
 
@@ -31,13 +32,16 @@ class UserButton extends React.Component {
   }
 
   handleMenuSelection( key ) {
-    const { _logoutUser } = this.props;
+    const { _logoutUser, _selectActivePage } = this.props;
     switch ( key ) {
       case 'logout':
         _logoutUser();
         break;
       case 'create-project':
         this.setState( { createProjectModalIsOpen: true, dropDownIsOpen: false } );
+        break;
+      case 'my-projects':
+        _selectActivePage( PROJECTS_PAGE );
         break;
       default: break;
     }
@@ -92,6 +96,7 @@ class UserButton extends React.Component {
 UserButton.propTypes = {
   currentUser: PropTypes.object.isRequired,
   _logoutUser: PropTypes.func.isRequired,
+  _selectActivePage: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -103,6 +108,7 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _logoutUser: logoutUser,
+    _selectActivePage: selectActivePage,
   }, dispatch );
 }
 
