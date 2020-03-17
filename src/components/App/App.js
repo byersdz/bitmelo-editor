@@ -1,5 +1,6 @@
 
 import React from 'react';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,24 +10,16 @@ import { setNavigationPanelIsOpen } from '../../state/Layout/navigationPanelIsOp
 import { setReferencePanelIsOpen } from '../../state/Layout/referencePanelIsOpen';
 import { applyTilesetEditorSelection } from '../../state/Tileset/actions';
 
-import NavigationTab from '../../containers/NavigationTab/NavigationTab';
-import MainContainer from '../../containers/MainContainer/MainContainer';
-import ReferenceTab from '../../containers/ReferenceTab/ReferenceTab';
-import BitmeloAudio from '../../containers/BitmeloAudio/BitmeloAudio';
-
 import { loadStateFromLocalStorage } from '../../utils/Saving/localStorage';
 import WelcomeDemo from '../../utils/Demos/WelcomeDemo.json';
 
 import { useExtraSmallWidth } from '../../style/dimensions';
 
+import EditorPage from '../../pages/EditorPage/EditorPage';
+
 import './App.scss';
 
 class App extends React.Component {
-  constructor( props ) {
-    super( props );
-    this.handleKeyDown = this.handleKeyDown.bind( this );
-  }
-
   componentDidMount() {
     const {
       _importProjectData,
@@ -70,32 +63,13 @@ class App extends React.Component {
       _setNavigationPanelIsOpen( false );
       _setReferencePanelIsOpen( false );
     }
-
-    window.addEventListener( 'keydown', this.handleKeyDown );
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener( 'keydown', this.handleKeyDown );
-  }
-
-  handleKeyDown( event ) {
-    if ( event.which === 83 ) { // s
-      if ( event.ctrlKey ) {
-        // do nothing when the user attempts to save
-        // avoids the annoying save website popup
-        event.preventDefault();
-      }
-    }
   }
 
   render() {
     return (
-      <div id="app">
-        <NavigationTab />
-        <MainContainer />
-        <ReferenceTab />
-        <BitmeloAudio />
-      </div>
+      <>
+        <EditorPage />
+      </>
     );
   }
 }
