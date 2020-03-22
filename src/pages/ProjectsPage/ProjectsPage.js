@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import ProjectsView from '../../containers/ProjectsView/ProjectsView';
+
 import Button from '../../components/Button/Button';
 
 import { selectActivePage, EDITOR_PAGE } from '../../state/Layout/activePage';
@@ -42,7 +44,7 @@ class ProjectsPage extends React.Component {
 
     return (
       <div id="projects-page">
-        Projects Page
+        <ProjectsView />
         <Button
           title="Go to editor"
           standard
