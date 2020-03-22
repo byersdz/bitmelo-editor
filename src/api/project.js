@@ -29,3 +29,17 @@ export async function updateProject( projectId, projectData ) {
     return catchErrors( err );
   }
 }
+
+export async function getAllProjects( userId ) {
+  try {
+    const response = await axios.get(
+      `${ BASE_URL }/api/user/projects/${ userId }`,
+      { withCredentials: true },
+    );
+
+    return response;
+  }
+  catch ( err ) {
+    return catchErrors( err );
+  }
+}

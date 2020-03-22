@@ -32,6 +32,8 @@ module.exports = {
     "react/jsx-curly-brace-presence": "off",
     "prefer-destructuring": "off",
     "import/order": "off",
+    "linebreak-style": 0,
+    "react/jsx-one-expression-per-line": 0
   },
   "globals": {
     "bitmelo": "readonly",
