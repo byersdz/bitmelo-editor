@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import Card from '../../components/Card/Card';
+import ProjectItem from './ProjectItem/ProjectItem';
 
 import { fetchUserProjects } from '../../state/User/projects';
 
@@ -37,10 +38,17 @@ class ProjectsView extends React.Component {
   render() {
     const { projects } = this.props;
 
+    const { projectsArray } = projects;
+
+    const itemsRender = projectsArray.map( project => {
+      console.log( project );
+      return <ProjectItem name={ project.name } />;
+    } );
+
     console.log( projects );
     return (
       <Card className="projects-view">
-        ProjectsView
+        { itemsRender }
       </Card>
     );
   }
