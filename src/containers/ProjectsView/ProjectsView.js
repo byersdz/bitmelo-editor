@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import CreateUserModal from '../User/CreateUserModal/CreateUserModal';
+import LoginUserModal from '../User/LoginUserModal/LoginUserModal';
+
 import Card from '../../components/Card/Card';
+import Button from '../../components/Button/Button';
 import ProjectItem from './ProjectItem/ProjectItem';
 
 import { fetchUserProjects } from '../../state/User/projects';
@@ -12,6 +16,15 @@ import { fetchUserProjects } from '../../state/User/projects';
 import './ProjectsView.scss';
 
 class ProjectsView extends React.Component {
+  constructor( props ) {
+    super( props );
+
+    this.state = {
+      createUserModalIsOpen: false,
+      loginUserModalIsOpen: false,
+    };
+  }
+
   componentDidMount() {
     this.fetchProjects();
   }
@@ -36,7 +49,8 @@ class ProjectsView extends React.Component {
   }
 
   render() {
-    const { projects } = this.props;
+    const { projects, currentUser } = this.props;
+    const { createUserModalIsOpen, loginUserModalIsOpen } = this.state;
 
     const { projectsArray } = projects;
 
@@ -45,10 +59,52 @@ class ProjectsView extends React.Component {
       return <ProjectItem name={ project.name } />;
     } );
 
-    console.log( projects );
+    let mainRender = null;
+
+    if ( currentUser.isLoggedIn ) {
+      mainRender = itemsRender;
+    }
+    else {
+      mainRender = (
+        <div className="sign-up-content">
+          <div className="sign-up-buttons">
+            <Button
+              className="create-account-btn"
+              title="Sign up"
+              click={ () => this.setState( { createUserModalIsOpen: true } ) }
+            />
+            { ' or ' }
+            <Button
+              className="log-in-btn"
+              title="Log in"
+              click={ () => this.setState( { loginUserModalIsOpen: true } ) }
+            />
+            { ' to create cloud projects.' }
+          </div>
+          <p>
+            Cloud Projects allow you to sync your project data to the cloud and to publish your games at bitmelo.com
+          </p>
+        </div>
+      );
+    }
+
+    const createUserModalRender = createUserModalIsOpen ? (
+      <CreateUserModal
+        onClose={ () => this.setState( { createUserModalIsOpen: false } ) }
+      />
+    ) : null;
+
+    const loginUserModalRender = loginUserModalIsOpen ? (
+      <LoginUserModal
+        onClose={ () => this.setState( { loginUserModalIsOpen: false } ) }
+      />
+    ) : null;
+
     return (
       <Card className="projects-view">
-        { itemsRender }
+        { mainRender }
+        { createUserModalRender }
+        { loginUserModalRender }
       </Card>
     );
   }
