@@ -15,6 +15,20 @@ export async function createProject( projectData ) {
   }
 }
 
+export async function getProject( projectId ) {
+  try {
+    const response = await axios.get(
+      `${ BASE_URL }/api/projects/${ projectId }`,
+      { withCredentials: true },
+    );
+
+    return response;
+  }
+  catch ( err ) {
+    return catchErrors( err );
+  }
+}
+
 export async function updateProject( projectId, projectData ) {
   try {
     const response = await axios.put(

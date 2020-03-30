@@ -1,5 +1,6 @@
 
 import { Sound } from 'bitmelo';
+import get from 'lodash.get';
 import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 
 // Actions
@@ -144,10 +145,21 @@ export default function reducer( state = initialState, action ) {
     }
     case IMPORT_PROJECT_DATA: {
       try {
-        const importedState = action.payload.sound.sounds;
+        const format = get( action, 'payload.format', '' );
+        let importedState = null;
+
+        if ( format === 'transfer' ) {
+          importedState = [...action.payload.sounds];
+        }
+        else {
+          importedState = [...action.payload.sound.sounds];
+        }
+
         if ( validate( importedState ) ) {
           const newState = [...importedState];
           newState[0].needToAddToAudioEngine = true;
+          console.log( newState );
+
           return newState;
         }
         return state;

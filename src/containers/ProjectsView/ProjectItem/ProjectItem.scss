@@ -1,0 +1,31 @@
+@import '../../../style/colors.scss';
+
+.project-item {
+  margin: 4px;
+  align-self: stretch;
+  display: flex;
+
+  .select-btn {
+    background-color: $primary-color;
+    color: $on-primary-color;
+
+    flex-grow: 1;
+    padding: 16px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .select-btn:hover {
+    background-color: $primary-light-color;
+  }
+
+  .delete-btn {
+    border: 4px solid $primary-dark-color;
+    padding: 0 8px;
+  }
+
+  .delete-btn:hover {
+    border: 4px solid $primary-light-color;
+  }
+}

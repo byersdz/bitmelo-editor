@@ -12,6 +12,10 @@ import Button from '../../components/Button/Button';
 import ProjectItem from './ProjectItem/ProjectItem';
 
 import { fetchUserProjects } from '../../state/User/projects';
+import { importProjectData } from '../../state/globalActions';
+import { selectActivePage, EDITOR_PAGE } from '../../state/Layout/activePage';
+
+import { getProject } from '../../api/project';
 
 import './ProjectsView.scss';
 
@@ -48,6 +52,25 @@ class ProjectsView extends React.Component {
     _fetchUserProjects( currentUser.id );
   }
 
+  async fetchProjectAndEnterEditor( id ) {
+    const { _selectActivePage, _importProjectData } = this.props;
+
+    const response = await getProject( id );
+    if ( !response.isError ) {
+      _importProjectData( response.data );
+      _selectActivePage( EDITOR_PAGE );
+    }
+    console.log( response );
+  }
+
+  handleProjectSelect( id ) {
+    this.fetchProjectAndEnterEditor( id );
+  }
+
+  handleProjectDelete( id ) {
+    console.log( id );
+  }
+
   render() {
     const { projects, currentUser } = this.props;
     const { createUserModalIsOpen, loginUserModalIsOpen } = this.state;
@@ -55,8 +78,15 @@ class ProjectsView extends React.Component {
     const { projectsArray } = projects;
 
     const itemsRender = projectsArray.map( project => {
-      console.log( project );
-      return <ProjectItem name={ project.name } />;
+      return (
+        <ProjectItem
+          key={ project.id }
+          name={ project.name }
+          id={ project.id }
+          onSelect={ v => this.handleProjectSelect( v ) }
+          onDelete={ v => this.handleProjectDelete( v ) }
+        />
+      );
     } );
 
     let mainRender = null;
@@ -113,6 +143,8 @@ class ProjectsView extends React.Component {
 ProjectsView.propTypes = {
   currentUser: PropTypes.object.isRequired,
   _fetchUserProjects: PropTypes.func.isRequired,
+  _importProjectData: PropTypes.func.isRequired,
+  _selectActivePage: PropTypes.func.isRequired,
   projects: PropTypes.object.isRequired,
 };
 
@@ -126,6 +158,8 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _fetchUserProjects: fetchUserProjects,
+    _importProjectData: importProjectData,
+    _selectActivePage: selectActivePage,
   }, dispatch );
 }
 
