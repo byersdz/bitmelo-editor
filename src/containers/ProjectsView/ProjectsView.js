@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 
 import CreateUserModal from '../User/CreateUserModal/CreateUserModal';
 import LoginUserModal from '../User/LoginUserModal/LoginUserModal';
+import DeleteProjectModal from '../User/DeleteProjectModal/DeleteProjectModal';
 
 import Card from '../../components/Card/Card';
 import Button from '../../components/Button/Button';
@@ -26,6 +27,7 @@ class ProjectsView extends React.Component {
     this.state = {
       createUserModalIsOpen: false,
       loginUserModalIsOpen: false,
+      deleteProjectModalIsOpen: false,
     };
   }
 
@@ -68,12 +70,13 @@ class ProjectsView extends React.Component {
   }
 
   handleProjectDelete( id ) {
+    this.setState( { deleteProjectModalIsOpen: true } );
     console.log( id );
   }
 
   render() {
     const { projects, currentUser } = this.props;
-    const { createUserModalIsOpen, loginUserModalIsOpen } = this.state;
+    const { createUserModalIsOpen, loginUserModalIsOpen, deleteProjectModalIsOpen } = this.state;
 
     const { projectsArray } = projects;
 
@@ -130,11 +133,18 @@ class ProjectsView extends React.Component {
       />
     ) : null;
 
+    const deleteProjectModalRender = deleteProjectModalIsOpen ? (
+      <DeleteProjectModal
+        onClose={ () => this.setState( { deleteProjectModalIsOpen: false } ) }
+      />
+    ) : null;
+
     return (
       <Card className="projects-view">
         { mainRender }
         { createUserModalRender }
         { loginUserModalRender }
+        { deleteProjectModalRender }
       </Card>
     );
   }
