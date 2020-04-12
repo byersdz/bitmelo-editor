@@ -158,7 +158,6 @@ export default function reducer( state = initialState, action ) {
         if ( validate( importedState ) ) {
           const newState = [...importedState];
           newState[0].needToAddToAudioEngine = true;
-          console.log( newState );
 
           return newState;
         }

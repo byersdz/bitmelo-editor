@@ -28,6 +28,7 @@ class ProjectsView extends React.Component {
       createUserModalIsOpen: false,
       loginUserModalIsOpen: false,
       deleteProjectModalIsOpen: false,
+      selectedProject: null,
     };
   }
 
@@ -65,18 +66,25 @@ class ProjectsView extends React.Component {
     console.log( response );
   }
 
-  handleProjectSelect( id ) {
-    this.fetchProjectAndEnterEditor( id );
+  handleProjectSelect( project ) {
+    this.setState( { selectedProject: project } );
+    this.fetchProjectAndEnterEditor( project.id );
   }
 
-  handleProjectDelete( id ) {
+  handleProjectDelete( project ) {
+    this.setState( { selectedProject: project } );
     this.setState( { deleteProjectModalIsOpen: true } );
-    console.log( id );
+    console.log( project.id );
   }
 
   render() {
     const { projects, currentUser } = this.props;
-    const { createUserModalIsOpen, loginUserModalIsOpen, deleteProjectModalIsOpen } = this.state;
+    const {
+      createUserModalIsOpen,
+      loginUserModalIsOpen,
+      deleteProjectModalIsOpen,
+      selectedProject,
+    } = this.state;
 
     const { projectsArray } = projects;
 
@@ -84,8 +92,7 @@ class ProjectsView extends React.Component {
       return (
         <ProjectItem
           key={ project.id }
-          name={ project.name }
-          id={ project.id }
+          project={ project }
           onSelect={ v => this.handleProjectSelect( v ) }
           onDelete={ v => this.handleProjectDelete( v ) }
         />
@@ -136,6 +143,7 @@ class ProjectsView extends React.Component {
     const deleteProjectModalRender = deleteProjectModalIsOpen ? (
       <DeleteProjectModal
         onClose={ () => this.setState( { deleteProjectModalIsOpen: false } ) }
+        project={ selectedProject }
       />
     ) : null;
 

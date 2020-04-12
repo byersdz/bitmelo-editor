@@ -44,6 +44,21 @@ export async function updateProject( projectId, projectData ) {
   }
 }
 
+
+export async function deleteProject( projectId ) {
+  try {
+    const response = await axios.delete(
+      `${ BASE_URL }/api/projects/${ projectId }`,
+      { withCredentials: true },
+    );
+
+    return response;
+  }
+  catch ( err ) {
+    return catchErrors( err );
+  }
+}
+
 export async function getAllProjects( userId ) {
   try {
     const response = await axios.get(

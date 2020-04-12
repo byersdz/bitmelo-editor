@@ -1,17 +1,19 @@
 
 import cloneDeep from 'lodash.clonedeep';
 
-import { getAllProjects } from '../../api/project';
+import { getAllProjects, deleteProject } from '../../api/project';
 
 // Actions
 export const SET_USER_PROJECTS = 'SET_USER_PROJECTS';
 export const SET_USER_PROJECTS_FETCHING = 'SET_USER_PROJECTS_FETCHING';
+export const SET_USER_PROJECTS_DELETING = 'SET_USER_PROJECTS_DELETING';
 export const SET_USER_PROJECTS_ERRORS = 'SET_USER_PROJECTS_ERRORS';
 
 // Reducer
 const initialState = {
   projectsArray: [],
   isFetching: false,
+  isDeleting: false,
   errors: [],
 };
 
@@ -41,6 +43,13 @@ export function setUserProjectsFetching( isFetching ) {
   return {
     type: SET_USER_PROJECTS_FETCHING,
     payload: isFetching,
+  };
+}
+
+export function setUserProjectsDeleting( isDeleting ) {
+  return {
+    type: SET_USER_PROJECTS_DELETING,
+    payload: isDeleting,
   };
 }
 
@@ -75,5 +84,24 @@ export function fetchUserProjects( userId ) {
     }
 
     dispatch( setUserProjectsFetching( false ) );
+  };
+}
+
+export function deleteUserProject( projectId ) {
+  return async dispatch => {
+    dispatch( setUserProjectsDeleting( true ) );
+
+    const response = await deleteProject( projectId );
+
+    console.log( response );
+
+    if ( response.isError ) {
+      // deleting errors?
+    }
+    else {
+      // remove the project
+    }
+
+    dispatch( setUserProjectsDeleting( false ) );
   };
 }

@@ -8,23 +8,23 @@ import './ProjectItem.scss';
 
 const ProjectItem = props => {
   const {
-    name,
-    id,
+    project,
     onSelect,
     onDelete,
   } = props;
+
 
   return (
     <div className="project-item">
       <Button
         className="select-btn"
-        click={ () => onSelect( id ) }
+        click={ () => onSelect( project ) }
       >
-        { name }
+        { project.name }
       </Button>
       <Button
         className="delete-btn"
-        click={ () => onDelete( id ) }
+        click={ () => onDelete( project ) }
       >
         Delete
       </Button>
@@ -33,8 +33,10 @@ const ProjectItem = props => {
 };
 
 ProjectItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+  project: PropTypes.shape( {
+    name: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+  } ).isRequired,
   onSelect: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
