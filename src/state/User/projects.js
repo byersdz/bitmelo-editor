@@ -8,6 +8,8 @@ export const SET_USER_PROJECTS = 'SET_USER_PROJECTS';
 export const SET_USER_PROJECTS_FETCHING = 'SET_USER_PROJECTS_FETCHING';
 export const SET_USER_PROJECTS_DELETING = 'SET_USER_PROJECTS_DELETING';
 export const SET_USER_PROJECTS_ERRORS = 'SET_USER_PROJECTS_ERRORS';
+export const SET_USER_PROJECTS_DELETING_ERRORS = 'SET_USER_PROJECTS_DELETING_ERRORS';
+export const REMOVE_USER_PROJECT = 'REMOVE_USER_PROJECT';
 
 // Reducer
 const initialState = {
@@ -15,6 +17,7 @@ const initialState = {
   isFetching: false,
   isDeleting: false,
   errors: [],
+  deletingErrors: [],
 };
 
 export default function reducer( state = initialState, action ) {
@@ -24,9 +27,21 @@ export default function reducer( state = initialState, action ) {
       newState.projectsArray = [...action.payload];
       return newState;
     }
+    case REMOVE_USER_PROJECT: {
+      const newState = cloneDeep( state );
+      newState.projectsArray = newState.projectsArray.filter( project => {
+        return project.id !== action.payload;
+      } );
+      return newState;
+    }
     case SET_USER_PROJECTS_FETCHING: {
       const newState = cloneDeep( state );
       newState.isFetching = action.payload;
+      return newState;
+    }
+    case SET_USER_PROJECTS_DELETING: {
+      const newState = cloneDeep( state );
+      newState.isDeleting = action.payload;
       return newState;
     }
     case SET_USER_PROJECTS_ERRORS: {
@@ -34,6 +49,12 @@ export default function reducer( state = initialState, action ) {
       newState.errors = [...action.payload];
       return newState;
     }
+    case SET_USER_PROJECTS_DELETING_ERRORS: {
+      const newState = cloneDeep( state );
+      newState.deletingErrors = [...action.payload];
+      return newState;
+    }
+
     default: return state;
   }
 }
@@ -60,11 +81,24 @@ export function setUserProjectsErrors( errors ) {
   };
 }
 
+export function setUserProjectsDeletingErrors( errors ) {
+  return {
+    type: SET_USER_PROJECTS_DELETING_ERRORS,
+    payload: errors,
+  };
+}
 
 export function setUserProjects( projects ) {
   return {
     type: SET_USER_PROJECTS,
     payload: projects,
+  };
+}
+
+export function removeUserProject( projectId ) {
+  return {
+    type: REMOVE_USER_PROJECT,
+    payload: projectId,
   };
 }
 
@@ -96,10 +130,10 @@ export function deleteUserProject( projectId ) {
     console.log( response );
 
     if ( response.isError ) {
-      // deleting errors?
+      dispatch( setUserProjectsDeletingErrors( response.errors ) );
     }
     else {
-      // remove the project
+      dispatch( removeUserProject( projectId ) );
     }
 
     dispatch( setUserProjectsDeleting( false ) );

@@ -44,7 +44,6 @@ export async function updateProject( projectId, projectData ) {
   }
 }
 
-
 export async function deleteProject( projectId ) {
   try {
     const response = await axios.delete(
