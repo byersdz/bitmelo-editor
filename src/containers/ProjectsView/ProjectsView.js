@@ -102,7 +102,17 @@ class ProjectsView extends React.Component {
     let mainRender = null;
 
     if ( currentUser.isLoggedIn ) {
-      mainRender = itemsRender;
+      mainRender = (
+        <>
+          <Button
+            className="create-project-btn"
+            title="Create New Project"
+            click={ () => console.log( 'create project' ) }
+            standard
+          />
+          { itemsRender }
+        </>
+      );
     }
     else {
       mainRender = (
@@ -148,7 +158,10 @@ class ProjectsView extends React.Component {
     ) : null;
 
     return (
-      <Card className="projects-view">
+      <Card
+        className="projects-view"
+        title="My Projects:"
+      >
         { mainRender }
         { createUserModalRender }
         { loginUserModalRender }
