@@ -77,6 +77,7 @@ class UserButton extends React.Component {
     const createProjectModalRender = createProjectModalIsOpen ? (
       <CreateProjectModal
         onClose={ () => this.setState( { createProjectModalIsOpen: false } ) }
+        allowCopy
       />
     ) : null;
     return (

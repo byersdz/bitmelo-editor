@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import CreateUserModal from '../User/CreateUserModal/CreateUserModal';
 import LoginUserModal from '../User/LoginUserModal/LoginUserModal';
 import DeleteProjectModal from '../User/DeleteProjectModal/DeleteProjectModal';
+import CreateProjectModal from '../User/CreateProjectModal/CreateProjectModal';
 
 import Card from '../../components/Card/Card';
 import Button from '../../components/Button/Button';
@@ -28,7 +29,9 @@ class ProjectsView extends React.Component {
       createUserModalIsOpen: false,
       loginUserModalIsOpen: false,
       deleteProjectModalIsOpen: false,
+      createProjectModalIsOpen: false,
       selectedProject: null,
+      createdProjectId: null,
     };
   }
 
@@ -83,7 +86,9 @@ class ProjectsView extends React.Component {
       createUserModalIsOpen,
       loginUserModalIsOpen,
       deleteProjectModalIsOpen,
+      createProjectModalIsOpen,
       selectedProject,
+      createdProjectId,
     } = this.state;
 
     const { projectsArray } = projects;
@@ -107,7 +112,7 @@ class ProjectsView extends React.Component {
           <Button
             className="create-project-btn"
             title="Create New Project"
-            click={ () => console.log( 'create project' ) }
+            click={ () => this.setState( { createProjectModalIsOpen: true } ) }
             standard
           />
           { itemsRender }
@@ -157,6 +162,22 @@ class ProjectsView extends React.Component {
       />
     ) : null;
 
+    const createProjectModalRender = createProjectModalIsOpen ? (
+      <CreateProjectModal
+        onClose={ () => {
+          if ( createdProjectId ) {
+            this.fetchProjectAndEnterEditor( createdProjectId );
+          }
+          else {
+            this.setState( { createProjectModalIsOpen: false } );
+          }
+        } }
+        onProjectCreateSuccess={ id => {
+          this.setState( { createdProjectId: id } );
+        } }
+      />
+    ) : null;
+
     return (
       <Card
         className="projects-view"
@@ -166,6 +187,7 @@ class ProjectsView extends React.Component {
         { createUserModalRender }
         { loginUserModalRender }
         { deleteProjectModalRender }
+        { createProjectModalRender }
       </Card>
     );
   }

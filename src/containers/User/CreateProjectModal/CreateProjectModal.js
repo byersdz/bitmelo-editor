@@ -44,7 +44,7 @@ class CreateProjectModal extends React.Component {
   }
 
   async createCloudProject( projectData ) {
-    const { _setProjectName, _setCurrentUserProject } = this.props;
+    const { _setProjectName, _setCurrentUserProject, onProjectCreateSuccess } = this.props;
     const { projectName } = this.state;
 
     this.setState( { isCreating: true } );
@@ -57,6 +57,7 @@ class CreateProjectModal extends React.Component {
         _setProjectName( projectName );
         _setCurrentUserProject( id, false );
         this.setState( { createSuccessful: true } );
+        onProjectCreateSuccess( id );
       }
       else {
         _setCurrentUserProject( '', false );
@@ -89,7 +90,7 @@ class CreateProjectModal extends React.Component {
   }
 
   render() {
-    const { onClose } = this.props;
+    const { onClose, allowCopy } = this.props;
     const {
       projectName,
       isCreating,
@@ -107,6 +108,31 @@ class CreateProjectModal extends React.Component {
       );
     } );
 
+    const createBlankButton = allowCopy ? (
+      <Button
+        title="Create Empty Project"
+        click={ () => this.handleResetClick() }
+        account
+        disabled={ buttonsDisabled }
+      />
+    ) : (
+      <Button
+        title="Create Project"
+        click={ () => this.handleResetClick() }
+        account
+        disabled={ buttonsDisabled }
+      />
+    );
+
+    const createCopyButton = allowCopy ? (
+      <Button
+        title="Copy Current Project"
+        click={ () => this.handleCopyClick() }
+        account
+        disabled={ buttonsDisabled }
+      />
+    ) : null;
+
     const mainRender = createSuccessful ? (
       <div>
         Project successfully created!
@@ -119,18 +145,8 @@ class CreateProjectModal extends React.Component {
           value={ projectName }
           onValueChange={ v => this.setState( { projectName: v } ) }
         />
-        <Button
-          title="Create with Blank Data"
-          click={ () => this.handleResetClick() }
-          account
-          disabled={ buttonsDisabled }
-        />
-        <Button
-          title="Copy current project"
-          click={ () => this.handleCopyClick() }
-          account
-          disabled={ buttonsDisabled }
-        />
+        { createBlankButton }
+        { createCopyButton }
       </>
     );
 
@@ -154,6 +170,13 @@ CreateProjectModal.propTypes = {
   _setProjectName: PropTypes.func.isRequired,
   _resetProject: PropTypes.func.isRequired,
   requiresCreation: PropTypes.bool.isRequired,
+  onProjectCreateSuccess: PropTypes.func,
+  allowCopy: PropTypes.bool,
+};
+
+CreateProjectModal.defaultProps = {
+  onProjectCreateSuccess: () => {},
+  allowCopy: false,
 };
 
 function mapStateToProps( state ) {
