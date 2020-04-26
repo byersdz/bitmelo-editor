@@ -181,7 +181,7 @@ class ProjectsView extends React.Component {
     return (
       <Card
         className="projects-view"
-        title="My Projects:"
+        title="Cloud Projects:"
       >
         { mainRender }
         { createUserModalRender }
