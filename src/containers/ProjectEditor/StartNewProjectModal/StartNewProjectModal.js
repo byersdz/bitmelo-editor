@@ -41,7 +41,7 @@ class StartNewProjectModal extends React.Component {
       <Modal
         className="start-project-modal"
         showHeader
-        title="Start a new project"
+        title="Reset Project Data"
         onClose={ () => this.handleClose() }
       >
         <div className="warning">

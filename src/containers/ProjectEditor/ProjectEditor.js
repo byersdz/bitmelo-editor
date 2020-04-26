@@ -139,7 +139,7 @@ class ProjectEditor extends React.Component {
           standard
         />
         <Button
-          title="Start New Project"
+          title="Reset Project Data"
           click={ () => this.setState( { startProjectModalIsOpen: true } ) }
           standard
         />
