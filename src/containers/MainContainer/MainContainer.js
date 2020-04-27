@@ -29,6 +29,7 @@ import Publish from '../Publish/Publish';
 import CreateUserModal from '../User/CreateUserModal/CreateUserModal';
 import LoginUserModal from '../User/LoginUserModal/LoginUserModal';
 import UserButton from '../User/UserButton/UserButton';
+import SaveProjectButton from '../User/SaveProjectButton/SaveProjectButton';
 
 import './MainContainer.scss';
 
@@ -43,7 +44,12 @@ class MainContainer extends React.Component {
   }
 
   render() {
-    const { activeNavigationTab, projectName, currentUser } = this.props;
+    const {
+      activeNavigationTab,
+      projectName,
+      currentUser,
+      currentProject,
+    } = this.props;
     const { createUserModalIsOpen, loginUserModalIsOpen } = this.state;
 
     let contentRender = null;
@@ -128,8 +134,13 @@ class MainContainer extends React.Component {
       </>
     );
 
+    const saveButtonRender = currentUser.isLoggedIn && currentProject.id ? (
+      <SaveProjectButton />
+    ) : null;
+
     const rightItemsRender = (
       <>
+        { saveButtonRender }
         { userButtonsRender }
       </>
     );
@@ -165,6 +176,7 @@ MainContainer.propTypes = {
   activeNavigationTab: PropTypes.string.isRequired,
   projectName: PropTypes.string.isRequired,
   currentUser: PropTypes.object.isRequired,
+  currentProject: PropTypes.object.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -172,6 +184,7 @@ function mapStateToProps( state ) {
     projectName: state.project.name,
     activeNavigationTab: state.layout.activeNavigationTab,
     currentUser: state.user.currentUser,
+    currentProject: state.user.currentProject,
   };
 }
 
