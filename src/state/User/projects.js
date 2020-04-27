@@ -3,6 +3,8 @@ import cloneDeep from 'lodash.clonedeep';
 
 import { getAllProjects, deleteProject, updateProject } from '../../api/project';
 
+import { logoutUser } from './currentUser';
+
 import createTransferProject from '../../utils/Convert/createTransferProject';
 
 // Actions
@@ -140,6 +142,10 @@ export function fetchUserProjects( userId ) {
 
     const response = await getAllProjects( userId );
 
+    if ( response.status === 401 ) {
+      dispatch( logoutUser() );
+    }
+
     if ( response.isError ) {
       dispatch( setUserProjectsErrors( response.errors ) );
     }
@@ -161,6 +167,10 @@ export function saveCurrentProject() {
 
     const response = await updateProject( projectState.user.currentProject.id, transferProject );
 
+    if ( response.status === 401 ) {
+      dispatch( logoutUser() );
+    }
+
     if ( response.isError ) {
       dispatch( setUserProjectsSavingErrors( response.errors ) );
     }
@@ -175,6 +185,10 @@ export function deleteUserProject( projectId ) {
     dispatch( setUserProjectsDeletingErrors( [] ) );
 
     const response = await deleteProject( projectId );
+
+    if ( response.status === 401 ) {
+      dispatch( logoutUser() );
+    }
 
     if ( response.isError ) {
       dispatch( setUserProjectsDeletingErrors( response.errors ) );
