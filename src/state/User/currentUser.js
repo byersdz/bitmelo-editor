@@ -1,5 +1,6 @@
 
 import { IMPORT_PROJECT_DATA } from '../globalActions';
+import { selectActivePage, PROJECTS_PAGE } from '../Layout/activePage';
 
 // Actions
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
@@ -86,7 +87,8 @@ export function loginUser() {
 }
 
 export function logoutUser() {
-  return {
-    type: LOGOUT_USER,
+  return async dispatch => {
+    dispatch( { type: LOGOUT_USER } );
+    dispatch( selectActivePage( PROJECTS_PAGE ) );
   };
 }
