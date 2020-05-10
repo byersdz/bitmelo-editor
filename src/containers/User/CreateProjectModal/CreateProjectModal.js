@@ -3,20 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import get from 'lodash.get';
 
 import AccountModal from '../../../components/Account/AccountModal/AccountModal';
 import Button from '../../../components/Button/Button';
 import AccountTextInput from '../../../components/Account/AccountTextInput/AccountTextInput';
 import AccountErrorMessage from '../../../components/Account/AccountErrorMessage/AccountErrorMessage';
 
-import createTransferProject from '../../../utils/Convert/createTransferProject';
-
-import { setCurrentUserProject } from '../../../state/User/currentProject';
-import { setProjectName } from '../../../state/Project/name';
-import { resetProject } from '../../../state/globalActions';
-
-import { createProject } from '../../../api/project';
+import { createNewProject, createLoadedProjectCopy } from '../../../state/User/projects';
 
 import './CreateProjectModal.scss';
 
@@ -26,76 +19,51 @@ class CreateProjectModal extends React.Component {
 
     this.state = {
       projectName: 'My Project',
-      isCreating: false,
       createSuccessful: false,
-      errors: [],
     };
   }
 
   componentDidUpdate( prevProps ) {
-    const { requiresCreation: prevRequiresCreation } = prevProps;
-    const { requiresCreation, projectState } = this.props;
+    const { isCreating: prevCreating } = prevProps;
+    const {
+      isCreating,
+      errors,
+      onProjectCreateSuccess,
+      currentProjectId,
+    } = this.props;
 
-    if ( requiresCreation && !prevRequiresCreation ) {
-      this.setState( { isCreating: true } );
-      const projectData = createTransferProject( projectState );
-      this.createCloudProject( projectData );
-    }
-  }
-
-  async createCloudProject( projectData ) {
-    const { _setProjectName, _setCurrentUserProject, onProjectCreateSuccess } = this.props;
-    const { projectName } = this.state;
-
-    this.setState( { isCreating: true } );
-    const response = await createProject( projectData );
-    this.setState( { isCreating: false } );
-
-    if ( !response.isError ) {
-      const id = get( response, 'data.id', '' );
-      if ( id ) {
-        _setProjectName( projectName );
-        _setCurrentUserProject( id, false );
+    if ( !isCreating && prevCreating ) {
+      if ( !errors || errors.length === 0 ) {
+        onProjectCreateSuccess( currentProjectId );
         this.setState( { createSuccessful: true } );
-        onProjectCreateSuccess( id );
       }
-      else {
-        _setCurrentUserProject( '', false );
-        this.setState( { errors: [{ msg: 'Unkown Error' }] } );
-      }
-    }
-    else {
-      _setCurrentUserProject( '', false );
-      this.setState( { errors: response.errors } );
     }
   }
 
   handleResetClick() {
-    const { _resetProject, _setProjectName, _setCurrentUserProject } = this.props;
+    const { _createNewProject } = this.props;
     const { projectName } = this.state;
 
-    _resetProject();
-    _setProjectName( projectName );
-    _setCurrentUserProject( '', true );
+    _createNewProject( projectName );
   }
 
   async handleCopyClick() {
-    const { projectState } = this.props;
+    const { _createLoadedProjectCopy } = this.props;
     const { projectName } = this.state;
 
-    const transferProject = createTransferProject( projectState );
-    transferProject.project.name = projectName;
-
-    await this.createCloudProject( transferProject );
+    _createLoadedProjectCopy( projectName );
   }
 
   render() {
-    const { onClose, allowCopy } = this.props;
+    const {
+      onClose,
+      allowCopy,
+      errors,
+      isCreating,
+    } = this.props;
     const {
       projectName,
-      isCreating,
       createSuccessful,
-      errors,
     } = this.state;
 
     const buttonsDisabled = isCreating;
@@ -165,13 +133,13 @@ class CreateProjectModal extends React.Component {
 
 CreateProjectModal.propTypes = {
   onClose: PropTypes.func.isRequired,
-  projectState: PropTypes.object.isRequired,
-  _setCurrentUserProject: PropTypes.func.isRequired,
-  _setProjectName: PropTypes.func.isRequired,
-  _resetProject: PropTypes.func.isRequired,
-  requiresCreation: PropTypes.bool.isRequired,
   onProjectCreateSuccess: PropTypes.func,
   allowCopy: PropTypes.bool,
+  _createNewProject: PropTypes.func.isRequired,
+  _createLoadedProjectCopy: PropTypes.func.isRequired,
+  isCreating: PropTypes.bool.isRequired,
+  errors: PropTypes.array.isRequired,
+  currentProjectId: PropTypes.string.isRequired,
 };
 
 CreateProjectModal.defaultProps = {
@@ -181,16 +149,16 @@ CreateProjectModal.defaultProps = {
 
 function mapStateToProps( state ) {
   return {
-    projectState: state,
-    requiresCreation: state.user.currentProject.requiresCreation,
+    isCreating: state.user.projects.isCreating,
+    errors: state.user.projects.creatingErrors,
+    currentProjectId: state.user.currentProject.id,
   };
 }
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
-    _setCurrentUserProject: setCurrentUserProject,
-    _setProjectName: setProjectName,
-    _resetProject: resetProject,
+    _createNewProject: createNewProject,
+    _createLoadedProjectCopy: createLoadedProjectCopy,
   }, dispatch );
 }
 

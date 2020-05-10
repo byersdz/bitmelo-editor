@@ -1,9 +1,18 @@
 
 import cloneDeep from 'lodash.clonedeep';
+import get from 'lodash.get';
 
-import { getAllProjects, deleteProject, updateProject } from '../../api/project';
+import {
+  getAllProjects,
+  deleteProject,
+  updateProject,
+  createProject,
+} from '../../api/project';
 
 import { logoutUser } from './currentUser';
+import { setCurrentUserProject } from './currentProject';
+import { resetProject } from '../globalActions';
+import { setProjectName } from '../Project/name';
 
 import createTransferProject from '../../utils/Convert/createTransferProject';
 
@@ -12,9 +21,11 @@ export const SET_USER_PROJECTS = 'SET_USER_PROJECTS';
 export const SET_USER_PROJECTS_FETCHING = 'SET_USER_PROJECTS_FETCHING';
 export const SET_USER_PROJECTS_DELETING = 'SET_USER_PROJECTS_DELETING';
 export const SET_USER_PROJECTS_SAVING = 'SET_USER_PROJECTS_SAVING';
+export const SET_USER_PROJECTS_CREATING = 'SET_USER_PROJECTS_CREATING';
 export const SET_USER_PROJECTS_ERRORS = 'SET_USER_PROJECTS_ERRORS';
 export const SET_USER_PROJECTS_DELETING_ERRORS = 'SET_USER_PROJECTS_DELETING_ERRORS';
 export const SET_USER_PROJECTS_SAVING_ERRORS = 'SET_USER_PROJECTS_SAVING_ERRORS';
+export const SET_USER_PROJECTS_CREATING_ERRORS = 'SET_USER_PROJECTS_CREATING_ERRORS';
 export const REMOVE_USER_PROJECT = 'REMOVE_USER_PROJECT';
 
 // Reducer
@@ -23,9 +34,11 @@ const initialState = {
   isFetching: false,
   isDeleting: false,
   isSaving: false,
+  isCreating: false,
   errors: [],
   deletingErrors: [],
   savingErrors: [],
+  creatingErrors: [],
 };
 
 export default function reducer( state = initialState, action ) {
@@ -57,6 +70,11 @@ export default function reducer( state = initialState, action ) {
       newState.isSaving = action.payload;
       return newState;
     }
+    case SET_USER_PROJECTS_CREATING: {
+      const newState = cloneDeep( state );
+      newState.isCreating = action.payload;
+      return newState;
+    }
     case SET_USER_PROJECTS_ERRORS: {
       const newState = cloneDeep( state );
       newState.errors = [...action.payload];
@@ -70,6 +88,11 @@ export default function reducer( state = initialState, action ) {
     case SET_USER_PROJECTS_SAVING_ERRORS: {
       const newState = cloneDeep( state );
       newState.savingErrors = [...action.payload];
+      return newState;
+    }
+    case SET_USER_PROJECTS_CREATING_ERRORS: {
+      const newState = cloneDeep( state );
+      newState.creatingErrors = [...action.payload];
       return newState;
     }
 
@@ -99,6 +122,13 @@ export function setUserProjectsSaving( isSaving ) {
   };
 }
 
+export function setUserProjectsCreating( isCreating ) {
+  return {
+    type: SET_USER_PROJECTS_CREATING,
+    payload: isCreating,
+  };
+}
+
 export function setUserProjectsErrors( errors ) {
   return {
     type: SET_USER_PROJECTS_ERRORS,
@@ -116,6 +146,13 @@ export function setUserProjectsDeletingErrors( errors ) {
 export function setUserProjectsSavingErrors( errors ) {
   return {
     type: SET_USER_PROJECTS_SAVING_ERRORS,
+    payload: errors,
+  };
+}
+
+export function setUserProjectsCreatingErrors( errors ) {
+  return {
+    type: SET_USER_PROJECTS_CREATING_ERRORS,
     payload: errors,
   };
 }
@@ -198,5 +235,79 @@ export function deleteUserProject( projectId ) {
     }
 
     dispatch( setUserProjectsDeleting( false ) );
+  };
+}
+
+export function createNewProject( projectName ) {
+  return async ( dispatch, getState ) => {
+    dispatch( setUserProjectsCreating( true ) );
+    dispatch( setUserProjectsCreatingErrors( [] ) );
+
+    // reset the project data
+    dispatch( resetProject() );
+    dispatch( setProjectName( projectName ) );
+    dispatch( setCurrentUserProject( '' ) );
+
+    // create the project on the backend
+    const projectData = getState();
+    const transferProject = createTransferProject( projectData );
+
+    const response = await createProject( transferProject );
+
+    if ( response.status === 401 ) {
+      dispatch( logoutUser() );
+    }
+
+    if ( response.isError ) {
+      dispatch( setUserProjectsCreatingErrors( response.errors ) );
+    }
+    else {
+      const id = get( response, 'data.id', '' );
+      if ( id ) {
+        dispatch( setCurrentUserProject( id ) );
+      }
+      else {
+        // cant get the id for whatever reason, display an error
+        dispatch( setUserProjectsCreatingErrors( [{ msg: 'Unkown Error' }] ) );
+      }
+    }
+
+    dispatch( setUserProjectsCreating( false ) );
+  };
+}
+
+
+export function createLoadedProjectCopy( projectName ) {
+  return async ( dispatch, getState ) => {
+    dispatch( setUserProjectsCreating( true ) );
+    dispatch( setUserProjectsCreatingErrors( [] ) );
+
+    dispatch( setProjectName( projectName ) );
+    dispatch( setCurrentUserProject( '' ) );
+
+    const projectData = getState();
+    const transferProject = createTransferProject( projectData );
+
+    const response = await createProject( transferProject );
+
+    if ( response.status === 401 ) {
+      dispatch( logoutUser() );
+    }
+
+    if ( response.isError ) {
+      dispatch( setUserProjectsCreatingErrors( response.errors ) );
+    }
+    else {
+      const id = get( response, 'data.id', '' );
+      if ( id ) {
+        dispatch( setCurrentUserProject( id ) );
+      }
+      else {
+        // cant get the id for whatever reason, display an error
+        dispatch( setUserProjectsCreatingErrors( [{ msg: 'Unkown Error' }] ) );
+      }
+    }
+
+    dispatch( setUserProjectsCreating( false ) );
   };
 }
