@@ -22,3 +22,17 @@ export async function publishGame( projectId, projectData ) {
     }
   }
 }
+
+export async function getGameByProjectId( projectId ) {
+  try {
+    const response = await axios.get(
+      `${ BASE_URL }/api/games/project/${ projectId }`,
+      { withCredentials: true },
+    );
+
+    return response;
+  }
+  catch ( err ) {
+    return catchErrors( err );
+  }
+}

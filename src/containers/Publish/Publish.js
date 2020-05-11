@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import CreateUserModal from '../User/CreateUserModal/CreateUserModal';
 import LoginUserModal from '../User/LoginUserModal/LoginUserModal';
@@ -12,6 +13,8 @@ import { publishGame } from '../../api/game';
 
 import createTransferProject from '../../utils/Convert/createTransferProject';
 
+import { fetchPublishedGame } from '../../state/User/currentProject';
+
 import './Publish.scss';
 
 class Publish extends React.Component {
@@ -22,6 +25,12 @@ class Publish extends React.Component {
       createUserModalIsOpen: false,
       loginUserModalIsOpen: false,
     };
+  }
+
+  componentDidMount() {
+    const { _fetchPublishedGame } = this.props;
+
+    _fetchPublishedGame();
   }
 
   async handlePublishClick() {
@@ -111,6 +120,7 @@ Publish.propTypes = {
   currentUser: PropTypes.object.isRequired,
   currentProject: PropTypes.object.isRequired,
   projectState: PropTypes.object.isRequired,
+  _fetchPublishedGame: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -121,4 +131,10 @@ function mapStateToProps( state ) {
   };
 }
 
-export default connect( mapStateToProps )( Publish );
+function mapDispatchToProps( dispatch ) {
+  return bindActionCreators( {
+    _fetchPublishedGame: fetchPublishedGame,
+  }, dispatch );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( Publish );
