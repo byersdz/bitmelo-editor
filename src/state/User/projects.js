@@ -10,7 +10,7 @@ import {
 } from '../../api/project';
 
 import { logoutUser } from './currentUser';
-import { setCurrentUserProject } from './currentProject';
+import { setCurrentUserProjectId } from './currentProject';
 import { resetProject } from '../globalActions';
 import { setProjectName } from '../Project/name';
 
@@ -246,7 +246,7 @@ export function createNewProject( projectName ) {
     // reset the project data
     dispatch( resetProject() );
     dispatch( setProjectName( projectName ) );
-    dispatch( setCurrentUserProject( '' ) );
+    dispatch( setCurrentUserProjectId( '' ) );
 
     // create the project on the backend
     const projectData = getState();
@@ -264,7 +264,7 @@ export function createNewProject( projectName ) {
     else {
       const id = get( response, 'data.id', '' );
       if ( id ) {
-        dispatch( setCurrentUserProject( id ) );
+        dispatch( setCurrentUserProjectId( id ) );
       }
       else {
         // cant get the id for whatever reason, display an error
@@ -283,7 +283,7 @@ export function createLoadedProjectCopy( projectName ) {
     dispatch( setUserProjectsCreatingErrors( [] ) );
 
     dispatch( setProjectName( projectName ) );
-    dispatch( setCurrentUserProject( '' ) );
+    dispatch( setCurrentUserProjectId( '' ) );
 
     const projectData = getState();
     const transferProject = createTransferProject( projectData );
@@ -300,7 +300,7 @@ export function createLoadedProjectCopy( projectName ) {
     else {
       const id = get( response, 'data.id', '' );
       if ( id ) {
-        dispatch( setCurrentUserProject( id ) );
+        dispatch( setCurrentUserProjectId( id ) );
       }
       else {
         // cant get the id for whatever reason, display an error

@@ -14,7 +14,7 @@ import Button from '../../components/Button/Button';
 import ProjectItem from './ProjectItem/ProjectItem';
 
 import { fetchUserProjects } from '../../state/User/projects';
-import { setCurrentUserProject } from '../../state/User/currentProject';
+import { setCurrentUserProjectId } from '../../state/User/currentProject';
 import { importProjectData } from '../../state/globalActions';
 import { selectActivePage, EDITOR_PAGE } from '../../state/Layout/activePage';
 
@@ -60,13 +60,11 @@ class ProjectsView extends React.Component {
   }
 
   async fetchProjectAndEnterEditor( id ) {
-    const { _selectActivePage, _importProjectData, _setCurrentUserProject } = this.props;
+    const { _selectActivePage, _importProjectData, _setCurrentUserProjectId } = this.props;
 
     const response = await getProject( id );
     if ( !response.isError ) {
-      console.log( id );
-      console.log( response.data );
-      _setCurrentUserProject( id );
+      _setCurrentUserProjectId( id );
       _importProjectData( response.data );
       _selectActivePage( EDITOR_PAGE );
     }
@@ -203,7 +201,7 @@ ProjectsView.propTypes = {
   _importProjectData: PropTypes.func.isRequired,
   _selectActivePage: PropTypes.func.isRequired,
   projects: PropTypes.object.isRequired,
-  _setCurrentUserProject: PropTypes.func.isRequired,
+  _setCurrentUserProjectId: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -218,7 +216,7 @@ function mapDispatchToProps( dispatch ) {
     _fetchUserProjects: fetchUserProjects,
     _importProjectData: importProjectData,
     _selectActivePage: selectActivePage,
-    _setCurrentUserProject: setCurrentUserProject,
+    _setCurrentUserProjectId: setCurrentUserProjectId,
   }, dispatch );
 }
 
