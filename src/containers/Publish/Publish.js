@@ -47,6 +47,8 @@ class Publish extends React.Component {
     const { currentUser, currentProject } = this.props;
     const { createUserModalIsOpen, loginUserModalIsOpen } = this.state;
 
+    console.log( currentProject );
+
     let mainRender = (
       <div className="sign-up-content">
         <Button
