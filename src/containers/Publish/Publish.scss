@@ -8,6 +8,14 @@
     width: 640px;
     padding: 16px 0;
     margin-top: 32px;
+
+    .title {
+      margin-left: 16px;
+    }
+
+    .label {
+      font-weight: bold;
+    }
   }
 
   .sign-up-content {
@@ -38,5 +46,19 @@
     .btn {
       align-self: center;
     }
+  }
+
+  .publish-project-content {
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+
+    .btn {
+      align-self: center;
+      margin-top: 16px;
+    }
+  }
+  .project-name, .publish-url {
+    margin-top: 16px;
   }
 }

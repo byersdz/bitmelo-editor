@@ -114,6 +114,7 @@ export function fetchPublishedGame() {
 
     dispatch( setIsFetchingPublishedGame( true ) );
     dispatch( setFetchingPublishedGameErrors( [] ) );
+    dispatch( setCurrentProjectPublishedGame( null ) );
 
     const response = await getGameByProjectId( projectId );
 

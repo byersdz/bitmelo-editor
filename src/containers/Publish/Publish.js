@@ -8,6 +8,7 @@ import LoginUserModal from '../User/LoginUserModal/LoginUserModal';
 
 import Card from '../../components/Card/Card';
 import Button from '../../components/Button/Button';
+import AButton from '../../components/AButton/AButton';
 
 import { publishGame } from '../../api/game';
 
@@ -69,15 +70,47 @@ class Publish extends React.Component {
     if ( currentUser.isLoggedIn ) {
       if ( currentProject.id ) {
         // can publish project
-        mainRender = (
-          <div className="publish-project-content">
-            <Button
-              title="Publish"
-              standard
-              click={ () => this.handlePublishClick() }
-            />
-          </div>
-        );
+        if ( currentProject.publishedGame ) {
+          const gameUrl = `https://bitmelo.com/user/testuser/${ currentProject.publishedGame.urlName }`;
+
+          mainRender = (
+            <>
+              <div className="publish-project-content">
+                <div className="publish-date">
+                  <div className="label">Last Published:</div>
+                  { currentProject.publishedGame.dateUpdated }
+                </div>
+                <div className="project-name">
+                  <div className="label">Project Name:</div>
+                  { currentProject.publishedGame.project.name }
+                </div>
+                <div className="publish-url">
+                  <div className="label">Public Game URL:</div>
+                  <AButton href={ gameUrl }>{ gameUrl }</AButton>
+                </div>
+                <Button
+                  title="Update Published Game"
+                  standard
+                  click={ () => this.handlePublishClick() }
+                />
+              </div>
+            </>
+          );
+        }
+        else {
+          mainRender = (
+            <div className="publish-project-content">
+              <div>
+                This project has never been published.
+              </div>
+              <Button
+                title="Publish"
+                standard
+                click={ () => this.handlePublishClick() }
+              />
+            </div>
+          );
+        }
       }
       else {
         // need to create project
@@ -108,7 +141,7 @@ class Publish extends React.Component {
 
     return (
       <div className="publish">
-        <Card>
+        <Card title="Publish Your Game:">
           { mainRender }
         </Card>
         { createUserModalRender }
