@@ -16,6 +16,7 @@ import { publishGame } from '../../api/game';
 import createTransferProject from '../../utils/Convert/createTransferProject';
 
 import { fetchPublishedGame } from '../../state/User/currentProject';
+import { createLoadedProjectCopy } from '../../state/User/projects';
 
 import './Publish.scss';
 
@@ -46,7 +47,12 @@ class Publish extends React.Component {
   }
 
   render() {
-    const { currentUser, currentProject } = this.props;
+    const {
+      currentUser,
+      currentProject,
+      _createLoadedProjectCopy,
+      isCreatingProject,
+    } = this.props;
     const { createUserModalIsOpen, loginUserModalIsOpen } = this.state;
 
     let mainRender = (
@@ -120,7 +126,8 @@ class Publish extends React.Component {
             <Button
               title="Create Cloud Project"
               standard
-              click={ () => console.log( 'create cloud project' ) }
+              click={ () => _createLoadedProjectCopy() }
+              disabled={ isCreatingProject }
             />
           </div>
         );
@@ -156,6 +163,8 @@ Publish.propTypes = {
   currentProject: PropTypes.object.isRequired,
   projectState: PropTypes.object.isRequired,
   _fetchPublishedGame: PropTypes.func.isRequired,
+  _createLoadedProjectCopy: PropTypes.func.isRequired,
+  isCreatingProject: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -163,12 +172,14 @@ function mapStateToProps( state ) {
     projectState: state,
     currentUser: state.user.currentUser,
     currentProject: state.user.currentProject,
+    isCreatingProject: state.user.projects.isCreating,
   };
 }
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _fetchPublishedGame: fetchPublishedGame,
+    _createLoadedProjectCopy: createLoadedProjectCopy,
   }, dispatch );
 }
 

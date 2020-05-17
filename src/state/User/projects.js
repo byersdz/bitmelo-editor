@@ -282,6 +282,12 @@ export function createLoadedProjectCopy( projectName ) {
     dispatch( setUserProjectsCreating( true ) );
     dispatch( setUserProjectsCreatingErrors( [] ) );
 
+    if ( !projectName ) {
+      const state = getState();
+      // eslint-disable-next-line no-param-reassign
+      projectName = state.project.name;
+    }
+
     dispatch( setProjectName( projectName ) );
     dispatch( setCurrentUserProjectId( '' ) );
 
