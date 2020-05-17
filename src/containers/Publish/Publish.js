@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import moment from 'moment';
 
 import CreateUserModal from '../User/CreateUserModal/CreateUserModal';
 import LoginUserModal from '../User/LoginUserModal/LoginUserModal';
@@ -48,8 +49,6 @@ class Publish extends React.Component {
     const { currentUser, currentProject } = this.props;
     const { createUserModalIsOpen, loginUserModalIsOpen } = this.state;
 
-    console.log( currentProject );
-
     let mainRender = (
       <div className="sign-up-content">
         <Button
@@ -71,14 +70,15 @@ class Publish extends React.Component {
       if ( currentProject.id ) {
         // can publish project
         if ( currentProject.publishedGame ) {
-          const gameUrl = `https://bitmelo.com/user/testuser/${ currentProject.publishedGame.urlName }`;
-
+          // eslint-disable-next-line max-len
+          const gameUrl = `https://bitmelo.com/user/${ currentUser.userName }/${ currentProject.publishedGame.urlName }`;
+          const updateDate = moment( currentProject.publishedGame.dateUpdated ).format( 'MMMM Do YYYY, h:mm:ss a' );
           mainRender = (
             <>
               <div className="publish-project-content">
                 <div className="publish-date">
                   <div className="label">Last Published:</div>
-                  { currentProject.publishedGame.dateUpdated }
+                  { updateDate }
                 </div>
                 <div className="project-name">
                   <div className="label">Project Name:</div>
