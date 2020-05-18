@@ -6,14 +6,11 @@ import moment from 'moment';
 
 import CreateUserModal from '../User/CreateUserModal/CreateUserModal';
 import LoginUserModal from '../User/LoginUserModal/LoginUserModal';
+import PublishGameModal from '../User/PublishGameModal/PublishGameModal';
 
 import Card from '../../components/Card/Card';
 import Button from '../../components/Button/Button';
 import AButton from '../../components/AButton/AButton';
-
-import { publishGame } from '../../api/game';
-
-import createTransferProject from '../../utils/Convert/createTransferProject';
 
 import { fetchPublishedGame } from '../../state/User/currentProject';
 import { createLoadedProjectCopy } from '../../state/User/projects';
@@ -27,6 +24,7 @@ class Publish extends React.Component {
     this.state = {
       createUserModalIsOpen: false,
       loginUserModalIsOpen: false,
+      publishGameModalIsOpen: false,
     };
   }
 
@@ -36,14 +34,8 @@ class Publish extends React.Component {
     _fetchPublishedGame();
   }
 
-  async handlePublishClick() {
-    const { projectState, currentProject } = this.props;
-
-    const projectData = createTransferProject( projectState );
-
-    const publishResponse = await publishGame( currentProject.id, projectData );
-
-    console.log( publishResponse );
+  handlePublishClick() {
+    this.setState( { publishGameModalIsOpen: true } );
   }
 
   render() {
@@ -53,7 +45,7 @@ class Publish extends React.Component {
       _createLoadedProjectCopy,
       isCreatingProject,
     } = this.props;
-    const { createUserModalIsOpen, loginUserModalIsOpen } = this.state;
+    const { createUserModalIsOpen, loginUserModalIsOpen, publishGameModalIsOpen } = this.state;
 
     let mainRender = (
       <div className="sign-up-content">
@@ -146,6 +138,12 @@ class Publish extends React.Component {
       />
     ) : null;
 
+    const publishGameModalRender = publishGameModalIsOpen ? (
+      <PublishGameModal
+        onClose={ () => this.setState( { publishGameModalIsOpen: false } ) }
+      />
+    ) : null;
+
     return (
       <div className="publish">
         <Card title="Publish Your Game:">
@@ -153,6 +151,7 @@ class Publish extends React.Component {
         </Card>
         { createUserModalRender }
         { loginUserModalRender }
+        { publishGameModalRender }
       </div>
     );
   }
@@ -161,7 +160,6 @@ class Publish extends React.Component {
 Publish.propTypes = {
   currentUser: PropTypes.object.isRequired,
   currentProject: PropTypes.object.isRequired,
-  projectState: PropTypes.object.isRequired,
   _fetchPublishedGame: PropTypes.func.isRequired,
   _createLoadedProjectCopy: PropTypes.func.isRequired,
   isCreatingProject: PropTypes.bool.isRequired,
