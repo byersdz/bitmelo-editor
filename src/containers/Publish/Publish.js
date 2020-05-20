@@ -11,6 +11,7 @@ import PublishGameModal from '../User/PublishGameModal/PublishGameModal';
 import Card from '../../components/Card/Card';
 import Button from '../../components/Button/Button';
 import AButton from '../../components/AButton/AButton';
+import Spinner from '../../components/Spinner/Spinner';
 
 import { fetchPublishedGame } from '../../state/User/currentProject';
 import { createLoadedProjectCopy } from '../../state/User/projects';
@@ -29,9 +30,13 @@ class Publish extends React.Component {
   }
 
   componentDidMount() {
-    const { _fetchPublishedGame } = this.props;
+    const { _fetchPublishedGame, currentUser, currentProject } = this.props;
 
-    _fetchPublishedGame();
+    if ( currentUser.isLoggedIn ) {
+      if ( currentProject.id ) {
+        _fetchPublishedGame();
+      }
+    }
   }
 
   handlePublishClick() {
@@ -44,6 +49,7 @@ class Publish extends React.Component {
       currentProject,
       _createLoadedProjectCopy,
       isCreatingProject,
+      isFetchingPublishedGame,
     } = this.props;
     const { createUserModalIsOpen, loginUserModalIsOpen, publishGameModalIsOpen } = this.state;
 
@@ -126,6 +132,10 @@ class Publish extends React.Component {
       }
     }
 
+    if ( isFetchingPublishedGame ) {
+      mainRender = <Spinner />;
+    }
+
     const createUserModalRender = createUserModalIsOpen ? (
       <CreateUserModal
         onClose={ () => this.setState( { createUserModalIsOpen: false } ) }
@@ -163,6 +173,7 @@ Publish.propTypes = {
   _fetchPublishedGame: PropTypes.func.isRequired,
   _createLoadedProjectCopy: PropTypes.func.isRequired,
   isCreatingProject: PropTypes.bool.isRequired,
+  isFetchingPublishedGame: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -171,6 +182,7 @@ function mapStateToProps( state ) {
     currentUser: state.user.currentUser,
     currentProject: state.user.currentProject,
     isCreatingProject: state.user.projects.isCreating,
+    isFetchingPublishedGame: state.user.currentProject.isFetchingPublishedGame,
   };
 }
 
