@@ -30,6 +30,20 @@ class Publish extends React.Component {
   }
 
   componentDidMount() {
+    this.fetchPublishedGame();
+  }
+
+  componentDidUpdate( prevProps ) {
+    const { currentUser: prevUser } = prevProps;
+    const { currentUser } = this.props;
+
+    if ( currentUser.isLoggedIn && !prevUser.isLoggedIn ) {
+      // we just logged in, fetch the published game
+      this.fetchPublishedGame();
+    }
+  }
+
+  fetchPublishedGame() {
     const { _fetchPublishedGame, currentUser, currentProject } = this.props;
 
     if ( currentUser.isLoggedIn ) {
