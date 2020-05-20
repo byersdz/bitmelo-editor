@@ -28,13 +28,13 @@ class ProjectsPage extends React.Component {
         <ProjectsView />
         <Card
           className="current-project"
-          title="Local Project:"
+          title="Loaded Project:"
         >
           <div className="project-name">
             { localProjectName }
           </div>
           <Button
-            title="Open Local Project"
+            title="Open Loaded Project"
             standard
             click={ () => _selectActivePage( EDITOR_PAGE ) }
           />
