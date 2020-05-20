@@ -1,6 +1,7 @@
 
 import { IMPORT_PROJECT_DATA } from '../globalActions';
-import { getGameByProjectId } from '../../api/game';
+import { getGameByProjectId, publishGame } from '../../api/game';
+import createTransferProject from '../../utils/Convert/createTransferProject';
 
 import { logoutUser } from './currentUser';
 
@@ -8,7 +9,9 @@ import { logoutUser } from './currentUser';
 export const SET_CURRENT_USER_PROJECT_ID = 'SET_CURRENT_USER_PROJECT_ID';
 export const SET_CURRENT_PROJECT_PUBLISHED_GAME = 'SET_CURRENT_PROJECT_PUBLISHED_GAME';
 export const SET_IS_FETCHING_PUBLISHED_GAME = 'SET_IS_FETCHING_PUBLISHED_GAME';
+export const SET_IS_PUBLISHING = 'SET_IS_PUBLISHING';
 export const SET_FETCHING_PUBLISHED_GAME_ERRORS = 'SET_FETCHING_PUBLISHED_GAME_ERRORS';
+export const SET_PUBLISHING_ERRORS = 'SET_PUBLISHING_ERRORS';
 
 
 // Reducer
@@ -16,7 +19,9 @@ const initialState = {
   id: '',
   publishedGame: null,
   isFetchingPublishedGame: false,
+  isPublishing: false,
   fetchPublishedGameErrors: [],
+  publishingErrors: [],
 };
 
 export function validate( state ) {
@@ -57,9 +62,21 @@ export default function reducer( state = initialState, action ) {
       return newState;
     }
 
+    case SET_IS_PUBLISHING: {
+      const newState = { ...state };
+      newState.isPublishing = action.payload;
+      return newState;
+    }
+
     case SET_FETCHING_PUBLISHED_GAME_ERRORS: {
       const newState = { ...state };
       newState.fetchPublishedGameErrors = action.payload;
+      return newState;
+    }
+
+    case SET_PUBLISHING_ERRORS: {
+      const newState = { ...state };
+      newState.publishingErrors = action.payload;
       return newState;
     }
 
@@ -100,9 +117,23 @@ export function setIsFetchingPublishedGame( isFetching ) {
   };
 }
 
+export function setIsPublishing( isPublishing ) {
+  return {
+    type: SET_IS_PUBLISHING,
+    payload: isPublishing,
+  };
+}
+
 export function setFetchingPublishedGameErrors( errors ) {
   return {
     type: SET_FETCHING_PUBLISHED_GAME_ERRORS,
+    payload: errors,
+  };
+}
+
+export function setPublishingErrors( errors ) {
+  return {
+    type: SET_PUBLISHING_ERRORS,
     payload: errors,
   };
 }
@@ -130,5 +161,31 @@ export function fetchPublishedGame() {
     }
 
     dispatch( setIsFetchingPublishedGame( false ) );
+  };
+}
+
+export function publishCurrentProject() {
+  return async ( dispatch, getState ) => {
+    dispatch( setIsPublishing( true ) );
+    dispatch( setPublishingErrors( [] ) );
+
+    const state = getState();
+    const projectId = state.user.currentProject.id;
+    const projectData = createTransferProject( state );
+
+    const response = await publishGame( projectId, projectData );
+
+    if ( response.status === 401 ) {
+      dispatch( logoutUser() );
+    }
+
+    if ( response.isError ) {
+      dispatch( setPublishingErrors( response.errors ) );
+    }
+    else {
+      dispatch( setCurrentProjectPublishedGame( response.data ) );
+    }
+
+    dispatch( setIsPublishing( false ) );
   };
 }
