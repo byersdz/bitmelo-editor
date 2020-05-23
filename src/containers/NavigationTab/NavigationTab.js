@@ -94,7 +94,7 @@ class NavigationTab extends React.Component {
       {
         key: PUBLISH_TAB,
         title: 'Publish',
-        icon: 'clipboard',
+        icon: 'publish',
       },
       {
         key: ABOUT_TAB,

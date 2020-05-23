@@ -29,6 +29,7 @@ import FlipVIcon from './SVG/flip-v-o.svg';
 import FlipHIcon from './SVG/flip-h-o.svg';
 import CheckIcon from './SVG/check-o.svg';
 import CloudSaveIcon from './SVG/cloud-save-o.svg';
+import PublishIcon from './SVG/publish-o.svg';
 
 import './Icon.scss';
 
@@ -192,6 +193,12 @@ const Icon = ( props ) => {
 
     case 'cloud-save': {
       svgFile = CloudSaveIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'publish': {
+      svgFile = PublishIcon;
       noStroke = true;
       break;
     }
