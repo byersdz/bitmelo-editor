@@ -13,11 +13,19 @@ import './SaveProjectButton.scss';
 
 class SaveProjectButton extends React.Component {
   render() {
-    const { _saveCurrentProject, isSaving, showSuccess } = this.props;
+    const {
+      _saveCurrentProject,
+      isSaving,
+      showSuccess,
+      errors,
+    } = this.props;
 
-    let icon = null;
+    let icon = <Icon file="cloud-save" />;
 
-    if ( isSaving ) {
+    if ( errors && errors.length > 0 ) {
+      icon = <Icon file="x" />;
+    }
+    else if ( isSaving ) {
       icon = <Spinner r="0" g="0" b="0" size="24px" />;
     }
     else if ( showSuccess ) {
@@ -28,7 +36,11 @@ class SaveProjectButton extends React.Component {
       <Button
         className="save-btn"
         standard
-        click={ () => _saveCurrentProject() }
+        click={ () => {
+          if ( !isSaving ) {
+            _saveCurrentProject();
+          }
+        } }
         disabled={ isSaving }
       >
         <div className="save-icon">
@@ -44,6 +56,7 @@ SaveProjectButton.propTypes = {
   _saveCurrentProject: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
   showSuccess: PropTypes.bool.isRequired,
+  errors: PropTypes.array.isRequired,
 };
 
 function mapStateToProps( state ) {

@@ -28,6 +28,7 @@ import SelectAllIcon from './SVG/selectall-o.svg';
 import FlipVIcon from './SVG/flip-v-o.svg';
 import FlipHIcon from './SVG/flip-h-o.svg';
 import CheckIcon from './SVG/check-o.svg';
+import CloudSaveIcon from './SVG/cloud-save-o.svg';
 
 import './Icon.scss';
 
@@ -186,6 +187,12 @@ const Icon = ( props ) => {
     case 'check': {
       svgFile = CheckIcon;
       noFill = true;
+      break;
+    }
+
+    case 'cloud-save': {
+      svgFile = CloudSaveIcon;
+      noStroke = true;
       break;
     }
 
