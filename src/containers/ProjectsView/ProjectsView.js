@@ -15,8 +15,10 @@ import ProjectItem from './ProjectItem/ProjectItem';
 
 import { fetchUserProjects } from '../../state/User/projects';
 import { setCurrentUserProjectId } from '../../state/User/currentProject';
+import { logoutUser } from '../../state/User/currentUser';
 import { importProjectData } from '../../state/globalActions';
 import { selectActivePage, EDITOR_PAGE } from '../../state/Layout/activePage';
+import { selectNavigationTab, TILE_TAB } from '../../state/Layout/activeNavigationTab';
 
 import { getProject } from '../../api/project';
 
@@ -60,15 +62,24 @@ class ProjectsView extends React.Component {
   }
 
   async fetchProjectAndEnterEditor( id ) {
-    const { _selectActivePage, _importProjectData, _setCurrentUserProjectId } = this.props;
+    const {
+      _selectActivePage,
+      _importProjectData,
+      _setCurrentUserProjectId,
+      _logoutUser,
+      _selectNavigationTab,
+    } = this.props;
 
     const response = await getProject( id );
     if ( !response.isError ) {
       _setCurrentUserProjectId( id );
       _importProjectData( response.data );
       _selectActivePage( EDITOR_PAGE );
+      _selectNavigationTab( TILE_TAB );
     }
-    console.log( response );
+    else if ( response.status === 401 ) {
+      _logoutUser();
+    }
   }
 
   handleProjectSelect( project ) {
@@ -202,6 +213,8 @@ ProjectsView.propTypes = {
   _selectActivePage: PropTypes.func.isRequired,
   projects: PropTypes.object.isRequired,
   _setCurrentUserProjectId: PropTypes.func.isRequired,
+  _logoutUser: PropTypes.func.isRequired,
+  _selectNavigationTab: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -217,6 +230,8 @@ function mapDispatchToProps( dispatch ) {
     _importProjectData: importProjectData,
     _selectActivePage: selectActivePage,
     _setCurrentUserProjectId: setCurrentUserProjectId,
+    _logoutUser: logoutUser,
+    _selectNavigationTab: selectNavigationTab,
   }, dispatch );
 }
 
