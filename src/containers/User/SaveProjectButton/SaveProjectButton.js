@@ -9,9 +9,35 @@ import Spinner from '../../../components/Spinner/Spinner';
 
 import { saveCurrentProject } from '../../../state/User/projects';
 
+import { SAVE_PROJECT, eventMatchesHotkey } from '../../../utils/hotkeys';
+
 import './SaveProjectButton.scss';
 
 class SaveProjectButton extends React.Component {
+  constructor( props ) {
+    super( props );
+
+    this.handleKeyDown = this.handleKeyDown.bind( this );
+  }
+
+  componentDidMount() {
+    window.addEventListener( 'keydown', this.handleKeyDown );
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener( 'keydown', this.handleKeyDown );
+  }
+
+  handleKeyDown( event ) {
+    const { _saveCurrentProject, isSaving } = this.props;
+    if ( eventMatchesHotkey( event, SAVE_PROJECT ) ) {
+      if ( !isSaving ) {
+        _saveCurrentProject();
+      }
+      event.preventDefault();
+    }
+  }
+
   render() {
     const {
       _saveCurrentProject,
