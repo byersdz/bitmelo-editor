@@ -30,6 +30,7 @@ import FlipHIcon from './SVG/flip-h-o.svg';
 import CheckIcon from './SVG/check-o.svg';
 import CloudSaveIcon from './SVG/cloud-save-o.svg';
 import PublishIcon from './SVG/publish-o.svg';
+import UserIcon from './SVG/user-o.svg';
 
 import './Icon.scss';
 
@@ -199,6 +200,12 @@ const Icon = ( props ) => {
 
     case 'publish': {
       svgFile = PublishIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'user': {
+      svgFile = UserIcon;
       noStroke = true;
       break;
     }

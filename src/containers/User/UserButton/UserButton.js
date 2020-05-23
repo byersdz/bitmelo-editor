@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import enhanceWithClickOutside from 'react-click-outside';
 
 import Button from '../../../components/Button/Button';
+import Icon from '../../../components/Icon/Icon';
 import DropDownMenu from '../../../components/DropDownMenu/DropDownMenu';
 import CreateProjectModal from '../CreateProjectModal/CreateProjectModal';
 
@@ -80,13 +81,23 @@ class UserButton extends React.Component {
         allowCopy
       />
     ) : null;
+
+    const endIconClass = dropDownIsOpen ? 'end-icon open' : 'end-icon closed';
+
     return (
       <div className="user-button-container">
         <Button
           className="user-button"
-          title={ currentUser.displayName }
           click={ () => this.setState( { dropDownIsOpen: !dropDownIsOpen } ) }
-        />
+        >
+          <div className="start-icon">
+            <Icon file="user" />
+          </div>
+          { currentUser.displayName }
+          <div className={ endIconClass }>
+            <Icon file="up" />
+          </div>
+        </Button>
         { dropDownRender }
         { createProjectModalRender }
       </div>
