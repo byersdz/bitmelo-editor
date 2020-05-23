@@ -21,6 +21,7 @@ export const SET_USER_PROJECTS = 'SET_USER_PROJECTS';
 export const SET_USER_PROJECTS_FETCHING = 'SET_USER_PROJECTS_FETCHING';
 export const SET_USER_PROJECTS_DELETING = 'SET_USER_PROJECTS_DELETING';
 export const SET_USER_PROJECTS_SAVING = 'SET_USER_PROJECTS_SAVING';
+export const SET_USER_PROJECTS_SHOW_SAVE_SUCCESS = 'SET_USER_PROJECTS_SHOW_SAVE_SUCCESS';
 export const SET_USER_PROJECTS_CREATING = 'SET_USER_PROJECTS_CREATING';
 export const SET_USER_PROJECTS_ERRORS = 'SET_USER_PROJECTS_ERRORS';
 export const SET_USER_PROJECTS_DELETING_ERRORS = 'SET_USER_PROJECTS_DELETING_ERRORS';
@@ -35,6 +36,7 @@ const initialState = {
   isDeleting: false,
   isSaving: false,
   isCreating: false,
+  showSaveSuccess: false,
   errors: [],
   deletingErrors: [],
   savingErrors: [],
@@ -68,6 +70,11 @@ export default function reducer( state = initialState, action ) {
     case SET_USER_PROJECTS_SAVING: {
       const newState = cloneDeep( state );
       newState.isSaving = action.payload;
+      return newState;
+    }
+    case SET_USER_PROJECTS_SHOW_SAVE_SUCCESS: {
+      const newState = cloneDeep( state );
+      newState.showSaveSuccess = action.payload;
       return newState;
     }
     case SET_USER_PROJECTS_CREATING: {
@@ -119,6 +126,13 @@ export function setUserProjectsSaving( isSaving ) {
   return {
     type: SET_USER_PROJECTS_SAVING,
     payload: isSaving,
+  };
+}
+
+export function setUserProjectsShowSaveSuccess( showSaveSuccess ) {
+  return {
+    type: SET_USER_PROJECTS_SHOW_SAVE_SUCCESS,
+    payload: showSaveSuccess,
   };
 }
 
@@ -198,6 +212,7 @@ export function saveCurrentProject() {
   return async ( dispatch, getState ) => {
     dispatch( setUserProjectsSaving( true ) );
     dispatch( setUserProjectsSavingErrors( [] ) );
+    dispatch( setUserProjectsShowSaveSuccess( false ) );
 
     const projectState = getState();
     const transferProject = createTransferProject( projectState );
@@ -213,6 +228,11 @@ export function saveCurrentProject() {
     }
 
     dispatch( setUserProjectsSaving( false ) );
+    dispatch( setUserProjectsShowSaveSuccess( true ) );
+
+    setTimeout( () => {
+      dispatch( setUserProjectsShowSaveSuccess( false ) );
+    }, 2000 );
   };
 }
 

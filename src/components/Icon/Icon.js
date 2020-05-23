@@ -27,6 +27,7 @@ import DeselectIcon from './SVG/deselect-o.svg';
 import SelectAllIcon from './SVG/selectall-o.svg';
 import FlipVIcon from './SVG/flip-v-o.svg';
 import FlipHIcon from './SVG/flip-h-o.svg';
+import CheckIcon from './SVG/check-o.svg';
 
 import './Icon.scss';
 
@@ -179,6 +180,12 @@ const Icon = ( props ) => {
     case 'flip-h': {
       svgFile = FlipHIcon;
       noStroke = true;
+      break;
+    }
+
+    case 'check': {
+      svgFile = CheckIcon;
+      noFill = true;
       break;
     }
 

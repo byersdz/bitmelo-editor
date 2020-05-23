@@ -1,4 +1,22 @@
 
+@import '../../../style/colors.scss';
+
 .save-btn {
   margin-right: 16px;
+
+  .save-icon {
+    margin-right: 8px;
+
+    .isvg {
+      fill: $on-primary-color;
+      stroke: $on-primary-color;
+      width: 16px;
+      height: 16px;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
 }
