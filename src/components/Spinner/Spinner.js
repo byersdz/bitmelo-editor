@@ -35,8 +35,8 @@ const Spinner = props => {
   };
 
   return (
-    <div className="spinner-container" style={ containerStyles }>
-      <div className="spinner" style={ spinnerStyles } />
+    <div className="spinner" style={ containerStyles }>
+      <div className="spinner-wheel" style={ spinnerStyles } />
     </div>
   );
 };

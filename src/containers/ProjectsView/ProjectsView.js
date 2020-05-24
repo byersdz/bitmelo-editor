@@ -13,6 +13,7 @@ import Card from '../../components/Card/Card';
 import Button from '../../components/Button/Button';
 import ProjectItem from './ProjectItem/ProjectItem';
 import Scrollbars from '../../components/Scrollbars/Scrollbars';
+import Spinner from '../../components/Spinner/Spinner';
 
 import { fetchUserProjects } from '../../state/User/projects';
 import { setCurrentUserProjectId } from '../../state/User/currentProject';
@@ -36,6 +37,7 @@ class ProjectsView extends React.Component {
       createProjectModalIsOpen: false,
       selectedProject: null,
       createdProjectId: null,
+      isEnteringEditor: false,
     };
   }
 
@@ -71,6 +73,8 @@ class ProjectsView extends React.Component {
       _selectNavigationTab,
     } = this.props;
 
+    this.setState( { isEnteringEditor: true } );
+
     const response = await getProject( id );
     if ( !response.isError ) {
       _setCurrentUserProjectId( id );
@@ -81,6 +85,8 @@ class ProjectsView extends React.Component {
     else if ( response.status === 401 ) {
       _logoutUser();
     }
+
+    this.setState( { isEnteringEditor: false } );
   }
 
   handleProjectSelect( project ) {
@@ -95,7 +101,7 @@ class ProjectsView extends React.Component {
   }
 
   render() {
-    const { projects, currentUser } = this.props;
+    const { projects, currentUser, isFetchingProjects } = this.props;
     const {
       createUserModalIsOpen,
       loginUserModalIsOpen,
@@ -103,6 +109,7 @@ class ProjectsView extends React.Component {
       createProjectModalIsOpen,
       selectedProject,
       createdProjectId,
+      isEnteringEditor,
     } = this.state;
 
     const { projectsArray } = projects;
@@ -134,6 +141,10 @@ class ProjectsView extends React.Component {
           </Scrollbars>
         </>
       );
+
+      if ( isFetchingProjects || isEnteringEditor ) {
+        mainRender = <Spinner />;
+      }
     }
     else {
       mainRender = (
@@ -218,12 +229,14 @@ ProjectsView.propTypes = {
   _setCurrentUserProjectId: PropTypes.func.isRequired,
   _logoutUser: PropTypes.func.isRequired,
   _selectNavigationTab: PropTypes.func.isRequired,
+  isFetchingProjects: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps( state ) {
   return {
     currentUser: state.user.currentUser,
     projects: state.user.projects,
+    isFetchingProjects: state.user.projects.isFetching,
   };
 }
 
