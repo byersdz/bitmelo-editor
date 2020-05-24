@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import AccountModal from '../../../components/Account/AccountModal/AccountModal';
 import AccountTextInput from '../../../components/Account/AccountTextInput/AccountTextInput';
 import Button from '../../../components/Button/Button';
+import AccountErrorMessage from '../../../components/Account/AccountErrorMessage/AccountErrorMessage';
 
 import { setProjectName } from '../../../state/Project/name';
 import { publishCurrentProject } from '../../../state/User/currentProject';
@@ -43,9 +44,18 @@ class PublishGameModal extends React.Component {
       projectName,
       _setProjectName,
       isPublishing,
+      errors,
     } = this.props;
 
     const { publishSuccessful } = this.state;
+
+    const errorsRender = errors.map( error => {
+      return (
+        <AccountErrorMessage key={ error.msg }>
+          { error.msg }
+        </AccountErrorMessage>
+      );
+    } );
 
     const mainRender = publishSuccessful ? (
       <div>
@@ -53,6 +63,7 @@ class PublishGameModal extends React.Component {
       </div>
     ) : (
       <>
+        { errorsRender }
         <AccountTextInput
           title="Project Name"
           value={ projectName }
