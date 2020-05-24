@@ -13,6 +13,25 @@ import { publishCurrentProject } from '../../../state/User/currentProject';
 import './PublishGameModal.scss';
 
 class PublishGameModal extends React.Component {
+  constructor( props ) {
+    super( props );
+
+    this.state = {
+      publishSuccessful: false,
+    };
+  }
+
+  componentDidUpdate( prevProps ) {
+    const { isPublishing: prevPublishing } = prevProps;
+    const { isPublishing, errors } = this.props;
+
+    if ( !isPublishing && prevPublishing ) {
+      if ( !errors || errors.length === 0 ) {
+        this.setState( { publishSuccessful: true } );
+      }
+    }
+  }
+
   handlePublishClick() {
     const { _publishCurrentProject } = this.props;
     _publishCurrentProject();
@@ -26,12 +45,14 @@ class PublishGameModal extends React.Component {
       isPublishing,
     } = this.props;
 
-    return (
-      <AccountModal
-        title="Publish Your Game"
-        className="publish-game-modal"
-        onClose={ onClose }
-      >
+    const { publishSuccessful } = this.state;
+
+    const mainRender = publishSuccessful ? (
+      <div>
+        Project successfully published!
+      </div>
+    ) : (
+      <>
         <AccountTextInput
           title="Project Name"
           value={ projectName }
@@ -43,6 +64,16 @@ class PublishGameModal extends React.Component {
           account
           disabled={ isPublishing }
         />
+      </>
+    );
+
+    return (
+      <AccountModal
+        title="Publish Your Game"
+        className="publish-game-modal"
+        onClose={ onClose }
+      >
+        { mainRender }
       </AccountModal>
     );
   }
@@ -54,12 +85,14 @@ PublishGameModal.propTypes = {
   _setProjectName: PropTypes.func.isRequired,
   _publishCurrentProject: PropTypes.func.isRequired,
   isPublishing: PropTypes.bool.isRequired,
+  errors: PropTypes.array.isRequired,
 };
 
 function mapStateToProps( state ) {
   return {
     projectName: state.project.name,
     isPublishing: state.user.currentProject.isPublishing,
+    errors: state.user.currentProject.publishingErrors,
   };
 }
 
