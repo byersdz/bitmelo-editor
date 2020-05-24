@@ -12,6 +12,7 @@ import CreateProjectModal from '../User/CreateProjectModal/CreateProjectModal';
 import Card from '../../components/Card/Card';
 import Button from '../../components/Button/Button';
 import ProjectItem from './ProjectItem/ProjectItem';
+import Scrollbars from '../../components/Scrollbars/Scrollbars';
 
 import { fetchUserProjects } from '../../state/User/projects';
 import { setCurrentUserProjectId } from '../../state/User/currentProject';
@@ -128,7 +129,9 @@ class ProjectsView extends React.Component {
             click={ () => this.setState( { createProjectModalIsOpen: true } ) }
             standard
           />
-          { itemsRender }
+          <Scrollbars>
+            { itemsRender }
+          </Scrollbars>
         </>
       );
     }
