@@ -31,6 +31,7 @@ import CheckIcon from './SVG/check-o.svg';
 import CloudSaveIcon from './SVG/cloud-save-o.svg';
 import PublishIcon from './SVG/publish-o.svg';
 import UserIcon from './SVG/user-o.svg';
+import TrashIcon from './SVG/trash-o.svg';
 
 import './Icon.scss';
 
@@ -206,6 +207,12 @@ const Icon = ( props ) => {
 
     case 'user': {
       svgFile = UserIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'trash': {
+      svgFile = TrashIcon;
       noStroke = true;
       break;
     }

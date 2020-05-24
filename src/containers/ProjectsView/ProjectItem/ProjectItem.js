@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '../../../components/Button/Button';
+import Icon from '../../../components/Icon/Icon';
 
 import './ProjectItem.scss';
 
@@ -26,7 +27,7 @@ const ProjectItem = props => {
         className="delete-btn"
         click={ () => onDelete( project ) }
       >
-        Delete
+        <Icon file="trash" />
       </Button>
     </div>
   );

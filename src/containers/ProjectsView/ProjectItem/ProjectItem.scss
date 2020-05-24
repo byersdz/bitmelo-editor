@@ -23,9 +23,17 @@
   .delete-btn {
     border: 4px solid $primary-dark-color;
     padding: 0 8px;
+
+    .isvg {
+      fill: $primary-dark-color;
+    }
   }
 
   .delete-btn:hover {
     border: 4px solid $primary-light-color;
+
+    .isvg {
+      fill: $primary-light-color;
+    }
   }
 }
