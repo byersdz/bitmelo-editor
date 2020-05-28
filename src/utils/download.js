@@ -26,6 +26,9 @@ export const downloadProjectData = () => {
 
   // get rid of undo data
   const compressedState = compressProjectState( state );
+  // remove the user data
+  delete compressedState.user;
+
   const projectName = compressedState.project.name;
   downloadJSON( compressedState, `${ projectName }.project.json` );
 };
