@@ -3,12 +3,13 @@ import axios from 'axios';
 import { BASE_URL } from './endpoints';
 import catchErrors from './catchErrors';
 
-export async function createUser( userName, email, password ) {
+export async function createUser( userName, email, password, allowPromotionalEmails ) {
   try {
     const response = await axios.post( `${ BASE_URL }/api/user`, {
       userName,
       email,
       password,
+      allowPromotionalEmails,
     } );
 
     return response;

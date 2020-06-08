@@ -9,6 +9,7 @@ import AccountTextInput from '../../../components/Account/AccountTextInput/Accou
 import Button from '../../../components/Button/Button';
 import AButton from '../../../components/AButton/AButton';
 import AccountErrorMessage from '../../../components/Account/AccountErrorMessage/AccountErrorMessage';
+import AccountCheckbox from '../../../components/Account/AccountCheckbox/AccountCheckbox';
 
 import { setCurrentUser } from '../../../state/User/currentUser';
 
@@ -27,6 +28,7 @@ class CreateUserModal extends React.Component {
       createSuccessful: false,
       errors: [],
       isFetching: false,
+      allowPromotionalEmails: false,
     };
   }
 
@@ -37,6 +39,7 @@ class CreateUserModal extends React.Component {
       email,
       password,
       isFetching,
+      allowPromotionalEmails,
     } = this.state;
 
     if ( isFetching ) {
@@ -44,7 +47,7 @@ class CreateUserModal extends React.Component {
     }
 
     this.setState( { isFetching: true } );
-    const response = await createUser( userName, email, password );
+    const response = await createUser( userName, email, password, allowPromotionalEmails );
     this.setState( { isFetching: false } );
 
     // if we have errors display them
@@ -73,6 +76,7 @@ class CreateUserModal extends React.Component {
       createSuccessful,
       errors,
       isFetching,
+      allowPromotionalEmails,
     } = this.state;
 
 
@@ -143,8 +147,18 @@ class CreateUserModal extends React.Component {
           isPassword
           onKeyDown={ e => this.handleKeyDown( e ) }
         />
+        <AccountCheckbox
+          checked={ allowPromotionalEmails }
+          onChange={ v => this.setState( { allowPromotionalEmails: v } ) }
+          id="marketing-agree"
+        >
+          {
+            `I would like to receive emails about new features, highlighted games, and promotions.
+            We won't send these emails more than once a week.`
+          }
+        </AccountCheckbox>
         <div className="agreement">
-          { 'By clicking "Sign up" you agree to our ' }
+          { 'By signing up you agree to our ' }
           <AButton href="https://bitmelo.com/legal/terms-of-service">Terms of Service</AButton>
           { ' and ' }
           <AButton href="https://bitmelo.com/legal/privacy-policy">Privacy Policy</AButton>

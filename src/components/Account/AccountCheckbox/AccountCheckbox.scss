@@ -1,0 +1,18 @@
+
+.account-checkbox {
+  font-weight: bold;
+  font-size: 14px;
+
+  label {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+  }
+
+  .label-content {
+    display: inline-block;
+    margin-left: 8px;
+  }
+}
