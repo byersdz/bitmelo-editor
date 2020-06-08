@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import AccountModal from '../../../components/Account/AccountModal/AccountModal';
 import AccountTextInput from '../../../components/Account/AccountTextInput/AccountTextInput';
 import Button from '../../../components/Button/Button';
+import AButton from '../../../components/AButton/AButton';
 import AccountErrorMessage from '../../../components/Account/AccountErrorMessage/AccountErrorMessage';
 
 import { setCurrentUser } from '../../../state/User/currentUser';
@@ -142,6 +143,12 @@ class CreateUserModal extends React.Component {
           isPassword
           onKeyDown={ e => this.handleKeyDown( e ) }
         />
+        <div className="agreement">
+          { 'By clicking "Sign up" you agree to our ' }
+          <AButton href="https://bitmelo.com/legal/terms-of-service">Terms of Service</AButton>
+          { ' and ' }
+          <AButton href="https://bitmelo.com/legal/privacy-policy">Privacy Policy</AButton>
+        </div>
         <Button
           title="Sign up"
           click={ () => this.handleSignUpClick() }
