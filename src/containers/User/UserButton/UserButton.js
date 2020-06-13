@@ -9,6 +9,7 @@ import Button from '../../../components/Button/Button';
 import Icon from '../../../components/Icon/Icon';
 import DropDownMenu from '../../../components/DropDownMenu/DropDownMenu';
 import CreateProjectModal from '../CreateProjectModal/CreateProjectModal';
+import MyAccountModal from '../MyAccountModal/MyAccountModal';
 
 import { logoutUser } from '../../../state/User/currentUser';
 import { selectActivePage, PROJECTS_PAGE } from '../../../state/Layout/activePage';
@@ -22,6 +23,7 @@ class UserButton extends React.Component {
     this.state = {
       dropDownIsOpen: false,
       createProjectModalIsOpen: false,
+      myAccountModalIsOpen: false,
     };
   }
 
@@ -41,6 +43,9 @@ class UserButton extends React.Component {
       case 'create-project':
         this.setState( { createProjectModalIsOpen: true, dropDownIsOpen: false } );
         break;
+      case 'my-account':
+        this.setState( { myAccountModalIsOpen: true, dropDownIsOpen: false } );
+        break;
       case 'my-projects':
         _selectActivePage( PROJECTS_PAGE );
         break;
@@ -50,7 +55,7 @@ class UserButton extends React.Component {
 
   render() {
     const { currentUser } = this.props;
-    const { dropDownIsOpen, createProjectModalIsOpen } = this.state;
+    const { dropDownIsOpen, createProjectModalIsOpen, myAccountModalIsOpen } = this.state;
 
     const dropDownItems = [
       {
@@ -60,6 +65,10 @@ class UserButton extends React.Component {
       {
         key: 'my-projects',
         display: 'My Projects',
+      },
+      {
+        key: 'my-account',
+        display: 'My Account',
       },
       {
         key: 'logout',
@@ -82,6 +91,12 @@ class UserButton extends React.Component {
       />
     ) : null;
 
+    const myAccountModalRender = myAccountModalIsOpen ? (
+      <MyAccountModal
+        onClose={ () => this.setState( { myAccountModalIsOpen: false } ) }
+      />
+    ) : null;
+
     const endIconClass = dropDownIsOpen ? 'end-icon open' : 'end-icon closed';
 
     return (
@@ -100,6 +115,7 @@ class UserButton extends React.Component {
         </Button>
         { dropDownRender }
         { createProjectModalRender }
+        { myAccountModalRender }
       </div>
     );
   }

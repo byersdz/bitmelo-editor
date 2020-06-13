@@ -12,6 +12,8 @@ const initialState = {
   userName: '',
   displayName: '',
   id: '',
+  email: '',
+  dateCreated: '',
   isLoggedIn: false,
 };
 
@@ -25,6 +27,14 @@ export function validate( state ) {
   }
 
   if ( typeof state.id !== 'string' ) {
+    return false;
+  }
+
+  if ( typeof state.email !== 'string' ) {
+    return false;
+  }
+
+  if ( typeof state.dateCreated !== 'string' ) {
     return false;
   }
 
@@ -67,6 +77,8 @@ export function setCurrentUser( {
   userName,
   displayName,
   id,
+  email,
+  dateCreated,
   isLoggedIn,
 } ) {
   return {
@@ -75,6 +87,8 @@ export function setCurrentUser( {
       userName,
       displayName,
       id,
+      email,
+      dateCreated,
       isLoggedIn,
     },
   };
