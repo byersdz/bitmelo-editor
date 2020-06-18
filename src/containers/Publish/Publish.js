@@ -89,7 +89,7 @@ class Publish extends React.Component {
         // can publish project
         if ( currentProject.publishedGame ) {
           // eslint-disable-next-line max-len
-          const gameUrl = `https://bitmelo.com/user/${ currentUser.userName }/${ currentProject.publishedGame.urlName }`;
+          const gameUrl = `https://bitmelo.com/user/${ currentUser.userName }/games/${ currentProject.publishedGame.urlName }`;
           const updateDate = moment( currentProject.publishedGame.dateUpdated ).format( 'MMMM Do YYYY, h:mm:ss a' );
           mainRender = (
             <>
