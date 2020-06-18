@@ -32,3 +32,16 @@ export async function loginUser( email, password ) {
     return catchErrors( err );
   }
 }
+
+export async function deleteUser( userId, password ) {
+  try {
+    const response = await axios.delete( `${ BASE_URL }/api/user/${ userId }`, {
+      password,
+    } );
+
+    return response;
+  }
+  catch ( err ) {
+    return catchErrors( err );
+  }
+}
