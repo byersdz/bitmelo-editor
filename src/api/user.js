@@ -5,7 +5,7 @@ import catchErrors from './catchErrors';
 
 export async function createUser( userName, email, password, allowPromotionalEmails ) {
   try {
-    const response = await axios.post( `${ BASE_URL }/api/user`, {
+    const response = await axios.post( `${ BASE_URL }/api/users`, {
       userName,
       email,
       password,
@@ -35,7 +35,7 @@ export async function loginUser( email, password ) {
 
 export async function deleteUser( userId, password ) {
   try {
-    const response = await axios.delete( `${ BASE_URL }/api/user/${ userId }`, {
+    const response = await axios.delete( `${ BASE_URL }/api/users/${ userId }`, {
       password,
     } );
 

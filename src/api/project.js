@@ -61,7 +61,7 @@ export async function deleteProject( projectId ) {
 export async function getAllProjects( userId ) {
   try {
     const response = await axios.get(
-      `${ BASE_URL }/api/user/${ userId }/projects`,
+      `${ BASE_URL }/api/users/${ userId }/projects`,
       { withCredentials: true },
     );
 
