@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import Button from '../../../components/Button/Button';
 import AccountModal from '../../../components/Account/AccountModal/AccountModal';
+import AccountTextInput from '../../../components/Account/AccountTextInput/AccountTextInput';
 
 import './MyAccountModal.scss';
 
@@ -18,6 +19,10 @@ class MyAccountModal extends React.Component {
 
     this.state = {
       page: PAGES.MAIN,
+      password: '',
+      oldPassword: '',
+      newPassword: '',
+      newPassword2: '',
     };
   }
 
@@ -32,7 +37,13 @@ class MyAccountModal extends React.Component {
 
   render() {
     const { onClose, currentUser } = this.props;
-    const { page } = this.state;
+    const {
+      page,
+      password,
+      oldPassword,
+      newPassword,
+      newPassword2,
+    } = this.state;
 
     const showBackButton = page !== PAGES.MAIN;
 
@@ -42,13 +53,20 @@ class MyAccountModal extends React.Component {
       title = 'Delete Account';
       mainContent = (
         <>
-          <div>
+          <div className="warning-message">
             Are you sure you want to delete your account? This can not be undone.
           </div>
+          <AccountTextInput
+            title="Password"
+            value={ password }
+            onValueChange={ v => this.setState( { password: v } ) }
+            isPassword
+          />
           <Button
             title="Yes, please delete my account."
             click={ () => console.log( 'delete' ) }
             account
+            disabled={ password.length === 0 }
           />
           <Button
             title="Cancel"
@@ -62,7 +80,35 @@ class MyAccountModal extends React.Component {
       title = 'Change Password';
       mainContent = (
         <>
-          Change Password
+          <AccountTextInput
+            title="Old Password"
+            value={ oldPassword }
+            onValueChange={ v => this.setState( { oldPassword: v } ) }
+            isPassword
+          />
+          <AccountTextInput
+            title="New Password"
+            value={ newPassword }
+            onValueChange={ v => this.setState( { newPassword: v } ) }
+            isPassword
+          />
+          <AccountTextInput
+            title="Retype New Password"
+            value={ newPassword2 }
+            onValueChange={ v => this.setState( { newPassword2: v } ) }
+            isPassword
+          />
+          <Button
+            title="Change Password"
+            click={ () => console.log( 'change' ) }
+            account
+          />
+          <Button
+            title="Cancel"
+            click={ () => console.log( 'cancel' ) }
+            account
+          />
+
         </>
       );
     }
