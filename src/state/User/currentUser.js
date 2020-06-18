@@ -1,6 +1,7 @@
 
 import { IMPORT_PROJECT_DATA } from '../globalActions';
 import { selectActivePage, PROJECTS_PAGE } from '../Layout/activePage';
+import { deleteUser as deleteUserApi } from '../../api/user';
 
 // Actions
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
@@ -104,5 +105,15 @@ export function logoutUser() {
   return async dispatch => {
     dispatch( { type: LOGOUT_USER } );
     dispatch( selectActivePage( PROJECTS_PAGE ) );
+  };
+}
+
+export function deleteUser( password ) {
+  return async ( dispatch, getState ) => {
+    console.log( 'delete user' );
+    const state = getState();
+    const userId = state.user.currentUser.id;
+    const response = await deleteUserApi( userId, password );
+    console.log( response );
   };
 }

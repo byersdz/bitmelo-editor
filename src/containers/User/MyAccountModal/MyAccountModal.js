@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import Button from '../../../components/Button/Button';
 import AccountModal from '../../../components/Account/AccountModal/AccountModal';
 import AccountTextInput from '../../../components/Account/AccountTextInput/AccountTextInput';
+
+import { deleteUser } from '../../../state/User/currentUser';
 
 import './MyAccountModal.scss';
 
@@ -33,6 +36,13 @@ class MyAccountModal extends React.Component {
 
   handleDeleteAccountClick() {
     this.setState( { page: PAGES.DELETE_ACCOUNT } );
+  }
+
+  handleDeleteUserClick() {
+    const { _deleteUser } = this.props;
+    const { password } = this.state;
+
+    _deleteUser( password );
   }
 
   render() {
@@ -64,7 +74,7 @@ class MyAccountModal extends React.Component {
           />
           <Button
             title="Yes, please delete my account."
-            click={ () => console.log( 'delete' ) }
+            click={ () => this.handleDeleteUserClick() }
             account
             disabled={ password.length === 0 }
           />
@@ -162,6 +172,7 @@ class MyAccountModal extends React.Component {
 MyAccountModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   currentUser: PropTypes.object.isRequired,
+  _deleteUser: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -170,4 +181,10 @@ function mapStateToProps( state ) {
   };
 }
 
-export default connect( mapStateToProps )( MyAccountModal );
+function mapDispatchToProps( dispatch ) {
+  return bindActionCreators( {
+    _deleteUser: deleteUser,
+  }, dispatch );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( MyAccountModal );

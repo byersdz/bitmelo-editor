@@ -10,7 +10,7 @@ export async function createUser( userName, email, password, allowPromotionalEma
       email,
       password,
       allowPromotionalEmails,
-    } );
+    }, { withCredentials: true } );
 
     return response;
   }
@@ -35,9 +35,12 @@ export async function loginUser( email, password ) {
 
 export async function deleteUser( userId, password ) {
   try {
-    const response = await axios.delete( `${ BASE_URL }/api/users/${ userId }`, {
-      password,
-    } );
+    const response = await axios.delete(
+      `${ BASE_URL }/api/users/${ userId }`, {
+        data: { password },
+        withCredentials: true,
+      },
+    );
 
     return response;
   }
