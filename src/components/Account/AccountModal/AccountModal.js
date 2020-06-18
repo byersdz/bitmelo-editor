@@ -13,14 +13,27 @@ const AccountModal = props => {
     children,
     className,
     onClose,
+    showBackButton,
+    onBack,
   } = props;
 
   const contentClassName = `account-modal-content-container ${ className }`;
+
+  const backButtonRender = showBackButton ? (
+    <Button
+      className="back-btn"
+      title="back"
+      hideTitle
+      icon="back"
+      click={ () => onBack() }
+    />
+  ) : null;
 
   const render = (
     <div className="account-modal-container">
       <div className={ contentClassName }>
         <div className="modal-header">
+          { backButtonRender }
           <div className="title">
             { title }
           </div>
@@ -50,11 +63,15 @@ AccountModal.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
   onClose: PropTypes.func,
+  showBackButton: PropTypes.bool,
+  onBack: PropTypes.func,
 };
 
 AccountModal.defaultProps = {
   className: '',
   onClose: null,
+  showBackButton: false,
+  onBack: null,
 };
 
 export default AccountModal;

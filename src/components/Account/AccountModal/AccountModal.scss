@@ -31,7 +31,7 @@
         flex-grow: 1;
       }
 
-      .close-btn {
+      .close-btn, .back-btn {
         padding: 8px;
         border-radius: 50%;
 
@@ -48,7 +48,22 @@
         }
       }
 
-      .close-btn:hover {
+      .back-btn {
+        padding: 4px;
+        margin-right: 8px;
+
+        .isvg {
+          width: 32px;
+          height: 32px;
+
+          svg {
+            width: 32px;
+            height: 32px;
+          }
+        }
+      }
+
+      .close-btn:hover, .back-btn:hover {
         background-color: #aaa;
       }
     }

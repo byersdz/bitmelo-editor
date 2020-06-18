@@ -24,6 +24,8 @@ class MyAccountModal extends React.Component {
         title="MyAccount"
         className="my-account-modal"
         onClose={ onClose }
+        showBackButton
+        onBack={ () => console.log( 'back' ) }
       >
         <div>
           <div className="property">
