@@ -30,7 +30,6 @@ class DeleteProjectModal extends React.Component {
   handleDelete() {
     const { _deleteUserProject, project } = this.props;
     _deleteUserProject( project.id );
-    console.log( 'delete' );
   }
 
   render() {
