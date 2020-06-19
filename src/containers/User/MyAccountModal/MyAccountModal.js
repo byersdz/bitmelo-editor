@@ -6,8 +6,9 @@ import { bindActionCreators } from 'redux';
 import Button from '../../../components/Button/Button';
 import AccountModal from '../../../components/Account/AccountModal/AccountModal';
 import AccountTextInput from '../../../components/Account/AccountTextInput/AccountTextInput';
+import AccountErrorMessage from '../../../components/Account/AccountErrorMessage/AccountErrorMessage';
 
-import { deleteUser } from '../../../state/User/currentUser';
+import { deleteUser, setDeletingErrors } from '../../../state/User/currentUser';
 
 import './MyAccountModal.scss';
 
@@ -26,7 +27,26 @@ class MyAccountModal extends React.Component {
       oldPassword: '',
       newPassword: '',
       newPassword2: '',
+      deleteAccountWasSuccessful: false,
     };
+  }
+
+  componentDidMount() {
+    const { _setDeletingErrors } = this.props;
+    _setDeletingErrors( [] );
+  }
+
+  componentDidUpdate( prevProps ) {
+    const { currentUser: prevUser } = prevProps;
+    const { currentUser } = this.props;
+
+    if (
+      !currentUser.isDeleting
+      && prevUser.isDeleting
+      && currentUser.deletingErrors.length === 0
+    ) {
+      this.setState( { deleteAccountWasSuccessful: true } );
+    }
   }
 
   handleChangePasswordClick() {
@@ -45,6 +65,20 @@ class MyAccountModal extends React.Component {
     _deleteUser( password );
   }
 
+  handleBackClick() {
+    const { _setDeletingErrors } = this.props;
+
+    _setDeletingErrors( [] );
+
+    this.setState( {
+      page: PAGES.MAIN,
+      password: '',
+      oldPassword: '',
+      newPassword: '',
+      newPassword2: '',
+    } );
+  }
+
   render() {
     const { onClose, currentUser } = this.props;
     const {
@@ -53,16 +87,29 @@ class MyAccountModal extends React.Component {
       oldPassword,
       newPassword,
       newPassword2,
+      deleteAccountWasSuccessful,
     } = this.state;
 
     const showBackButton = page !== PAGES.MAIN;
 
     let mainContent = null;
     let title = '';
+
     if ( page === PAGES.DELETE_ACCOUNT ) {
       title = 'Delete Account';
+      let errorsRender = null;
+      if ( currentUser.deletingErrors.length > 0 ) {
+        errorsRender = currentUser.deletingErrors.map( error => {
+          return (
+            <AccountErrorMessage key={ error.msg }>
+              { error.msg }
+            </AccountErrorMessage>
+          );
+        } );
+      }
       mainContent = (
         <>
+          { errorsRender }
           <div className="warning-message">
             Are you sure you want to delete your account? This can not be undone.
           </div>
@@ -80,7 +127,7 @@ class MyAccountModal extends React.Component {
           />
           <Button
             title="Cancel"
-            click={ () => console.log( 'cancel' ) }
+            click={ () => this.handleBackClick() }
             account
           />
         </>
@@ -115,7 +162,7 @@ class MyAccountModal extends React.Component {
           />
           <Button
             title="Cancel"
-            click={ () => console.log( 'cancel' ) }
+            click={ () => this.handleBackClick() }
             account
           />
 
@@ -155,13 +202,22 @@ class MyAccountModal extends React.Component {
         </>
       );
     }
+
+    if ( deleteAccountWasSuccessful ) {
+      mainContent = (
+        <>
+          Account deletion successful.
+        </>
+      );
+    }
+
     return (
       <AccountModal
         title={ title }
         className="my-account-modal"
         onClose={ onClose }
         showBackButton={ showBackButton }
-        onBack={ () => this.setState( { page: PAGES.MAIN } ) }
+        onBack={ () => this.handleBackClick() }
       >
         { mainContent }
       </AccountModal>
@@ -173,6 +229,7 @@ MyAccountModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   currentUser: PropTypes.object.isRequired,
   _deleteUser: PropTypes.func.isRequired,
+  _setDeletingErrors: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -184,6 +241,7 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _deleteUser: deleteUser,
+    _setDeletingErrors: setDeletingErrors,
   }, dispatch );
 }
 

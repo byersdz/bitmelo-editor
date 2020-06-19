@@ -7,6 +7,8 @@ import { deleteUser as deleteUserApi } from '../../api/user';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const LOGIN_USER = 'LOGIN_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
+export const SET_USER_IS_DELETING = 'SET_USER_IS_DELETING';
+export const SET_USER_DELETING_ERRORS = 'SET_USER_DELETING_ERRORS';
 
 // Reducer
 const initialState = {
@@ -16,6 +18,8 @@ const initialState = {
   email: '',
   dateCreated: '',
   isLoggedIn: false,
+  isDeleting: false,
+  deletingErrors: [],
 };
 
 export function validate( state ) {
@@ -52,13 +56,27 @@ export default function reducer( state = initialState, action ) {
       try {
         const importedState = action.payload.user.currentUser;
         if ( validate( importedState ) ) {
-          return { ...importedState };
+          return {
+            ...importedState,
+            deletingErrors: [],
+            isDeleting: false,
+          };
         }
         return state;
       }
       catch ( e ) {
         return state;
       }
+    }
+    case SET_USER_IS_DELETING: {
+      const newState = { ...state };
+      newState.isDeleting = action.payload;
+      return newState;
+    }
+    case SET_USER_DELETING_ERRORS: {
+      const newState = { ...state };
+      newState.deletingErrors = [...action.payload];
+      return newState;
     }
     case SET_CURRENT_USER: {
       return { ...action.payload };
@@ -101,6 +119,20 @@ export function loginUser() {
   };
 }
 
+export function setIsDeleting( isDeleting ) {
+  return {
+    type: SET_USER_IS_DELETING,
+    payload: isDeleting,
+  };
+}
+
+export function setDeletingErrors( errors ) {
+  return {
+    type: SET_USER_DELETING_ERRORS,
+    payload: errors,
+  };
+}
+
 export function logoutUser() {
   return async dispatch => {
     dispatch( { type: LOGOUT_USER } );
@@ -110,10 +142,27 @@ export function logoutUser() {
 
 export function deleteUser( password ) {
   return async ( dispatch, getState ) => {
-    console.log( 'delete user' );
+    dispatch( setIsDeleting( true ) );
+    dispatch( setDeletingErrors( [] ) );
     const state = getState();
     const userId = state.user.currentUser.id;
     const response = await deleteUserApi( userId, password );
-    console.log( response );
+
+
+    if ( response.status === 401 ) {
+      dispatch( logoutUser() );
+    }
+
+    if ( response.isError ) {
+      dispatch( setDeletingErrors( response.errors ) );
+    }
+    else {
+      // successfull account deletion, logout with a delay
+      setTimeout( () => {
+        dispatch( logoutUser() );
+      }, 2000 );
+    }
+
+    dispatch( setIsDeleting( false ) );
   };
 }
