@@ -97,7 +97,6 @@ class ProjectsView extends React.Component {
   handleProjectDelete( project ) {
     this.setState( { selectedProject: project } );
     this.setState( { deleteProjectModalIsOpen: true } );
-    console.log( project.id );
   }
 
   render() {
