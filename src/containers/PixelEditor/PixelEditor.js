@@ -175,9 +175,12 @@ class PixelEditor extends React.Component {
       this.setState( { altIsDown: true } );
       event.preventDefault();
     }
-    else if ( eventMatchesHotkey( event, DESELECT_SELECTION ) ) {
+
+    if ( eventMatchesHotkey( event, DESELECT_SELECTION ) ) {
+      // still prevent the default as that will create a bookmark
+      event.preventDefault();
+
       if ( !anyModalIsOpen ) {
-        event.preventDefault();
         onDeselect();
       }
     }
@@ -1160,7 +1163,7 @@ function mapStateToProps( state ) {
     selectedTool: state.pixelTools.selectedTool,
     selectedTileTool: state.pixelTools.selectedTileTool,
     pixelToolSettings: state.pixelTools.pixelToolSettings,
-    anyModalIsOpen: state.layout.anyModalIsOpen,
+    anyModalIsOpen: state.layout.modalCount > 0,
   };
 }
 
