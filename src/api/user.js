@@ -48,3 +48,18 @@ export async function deleteUser( userId, password ) {
     return catchErrors( err );
   }
 }
+
+export async function changePassword( userId, oldPassword, newPassword, newPassword2 ) {
+  try {
+    const response = await axios.put( `${ BASE_URL }/api/users/${ userId }/password`, {
+      oldPassword,
+      newPassword,
+      newPassword2,
+    }, { withCredentials: true } );
+
+    return response;
+  }
+  catch ( err ) {
+    return catchErrors( err );
+  }
+}

@@ -1,7 +1,7 @@
 
 import { IMPORT_PROJECT_DATA } from '../globalActions';
 import { selectActivePage, PROJECTS_PAGE } from '../Layout/activePage';
-import { deleteUser as deleteUserApi } from '../../api/user';
+import { deleteUser as deleteUserApi, changePassword } from '../../api/user';
 
 // Actions
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
@@ -9,6 +9,8 @@ export const LOGIN_USER = 'LOGIN_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
 export const SET_USER_IS_DELETING = 'SET_USER_IS_DELETING';
 export const SET_USER_DELETING_ERRORS = 'SET_USER_DELETING_ERRORS';
+export const SET_USER_IS_CHANGING_PASSWORD = 'SET_USER_IS_CHANGING_PASSWORD';
+export const SET_USER_CHANGING_PASSWORD_ERRORS = 'SET_USER_CHANGING_PASSWORD_ERRORS';
 
 // Reducer
 const initialState = {
@@ -20,6 +22,8 @@ const initialState = {
   isLoggedIn: false,
   isDeleting: false,
   deletingErrors: [],
+  isChangingPassword: false,
+  changingPasswordErrors: [],
 };
 
 export function validate( state ) {
@@ -60,6 +64,8 @@ export default function reducer( state = initialState, action ) {
             ...importedState,
             deletingErrors: [],
             isDeleting: false,
+            isChangingPassword: false,
+            changingPasswordErrors: [],
           };
         }
         return state;
@@ -76,6 +82,16 @@ export default function reducer( state = initialState, action ) {
     case SET_USER_DELETING_ERRORS: {
       const newState = { ...state };
       newState.deletingErrors = [...action.payload];
+      return newState;
+    }
+    case SET_USER_IS_CHANGING_PASSWORD: {
+      const newState = { ...state };
+      newState.isChangingPassword = action.payload;
+      return newState;
+    }
+    case SET_USER_CHANGING_PASSWORD_ERRORS: {
+      const newState = { ...state };
+      newState.changingPasswordErrors = [...action.payload];
       return newState;
     }
     case SET_CURRENT_USER: {
@@ -133,6 +149,22 @@ export function setDeletingErrors( errors ) {
   };
 }
 
+export function setIsChangingPassword( isChangingPassword ) {
+  return {
+    type: SET_USER_IS_CHANGING_PASSWORD,
+    payload: isChangingPassword,
+  };
+}
+
+export function setChangingPasswordErrors( errors ) {
+  return {
+    type: SET_USER_CHANGING_PASSWORD_ERRORS,
+    payload: errors,
+  };
+}
+
+// Async Actions
+
 export function logoutUser() {
   return async dispatch => {
     dispatch( { type: LOGOUT_USER } );
@@ -164,5 +196,26 @@ export function deleteUser( password ) {
     }
 
     dispatch( setIsDeleting( false ) );
+  };
+}
+
+export function changeUserPassword( oldPassword, newPassword, newPassword2 ) {
+  return async ( dispatch, getState ) => {
+    dispatch( setIsChangingPassword( true ) );
+    dispatch( setChangingPasswordErrors( [] ) );
+    const state = getState();
+    const userId = state.user.currentUser.id;
+
+    const response = await changePassword( userId, oldPassword, newPassword, newPassword2 );
+
+    if ( response.status === 401 ) {
+      dispatch( logoutUser() );
+    }
+
+    if ( response.isError ) {
+      dispatch( setChangingPasswordErrors( response.errors ) );
+    }
+
+    dispatch( setIsChangingPassword( false ) );
   };
 }

@@ -8,7 +8,12 @@ import AccountModal from '../../../components/Account/AccountModal/AccountModal'
 import AccountTextInput from '../../../components/Account/AccountTextInput/AccountTextInput';
 import AccountErrorMessage from '../../../components/Account/AccountErrorMessage/AccountErrorMessage';
 
-import { deleteUser, setDeletingErrors } from '../../../state/User/currentUser';
+import {
+  deleteUser,
+  setDeletingErrors,
+  changeUserPassword,
+  setChangingPasswordErrors,
+} from '../../../state/User/currentUser';
 
 import './MyAccountModal.scss';
 
@@ -28,12 +33,14 @@ class MyAccountModal extends React.Component {
       newPassword: '',
       newPassword2: '',
       deleteAccountWasSuccessful: false,
+      changePasswordWasSuccessful: false,
     };
   }
 
   componentDidMount() {
-    const { _setDeletingErrors } = this.props;
+    const { _setDeletingErrors, _setChangingPasswordErrors } = this.props;
     _setDeletingErrors( [] );
+    _setChangingPasswordErrors( [] );
   }
 
   componentDidUpdate( prevProps ) {
@@ -47,11 +54,18 @@ class MyAccountModal extends React.Component {
     ) {
       this.setState( { deleteAccountWasSuccessful: true } );
     }
+
+    if (
+      !currentUser.isChangingPassword
+      && prevUser.isChangingPassword
+      && currentUser.changingPasswordErrors.length === 0
+    ) {
+      this.setState( { changePasswordWasSuccessful: true } );
+    }
   }
 
   handleChangePasswordClick() {
     this.setState( { page: PAGES.CHANGE_PASSWORD } );
-    console.log( 'reset password' );
   }
 
   handleDeleteAccountClick() {
@@ -66,9 +80,10 @@ class MyAccountModal extends React.Component {
   }
 
   handleBackClick() {
-    const { _setDeletingErrors } = this.props;
+    const { _setDeletingErrors, _setChangingPasswordErrors } = this.props;
 
     _setDeletingErrors( [] );
+    _setChangingPasswordErrors( [] );
 
     this.setState( {
       page: PAGES.MAIN,
@@ -76,11 +91,12 @@ class MyAccountModal extends React.Component {
       oldPassword: '',
       newPassword: '',
       newPassword2: '',
+      changePasswordWasSuccessful: false,
     } );
   }
 
   render() {
-    const { onClose, currentUser } = this.props;
+    const { onClose, currentUser, _changeUserPassword } = this.props;
     const {
       page,
       password,
@@ -88,6 +104,7 @@ class MyAccountModal extends React.Component {
       newPassword,
       newPassword2,
       deleteAccountWasSuccessful,
+      changePasswordWasSuccessful,
     } = this.state;
 
     const showBackButton = page !== PAGES.MAIN;
@@ -135,8 +152,25 @@ class MyAccountModal extends React.Component {
     }
     else if ( page === PAGES.CHANGE_PASSWORD ) {
       title = 'Change Password';
+      let changeButtonDisabled = false;
+      if ( !oldPassword || !newPassword || !newPassword2 ) {
+        changeButtonDisabled = true;
+      }
+
+      let errorsRender = null;
+      if ( currentUser.changingPasswordErrors.length > 0 ) {
+        errorsRender = currentUser.changingPasswordErrors.map( error => {
+          return (
+            <AccountErrorMessage key={ error.msg }>
+              { error.msg }
+            </AccountErrorMessage>
+          );
+        } );
+      }
+
       mainContent = (
         <>
+          { errorsRender }
           <AccountTextInput
             title="Old Password"
             value={ oldPassword }
@@ -157,8 +191,9 @@ class MyAccountModal extends React.Component {
           />
           <Button
             title="Change Password"
-            click={ () => console.log( 'change' ) }
+            click={ () => _changeUserPassword( oldPassword, newPassword, newPassword2 ) }
             account
+            disabled={ changeButtonDisabled }
           />
           <Button
             title="Cancel"
@@ -206,7 +241,14 @@ class MyAccountModal extends React.Component {
     if ( deleteAccountWasSuccessful ) {
       mainContent = (
         <>
-          Account deletion successful.
+          Account deletion was successful.
+        </>
+      );
+    }
+    else if ( changePasswordWasSuccessful ) {
+      mainContent = (
+        <>
+          Password change was successful.
         </>
       );
     }
@@ -230,6 +272,8 @@ MyAccountModal.propTypes = {
   currentUser: PropTypes.object.isRequired,
   _deleteUser: PropTypes.func.isRequired,
   _setDeletingErrors: PropTypes.func.isRequired,
+  _changeUserPassword: PropTypes.func.isRequired,
+  _setChangingPasswordErrors: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -242,6 +286,8 @@ function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _deleteUser: deleteUser,
     _setDeletingErrors: setDeletingErrors,
+    _changeUserPassword: changeUserPassword,
+    _setChangingPasswordErrors: setChangingPasswordErrors,
   }, dispatch );
 }
 
