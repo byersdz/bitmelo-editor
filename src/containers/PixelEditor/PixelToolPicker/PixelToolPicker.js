@@ -41,6 +41,12 @@ class PixelToolPicker extends React.Component {
   }
 
   handleKeyDown( event ) {
+    const { anyModalIsOpen } = this.props;
+
+    if ( anyModalIsOpen ) {
+      return;
+    }
+
     if ( event.which === 66 ) { // b
       this.handleSelectedToolChange( PENCIL_TOOL );
     }
@@ -261,6 +267,7 @@ PixelToolPicker.propTypes = {
   tileSize: PropTypes.number.isRequired,
   _repositionTilesetEditorSelection: PropTypes.func.isRequired,
   _clearTilesetEditorSelection: PropTypes.func.isRequired,
+  anyModalIsOpen: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -270,6 +277,7 @@ function mapStateToProps( state ) {
     tilesetState: state.tileset.present,
     clipboard: state.clipboard,
     tileSize: state.project.tileSize,
+    anyModalIsOpen: state.layout.modalCount > 0,
   };
 }
 
