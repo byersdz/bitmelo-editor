@@ -28,6 +28,12 @@ class TilemapToolPicker extends React.Component {
   }
 
   handleKeyDown( event ) {
+    const { anyModalIsOpen } = this.props;
+
+    if ( anyModalIsOpen ) {
+      return;
+    }
+
     if ( event.which === 66 ) { // b
       this.handleSelectedToolChange( TILE_DRAW_TOOL );
     }
@@ -78,12 +84,14 @@ TilemapToolPicker.propTypes = {
   _selectTileTool: PropTypes.func.isRequired,
   layoutSettings: PropTypes.object.isRequired,
   _setTilemapEditorLayoutSettings: PropTypes.func.isRequired,
+  anyModalIsOpen: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps( state ) {
   return {
     selectedTool: state.pixelTools.selectedTileTool,
     layoutSettings: state.layout.tilemapEditor,
+    anyModalIsOpen: state.layout.modalCount > 0,
   };
 }
 
