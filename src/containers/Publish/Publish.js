@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
+import get from 'lodash.get';
 
 import CreateUserModal from '../User/CreateUserModal/CreateUserModal';
 import LoginUserModal from '../User/LoginUserModal/LoginUserModal';
@@ -165,6 +166,8 @@ class Publish extends React.Component {
     const publishGameModalRender = publishGameModalIsOpen ? (
       <PublishGameModal
         onClose={ () => this.setState( { publishGameModalIsOpen: false } ) }
+        initialCodeLicense={ get( currentProject, 'publishedGame.codeLicense', 'mit' ) }
+        initialAssetLicense={ get( currentProject, 'publishedGame.assetLicense', 'cc-by-4' ) }
       />
     ) : null;
 

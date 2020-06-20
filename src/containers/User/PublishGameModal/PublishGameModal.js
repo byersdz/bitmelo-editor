@@ -59,8 +59,13 @@ class PublishGameModal extends React.Component {
   }
 
   componentDidMount() {
-    const { _setPublishingErrors } = this.props;
+    const { _setPublishingErrors, initialCodeLicense, initialAssetLicense } = this.props;
     _setPublishingErrors( [] );
+
+    this.setState( {
+      codeLicense: initialCodeLicense,
+      assetLicense: initialAssetLicense,
+    } );
   }
 
   componentDidUpdate( prevProps ) {
@@ -244,6 +249,8 @@ PublishGameModal.propTypes = {
   isPublishing: PropTypes.bool.isRequired,
   errors: PropTypes.array.isRequired,
   _setPublishingErrors: PropTypes.func.isRequired,
+  initialCodeLicense: PropTypes.string.isRequired,
+  initialAssetLicense: PropTypes.string.isRequired,
 };
 
 function mapStateToProps( state ) {
