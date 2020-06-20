@@ -169,7 +169,7 @@ export function fetchPublishedGame() {
   };
 }
 
-export function publishCurrentProject() {
+export function publishCurrentProject( codeLicense, assetLicense, licenseAgree ) {
   return async ( dispatch, getState ) => {
     dispatch( setIsPublishing( true ) );
     dispatch( setPublishingErrors( [] ) );
@@ -178,7 +178,13 @@ export function publishCurrentProject() {
     const projectId = state.user.currentProject.id;
     const projectData = createTransferProject( state );
 
-    const response = await publishGame( projectId, projectData );
+    const response = await publishGame(
+      projectId,
+      projectData,
+      codeLicense,
+      assetLicense,
+      licenseAgree,
+    );
 
     if ( response.status === 401 ) {
       dispatch( logoutUser() );

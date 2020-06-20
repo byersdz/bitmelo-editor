@@ -5,7 +5,7 @@ import { BASE_URL } from './endpoints';
 import { updateProject } from './project';
 import catchErrors from './catchErrors';
 
-export async function publishGame( projectId, projectData ) {
+export async function publishGame( projectId, projectData, codeLicense, assetLicense, licenseAgree ) {
   const updateResponse = await updateProject( projectId, projectData );
 
   if ( updateResponse.isError ) {
@@ -14,7 +14,16 @@ export async function publishGame( projectId, projectData ) {
   }
   else {
     try {
-      const publishResponse = await axios.post( `${ BASE_URL }/api/games`, { projectId }, { withCredentials: true } );
+      const publishResponse = await axios.post(
+        `${ BASE_URL }/api/games`,
+        {
+          projectId,
+          codeLicense,
+          assetLicense,
+          licenseAgree,
+        },
+        { withCredentials: true },
+      );
       return publishResponse;
     }
     catch ( err ) {

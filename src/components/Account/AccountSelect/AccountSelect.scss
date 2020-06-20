@@ -1,0 +1,32 @@
+$background-color: #ddd;
+
+.account-select {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  .top {
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    select {
+      border: 2px solid #aaa;
+      background-color: $background-color;
+      color: #111;
+      font-size: 18px;
+      padding: 4px;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    select:focus {
+      border: 2px solid rgb(97, 6, 100);
+    }
+  }
+}
