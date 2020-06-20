@@ -30,7 +30,7 @@ export async function createUser(
 
 export async function loginUser( email, password ) {
   try {
-    const response = await axios.post( `${ BASE_URL }/api/login`, {
+    const response = await axios.post( `${ BASE_URL }/api/auth/login`, {
       email,
       password,
     }, { withCredentials: true } );
