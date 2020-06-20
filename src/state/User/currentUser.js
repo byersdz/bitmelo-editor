@@ -1,7 +1,11 @@
 
 import { IMPORT_PROJECT_DATA } from '../globalActions';
 import { selectActivePage, PROJECTS_PAGE } from '../Layout/activePage';
-import { deleteUser as deleteUserApi, changePassword } from '../../api/user';
+import {
+  deleteUser as deleteUserApi,
+  logoutUser as logoutUserApi,
+  changePassword,
+} from '../../api/user';
 import cloneDeep from 'lodash.clonedeep';
 
 // Actions
@@ -170,6 +174,8 @@ export function logoutUser() {
   return async dispatch => {
     dispatch( { type: LOGOUT_USER } );
     dispatch( selectActivePage( PROJECTS_PAGE ) );
+
+    await logoutUserApi();
   };
 }
 
