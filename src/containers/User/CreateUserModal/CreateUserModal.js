@@ -29,7 +29,16 @@ class CreateUserModal extends React.Component {
       errors: [],
       isFetching: false,
       allowPromotionalEmails: false,
+      tastesSweet: false,
+      phoneNumber: '',
+      lastName: '',
     };
+  }
+
+  componentDidMount() {
+    setTimeout( () => {
+      this.setState( { tastesSweet: true } );
+    }, 10 );
   }
 
   async handleSignUpClick() {
@@ -40,6 +49,8 @@ class CreateUserModal extends React.Component {
       password,
       isFetching,
       allowPromotionalEmails,
+      phoneNumber,
+      lastName,
     } = this.state;
 
     if ( isFetching ) {
@@ -47,7 +58,14 @@ class CreateUserModal extends React.Component {
     }
 
     this.setState( { isFetching: true } );
-    const response = await createUser( userName, email, password, allowPromotionalEmails );
+    const response = await createUser(
+      userName,
+      email,
+      password,
+      allowPromotionalEmails,
+      phoneNumber,
+      lastName,
+    );
     this.setState( { isFetching: false } );
 
     // if we have errors display them
@@ -77,8 +95,12 @@ class CreateUserModal extends React.Component {
       errors,
       isFetching,
       allowPromotionalEmails,
+      tastesSweet,
+      phoneNumber,
+      lastName,
     } = this.state;
 
+    console.log( phoneNumber, lastName );
 
     const globalErrors = [];
     const userNameErrors = [];
@@ -118,6 +140,34 @@ class CreateUserModal extends React.Component {
       buttonIsDisabled = true;
     }
 
+    const tastyClass = tastesSweet ? 'tasty' : null;
+
+    const winnieRender = (
+      <>
+        <input
+          type="text"
+          name="phone-number"
+          value={ phoneNumber }
+          onChange={ e => this.setState( { phoneNumber: e.target.value } ) }
+          tabIndex={ -1 }
+          autoComplete="nope"
+          className={ tastyClass }
+        />
+      </>
+    );
+
+    const winnieTheTwoRender = (
+      <input
+        type="text"
+        name="last-name"
+        value={ lastName }
+        onChange={ e => this.setState( { lastName: e.target.value } ) }
+        tabIndex={ -1 }
+        autoComplete="nope"
+        className={ tastyClass }
+      />
+    );
+
     const mainRender = createSuccessful ? (
       <div>
         Account creation successful! Welcome to Bitmelo!
@@ -139,6 +189,7 @@ class CreateUserModal extends React.Component {
           errors={ emailErrors }
           onKeyDown={ e => this.handleKeyDown( e ) }
         />
+        { winnieRender }
         <AccountTextInput
           title="Password"
           value={ password }
@@ -147,6 +198,7 @@ class CreateUserModal extends React.Component {
           isPassword
           onKeyDown={ e => this.handleKeyDown( e ) }
         />
+        { winnieTheTwoRender }
         <AccountCheckbox
           checked={ allowPromotionalEmails }
           onChange={ v => this.setState( { allowPromotionalEmails: v } ) }

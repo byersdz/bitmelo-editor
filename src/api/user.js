@@ -3,13 +3,22 @@ import axios from 'axios';
 import { BASE_URL } from './endpoints';
 import catchErrors from './catchErrors';
 
-export async function createUser( userName, email, password, allowPromotionalEmails ) {
+export async function createUser(
+  userName,
+  email,
+  password,
+  allowPromotionalEmails,
+  phoneNumber,
+  lastName,
+) {
   try {
     const response = await axios.post( `${ BASE_URL }/api/users`, {
       userName,
       email,
       password,
       allowPromotionalEmails,
+      phoneNumber,
+      lastName,
     }, { withCredentials: true } );
 
     return response;
