@@ -34,7 +34,9 @@ export default function reducer( state = initialState, action ) {
     }
 
     case SET_PROJECT_NAME: {
-      return action.payload;
+      let trimmedName = action.payload.trimStart();
+      trimmedName = trimmedName.replace( /[^a-zA-Z0-9 ]/g, '' );
+      return trimmedName;
     }
     default:
       return state;
