@@ -2,6 +2,7 @@
 import { IMPORT_PROJECT_DATA } from '../globalActions';
 import { selectActivePage, PROJECTS_PAGE } from '../Layout/activePage';
 import { deleteUser as deleteUserApi, changePassword } from '../../api/user';
+import cloneDeep from 'lodash.clonedeep';
 
 // Actions
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
@@ -101,7 +102,7 @@ export default function reducer( state = initialState, action ) {
       return { ...state, isLoggedIn: true };
     }
     case LOGOUT_USER: {
-      return { ...state, isLoggedIn: false };
+      return cloneDeep( initialState );
     }
     default: return state;
   }

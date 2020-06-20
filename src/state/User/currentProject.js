@@ -2,8 +2,9 @@
 import { IMPORT_PROJECT_DATA } from '../globalActions';
 import { getGameByProjectId, publishGame } from '../../api/game';
 import createTransferProject from '../../utils/Convert/createTransferProject';
+import cloneDeep from 'lodash.clonedeep';
 
-import { logoutUser } from './currentUser';
+import { logoutUser, LOGOUT_USER } from './currentUser';
 
 // Actions
 export const SET_CURRENT_USER_PROJECT_ID = 'SET_CURRENT_USER_PROJECT_ID';
@@ -89,6 +90,10 @@ export default function reducer( state = initialState, action ) {
         newState.publishedGame = null;
       }
       return newState;
+    }
+
+    case LOGOUT_USER: {
+      return cloneDeep( initialState );
     }
 
     default: return state;
