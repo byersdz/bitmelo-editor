@@ -13,6 +13,7 @@ module.exports = merge( common, {
   plugins: [
     new webpack.DefinePlugin( {
       IS_DESKTOP: JSON.stringify( true ),
+      IS_DEV: JSON.stringify( true ),
     } ),
   ],
 } );
