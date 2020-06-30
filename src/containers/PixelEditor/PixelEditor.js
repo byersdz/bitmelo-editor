@@ -167,15 +167,6 @@ class PixelEditor extends React.Component {
   handleKeyDown( event ) {
     const { onDeselect, anyModalIsOpen } = this.props;
 
-    if ( event.which === 32 ) { // space
-      this.setState( { spaceIsDown: true } );
-      event.preventDefault();
-    }
-    else if ( event.which === 18 ) { // alt
-      this.setState( { altIsDown: true } );
-      event.preventDefault();
-    }
-
     if ( eventMatchesHotkey( event, DESELECT_SELECTION ) ) {
       // still prevent the default as that will create a bookmark
       event.preventDefault();
@@ -184,16 +175,29 @@ class PixelEditor extends React.Component {
         onDeselect();
       }
     }
+
+    if ( anyModalIsOpen ) {
+      return;
+    }
+
+    if ( event.which === 32 ) { // space
+      this.setState( { spaceIsDown: true } );
+      event.preventDefault();
+    }
+    else if ( event.which === 18 ) { // alt
+      this.setState( { altIsDown: true } );
+      event.preventDefault();
+    }
   }
 
   handleKeyUp( event ) {
     if ( event.which === 32 ) {
       this.setState( { spaceIsDown: false } );
-      event.preventDefault();
+      // event.preventDefault();
     }
     else if ( event.which === 18 ) {
       this.setState( { altIsDown: false } );
-      event.preventDefault();
+      // event.preventDefault();
     }
   }
 
