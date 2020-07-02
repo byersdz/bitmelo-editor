@@ -10,6 +10,7 @@ import { setNavigationPanelIsOpen } from '../../state/Layout/navigationPanelIsOp
 import { setReferencePanelIsOpen } from '../../state/Layout/referencePanelIsOpen';
 import { applyTilesetEditorSelection } from '../../state/Tileset/actions';
 import { PROJECTS_PAGE } from '../../state/Layout/activePage';
+import { checkLoginStatus } from '../../state/User/currentUser';
 
 import { loadStateFromLocalStorage } from '../../utils/Saving/localStorage';
 import WelcomeDemo from '../../utils/Demos/WelcomeDemo.json';
@@ -29,6 +30,7 @@ class App extends React.Component {
       _setReferencePanelIsOpen,
       _clearAllUndoHistory,
       _applyTilesetEditorSelection,
+      _checkLoginStatus,
     } = this.props;
     const savedState = loadStateFromLocalStorage();
     if ( savedState ) {
@@ -65,6 +67,8 @@ class App extends React.Component {
       _setNavigationPanelIsOpen( false );
       _setReferencePanelIsOpen( false );
     }
+
+    _checkLoginStatus();
   }
 
   render() {
@@ -86,6 +90,7 @@ App.propTypes = {
   _setReferencePanelIsOpen: PropTypes.func.isRequired,
   _clearAllUndoHistory: PropTypes.func.isRequired,
   _applyTilesetEditorSelection: PropTypes.func.isRequired,
+  _checkLoginStatus: PropTypes.func.isRequired,
   activePage: PropTypes.string.isRequired,
 };
 
@@ -102,6 +107,7 @@ function mapDispatchToProps( dispatch ) {
     _setReferencePanelIsOpen: setReferencePanelIsOpen,
     _clearAllUndoHistory: clearAllUndoHistory,
     _applyTilesetEditorSelection: applyTilesetEditorSelection,
+    _checkLoginStatus: checkLoginStatus,
   }, dispatch );
 }
 

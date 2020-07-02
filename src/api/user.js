@@ -56,6 +56,20 @@ export async function logoutUser() {
   }
 }
 
+export async function checkIfLoggedIn() {
+  try {
+    const response = await axios.get(
+      `${ BASE_URL }/api/auth/check`,
+      { withCredentials: true },
+    );
+
+    return response;
+  }
+  catch ( err ) {
+    return catchErrors( err );
+  }
+}
+
 export async function deleteUser( userId, password ) {
   try {
     const response = await axios.delete(

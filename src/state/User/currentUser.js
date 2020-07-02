@@ -4,6 +4,7 @@ import { selectActivePage, PROJECTS_PAGE } from '../Layout/activePage';
 import {
   deleteUser as deleteUserApi,
   logoutUser as logoutUserApi,
+  checkIfLoggedIn,
   changePassword,
 } from '../../api/user';
 import cloneDeep from 'lodash.clonedeep';
@@ -176,6 +177,16 @@ export function logoutUser() {
     dispatch( selectActivePage( PROJECTS_PAGE ) );
 
     await logoutUserApi();
+  };
+}
+
+export function checkLoginStatus() {
+  return async dispatch => {
+    const response = await checkIfLoggedIn();
+
+    if ( response.isError ) {
+      dispatch( logoutUser() );
+    }
   };
 }
 
