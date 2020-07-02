@@ -124,6 +124,7 @@ class CreateProjectModal extends React.Component {
         title="Create New Project"
         onClose={ onClose }
         showHeader
+        disableExit={ isCreating }
       >
         { mainRender }
       </AccountModal>

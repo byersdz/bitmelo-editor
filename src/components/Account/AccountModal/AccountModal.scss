@@ -66,6 +66,13 @@
       .close-btn:hover, .back-btn:hover {
         background-color: #aaa;
       }
+
+      .close-btn:disabled, .back-btn:disabled {
+        svg {
+          fill: #888;
+          stroke: #888;
+        }
+      }
     }
 
     .modal-content {

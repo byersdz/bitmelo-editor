@@ -30,6 +30,7 @@ class AccountModal extends React.Component {
       onClose,
       showBackButton,
       onBack,
+      disableExit,
     } = this.props;
 
     const contentClassName = `account-modal-content-container ${ className }`;
@@ -41,6 +42,7 @@ class AccountModal extends React.Component {
         hideTitle
         icon="back"
         click={ () => onBack() }
+        disabled={ disableExit }
       />
     ) : null;
 
@@ -58,6 +60,7 @@ class AccountModal extends React.Component {
               hideTitle
               icon="x"
               click={ () => onClose() }
+              disabled={ disableExit }
             />
           </div>
           <div className="modal-content">
@@ -83,6 +86,7 @@ AccountModal.propTypes = {
   onBack: PropTypes.func,
   _increaseModalCount: PropTypes.func.isRequired,
   _decreaseModalCount: PropTypes.func.isRequired,
+  disableExit: PropTypes.bool,
 };
 
 AccountModal.defaultProps = {
@@ -90,6 +94,7 @@ AccountModal.defaultProps = {
   onClose: null,
   showBackButton: false,
   onBack: null,
+  disableExit: false,
 };
 
 function mapDispatchToProps( dispatch ) {
