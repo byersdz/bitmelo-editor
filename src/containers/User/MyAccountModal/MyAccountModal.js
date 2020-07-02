@@ -109,6 +109,8 @@ class MyAccountModal extends React.Component {
 
     const showBackButton = page !== PAGES.MAIN;
 
+    const disableExit = currentUser.isChangingPassword || currentUser.isDeleting;
+
     let mainContent = null;
     let title = '';
 
@@ -140,12 +142,13 @@ class MyAccountModal extends React.Component {
             title="Yes, please delete my account."
             click={ () => this.handleDeleteUserClick() }
             account
-            disabled={ password.length === 0 }
+            disabled={ password.length === 0 || disableExit }
           />
           <Button
             title="Cancel"
             click={ () => this.handleBackClick() }
             account
+            disabled={ disableExit }
           />
         </>
       );
@@ -193,14 +196,14 @@ class MyAccountModal extends React.Component {
             title="Change Password"
             click={ () => _changeUserPassword( oldPassword, newPassword, newPassword2 ) }
             account
-            disabled={ changeButtonDisabled }
+            disabled={ changeButtonDisabled || disableExit }
           />
           <Button
             title="Cancel"
             click={ () => this.handleBackClick() }
             account
+            disabled={ disableExit }
           />
-
         </>
       );
     }
@@ -260,6 +263,7 @@ class MyAccountModal extends React.Component {
         onClose={ onClose }
         showBackButton={ showBackButton }
         onBack={ () => this.handleBackClick() }
+        disableExit={ disableExit }
       >
         { mainContent }
       </AccountModal>

@@ -104,6 +104,7 @@ class LoginUserModal extends React.Component {
         onClose={ () => {
           if ( !isFetching ) onClose();
         } }
+        disableExit={ isFetching }
       >
         { errorsRender }
         <AccountTextInput

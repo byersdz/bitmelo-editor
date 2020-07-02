@@ -42,7 +42,7 @@ class DeleteProjectModal extends React.Component {
 
     const mainRender = isDeleting ? (
       <div>
-        loading
+        deleting
       </div>
     ) : (
       <div>
@@ -70,6 +70,7 @@ class DeleteProjectModal extends React.Component {
           }
         } }
         showHeader
+        disableExit={ isDeleting }
       >
         { errorsRender }
         { mainRender }

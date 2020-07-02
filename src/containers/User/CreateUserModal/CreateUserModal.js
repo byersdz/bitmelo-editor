@@ -230,6 +230,7 @@ class CreateUserModal extends React.Component {
         onClose={ () => {
           if ( !isFetching ) onClose();
         } }
+        disableExit={ isFetching }
       >
         { mainRender }
       </AccountModal>

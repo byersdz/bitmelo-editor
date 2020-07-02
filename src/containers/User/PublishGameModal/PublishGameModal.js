@@ -234,6 +234,7 @@ class PublishGameModal extends React.Component {
         title="Publish Your Game"
         className="publish-game-modal"
         onClose={ onClose }
+        disableExit={ isPublishing }
       >
         { mainRender }
       </AccountModal>
