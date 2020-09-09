@@ -69,7 +69,6 @@ function createWindow() {
   }
   else {
     win.loadFile( './electron/react-build/index.html' );
-    win.webContents.openDevTools();
   }
 
   win.maximize();
