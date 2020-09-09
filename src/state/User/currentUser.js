@@ -184,7 +184,7 @@ export function checkLoginStatus() {
   return async dispatch => {
     const response = await checkIfLoggedIn();
 
-    if ( response.isError ) {
+    if ( response.isError && !IS_DESKTOP ) {
       dispatch( logoutUser() );
     }
   };

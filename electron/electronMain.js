@@ -8,12 +8,37 @@ const {
   session,
 } = require( 'electron' );
 const isDev = require( 'electron-is-dev' );
+const path = require( 'path' );
+const fs = require( 'fs' );
 
 let userTokenCookie = '';
 let refreshTokenCookie = '';
 let sessionIdCookie = '';
 
+const userDataPath = app.getPath( 'userData' );
+const cookieFilePath = path.join( userDataPath, 'cookies.json' );
+
 function createWindow() {
+  // load api cookies
+  try {
+    const cookieData = JSON.parse( fs.readFileSync( cookieFilePath ) );
+
+    if ( cookieData.userToken ) {
+      userTokenCookie = cookieData.userToken;
+    }
+
+    if ( cookieData.refreshToken ) {
+      refreshTokenCookie = cookieData.refreshToken;
+    }
+
+    if ( cookieData.sessionId ) {
+      sessionIdCookie = cookieData.sessionId;
+    }
+  }
+  catch ( err ) {
+    console.error( err );
+  }
+
   const win = new BrowserWindow( {
     width: 1360,
     height: 720,
@@ -44,6 +69,7 @@ function createWindow() {
   }
   else {
     win.loadFile( './electron/react-build/index.html' );
+    win.webContents.openDevTools();
   }
 
   win.maximize();
@@ -61,8 +87,6 @@ function createWindow() {
   };
 
   session.defaultSession.webRequest.onBeforeSendHeaders( bitmeloApifilter, ( details, callback ) => {
-    console.log( 'before headers' );
-    console.log( details );
     const originUrl = 'https://bitmelo.com';
     // eslint-disable-next-line no-param-reassign
     details.requestHeaders.Origin = originUrl;
@@ -92,7 +116,6 @@ function createWindow() {
   // get bitmelo cookies from completed requests
   session.defaultSession.webRequest.onCompleted( bitmeloApifilter, details => {
     if ( details.responseHeaders['Set-Cookie'] ) {
-      console.log( 'complete' );
       for ( let i = 0; i < details.responseHeaders['Set-Cookie'].length; i += 1 ) {
         const cookie = details.responseHeaders['Set-Cookie'][i];
         if ( cookie.startsWith( 'user_token' ) ) {
@@ -110,6 +133,13 @@ function createWindow() {
       }
 
       // save the cookies to a file
+      const data = {
+        userToken: userTokenCookie,
+        refreshToken: refreshTokenCookie,
+        sessionId: sessionIdCookie,
+      };
+
+      fs.writeFileSync( cookieFilePath, JSON.stringify( data ) );
     }
   } );
 }
