@@ -31,6 +31,7 @@ class App extends React.Component {
       _clearAllUndoHistory,
       _applyTilesetEditorSelection,
       _checkLoginStatus,
+      userIsLoggedIn,
     } = this.props;
     const savedState = loadStateFromLocalStorage();
     if ( savedState ) {
@@ -68,7 +69,11 @@ class App extends React.Component {
       _setReferencePanelIsOpen( false );
     }
 
-    _checkLoginStatus();
+    // If user is logged in at start check if login is still valid.
+    // If not log out the user.
+    if ( userIsLoggedIn ) {
+      _checkLoginStatus();
+    }
   }
 
   render() {
@@ -92,11 +97,13 @@ App.propTypes = {
   _applyTilesetEditorSelection: PropTypes.func.isRequired,
   _checkLoginStatus: PropTypes.func.isRequired,
   activePage: PropTypes.string.isRequired,
+  userIsLoggedIn: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps( state ) {
   return {
     activePage: state.layout.activePage,
+    userIsLoggedIn: state.user.currentUser.isLoggedIn,
   };
 }
 
