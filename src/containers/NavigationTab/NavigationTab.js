@@ -16,6 +16,7 @@ import {
   TILE_TAB,
   TILEMAP_TAB,
   SOUND_TAB,
+  PUBLISH_TAB,
 } from '../../state/Layout/activeNavigationTab';
 import { toggleNavigationPanel } from '../../state/Layout/navigationPanelIsOpen';
 import { STOP_ALL_AUDIO, addAudioEvent } from '../../state/Sound/audioEvents';
@@ -89,6 +90,11 @@ class NavigationTab extends React.Component {
         key: PROJECT_TAB,
         title: 'Project',
         icon: 'clipboard',
+      },
+      {
+        key: PUBLISH_TAB,
+        title: 'Publish',
+        icon: 'publish',
       },
       {
         key: ABOUT_TAB,

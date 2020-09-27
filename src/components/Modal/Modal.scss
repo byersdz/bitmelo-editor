@@ -16,8 +16,6 @@
   .modal-content-container {
     width: 600px;
     height: 600px;
-    width: 600px;
-    height: 500px;
     background-color: $background-color;
     border: 2px solid $primary-dark-color;
     display: flex;
@@ -95,7 +93,7 @@
         align-self: stretch;
         display: flex;
         flex-direction: column;
-        margin: 16px 32px;
+        margin: 0 32px 16px 32px;
 
         .std-btn {
           align-self: flex-end;
@@ -105,7 +103,10 @@
     }
   }
 
-
+  .modal-content-container.no-sizing {
+    width: initial;
+    height: initial;
+  }
 }
 
 

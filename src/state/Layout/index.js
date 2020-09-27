@@ -13,6 +13,8 @@ import referenceTabTitle from './referenceTabTitle';
 import play from './play';
 import referenceRoutes from './referenceRoutes';
 import colorPickerIsOpen from './colorPickerIsOpen';
+import activePage from './activePage';
+import modalCount from './modalCount';
 
 export default combineReducers( {
   activeNavigationTab,
@@ -27,4 +29,6 @@ export default combineReducers( {
   play,
   referenceRoutes,
   colorPickerIsOpen,
+  activePage,
+  modalCount,
 } );

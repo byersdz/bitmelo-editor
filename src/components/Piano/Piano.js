@@ -108,7 +108,11 @@ class Piano extends React.Component {
   }
 
   keyDown( event ) {
-    const { onOctaveChange, octave } = this.props;
+    const { onOctaveChange, octave, anyModalIsOpen } = this.props;
+
+    if ( anyModalIsOpen ) {
+      return;
+    }
 
     if ( !event.repeat ) {
       const index = this.indexForCode( event.code );
@@ -353,12 +357,14 @@ Piano.propTypes = {
   onOctaveChange: PropTypes.func.isRequired,
   navigationPanelIsOpen: PropTypes.bool.isRequired,
   referencePanelIsOpen: PropTypes.bool.isRequired,
+  anyModalIsOpen: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps( state ) {
   return {
     navigationPanelIsOpen: state.layout.navigationPanelIsOpen,
     referencePanelIsOpen: state.layout.referencePanelIsOpen,
+    anyModalIsOpen: state.layout.modalCount > 0,
   };
 }
 

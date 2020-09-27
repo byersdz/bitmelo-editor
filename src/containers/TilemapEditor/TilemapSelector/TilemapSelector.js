@@ -58,6 +58,14 @@ class TilemapSelector extends React.Component {
 
     const contentClass = isOpen ? 'content' : 'content closed';
 
+    const addButtonRender = tilemaps.length < 8 ? (
+      <Button
+        title="Add Tilemap"
+        click={ () => this.handleAddTilemap() }
+        standard
+      />
+    ) : null;
+
     const deleteButtonRender = tilemaps.length > 1 ? (
       <Button
         title="Delete"
@@ -95,11 +103,7 @@ class TilemapSelector extends React.Component {
             standard
           />
           { deleteButtonRender }
-          <Button
-            title="Add Tilemap"
-            click={ () => this.handleAddTilemap() }
-            standard
-          />
+          { addButtonRender }
         </div>
         <ToggleHeader
           title={ `Tilemaps: ${ tilemaps[activeIndex].name }` }

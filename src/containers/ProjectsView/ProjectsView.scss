@@ -1,0 +1,38 @@
+
+.projects-view {
+  width: 608px;
+  padding: 16px;
+  margin-top: 8px;
+  flex-grow: 1;
+
+  .spinner {
+    margin-top: 16px;
+  }
+
+  .create-project-btn {
+    margin-bottom: 8px;
+  }
+  .sign-up-content {
+    .sign-up-buttons {
+      text-align: center;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 8px;
+    }
+
+    .create-account-btn {
+      background-color: #7de74c;
+      font-weight: bold;
+      border-radius: 5px;
+      margin: 0 8px;
+      border: 1px solid #000000;
+      color: #000;
+    }
+
+    .log-in-btn {
+      font-weight: bold;
+    }
+  }
+}

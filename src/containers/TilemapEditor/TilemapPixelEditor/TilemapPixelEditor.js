@@ -33,7 +33,11 @@ class TilemapPixelEditor extends React.Component {
   }
 
   handleKeyDown( event ) {
-    const { _undoTilemaps, _redoTilemaps } = this.props;
+    const { _undoTilemaps, _redoTilemaps, anyModalIsOpen } = this.props;
+
+    if ( anyModalIsOpen ) {
+      return;
+    }
 
     if ( event.which === 90 && event.ctrlKey ) { // z
       if ( event.shiftKey ) {
@@ -131,6 +135,7 @@ TilemapPixelEditor.propTypes = {
   _undoTilemaps: PropTypes.func.isRequired,
   _redoTilemaps: PropTypes.func.isRequired,
   _setTilmapCursorPosition: PropTypes.func.isRequired,
+  anyModalIsOpen: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -148,6 +153,7 @@ function mapStateToProps( state ) {
     activeIndex,
     activeTileset,
     activeTilesetIndex,
+    anyModalIsOpen: state.layout.modalCount > 0,
   };
 }
 

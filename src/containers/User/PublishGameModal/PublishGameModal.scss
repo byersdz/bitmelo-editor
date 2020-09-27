@@ -1,0 +1,29 @@
+@import '../../../style//colors.scss';
+
+.publish-game-modal {
+  width: 400px;
+
+  .account-text-input {
+    margin-top: 16px;
+  }
+
+  .account-select {
+    margin-top: 16px;
+  }
+
+  .account-checkbox {
+    margin-top: 16px;
+  }
+
+  .account-btn {
+    margin-top: 16px;
+  }
+
+  .abutton {
+    color: $primary-dark-color;
+  }
+
+  .abutton:hover {
+    color: $primary-light-color;
+  }
+}

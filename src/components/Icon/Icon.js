@@ -27,6 +27,11 @@ import DeselectIcon from './SVG/deselect-o.svg';
 import SelectAllIcon from './SVG/selectall-o.svg';
 import FlipVIcon from './SVG/flip-v-o.svg';
 import FlipHIcon from './SVG/flip-h-o.svg';
+import CheckIcon from './SVG/check-o.svg';
+import CloudSaveIcon from './SVG/cloud-save-o.svg';
+import PublishIcon from './SVG/publish-o.svg';
+import UserIcon from './SVG/user-o.svg';
+import TrashIcon from './SVG/trash-o.svg';
 
 import './Icon.scss';
 
@@ -178,6 +183,36 @@ const Icon = ( props ) => {
 
     case 'flip-h': {
       svgFile = FlipHIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'check': {
+      svgFile = CheckIcon;
+      noFill = true;
+      break;
+    }
+
+    case 'cloud-save': {
+      svgFile = CloudSaveIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'publish': {
+      svgFile = PublishIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'user': {
+      svgFile = UserIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'trash': {
+      svgFile = TrashIcon;
       noStroke = true;
       break;
     }

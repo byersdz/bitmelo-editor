@@ -1,0 +1,36 @@
+
+@import '../../../style/colors.scss';
+
+.create-user-modal {
+  width: 400px;
+
+  .account-text-input {
+    margin-top: 16px;
+  }
+
+  .account-btn {
+    margin-top: 16px;
+  }
+
+  .account-checkbox {
+    margin-top: 16px;
+  }
+
+  .agreement {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 12px;
+
+    .abutton {
+      color: $primary-dark-color;
+    }
+
+    .abutton:hover {
+      color: $primary-light-color;
+    }
+  }
+
+  .tasty {
+    display: none;
+  }
+}

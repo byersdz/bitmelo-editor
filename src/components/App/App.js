@@ -1,5 +1,6 @@
 
 import React from 'react';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,25 +9,20 @@ import { importProjectData, clearAllUndoHistory } from '../../state/globalAction
 import { setNavigationPanelIsOpen } from '../../state/Layout/navigationPanelIsOpen';
 import { setReferencePanelIsOpen } from '../../state/Layout/referencePanelIsOpen';
 import { applyTilesetEditorSelection } from '../../state/Tileset/actions';
-
-import NavigationTab from '../../containers/NavigationTab/NavigationTab';
-import MainContainer from '../../containers/MainContainer/MainContainer';
-import ReferenceTab from '../../containers/ReferenceTab/ReferenceTab';
-import BitmeloAudio from '../../containers/BitmeloAudio/BitmeloAudio';
+import { PROJECTS_PAGE } from '../../state/Layout/activePage';
+import { checkLoginStatus } from '../../state/User/currentUser';
 
 import { loadStateFromLocalStorage } from '../../utils/Saving/localStorage';
 import WelcomeDemo from '../../utils/Demos/WelcomeDemo.json';
 
 import { useExtraSmallWidth } from '../../style/dimensions';
 
+import EditorPage from '../../pages/EditorPage/EditorPage';
+import ProjectsPage from '../../pages/ProjectsPage/ProjectsPage';
+
 import './App.scss';
 
 class App extends React.Component {
-  constructor( props ) {
-    super( props );
-    this.handleKeyDown = this.handleKeyDown.bind( this );
-  }
-
   componentDidMount() {
     const {
       _importProjectData,
@@ -34,6 +30,8 @@ class App extends React.Component {
       _setReferencePanelIsOpen,
       _clearAllUndoHistory,
       _applyTilesetEditorSelection,
+      _checkLoginStatus,
+      userIsLoggedIn,
     } = this.props;
     const savedState = loadStateFromLocalStorage();
     if ( savedState ) {
@@ -71,32 +69,23 @@ class App extends React.Component {
       _setReferencePanelIsOpen( false );
     }
 
-    window.addEventListener( 'keydown', this.handleKeyDown );
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener( 'keydown', this.handleKeyDown );
-  }
-
-  handleKeyDown( event ) {
-    if ( event.which === 83 ) { // s
-      if ( event.ctrlKey ) {
-        // do nothing when the user attempts to save
-        // avoids the annoying save website popup
-        event.preventDefault();
-      }
+    // If user is logged in at start check if login is still valid.
+    // If not log out the user.
+    if ( userIsLoggedIn ) {
+      _checkLoginStatus();
     }
   }
 
   render() {
-    return (
-      <div id="app">
-        <NavigationTab />
-        <MainContainer />
-        <ReferenceTab />
-        <BitmeloAudio />
-      </div>
-    );
+    const { activePage } = this.props;
+
+    let mainRender = <EditorPage />;
+
+    if ( activePage === PROJECTS_PAGE ) {
+      mainRender = <ProjectsPage />;
+    }
+
+    return mainRender;
   }
 }
 
@@ -106,7 +95,17 @@ App.propTypes = {
   _setReferencePanelIsOpen: PropTypes.func.isRequired,
   _clearAllUndoHistory: PropTypes.func.isRequired,
   _applyTilesetEditorSelection: PropTypes.func.isRequired,
+  _checkLoginStatus: PropTypes.func.isRequired,
+  activePage: PropTypes.string.isRequired,
+  userIsLoggedIn: PropTypes.bool.isRequired,
 };
+
+function mapStateToProps( state ) {
+  return {
+    activePage: state.layout.activePage,
+    userIsLoggedIn: state.user.currentUser.isLoggedIn,
+  };
+}
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
@@ -115,7 +114,8 @@ function mapDispatchToProps( dispatch ) {
     _setReferencePanelIsOpen: setReferencePanelIsOpen,
     _clearAllUndoHistory: clearAllUndoHistory,
     _applyTilesetEditorSelection: applyTilesetEditorSelection,
+    _checkLoginStatus: checkLoginStatus,
   }, dispatch );
 }
 
-export default connect( null, mapDispatchToProps )( App );
+export default connect( mapStateToProps, mapDispatchToProps )( App );

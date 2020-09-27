@@ -43,7 +43,11 @@ class TilePixelEditor extends React.Component {
   }
 
   handleKeyDown( event ) {
-    const { _undoTilesets, _redoTilesets } = this.props;
+    const { _undoTilesets, _redoTilesets, anyModalIsOpen } = this.props;
+
+    if ( anyModalIsOpen ) {
+      return;
+    }
 
     if ( event.which === 90 && event.ctrlKey ) { // z
       if ( event.shiftKey ) {
@@ -248,6 +252,7 @@ TilePixelEditor.propTypes = {
   _createTilesetEditorSelection: PropTypes.func.isRequired,
   _applyTilesetEditorSelection: PropTypes.func.isRequired,
   _repositionTilesetEditorSelection: PropTypes.func.isRequired,
+  anyModalIsOpen: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -264,6 +269,7 @@ function mapStateToProps( state ) {
     colorPickerIsOpen: state.layout.colorPickerIsOpen,
     selectedTool: state.pixelTools.selectedTool,
     editorSelection: state.tileset.present.editorSelection,
+    anyModalIsOpen: state.layout.modalCount > 0,
   };
 }
 

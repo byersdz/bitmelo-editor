@@ -1,0 +1,86 @@
+
+.account-modal-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background-color: rgba( 0, 0, 0, 0.75 );
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #111;
+
+  .account-modal-content-container {
+    background-color: #eee;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+
+      .title {
+        font-size: 20px;
+        font-weight: bold;
+        flex-grow: 1;
+      }
+
+      .close-btn, .back-btn {
+        padding: 8px;
+        border-radius: 50%;
+
+        .isvg {
+          width: 24px;
+          height: 24px;
+
+          svg {
+            fill: #000;
+            stroke: #000;
+            width: 24px;
+            height: 24px;
+          }
+        }
+      }
+
+      .back-btn {
+        padding: 4px;
+        margin-right: 8px;
+
+        .isvg {
+          width: 32px;
+          height: 32px;
+
+          svg {
+            width: 32px;
+            height: 32px;
+          }
+        }
+      }
+
+      .close-btn:hover, .back-btn:hover {
+        background-color: #aaa;
+      }
+
+      .close-btn:disabled, .back-btn:disabled {
+        svg {
+          fill: #888;
+          stroke: #888;
+        }
+      }
+    }
+
+    .modal-content {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+}
+
+

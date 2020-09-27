@@ -17,6 +17,7 @@ import { applyPencilToData } from '../../utils/PixelTools/pencil';
 import { applyTileDrawToData } from '../../utils/PixelTools/tileDraw';
 import { applyBucketToData } from '../../utils/PixelTools/bucket';
 import { combineGrids } from '../../utils/gridHelpers';
+import { DESELECT_SELECTION, eventMatchesHotkey } from '../../utils/hotkeys';
 
 import MainCanvas from './MainCanvas/MainCanvas';
 import OverlayCanvas from './OverlayCanvas/OverlayCanvas';
@@ -164,7 +165,20 @@ class PixelEditor extends React.Component {
   }
 
   handleKeyDown( event ) {
-    const { onDeselect } = this.props;
+    const { onDeselect, anyModalIsOpen } = this.props;
+
+    if ( eventMatchesHotkey( event, DESELECT_SELECTION ) ) {
+      // still prevent the default as that will create a bookmark
+      event.preventDefault();
+
+      if ( !anyModalIsOpen ) {
+        onDeselect();
+      }
+    }
+
+    if ( anyModalIsOpen ) {
+      return;
+    }
 
     if ( event.which === 32 ) { // space
       this.setState( { spaceIsDown: true } );
@@ -174,20 +188,16 @@ class PixelEditor extends React.Component {
       this.setState( { altIsDown: true } );
       event.preventDefault();
     }
-    else if ( event.which === 68 ) { // d
-      event.preventDefault();
-      onDeselect();
-    }
   }
 
   handleKeyUp( event ) {
     if ( event.which === 32 ) {
       this.setState( { spaceIsDown: false } );
-      event.preventDefault();
+      // event.preventDefault();
     }
     else if ( event.which === 18 ) {
       this.setState( { altIsDown: false } );
-      event.preventDefault();
+      // event.preventDefault();
     }
   }
 
@@ -1133,6 +1143,7 @@ PixelEditor.propTypes = {
   onDeselect: PropTypes.func.isRequired,
   onCreateEditorSelection: PropTypes.func.isRequired,
   onRepositionEditorSelection: PropTypes.func.isRequired,
+  anyModalIsOpen: PropTypes.bool.isRequired,
 };
 
 PixelEditor.defaultProps = {
@@ -1156,6 +1167,7 @@ function mapStateToProps( state ) {
     selectedTool: state.pixelTools.selectedTool,
     selectedTileTool: state.pixelTools.selectedTileTool,
     pixelToolSettings: state.pixelTools.pixelToolSettings,
+    anyModalIsOpen: state.layout.modalCount > 0,
   };
 }
 

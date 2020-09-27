@@ -33,7 +33,23 @@ class PixelToolSettings extends React.Component {
   }
 
   handleKeyDown( event ) {
-    const { _setPixelToolSettings, pixelToolSettings, selectedTool } = this.props;
+    const {
+      _setPixelToolSettings,
+      pixelToolSettings,
+      selectedTool,
+      anyModalIsOpen,
+    } = this.props;
+
+    if ( eventMatchesHotkey( event, SELECT_ALL ) ) {
+      if ( !anyModalIsOpen ) {
+        this.handleSelectAll();
+      }
+      event.preventDefault();
+    }
+
+    if ( anyModalIsOpen ) {
+      return;
+    }
 
     let newPencilSize = -1;
     let newEraserSize = -1;
@@ -60,11 +76,6 @@ class PixelToolSettings extends React.Component {
     }
     else if ( newEraserSize > 0 && newEraserSize <= 32 ) {
       _setPixelToolSettings( { ...pixelToolSettings, eraserSize: newEraserSize } );
-    }
-
-    if ( eventMatchesHotkey( event, SELECT_ALL ) ) {
-      this.handleSelectAll();
-      event.preventDefault();
     }
   }
 
@@ -207,6 +218,7 @@ PixelToolSettings.propTypes = {
   tileSize: PropTypes.number.isRequired,
   _flipTilesetEditorSelection: PropTypes.func.isRequired,
   _selectAllTileset: PropTypes.func.isRequired,
+  anyModalIsOpen: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -215,6 +227,7 @@ function mapStateToProps( state ) {
     pixelToolSettings: state.pixelTools.pixelToolSettings,
     tilesetState: state.tileset.present,
     tileSize: state.project.tileSize,
+    anyModalIsOpen: state.layout.modalCount > 0,
   };
 }
 

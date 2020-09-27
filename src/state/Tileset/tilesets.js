@@ -1,4 +1,6 @@
 import cloneDeep from 'lodash.clonedeep';
+import get from 'lodash.get';
+import merge from 'lodash.merge';
 import { ConvertData } from 'bitmelo';
 
 import { CHANGE_TILE_SIZE } from '../Project/tileSize';
@@ -149,7 +151,20 @@ export default function reducer( state = initialState, action ) {
     }
     case IMPORT_PROJECT_DATA: {
       try {
-        const importedState = action.payload.tileset.tilesets;
+        const format = get( action, 'payload.format', '' );
+
+        let importedState = null;
+        if ( format === 'transfer' ) {
+          importedState = [...action.payload.tilesets];
+
+          for ( let i = 0; i < importedState.length; i += 1 ) {
+            importedState[i] = merge( {}, initialState[0], importedState[i] );
+          }
+        }
+        else {
+          importedState = [...action.payload.tileset.tilesets];
+        }
+
         if ( validate( importedState ) ) {
           return modifyImportedState( importedState );
         }

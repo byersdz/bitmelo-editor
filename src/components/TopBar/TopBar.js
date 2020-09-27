@@ -7,7 +7,13 @@ import Button from '../Button/Button';
 import './TopBar.scss';
 
 const TopBar = ( props ) => {
-  const { title, showBackButton, onBackClick } = props;
+  const {
+    title,
+    showBackButton,
+    onBackClick,
+    rightItems,
+    className,
+  } = props;
 
   const backButtonRender = showBackButton ? (
     <Button
@@ -19,12 +25,20 @@ const TopBar = ( props ) => {
     />
   ) : null;
 
+  const rightItemsRender = rightItems ? (
+    <div className="right-items">
+      { rightItems }
+    </div>
+  ) : null;
+
+  const customClass = `top-bar ${ className }`;
   return (
-    <div className="top-bar">
+    <div className={ customClass }>
       { backButtonRender }
       <span className="title">
         { title }
       </span>
+      { rightItemsRender }
     </div>
   );
 };
@@ -33,11 +47,15 @@ TopBar.propTypes = {
   title: PropTypes.string.isRequired,
   showBackButton: PropTypes.bool,
   onBackClick: PropTypes.func,
+  rightItems: PropTypes.node,
+  className: PropTypes.string,
 };
 
 TopBar.defaultProps = {
   showBackButton: false,
   onBackClick: null,
+  rightItems: null,
+  className: '',
 };
 
 export default TopBar;

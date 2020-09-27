@@ -1,5 +1,7 @@
 
 import cloneDeep from 'lodash.clonedeep';
+import get from 'lodash.get';
+import merge from 'lodash.merge';
 import { ConvertData } from 'bitmelo';
 
 import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
@@ -73,6 +75,7 @@ export function validate( state ) {
 function modifyImportedState( state ) {
   const newState = cloneDeep( state );
 
+  // convert any compressed data into flat arrays
   for ( let i = 0; i < newState.length; i += 1 ) {
     const currentTilemap = newState[i];
 
@@ -117,7 +120,20 @@ export default function reducer( state = initialState, action ) {
     }
     case IMPORT_PROJECT_DATA: {
       try {
-        const importedState = action.payload.tilemap.tilemaps;
+        const format = get( action, 'payload.format', '' );
+
+        let importedState = null;
+        if ( format === 'transfer' ) {
+          importedState = [...action.payload.tilemaps];
+
+          for ( let i = 0; i < importedState.length; i += 1 ) {
+            importedState[i] = merge( {}, initialState[0], importedState[i] );
+          }
+        }
+        else {
+          importedState = [...action.payload.tilemap.tilemaps];
+        }
+
         if ( validate( importedState ) ) {
           return modifyImportedState( importedState );
         }

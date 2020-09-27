@@ -1,0 +1,27 @@
+{
+  "versions": [
+    {
+      "version": "2.0.0",
+      "changes": [
+        "Added cloud saves",
+        "You can now publish games on bitmelo.com",
+        "max number of sounds is now 128",
+        "Added projects view for cloud projects"
+      ]
+    },
+    {
+      "version": "1.3.0",
+      "changes": [
+        "You can now create up to 8 tilesets",
+        "Added Select All, Flip Vertical, and Flip Horizontal buttons to the Tile Editor",
+        "Max screen dimension is now 640px",
+        "You can now rotate tiles in 90 degree increments in the engine",
+        "You can now add a color from the color picker",
+        "Fixed bug that caused Eraser to not work in the Tilemap Editor depending on the Tile tool selected",
+        "Tile and Tilemap data is now compressed",
+        "Fixed bug where selections were not being shown correctly in the tile selector",
+        "Fixed bug where tiles in tall tilemaps were not able to be drawn"
+      ]
+    }
+  ]
+}

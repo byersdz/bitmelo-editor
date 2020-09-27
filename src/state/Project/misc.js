@@ -1,4 +1,6 @@
 
+import merge from 'lodash.merge';
+
 import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 
 // Actions
@@ -33,6 +35,10 @@ const initialState = {
   useNegativeMotivation: false,
 };
 
+export function mergeState( state, newState ) {
+  return merge( initialState, state, newState );
+}
+
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
     case RESET_PROJECT: {
@@ -40,9 +46,9 @@ export default function reducer( state = initialState, action ) {
     }
     case IMPORT_PROJECT_DATA: {
       try {
-        const importedState = action.payload.project.misc;
+        const importedState = { ...action.payload.project.misc };
         if ( validate( importedState ) ) {
-          return { ...importedState };
+          return mergeState( state, importedState );
         }
         return state;
       }
