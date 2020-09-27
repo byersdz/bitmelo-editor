@@ -1,6 +1,6 @@
 import React from 'react';
 
-import logData from '../../../changelog.json';
+import logData from '../../../recentChanges.json';
 
 import './Changelog.scss';
 
