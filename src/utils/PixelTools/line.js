@@ -106,3 +106,7 @@ export function getLinePositions( x1, y1, x2, y2 ) {
     }
   }
 }
+
+export function applyLineToData() {
+
+}
