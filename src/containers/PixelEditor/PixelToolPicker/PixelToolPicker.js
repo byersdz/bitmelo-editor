@@ -216,7 +216,7 @@ class PixelToolPicker extends React.Component {
       { key: BUCKET_TOOL, title: 'Paint Bucket', icon: 'bucket' },
       { key: MOVE_TOOL, title: 'Move', icon: 'move' },
       { key: RECT_SELECT_TOOL, title: 'Rect Select', icon: 'rect-select' },
-      { key: LINE_TOOL, title: 'Line', icon: 'rect-select' },
+      { key: LINE_TOOL, title: 'Line', icon: 'line' },
     ];
 
     const showGridClass = tileLayoutSettings.showGrid ? 'active' : '';
