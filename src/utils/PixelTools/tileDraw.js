@@ -1,6 +1,6 @@
 
 import { getLinePositions } from './line';
-import { drawPixelToBuffer } from './pencil';
+import { drawPixelToBuffer } from './pixel';
 
 export function drawTileDataToBuffer( x, y, width, height, buffer, selectionData, selectionWidth, selectionHeight ) {
   const offsetX = Math.floor( ( selectionWidth - 1 ) * 0.5 );

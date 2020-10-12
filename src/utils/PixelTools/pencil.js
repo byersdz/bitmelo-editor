@@ -1,12 +1,6 @@
 
 import { getLinePositions } from './line';
-
-export function drawPixelToBuffer( x, y, width, height, paletteId, buffer ) {
-  if ( x < 0 || x >= width || y < 0 || y >= height ) {
-    return;
-  }
-  buffer[width * y + x] = paletteId; // eslint-disable-line
-}
+import { drawPixelToBuffer } from './pixel';
 
 export function applyPencilToData( editingData ) {
   const {
@@ -52,7 +46,7 @@ export function applyPencilToData( editingData ) {
               newData.editorSelection.width,
               newData.editorSelection.height,
               paletteId,
-              newData.editorSelection.data,
+              newData.editorSelectionBuffer,
             );
           }
         }

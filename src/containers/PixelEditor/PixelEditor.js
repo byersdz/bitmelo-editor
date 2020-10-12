@@ -20,6 +20,7 @@ import { eraserToolStart, eraserToolMove } from './Tools/eraserTool';
 import { tileDrawToolStart, tileDrawToolMove } from './Tools/tileDrawTool';
 import { tileEraserToolStart, tileEraserToolMove } from './Tools/tileEraserTool';
 import { moveToolStart, moveToolMove } from './Tools/moveTool';
+import { lineToolStart, lineToolMove } from './Tools/lineTool';
 
 import { combineGrids } from '../../utils/gridHelpers';
 import { DESELECT_SELECTION, eventMatchesHotkey } from '../../utils/hotkeys';
@@ -322,6 +323,8 @@ class PixelEditor extends React.Component {
 
       if ( editingData.editorSelection && editingData.editorSelection.isActive ) {
         editingData.originalEditorSelection = cloneDeep( editorSelection );
+        editingData.editorSelectionBuffer = new Array( editorSelection.width * editorSelection.height );
+        editingData.editorSelectionBuffer.fill( -1 );
       }
 
       if ( editingTool === TILE_ERASE_TOOL ) {
@@ -370,7 +373,7 @@ class PixelEditor extends React.Component {
           break;
         }
         case LINE_TOOL: {
-          console.log( editingData );
+          editingData = lineToolStart( editingData, pixelToolSettings );
           break;
         }
         default: break;
@@ -514,6 +517,10 @@ class PixelEditor extends React.Component {
         }
         case MOVE_TOOL: {
           newEditingData = moveToolMove( editingData );
+          break;
+        }
+        case LINE_TOOL: {
+          newEditingData = lineToolMove( editingData );
           break;
         }
 
@@ -781,9 +788,15 @@ class PixelEditor extends React.Component {
       || editingTool === ERASER_TOOL
       || editingTool === TILE_DRAW_TOOL
       || editingTool === TILE_ERASE_TOOL
+      || editingTool === LINE_TOOL
     ) {
       if ( editingData.editorSelection && editingData.editorSelection.isActive ) {
-        // use the editor selection
+        // add the buffer to the editor selection
+        for ( let i = 0; i < editingData.editorSelection.data.length; i += 1 ) {
+          if ( editingData.editorSelectionBuffer[i] >= 0 ) {
+            editingData.editorSelection.data[i] = editingData.editorSelectionBuffer[i];
+          }
+        }
         onEditorSelectionChange( cloneDeep( editingData.editorSelection ) );
       }
       else {
@@ -976,11 +989,32 @@ class PixelEditor extends React.Component {
         || editingTool === ERASER_TOOL
         || editingTool === TILE_DRAW_TOOL
         || editingTool === TILE_ERASE_TOOL
+        || editingTool === LINE_TOOL
       ) {
-        for ( let i = 0; i < mainData.length; i += 1 ) {
-          const editingDataPoint = editingData.buffer[i];
-          if ( editingDataPoint >= 0 ) {
-            mainData[i] = editingDataPoint;
+        // add editing data to the main data
+        if ( editorSelectionCopy && editorSelectionCopy.isActive ) {
+          mainData = combineGrids(
+            {
+              data: editingData.editorSelectionBuffer,
+              width: editorSelectionCopy.width,
+              height: editorSelectionCopy.height,
+              offsetX: editorSelectionCopy.offsetX,
+              offsetY: editorSelectionCopy.offsetY,
+            },
+            {
+              data: mainData,
+              width: dataWidth,
+              height: dataHeight,
+            },
+            true,
+          );
+        }
+        else {
+          for ( let i = 0; i < mainData.length; i += 1 ) {
+            const editingDataPoint = editingData.buffer[i];
+            if ( editingDataPoint >= 0 ) {
+              mainData[i] = editingDataPoint;
+            }
           }
         }
       }
