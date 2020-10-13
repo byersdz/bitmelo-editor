@@ -57,6 +57,9 @@ class PixelToolPicker extends React.Component {
     else if ( event.which === 71 ) { // g
       this.handleSelectedToolChange( BUCKET_TOOL );
     }
+    else if ( event.which === 76 ) { // l
+      this.handleSelectedToolChange( LINE_TOOL );
+    }
     else if ( event.which === 86 ) { // v
       if ( event.ctrlKey ) {
         this.handlePaste();
