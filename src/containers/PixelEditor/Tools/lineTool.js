@@ -2,7 +2,7 @@
 import { applyLineToData } from '../../../utils/PixelTools/line';
 
 export const lineToolStart = ( editingData, pixelToolSettings ) => {
-  editingData.toolSize = pixelToolSettings.pencilSize;
+  editingData.toolSize = pixelToolSettings.lineSize;
   return applyLineToData( editingData );
 };
 

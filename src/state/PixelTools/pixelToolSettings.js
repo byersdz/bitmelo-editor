@@ -6,6 +6,7 @@ const SET_PIXEL_TOOL_SETTINGS = 'SET_PIXEL_TOOL_SETTINGS';
 const initialState = {
   pencilSize: 1,
   eraserSize: 1,
+  lineSize: 1,
 };
 
 export default function reducer( state = initialState, action ) {

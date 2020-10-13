@@ -244,6 +244,8 @@ class PixelEditor extends React.Component {
       return;
     }
 
+    const pixelToolSettingsCopy = cloneDeep( pixelToolSettings );
+
     // left or right click
     if ( event.button === 0 || event.button === 2 ) {
       // if space is held down always start a pan
@@ -346,11 +348,11 @@ class PixelEditor extends React.Component {
       // start continuosly editing tools
       switch ( editingTool ) {
         case PENCIL_TOOL: {
-          editingData = pencilToolStart( editingData, pixelToolSettings );
+          editingData = pencilToolStart( editingData, pixelToolSettingsCopy );
           break;
         }
         case ERASER_TOOL: {
-          editingData = eraserToolStart( editingData, pixelToolSettings );
+          editingData = eraserToolStart( editingData, pixelToolSettingsCopy );
           break;
         }
         case TILE_DRAW_TOOL: {
@@ -373,7 +375,7 @@ class PixelEditor extends React.Component {
           break;
         }
         case LINE_TOOL: {
-          editingData = lineToolStart( editingData, pixelToolSettings );
+          editingData = lineToolStart( editingData, pixelToolSettingsCopy );
           break;
         }
         default: break;
@@ -1068,6 +1070,10 @@ class PixelEditor extends React.Component {
       }
       if ( selectedTool === RECT_SELECT_TOOL ) {
         showIndicator = false;
+      }
+      if ( selectedTool === LINE_TOOL ) {
+        indicatorWidth = pixelToolSettings.lineSize;
+        indicatorHeight = pixelToolSettings.lineSize;
       }
     }
 
