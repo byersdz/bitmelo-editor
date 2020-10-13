@@ -93,6 +93,7 @@ class PixelEditor extends React.Component {
       scrollAmount: 0,
       spaceIsDown: false,
       altIsDown: false,
+      shiftIsDown: false,
     };
 
     this.containerRef = React.createRef();
@@ -194,6 +195,10 @@ class PixelEditor extends React.Component {
       this.setState( { altIsDown: true } );
       event.preventDefault();
     }
+    else if ( event.which === 16 ) { // shift
+      this.setState( { shiftIsDown: true } );
+      event.preventDefault();
+    }
   }
 
   handleKeyUp( event ) {
@@ -204,6 +209,9 @@ class PixelEditor extends React.Component {
     else if ( event.which === 18 ) {
       this.setState( { altIsDown: false } );
       // event.preventDefault();
+    }
+    else if ( event.which === 16 ) {
+      this.setState( { shiftIsDown: false } );
     }
   }
 
@@ -217,6 +225,7 @@ class PixelEditor extends React.Component {
       scale,
       spaceIsDown,
       altIsDown,
+      shiftIsDown,
     } = this.state;
 
     const {
@@ -289,6 +298,7 @@ class PixelEditor extends React.Component {
 
       pixelY = dataHeight - pixelY - 1;
 
+      // alt modifiers
       // use eyedropper if alt is held down
       if ( altIsDown && onEyeDropper ) {
         if ( pixelX >= 0 && pixelX < dataWidth && pixelY >= 0 && pixelY < dataHeight ) {
@@ -301,6 +311,14 @@ class PixelEditor extends React.Component {
           }
         }
         return;
+      }
+
+      // shift modifiers
+      if ( shiftIsDown ) {
+        if ( editingTool === PENCIL_TOOL ) {
+          editingTool = LINE_TOOL;
+          pixelToolSettingsCopy.lineSize = pixelToolSettings.pencilSize;
+        }
       }
 
       // Create Editing Data
