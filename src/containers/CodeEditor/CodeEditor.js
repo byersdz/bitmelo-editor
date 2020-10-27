@@ -170,7 +170,7 @@ class CodeEditor extends React.Component {
             tabSize={ 2 }
             setOptions={ {
               enableLiveAutocompletion: true,
-              useSoftTabs: false,
+              useSoftTabs: true,
             } }
             focus
           />
