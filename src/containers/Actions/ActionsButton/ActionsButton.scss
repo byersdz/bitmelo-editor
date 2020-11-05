@@ -1,0 +1,21 @@
+
+@import '../../../style/colors.scss';
+
+.actions-button-container {
+  margin-left: 8px;
+  position: relative;
+  .actions-btn {
+    .isvg, svg {
+      fill: $on-primary-color;
+      stroke: $on-primary-color;
+    }
+  }
+
+  .actions-btn:hover {
+    background-color: $primary-light-color;
+  }
+
+  .drop-down-menu {
+    margin-top: 36px;
+  }
+}

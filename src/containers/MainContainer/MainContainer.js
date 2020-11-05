@@ -31,6 +31,8 @@ import LoginUserModal from '../User/LoginUserModal/LoginUserModal';
 import UserButton from '../User/UserButton/UserButton';
 import SaveProjectButton from '../User/SaveProjectButton/SaveProjectButton';
 
+import TileEditorActionsButton from '../Actions/TileEditor/TileEditorActionsButton/TileEditorActionsButton';
+
 import './MainContainer.scss';
 
 class MainContainer extends React.Component {
@@ -55,6 +57,8 @@ class MainContainer extends React.Component {
     let contentRender = null;
 
     let topBarTitle = 'Bitmelo';
+
+    let actionsButton = null;
 
     switch ( activeNavigationTab ) {
       case ABOUT_TAB: {
@@ -85,6 +89,7 @@ class MainContainer extends React.Component {
       case TILE_TAB:
         contentRender = <TileEditor />;
         topBarTitle = `${ projectName }: Tile Editor`;
+        actionsButton = <TileEditorActionsButton />;
         break;
       case TILEMAP_TAB:
         contentRender = <TilemapEditor />;
@@ -142,6 +147,7 @@ class MainContainer extends React.Component {
       <>
         { saveButtonRender }
         { userButtonsRender }
+        { actionsButton }
       </>
     );
 
