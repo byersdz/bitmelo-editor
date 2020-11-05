@@ -10,30 +10,32 @@ import enhanceWithClickOutside from 'react-click-outside';
 import './ActionsButton.scss';
 
 class ActionsButton extends React.Component {
-  constructor( props ) {
-    super( props );
-
-    this.state = {
-      dropDownIsOpen: false,
-    };
-  }
-
   handleClickOutside() {
-    const { dropDownIsOpen } = this.state;
+    const { dropDownIsOpen, onDropDownChange } = this.props;
     if ( dropDownIsOpen ) {
-      this.setState( { dropDownIsOpen: false } );
+      onDropDownChange( false );
     }
   }
 
+  closeDropdown() {
+    const { onDropDownChange } = this.props;
+    onDropDownChange( false );
+  }
+
   render() {
-    const { items, id } = this.props;
-    const { dropDownIsOpen } = this.state;
+    const {
+      items,
+      id,
+      onSelect,
+      dropDownIsOpen,
+      onDropDownChange,
+    } = this.props;
 
     const dropDownRender = dropDownIsOpen ? (
       <DropDownMenu
         items={ items }
-        onClose={ () => this.setState( { dropDownIsOpen: false } ) }
-        onSelect={ k => console.log( k ) }
+        onClose={ () => onDropDownChange( false ) }
+        onSelect={ onSelect }
         closeOnClickOutside
         ignoreClickOutsideId={ id }
       />
@@ -44,7 +46,7 @@ class ActionsButton extends React.Component {
         <Button
           title="Actions"
           icon="play"
-          click={ () => this.setState( { dropDownIsOpen: !dropDownIsOpen } ) }
+          click={ () => onDropDownChange( !dropDownIsOpen ) }
           hideTitle
           className="actions-btn"
           id="actions-btn"
@@ -58,6 +60,9 @@ class ActionsButton extends React.Component {
 ActionsButton.propTypes = {
   items: PropTypes.arrayOf( PropTypes.object ).isRequired,
   id: PropTypes.string.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  dropDownIsOpen: PropTypes.bool.isRequired,
+  onDropDownChange: PropTypes.func.isRequired,
 };
 
 export default enhanceWithClickOutside( ActionsButton );
