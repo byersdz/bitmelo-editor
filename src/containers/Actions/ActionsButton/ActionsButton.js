@@ -43,7 +43,7 @@ class ActionsButton extends React.Component {
       <div className="actions-button-container" id={ id }>
         <Button
           title="Actions"
-          icon="play"
+          icon="dots"
           click={ () => onDropDownChange( !dropDownIsOpen ) }
           hideTitle
           className="actions-btn"

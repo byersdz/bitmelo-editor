@@ -33,6 +33,7 @@ import PublishIcon from './SVG/publish-o.svg';
 import UserIcon from './SVG/user-o.svg';
 import TrashIcon from './SVG/trash-o.svg';
 import LineIcon from './SVG/line-o.svg';
+import DotsIcon from './SVG/dots-o.svg';
 
 import './Icon.scss';
 
@@ -220,6 +221,12 @@ const Icon = ( props ) => {
 
     case 'line': {
       svgFile = LineIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'dots': {
+      svgFile = DotsIcon;
       noStroke = true;
       break;
     }
