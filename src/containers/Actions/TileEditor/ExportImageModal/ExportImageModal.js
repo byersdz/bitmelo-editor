@@ -11,6 +11,8 @@ import TextInput from '../../../../components/TextInput/TextInput';
 import { getSelectedTileData } from '../../../../utils/tilesetHelpers';
 import { downloadDataImage } from '../../../../utils/download';
 
+import './ExportImageModal.scss';
+
 class ExportImageModal extends React.Component {
   constructor( props ) {
     super( props );
@@ -41,6 +43,7 @@ class ExportImageModal extends React.Component {
 
     return (
       <Modal
+        className="export-image-modal"
         title={ 'Export PNG' }
         showHeader
         onClose={ onClose }
