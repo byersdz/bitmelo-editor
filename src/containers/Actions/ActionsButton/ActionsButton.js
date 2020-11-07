@@ -36,8 +36,6 @@ class ActionsButton extends React.Component {
         items={ items }
         onClose={ () => onDropDownChange( false ) }
         onSelect={ onSelect }
-        closeOnClickOutside
-        ignoreClickOutsideId={ id }
       />
     ) : null;
 

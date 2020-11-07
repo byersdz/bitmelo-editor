@@ -10,6 +10,7 @@ const TextInput = props => {
     value,
     onValueChange,
     hideTitle,
+    vertical,
   } = props;
 
   const titleRender = !hideTitle ? (
@@ -18,8 +19,13 @@ const TextInput = props => {
     </div>
   ) : null;
 
+  let className = 'text-input';
+  if ( vertical ) {
+    className += ' vertical';
+  }
+
   return (
-    <div className="text-input">
+    <div className={ className }>
       { titleRender }
       <div className="controls">
         <input
@@ -37,10 +43,12 @@ TextInput.propTypes = {
   value: PropTypes.string.isRequired,
   onValueChange: PropTypes.func.isRequired,
   hideTitle: PropTypes.bool,
+  vertical: PropTypes.bool,
 };
 
 TextInput.defaultProps = {
   hideTitle: false,
+  vertical: false,
 };
 
 export default TextInput;

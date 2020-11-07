@@ -4,6 +4,7 @@ import cloneDeep from 'lodash.clonedeep';
 import storeRegistry from '../state/storeRegistry';
 import createHTMLGame from './Convert/createHTMLGame';
 import compressProjectState from './Convert/compressProjectState';
+import { drawPixelDataToCanvas } from './drawToCanvas';
 
 export const downloadJSON = ( jsonObject, fileName ) => {
   const jsonString = JSON.stringify( jsonObject );
@@ -45,6 +46,29 @@ export function downloadHTMLGame() {
   const anchorNode = document.createElement( 'a' );
   anchorNode.setAttribute( 'href', dataString );
   anchorNode.setAttribute( 'download', `${ projectName }.html` );
+  document.body.appendChild( anchorNode );
+  anchorNode.click();
+  anchorNode.remove();
+}
+
+export function downloadDataImage( settings ) {
+  const {
+    width,
+    height,
+    scale,
+    fileName,
+  } = settings;
+
+  const canvas = document.createElement( 'canvas' );
+  canvas.setAttribute( 'width', width * scale );
+  canvas.setAttribute( 'height', height * scale );
+  drawPixelDataToCanvas( settings, canvas );
+
+  const pngData = canvas.toDataURL();
+
+  const anchorNode = document.createElement( 'a' );
+  anchorNode.setAttribute( 'href', pngData );
+  anchorNode.setAttribute( 'download', `${ fileName }.png` );
   document.body.appendChild( anchorNode );
   anchorNode.click();
   anchorNode.remove();
