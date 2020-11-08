@@ -1,11 +1,13 @@
 
 import { RESET_PROJECT } from '../globalActions';
+import { TOGGLE_TILE_EDITOR_PANELS } from './tileEditor';
 
 // Actions
 export const TOGGLE_TILEMAP_SELECTOR = 'TOGGLE_TILEMAP_SELECTOR';
 export const TOGGLE_TILEMAP_TILE_SELECTOR = 'TOGGLE_TILEMAP_TILE_SELECTOR';
 export const SET_TILEMAP_CURSOR_POSITION = 'SET_TILEMAP_CURSOR_POSITION';
 export const SET_TILEMAP_EDITOR_LAYOUT_SETTINGS = 'SET_TILEMAP_EDITOR_LAYOUT_SETTINGS';
+export const TOGGLE_TILEMAP_EDITOR_PANELS = 'TOGGLE_TILEMAP_EDITOR_PANELS';
 
 // Reducer
 const initialState = {
@@ -41,6 +43,18 @@ export default function reducer( state = initialState, action ) {
       newState.tileSelectorIsOpen = !newState.tileSelectorIsOpen;
       return newState;
     }
+    case TOGGLE_TILE_EDITOR_PANELS: {
+      const newState = { ...state };
+      if ( newState.tilemapSelectorIsOpen || newState.tileSelectorIsOpen ) {
+        newState.tilemapSelectorIsOpen = false;
+        newState.tileSelectorIsOpen = false;
+      }
+      else {
+        newState.tilemapSelectorIsOpen = true;
+        newState.tileSelectorIsOpen = true;
+      }
+      return newState;
+    }
     default:
       return state;
   }
@@ -73,5 +87,11 @@ export function setTilemapEditorLayoutSettings( settings ) {
   return {
     type: SET_TILEMAP_EDITOR_LAYOUT_SETTINGS,
     payload: settings,
+  };
+}
+
+export function toggleTilemapEditorPanels() {
+  return {
+    type: TOGGLE_TILE_EDITOR_PANELS,
   };
 }
