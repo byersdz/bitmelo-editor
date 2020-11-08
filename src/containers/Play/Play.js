@@ -24,6 +24,10 @@ class Play extends React.Component {
     window.removeEventListener( 'message', this.handleMessage );
   }
 
+  shouldComponentUpdate() {
+    return false;
+  }
+
   handleMessage( event ) {
     if ( !event.data.type || !event.data.payload ) {
       return;
