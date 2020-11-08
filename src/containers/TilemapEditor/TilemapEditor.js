@@ -31,7 +31,11 @@ class TilemapEditor extends React.Component {
   }
 
   handleKeyDown( event ) {
-    const { _toggleTilemapEditorPanels } = this.props;
+    const { _toggleTilemapEditorPanels, anyModalIsOpen } = this.props;
+
+    if ( anyModalIsOpen ) {
+      return;
+    }
 
     if ( eventMatchesHotkey( event, TOGGLE_PANELS ) ) {
       _toggleTilemapEditorPanels();
@@ -54,7 +58,14 @@ class TilemapEditor extends React.Component {
 
 TilemapEditor.propTypes = {
   _toggleTilemapEditorPanels: PropTypes.func.isRequired,
+  anyModalIsOpen: PropTypes.bool.isRequired,
 };
+
+function mapStateToProps( state ) {
+  return {
+    anyModalIsOpen: state.layout.modalCount > 0,
+  };
+}
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
@@ -62,4 +73,4 @@ function mapDispatchToProps( dispatch ) {
   }, dispatch );
 }
 
-export default connect( null, mapDispatchToProps )( TilemapEditor );
+export default connect( mapStateToProps, mapDispatchToProps )( TilemapEditor );
