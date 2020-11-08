@@ -32,7 +32,6 @@ const initialState = {
   hideCursor: false,
   clickToBegin: true,
   startTransitionFrames: 60,
-  useNegativeMotivation: false,
 };
 
 export function mergeState( state, newState ) {
