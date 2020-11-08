@@ -10,8 +10,18 @@ import TilemapPixelEditor from './TilemapPixelEditor/TilemapPixelEditor';
 
 import TilemapStatusBar from './TilemapStatusBar/TilemapStatusBar';
 
-import { toggleTilemapEditorPanels } from '../../state/Layout/tilemapEditor';
-import { eventMatchesHotkey, TOGGLE_PANELS } from '../../utils/hotkeys';
+import {
+  toggleTilemapEditorPanels,
+  toggleTilemapSelector,
+  toggleTilemapTileSelector,
+} from '../../state/Layout/tilemapEditor';
+
+import {
+  eventMatchesHotkey,
+  TOGGLE_PANELS,
+  TOGGLE_PANEL_2,
+  TOGGLE_PANEL_4,
+} from '../../utils/hotkeys';
 
 import './TilemapEditor.scss';
 
@@ -31,7 +41,12 @@ class TilemapEditor extends React.Component {
   }
 
   handleKeyDown( event ) {
-    const { _toggleTilemapEditorPanels, anyModalIsOpen } = this.props;
+    const {
+      _toggleTilemapEditorPanels,
+      _toggleTilemapSelector,
+      _toggleTilemapTileSelector,
+      anyModalIsOpen,
+    } = this.props;
 
     if ( anyModalIsOpen ) {
       return;
@@ -39,6 +54,17 @@ class TilemapEditor extends React.Component {
 
     if ( eventMatchesHotkey( event, TOGGLE_PANELS ) ) {
       _toggleTilemapEditorPanels();
+      event.preventDefault();
+    }
+
+    if ( eventMatchesHotkey( event, TOGGLE_PANEL_2 ) ) {
+      _toggleTilemapSelector();
+      event.preventDefault();
+    }
+
+    if ( eventMatchesHotkey( event, TOGGLE_PANEL_4 ) ) {
+      _toggleTilemapTileSelector();
+      event.preventDefault();
     }
   }
 
@@ -58,6 +84,8 @@ class TilemapEditor extends React.Component {
 
 TilemapEditor.propTypes = {
   _toggleTilemapEditorPanels: PropTypes.func.isRequired,
+  _toggleTilemapSelector: PropTypes.func.isRequired,
+  _toggleTilemapTileSelector: PropTypes.func.isRequired,
   anyModalIsOpen: PropTypes.bool.isRequired,
 };
 
@@ -70,6 +98,8 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _toggleTilemapEditorPanels: toggleTilemapEditorPanels,
+    _toggleTilemapSelector: toggleTilemapSelector,
+    _toggleTilemapTileSelector: toggleTilemapTileSelector,
   }, dispatch );
 }
 

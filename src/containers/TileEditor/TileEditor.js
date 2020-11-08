@@ -10,9 +10,9 @@ import TilePixelEditor from './TilePixelEditor/TilePixelEditor';
 import PalettePicker from '../PalettePicker/PalettePicker';
 import TileStatusBar from './TileStatusBar/TileStatusBar';
 
-import { toggleTileEditorPanels } from '../../state/Layout/tileEditor';
+import { toggleTileEditorPanels, toggleTileEditorTileSelector } from '../../state/Layout/tileEditor';
 
-import { eventMatchesHotkey, TOGGLE_PANELS } from '../../utils/hotkeys';
+import { eventMatchesHotkey, TOGGLE_PANELS, TOGGLE_PANEL_4 } from '../../utils/hotkeys';
 
 import './TileEditor.scss';
 
@@ -32,7 +32,7 @@ class TileEditor extends React.Component {
   }
 
   handleKeyDown( event ) {
-    const { _toggleTileEditorPanels, anyModalIsOpen } = this.props;
+    const { _toggleTileEditorPanels, _toggleTileEditorTileSelector, anyModalIsOpen } = this.props;
 
     if ( anyModalIsOpen ) {
       return;
@@ -40,6 +40,12 @@ class TileEditor extends React.Component {
 
     if ( eventMatchesHotkey( event, TOGGLE_PANELS ) ) {
       _toggleTileEditorPanels();
+      event.preventDefault();
+    }
+
+    if ( eventMatchesHotkey( event, TOGGLE_PANEL_4 ) ) {
+      _toggleTileEditorTileSelector();
+      event.preventDefault();
     }
   }
 
@@ -60,6 +66,7 @@ class TileEditor extends React.Component {
 
 TileEditor.propTypes = {
   _toggleTileEditorPanels: PropTypes.func.isRequired,
+  _toggleTileEditorTileSelector: PropTypes.func.isRequired,
   anyModalIsOpen: PropTypes.bool.isRequired,
 };
 
@@ -72,6 +79,7 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _toggleTileEditorPanels: toggleTileEditorPanels,
+    _toggleTileEditorTileSelector: toggleTileEditorTileSelector,
   }, dispatch );
 }
 
