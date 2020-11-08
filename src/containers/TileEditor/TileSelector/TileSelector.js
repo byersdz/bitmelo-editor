@@ -8,7 +8,7 @@ import ToggleHeader from '../../../components/ToggleHeader/ToggleHeader';
 import Button from '../../../components/Button/Button';
 import NumberPicker from '../../../components/NumberPicker/NumberPicker';
 
-import { toggleTileSelector } from '../../../state/Layout/tileSelectorIsOpen';
+import { toggleTileEditorTileSelector } from '../../../state/Layout/tileEditor';
 import { toggleTilemapTileSelector } from '../../../state/Layout/tilemapEditor';
 
 import { setTilesetSelection, setTilesetMapSelection } from '../../../state/Tileset/tilesets';
@@ -210,7 +210,7 @@ function mapStateToProps( state ) {
   const numberOfTilesets = state.tileset.present.tilesets.length;
 
   return {
-    isOpen: state.layout.tileSelectorIsOpen,
+    isOpen: state.layout.tileEditor.tileSelectorIsOpen,
     isOpenTilemap: state.layout.tilemapEditor.tileSelectorIsOpen,
     palette: state.palette.colors,
     activeIndex,
@@ -223,7 +223,7 @@ function mapStateToProps( state ) {
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
-    _toggleTileSelector: toggleTileSelector,
+    _toggleTileSelector: toggleTileEditorTileSelector,
     _setTilesetSelection: setTilesetSelection,
     _setTilesetMapSelection: setTilesetMapSelection,
     _toggleTilemapTileSelector: toggleTilemapTileSelector,
