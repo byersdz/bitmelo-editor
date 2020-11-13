@@ -10,12 +10,18 @@ import {
   BUCKET_TOOL,
   MOVE_TOOL,
   RECT_SELECT_TOOL,
+  LINE_TOOL,
 } from '../../state/PixelTools/selectedTool';
 import { TILE_DRAW_TOOL, TILE_ERASE_TOOL } from '../../state/PixelTools/selectedTileTool';
 
-import { applyPencilToData } from '../../utils/PixelTools/pencil';
-import { applyTileDrawToData } from '../../utils/PixelTools/tileDraw';
-import { applyBucketToData } from '../../utils/PixelTools/bucket';
+import { bucketToolStart } from './Tools/bucketTool';
+import { pencilToolStart, pencilToolMove } from './Tools/pencilTool';
+import { eraserToolStart, eraserToolMove } from './Tools/eraserTool';
+import { tileDrawToolStart, tileDrawToolMove } from './Tools/tileDrawTool';
+import { tileEraserToolStart, tileEraserToolMove } from './Tools/tileEraserTool';
+import { moveToolStart, moveToolMove } from './Tools/moveTool';
+import { lineToolStart, lineToolMove } from './Tools/lineTool';
+
 import { combineGrids } from '../../utils/gridHelpers';
 import { DESELECT_SELECTION, eventMatchesHotkey } from '../../utils/hotkeys';
 
@@ -87,6 +93,7 @@ class PixelEditor extends React.Component {
       scrollAmount: 0,
       spaceIsDown: false,
       altIsDown: false,
+      shiftIsDown: false,
     };
 
     this.containerRef = React.createRef();
@@ -188,6 +195,10 @@ class PixelEditor extends React.Component {
       this.setState( { altIsDown: true } );
       event.preventDefault();
     }
+    else if ( event.which === 16 ) { // shift
+      this.setState( { shiftIsDown: true } );
+      event.preventDefault();
+    }
   }
 
   handleKeyUp( event ) {
@@ -198,6 +209,9 @@ class PixelEditor extends React.Component {
     else if ( event.which === 18 ) {
       this.setState( { altIsDown: false } );
       // event.preventDefault();
+    }
+    else if ( event.which === 16 ) {
+      this.setState( { shiftIsDown: false } );
     }
   }
 
@@ -211,6 +225,7 @@ class PixelEditor extends React.Component {
       scale,
       spaceIsDown,
       altIsDown,
+      shiftIsDown,
     } = this.state;
 
     const {
@@ -238,9 +253,11 @@ class PixelEditor extends React.Component {
       return;
     }
 
-    if ( event.button === 0 || event.button === 2 ) {
-      // left or right click
+    const pixelToolSettingsCopy = cloneDeep( pixelToolSettings );
 
+    // left or right click
+    if ( event.button === 0 || event.button === 2 ) {
+      // if space is held down always start a pan
       if ( spaceIsDown ) {
         this.startPan( event.nativeEvent.offsetX, event.nativeEvent.offsetY );
         return;
@@ -253,8 +270,8 @@ class PixelEditor extends React.Component {
         editingTool = selectedTileTool;
       }
 
+      // use alternate tools for right click
       if ( event.button === 2 ) {
-        // use alternate tools for right click
         if ( !isTileEditor ) {
           if ( selectedTool === PENCIL_TOOL || selectedTool === BUCKET_TOOL ) {
             paletteIndex = altPaletteIndex;
@@ -281,6 +298,7 @@ class PixelEditor extends React.Component {
 
       pixelY = dataHeight - pixelY - 1;
 
+      // alt modifiers
       // use eyedropper if alt is held down
       if ( altIsDown && onEyeDropper ) {
         if ( pixelX >= 0 && pixelX < dataWidth && pixelY >= 0 && pixelY < dataHeight ) {
@@ -293,6 +311,14 @@ class PixelEditor extends React.Component {
           }
         }
         return;
+      }
+
+      // shift modifiers
+      if ( shiftIsDown ) {
+        if ( editingTool === PENCIL_TOOL ) {
+          editingTool = LINE_TOOL;
+          pixelToolSettingsCopy.lineSize = pixelToolSettings.pencilSize;
+        }
       }
 
       // Create Editing Data
@@ -308,106 +334,69 @@ class PixelEditor extends React.Component {
 
       editingData.editorSelection = cloneDeep( editorSelection );
 
-      if ( editingTool === ERASER_TOOL || editingTool === TILE_ERASE_TOOL ) {
+      editingData.buffer = new Array( dataWidth * dataHeight );
+      editingData.buffer.fill( -1 );
+
+      editingData.originalData = cloneDeep( data );
+      editingData.dataWidth = dataWidth;
+      editingData.dataHeight = dataHeight;
+
+      if ( editingData.editorSelection && editingData.editorSelection.isActive ) {
+        editingData.originalEditorSelection = cloneDeep( editorSelection );
+        editingData.editorSelectionBuffer = new Array( editorSelection.width * editorSelection.height );
+        editingData.editorSelectionBuffer.fill( -1 );
+      }
+
+      if ( editingTool === TILE_ERASE_TOOL ) {
         editingData.paletteId = 0;
       }
       else {
         editingData.paletteId = paletteIndex;
       }
 
-      // apply bucket
-      if ( !isTileEditor && editingTool === BUCKET_TOOL ) {
-        if ( editorSelection && editorSelection.isActive ) {
-          // apply the bucket to the editorSelection
-          editingData.currentX -= editorSelection.offsetX;
-          editingData.currentY -= editorSelection.offsetY;
-
-          const newEditorSelection = cloneDeep( editorSelection );
-          const newData = applyBucketToData(
-            newEditorSelection.data,
-            newEditorSelection.width,
-            newEditorSelection.height,
-            editingData,
-          );
-          if ( newData ) {
-            newEditorSelection.data = newData;
-            onEditorSelectionChange( newEditorSelection );
-          }
+      // apply immediately completing tools
+      switch ( editingTool ) {
+        case BUCKET_TOOL: {
+          bucketToolStart( editingData, onEditorSelectionChange, onDataChange );
+          return;
         }
-        else {
-          const newData = applyBucketToData( data, dataWidth, dataHeight, editingData );
-          if ( newData ) {
-            onDataChange( newData );
-          }
+        default: break;
+      }
+
+      // start continuosly editing tools
+      switch ( editingTool ) {
+        case PENCIL_TOOL: {
+          editingData = pencilToolStart( editingData, pixelToolSettingsCopy );
+          break;
         }
-        return;
-      }
-
-      // apply tool settings
-      if ( editingTool === PENCIL_TOOL ) {
-        editingData.toolSize = pixelToolSettings.pencilSize;
-      }
-
-      if ( editingTool === ERASER_TOOL ) {
-        editingData.toolSize = pixelToolSettings.eraserSize;
-      }
-
-      if ( editingTool === TILE_ERASE_TOOL ) {
-        editingData.toolSize = 1;
-      }
-
-      if ( editingTool === TILE_DRAW_TOOL ) {
-        const selectionDataCopy = [...selectionData];
-        if ( event.button === 2 ) {
-          // erase if right click
-          selectionDataCopy.fill( 0 );
+        case ERASER_TOOL: {
+          editingData = eraserToolStart( editingData, pixelToolSettingsCopy );
+          break;
         }
-        editingData.selectionData = selectionDataCopy;
-        editingData.selectionWidth = selectionWidth;
-        editingData.selectionHeight = selectionHeight;
-      }
-
-      if ( editingTool === MOVE_TOOL ) {
-        let newEditorSelection = null;
-        if ( editorSelection && editorSelection.isActive ) {
-          // use existing selection
-          newEditorSelection = cloneDeep( editorSelection );
-        }
-        else {
-          // make a new selection of the entire area
-          const dataCopy = cloneDeep( data );
-          newEditorSelection = {
-            width: dataWidth,
-            height: dataHeight,
-            offsetX: 0,
-            offsetY: 0,
-            data: dataCopy,
-            isActive: true,
+        case TILE_DRAW_TOOL: {
+          const tileDrawOptions = {
+            selectionData,
+            selectionWidth,
+            selectionHeight,
+            button: event.button,
           };
-          onCreateEditorSelection( newEditorSelection );
+
+          editingData = tileDrawToolStart( editingData, tileDrawOptions );
+          break;
         }
-
-        editingData.startSelectionXOffset = newEditorSelection.offsetX;
-        editingData.startSelectionYOffset = newEditorSelection.offsetY;
-        editingData.currentSelectionXOffset = newEditorSelection.offsetX;
-        editingData.currentSelectionYOffset = newEditorSelection.offsetY;
-      }
-
-      editingData.buffer = new Array( dataWidth * dataHeight );
-      editingData.buffer.fill( -1 );
-
-      // Perform initial drawing for drawing tools
-      if (
-        editingTool === PENCIL_TOOL
-        || editingTool === ERASER_TOOL
-        || editingTool === TILE_ERASE_TOOL
-      ) {
-        editingData = applyPencilToData( data, dataWidth, dataHeight, editingData );
-      }
-      else if (
-        editingTool === TILE_DRAW_TOOL
-      ) {
-        editingData = applyTileDrawToData( data, dataWidth, dataHeight, editingData );
+        case TILE_ERASE_TOOL: {
+          editingData = tileEraserToolStart( editingData );
+          break;
+        }
+        case MOVE_TOOL: {
+          editingData = moveToolStart( editingData, onCreateEditorSelection );
+          break;
+        }
+        case LINE_TOOL: {
+          editingData = lineToolStart( editingData, pixelToolSettingsCopy );
+          break;
+        }
+        default: break;
       }
 
       this.setState( {
@@ -483,8 +472,6 @@ class PixelEditor extends React.Component {
     } = this.state;
 
     const {
-      data,
-      dataWidth,
       dataHeight,
       isTileEditor,
       tileSize,
@@ -529,24 +516,38 @@ class PixelEditor extends React.Component {
       editingData.currentX = pixelX;
       editingData.currentY = pixelY;
 
-      if (
-        editingTool === PENCIL_TOOL
-        || editingTool === ERASER_TOOL
-        || editingTool === TILE_ERASE_TOOL
-      ) {
-        const newData = applyPencilToData( data, dataWidth, dataHeight, editingData );
-        this.setState( { editingData: newData } );
+      let newEditingData = editingData;
+
+      switch ( editingTool ) {
+        case PENCIL_TOOL: {
+          newEditingData = pencilToolMove( editingData );
+          break;
+        }
+        case ERASER_TOOL: {
+          newEditingData = eraserToolMove( editingData );
+          break;
+        }
+        case TILE_DRAW_TOOL: {
+          newEditingData = tileDrawToolMove( editingData );
+          break;
+        }
+        case TILE_ERASE_TOOL: {
+          newEditingData = tileEraserToolMove( editingData );
+          break;
+        }
+        case MOVE_TOOL: {
+          newEditingData = moveToolMove( editingData );
+          break;
+        }
+        case LINE_TOOL: {
+          newEditingData = lineToolMove( editingData );
+          break;
+        }
+
+        default: break;
       }
-      else if ( editingTool === TILE_DRAW_TOOL ) {
-        const newData = applyTileDrawToData( data, dataWidth, dataHeight, editingData );
-        this.setState( { editingData: newData } );
-      }
-      else if ( editingTool === MOVE_TOOL ) {
-        const newData = cloneDeep( editingData );
-        newData.currentSelectionXOffset = newData.startSelectionXOffset + ( newData.currentX - newData.startX );
-        newData.currentSelectionYOffset = newData.startSelectionYOffset + ( newData.currentY - newData.startY );
-        this.setState( { editingData: newData } );
-      }
+
+      this.setState( { editingData: newEditingData } );
     }
   }
 
@@ -807,9 +808,15 @@ class PixelEditor extends React.Component {
       || editingTool === ERASER_TOOL
       || editingTool === TILE_DRAW_TOOL
       || editingTool === TILE_ERASE_TOOL
+      || editingTool === LINE_TOOL
     ) {
       if ( editingData.editorSelection && editingData.editorSelection.isActive ) {
-        // use the editor selection
+        // add the buffer to the editor selection
+        for ( let i = 0; i < editingData.editorSelection.data.length; i += 1 ) {
+          if ( editingData.editorSelectionBuffer[i] >= 0 ) {
+            editingData.editorSelection.data[i] = editingData.editorSelectionBuffer[i];
+          }
+        }
         onEditorSelectionChange( cloneDeep( editingData.editorSelection ) );
       }
       else {
@@ -1002,11 +1009,32 @@ class PixelEditor extends React.Component {
         || editingTool === ERASER_TOOL
         || editingTool === TILE_DRAW_TOOL
         || editingTool === TILE_ERASE_TOOL
+        || editingTool === LINE_TOOL
       ) {
-        for ( let i = 0; i < mainData.length; i += 1 ) {
-          const editingDataPoint = editingData.buffer[i];
-          if ( editingDataPoint >= 0 ) {
-            mainData[i] = editingDataPoint;
+        // add editing data to the main data
+        if ( editorSelectionCopy && editorSelectionCopy.isActive ) {
+          mainData = combineGrids(
+            {
+              data: editingData.editorSelectionBuffer,
+              width: editorSelectionCopy.width,
+              height: editorSelectionCopy.height,
+              offsetX: editorSelectionCopy.offsetX,
+              offsetY: editorSelectionCopy.offsetY,
+            },
+            {
+              data: mainData,
+              width: dataWidth,
+              height: dataHeight,
+            },
+            true,
+          );
+        }
+        else {
+          for ( let i = 0; i < mainData.length; i += 1 ) {
+            const editingDataPoint = editingData.buffer[i];
+            if ( editingDataPoint >= 0 ) {
+              mainData[i] = editingDataPoint;
+            }
           }
         }
       }
@@ -1060,6 +1088,10 @@ class PixelEditor extends React.Component {
       }
       if ( selectedTool === RECT_SELECT_TOOL ) {
         showIndicator = false;
+      }
+      if ( selectedTool === LINE_TOOL ) {
+        indicatorWidth = pixelToolSettings.lineSize;
+        indicatorHeight = pixelToolSettings.lineSize;
       }
     }
 

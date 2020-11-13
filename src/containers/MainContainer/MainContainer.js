@@ -2,6 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
 
 import {
   ABOUT_TAB,
@@ -13,6 +14,9 @@ import {
   TILEMAP_TAB,
   PUBLISH_TAB,
 } from '../../state/Layout/activeNavigationTab';
+import { toggleNavigationPanel } from '../../state/Layout/navigationPanelIsOpen';
+import { toggleReferencePanel } from '../../state/Layout/referencePanelIsOpen';
+
 import TopBar from '../../components/TopBar/TopBar';
 import Scrollbars from '../../components/Scrollbars/Scrollbars';
 import Button from '../../components/Button/Button';
@@ -31,6 +35,10 @@ import LoginUserModal from '../User/LoginUserModal/LoginUserModal';
 import UserButton from '../User/UserButton/UserButton';
 import SaveProjectButton from '../User/SaveProjectButton/SaveProjectButton';
 
+import TileEditorActionsButton from '../Actions/TileEditor/TileEditorActionsButton/TileEditorActionsButton';
+
+import { eventMatchesHotkey, TOGGLE_NAVIGATION, TOGGLE_REFERENCE } from '../../utils/hotkeys';
+
 import './MainContainer.scss';
 
 class MainContainer extends React.Component {
@@ -41,6 +49,34 @@ class MainContainer extends React.Component {
       createUserModalIsOpen: false,
       loginUserModalIsOpen: false,
     };
+
+    this.handleKeyDown = this.handleKeyDown.bind( this );
+  }
+
+  componentDidMount() {
+    window.addEventListener( 'keydown', this.handleKeyDown );
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener( 'keydown', this.handleKeyDown );
+  }
+
+  handleKeyDown( event ) {
+    const { anyModalIsOpen, _toggleNavigationPanel, _toggleReferencePanel } = this.props;
+
+    if ( anyModalIsOpen ) {
+      return;
+    }
+
+    if ( eventMatchesHotkey( event, TOGGLE_NAVIGATION ) ) {
+      _toggleNavigationPanel();
+      event.preventDefault();
+    }
+
+    if ( eventMatchesHotkey( event, TOGGLE_REFERENCE ) ) {
+      _toggleReferencePanel();
+      event.preventDefault();
+    }
   }
 
   render() {
@@ -55,6 +91,8 @@ class MainContainer extends React.Component {
     let contentRender = null;
 
     let topBarTitle = 'Bitmelo';
+
+    let actionsButton = null;
 
     switch ( activeNavigationTab ) {
       case ABOUT_TAB: {
@@ -85,6 +123,7 @@ class MainContainer extends React.Component {
       case TILE_TAB:
         contentRender = <TileEditor />;
         topBarTitle = `${ projectName }: Tile Editor`;
+        actionsButton = <TileEditorActionsButton />;
         break;
       case TILEMAP_TAB:
         contentRender = <TilemapEditor />;
@@ -142,6 +181,7 @@ class MainContainer extends React.Component {
       <>
         { saveButtonRender }
         { userButtonsRender }
+        { actionsButton }
       </>
     );
 
@@ -177,6 +217,9 @@ MainContainer.propTypes = {
   projectName: PropTypes.string.isRequired,
   currentUser: PropTypes.object.isRequired,
   currentProject: PropTypes.object.isRequired,
+  _toggleNavigationPanel: PropTypes.func.isRequired,
+  _toggleReferencePanel: PropTypes.func.isRequired,
+  anyModalIsOpen: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -185,7 +228,15 @@ function mapStateToProps( state ) {
     activeNavigationTab: state.layout.activeNavigationTab,
     currentUser: state.user.currentUser,
     currentProject: state.user.currentProject,
+    anyModalIsOpen: state.layout.modalCount > 0,
   };
 }
 
-export default connect( mapStateToProps )( MainContainer );
+function mapDispatchToProps( dispatch ) {
+  return bindActionCreators( {
+    _toggleNavigationPanel: toggleNavigationPanel,
+    _toggleReferencePanel: toggleReferencePanel,
+  }, dispatch );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( MainContainer );

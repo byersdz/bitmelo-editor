@@ -15,7 +15,7 @@ export const PUBLISH_TAB = 'publish';
 export const SELECT_NAVIGATION_TAB = 'SELECT_NAVIGATION_TAB';
 
 // Reducer
-export default function reducer( state = PLAY_TAB, action ) {
+export default function reducer( state = TILE_TAB, action ) {
   switch ( action.type ) {
     case SELECT_NAVIGATION_TAB: {
       return action.payload;

@@ -1,14 +1,8 @@
 
 import { getLinePositions } from './line';
+import { drawPixelToBuffer } from './pixel';
 
-export function drawPixelToBuffer( x, y, width, height, paletteId, buffer ) {
-  if ( x < 0 || x >= width || y < 0 || y >= height ) {
-    return;
-  }
-  buffer[width * y + x] = paletteId; // eslint-disable-line
-}
-
-export function applyPencilToData( data, width, height, editingData ) {
+export function applyPencilToData( editingData ) {
   const {
     lastX,
     lastY,
@@ -16,6 +10,8 @@ export function applyPencilToData( data, width, height, editingData ) {
     currentY,
     paletteId,
     toolSize,
+    dataWidth,
+    dataHeight,
   } = editingData;
 
   const newData = { ...editingData };
@@ -35,7 +31,6 @@ export function applyPencilToData( data, width, height, editingData ) {
 
         if ( newData.editorSelection && newData.editorSelection.isActive ) {
           // draw in the editorSelection
-
           shiftedX = shiftedX - newData.editorSelection.offsetX;
           shiftedY = shiftedY - newData.editorSelection.offsetY;
 
@@ -51,7 +46,7 @@ export function applyPencilToData( data, width, height, editingData ) {
               newData.editorSelection.width,
               newData.editorSelection.height,
               paletteId,
-              newData.editorSelection.data,
+              newData.editorSelectionBuffer,
             );
           }
         }
@@ -59,8 +54,8 @@ export function applyPencilToData( data, width, height, editingData ) {
           drawPixelToBuffer(
             shiftedX,
             shiftedY,
-            width,
-            height,
+            dataWidth,
+            dataHeight,
             paletteId,
             newData.buffer,
           );

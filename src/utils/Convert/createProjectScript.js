@@ -1,5 +1,5 @@
 
-import { libText } from 'bitmelo';
+import { libText, Builder } from 'bitmelo';
 import cloneDeep from 'lodash.clonedeep';
 
 export default function createProjectScript( projectData ) {
@@ -18,6 +18,8 @@ export default function createProjectScript( projectData ) {
   for ( let i = 0; i < scripts.length; i += 1 ) {
     scriptsString += scripts[i].text;
   }
+
+  scriptsString = Builder.instrumentScript( scriptsString );
 
   return `
 ${ libText }

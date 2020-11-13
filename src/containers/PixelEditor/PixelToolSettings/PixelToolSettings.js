@@ -8,7 +8,7 @@ import ToolSettings from '../../../components/ToolSettings/ToolSettings';
 import NumberPicker from '../../../components/NumberPicker/NumberPicker';
 import Button from '../../../components/Button/Button';
 
-import { PENCIL_TOOL, ERASER_TOOL } from '../../../state/PixelTools/selectedTool';
+import { PENCIL_TOOL, ERASER_TOOL, LINE_TOOL } from '../../../state/PixelTools/selectedTool';
 import { setPixelToolSettings } from '../../../state/PixelTools/pixelToolSettings';
 import { deselectTilesetEditorSelection, selectAllTileset } from '../../../state/Tileset/actions';
 import { flipTilesetEditorSelection } from '../../../state/Tileset/editorSelection';
@@ -53,6 +53,7 @@ class PixelToolSettings extends React.Component {
 
     let newPencilSize = -1;
     let newEraserSize = -1;
+    let newLineSize = -1;
 
     if ( event.which === 219 ) { // [
       if ( selectedTool === PENCIL_TOOL ) {
@@ -60,6 +61,9 @@ class PixelToolSettings extends React.Component {
       }
       else if ( selectedTool === ERASER_TOOL ) {
         newEraserSize = pixelToolSettings.eraserSize - 1;
+      }
+      else if ( selectedTool === LINE_TOOL ) {
+        newLineSize = pixelToolSettings.lineSize - 1;
       }
     }
     else if ( event.which === 221 ) { // ]
@@ -69,6 +73,9 @@ class PixelToolSettings extends React.Component {
       else if ( selectedTool === ERASER_TOOL ) {
         newEraserSize = pixelToolSettings.eraserSize + 1;
       }
+      else if ( selectedTool === LINE_TOOL ) {
+        newLineSize = pixelToolSettings.lineSize + 1;
+      }
     }
 
     if ( newPencilSize > 0 && newPencilSize <= 32 ) {
@@ -76,6 +83,9 @@ class PixelToolSettings extends React.Component {
     }
     else if ( newEraserSize > 0 && newEraserSize <= 32 ) {
       _setPixelToolSettings( { ...pixelToolSettings, eraserSize: newEraserSize } );
+    }
+    else if ( newLineSize > 0 && newLineSize <= 32 ) {
+      _setPixelToolSettings( { ...pixelToolSettings, lineSize: newLineSize } );
     }
   }
 
@@ -87,6 +97,11 @@ class PixelToolSettings extends React.Component {
   handleEraserSizeChange( newValue ) {
     const { _setPixelToolSettings, pixelToolSettings } = this.props;
     _setPixelToolSettings( { ...pixelToolSettings, eraserSize: newValue } );
+  }
+
+  handleLineSizeChange( newValue ) {
+    const { _setPixelToolSettings, pixelToolSettings } = this.props;
+    _setPixelToolSettings( { ...pixelToolSettings, lineSize: newValue } );
   }
 
   handleDeselect() {
@@ -194,6 +209,17 @@ class PixelToolSettings extends React.Component {
           minValue={ 1 }
           maxValue={ 32 }
           onValueChange={ v => this.handleEraserSizeChange( v ) }
+        />
+      );
+    }
+    else if ( selectedTool === LINE_TOOL ) {
+      toolsRender = (
+        <NumberPicker
+          title="Size"
+          value={ pixelToolSettings.lineSize }
+          minValue={ 1 }
+          maxValue={ 32 }
+          onValueChange={ v => this.handleLineSizeChange( v ) }
         />
       );
     }

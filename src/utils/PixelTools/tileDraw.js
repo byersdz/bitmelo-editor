@@ -1,6 +1,6 @@
 
 import { getLinePositions } from './line';
-import { drawPixelToBuffer } from './pencil';
+import { drawPixelToBuffer } from './pixel';
 
 export function drawTileDataToBuffer( x, y, width, height, buffer, selectionData, selectionWidth, selectionHeight ) {
   const offsetX = Math.floor( ( selectionWidth - 1 ) * 0.5 );
@@ -20,7 +20,7 @@ export function drawTileDataToBuffer( x, y, width, height, buffer, selectionData
   }
 }
 
-export function applyTileDrawToData( data, width, height, editingData ) {
+export function applyTileDrawToData( editingData ) {
   const {
     lastX,
     lastY,
@@ -29,6 +29,8 @@ export function applyTileDrawToData( data, width, height, editingData ) {
     selectionData,
     selectionWidth,
     selectionHeight,
+    dataWidth,
+    dataHeight,
   } = editingData;
 
   const newData = { ...editingData };
@@ -38,8 +40,8 @@ export function applyTileDrawToData( data, width, height, editingData ) {
     drawTileDataToBuffer(
       position.x,
       position.y,
-      width,
-      height,
+      dataWidth,
+      dataHeight,
       newData.buffer,
       selectionData,
       selectionWidth,

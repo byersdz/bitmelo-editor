@@ -9,9 +9,10 @@ import { setScript } from '../../state/Code/scripts';
 
 import { useSmallWidth, useExtraSmallWidth } from '../../style/dimensions';
 
-import 'brace/mode/javascript';
-import 'brace/theme/twilight';
-import 'brace/ext/language_tools';
+import 'ace-builds/src-noconflict/mode-javascript';
+import 'ace-builds/src-noconflict/theme-twilight';
+import 'ace-builds/src-noconflict/ext-language_tools';
+import 'ace-builds/src-noconflict/ext-searchbox';
 
 import './CodeEditor.scss';
 
@@ -128,8 +129,8 @@ class CodeEditor extends React.Component {
     const { script, activeIndex, _setScript } = this.props;
     _setScript( activeIndex, {
       ...script,
-      cursorRow: selection.selectionLead.row,
-      cursorColumn: selection.selectionLead.column,
+      cursorRow: selection.cursor.row,
+      cursorColumn: selection.cursor.column,
     } );
   }
 
@@ -169,7 +170,7 @@ class CodeEditor extends React.Component {
             tabSize={ 2 }
             setOptions={ {
               enableLiveAutocompletion: true,
-              useSoftTabs: false,
+              useSoftTabs: true,
             } }
             focus
           />

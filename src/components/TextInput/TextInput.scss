@@ -36,4 +36,27 @@
   .controls {
     width: 50%;
   }
+
+  &.vertical {
+    flex-direction: column;
+    align-items: stretch;
+
+    .controls {
+      width: initial;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    input {
+      width: initial;
+      margin: 0;
+    }
+
+    .title {
+      width: initial;
+      align-self: flex-start;
+    }
+
+  }
 }

@@ -14,6 +14,7 @@ import {
   BUCKET_TOOL,
   MOVE_TOOL,
   RECT_SELECT_TOOL,
+  LINE_TOOL,
   selectPixelTool,
 } from '../../../state/PixelTools/selectedTool';
 import { setTileEditorLayoutSettings } from '../../../state/Layout/tileEditor';
@@ -55,6 +56,9 @@ class PixelToolPicker extends React.Component {
     }
     else if ( event.which === 71 ) { // g
       this.handleSelectedToolChange( BUCKET_TOOL );
+    }
+    else if ( event.which === 76 ) { // l
+      this.handleSelectedToolChange( LINE_TOOL );
     }
     else if ( event.which === 86 ) { // v
       if ( event.ctrlKey ) {
@@ -215,6 +219,7 @@ class PixelToolPicker extends React.Component {
       { key: BUCKET_TOOL, title: 'Paint Bucket', icon: 'bucket' },
       { key: MOVE_TOOL, title: 'Move', icon: 'move' },
       { key: RECT_SELECT_TOOL, title: 'Rect Select', icon: 'rect-select' },
+      { key: LINE_TOOL, title: 'Line', icon: 'line' },
     ];
 
     const showGridClass = tileLayoutSettings.showGrid ? 'active' : '';

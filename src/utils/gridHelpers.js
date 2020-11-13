@@ -9,7 +9,12 @@ export function combineGrids( source, destination, preserveTransparency = false 
       const sourceItem = source.data[y * source.width + x];
 
       // igonre transparent pixels
-      if ( !preserveTransparency && !sourceItem ) {
+      if ( preserveTransparency ) {
+        if ( sourceItem < 0 ) {
+          continue;
+        }
+      }
+      else if ( sourceItem <= 0 ) {
         continue;
       }
 

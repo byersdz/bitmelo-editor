@@ -7,6 +7,7 @@ export const ERASER_TOOL = 'ERASER_TOOL';
 export const BUCKET_TOOL = 'BUCKET_TOOL';
 export const MOVE_TOOL = 'MOVE_TOOL';
 export const RECT_SELECT_TOOL = 'RECT_SELECT_TOOL';
+export const LINE_TOOL = 'LINE_TOOL';
 
 // Actions
 export const SELECT_PIXEL_TOOL = 'SELECT_PIXEL_TOOL';
