@@ -1,6 +1,16 @@
 {
   "versions": [
     {
+      "version": "2.1.0",
+      "changes": [
+        "Added line tool to tile editor.",
+        "Added PNG export to tile editor",
+        "Added find to code editor",
+        "If an individual frame or game init lasts longer than 5 seconds the game will now crash. This is to prevent an infinite loop from locking up the browser forever.",
+        "Added backquote (`) hotkey to toggle panels in the tile and tilemap editors."
+      ]
+    },
+    {
       "version": "2.0.0",
       "changes": [
         "Added cloud saves",
