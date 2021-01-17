@@ -11,6 +11,8 @@ import AccountSelect from '../../../components/Account/AccountSelect/AccountSele
 import AccountCheckbox from '../../../components/Account/AccountCheckbox/AccountCheckbox';
 import AButton from '../../../components/AButton/AButton';
 
+import ImageGenerator from '../../ImageGenerator/ImageGenerator';
+
 import { setProjectName } from '../../../state/Project/name';
 import { publishCurrentProject, setPublishingErrors } from '../../../state/User/currentProject';
 
@@ -198,6 +200,7 @@ class PublishGameModal extends React.Component {
           value={ projectName }
           onValueChange={ v => _setProjectName( v ) }
         />
+        <ImageGenerator />
         <AccountSelect
           title="Code License"
           items={ codeLicenseOptions }
@@ -219,7 +222,6 @@ class PublishGameModal extends React.Component {
           { ' ' }
           { assetAgreementMessage }
         </AccountCheckbox>
-
         <Button
           title="Publish"
           click={ () => this.handlePublishClick() }
@@ -235,6 +237,7 @@ class PublishGameModal extends React.Component {
         className="publish-game-modal"
         onClose={ onClose }
         disableExit={ isPublishing }
+        scrollable
       >
         { mainRender }
       </AccountModal>

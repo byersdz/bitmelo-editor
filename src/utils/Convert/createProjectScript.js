@@ -1,8 +1,11 @@
 
 import { libText, Builder } from 'bitmelo';
+import get from 'lodash.get';
 import cloneDeep from 'lodash.clonedeep';
 
-export default function createProjectScript( projectData ) {
+export default function createProjectScript( projectData, options = {} ) {
+  const isGenerator = get( options, 'isGenerator' );
+
   const projectCopy = cloneDeep( projectData );
   if ( projectCopy.tileset.present ) {
     projectCopy.tileset = projectCopy.tileset.present;
@@ -21,6 +24,22 @@ export default function createProjectScript( projectData ) {
 
   scriptsString = Builder.instrumentScript( scriptsString );
 
+  const isGeneratorCodePreCode = isGenerator ? (
+    `
+    engine.clickToBegin = false;
+    engine.dataOnlyMode = true;
+    engine.pause();
+    `
+  ) : '';
+
+  const isGeneratorCodePostCode = isGenerator ? (
+    `
+    for(let i = 0; i < 60; i += 1) {
+      engine.advanceFrame();
+    }
+    `
+  ) : '';
+
   return `
 ${ libText }
 
@@ -29,7 +48,8 @@ const projectData = ${ JSON.stringify( projectCopy ) };
 engine.addProjectData( projectData );
 
 ${ scriptsString }
-
+${ isGeneratorCodePreCode }
 engine.begin();
+${ isGeneratorCodePostCode }
 `;
 }

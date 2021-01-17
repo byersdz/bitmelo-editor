@@ -31,9 +31,16 @@ class AccountModal extends React.Component {
       showBackButton,
       onBack,
       disableExit,
+      scrollable,
     } = this.props;
 
-    const contentClassName = `account-modal-content-container ${ className }`;
+    let contentClassName = 'account-modal-content-container';
+    if ( scrollable ) {
+      contentClassName += ' scrollable';
+    }
+    if ( className ) {
+      contentClassName += ` ${ className }`;
+    }
 
     const backButtonRender = showBackButton ? (
       <Button
@@ -87,6 +94,7 @@ AccountModal.propTypes = {
   _increaseModalCount: PropTypes.func.isRequired,
   _decreaseModalCount: PropTypes.func.isRequired,
   disableExit: PropTypes.bool,
+  scrollable: PropTypes.bool,
 };
 
 AccountModal.defaultProps = {
@@ -95,6 +103,7 @@ AccountModal.defaultProps = {
   showBackButton: false,
   onBack: null,
   disableExit: false,
+  scrollable: false,
 };
 
 function mapDispatchToProps( dispatch ) {

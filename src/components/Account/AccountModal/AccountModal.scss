@@ -79,6 +79,22 @@
       display: flex;
       flex-direction: column;
       align-items: stretch;
+      flex-grow: 1;
+    }
+
+    &.scrollable {
+      max-height: 90%;
+      padding: 16px 0;
+
+      .modal-header {
+        padding: 0 16px;
+      }
+
+      .modal-content {
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 0 16px;
+      }
     }
   }
 }

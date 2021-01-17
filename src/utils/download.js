@@ -51,12 +51,11 @@ export function downloadHTMLGame() {
   anchorNode.remove();
 }
 
-export function downloadDataImage( settings ) {
+export function generatePngFromData( settings ) {
   const {
     width,
     height,
     scale,
-    fileName,
   } = settings;
 
   const canvas = document.createElement( 'canvas' );
@@ -65,6 +64,16 @@ export function downloadDataImage( settings ) {
   drawPixelDataToCanvas( settings, canvas );
 
   const pngData = canvas.toDataURL();
+
+  return pngData;
+}
+
+export function downloadDataImage( settings ) {
+  const {
+    fileName,
+  } = settings;
+
+  const pngData = generatePngFromData( settings );
 
   const anchorNode = document.createElement( 'a' );
   anchorNode.setAttribute( 'href', pngData );
