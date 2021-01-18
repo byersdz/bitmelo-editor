@@ -1,8 +1,11 @@
 
+import cloneDeep from 'lodash.clonedeep';
+import get from 'lodash.get';
 import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 
 // Actions
 export const SET_SCRIPT = 'SET_SCRIPT';
+export const ADD_SCRIPT = 'ADD_SCRIPT';
 
 // validation
 export function validate( state ) {
@@ -29,6 +32,11 @@ export function initAndUpdate( state ) {
     newState[i].scrollTop = 0;
     newState[i].cursorRow = 0;
     newState[i].cursorColumn = 0;
+
+    const name = get( newState[i], 'name' );
+    if ( !name ) {
+      newState[i].name = `Script${ i }`;
+    }
   }
 
   return newState;
@@ -47,6 +55,7 @@ engine.onUpdate = () => {
 };
 
 `,
+    name: 'Start',
     cursorRow: 0,
     cursorColumn: 0,
     scrollTop: 0,
@@ -77,6 +86,18 @@ export default function reducer( state = initialState, action ) {
       newState[scriptIndex] = { ...script };
       return newState;
     }
+    case ADD_SCRIPT: {
+      if ( state.length >= 32 ) {
+        return state;
+      }
+
+      const newState = cloneDeep( state );
+      const newScript = cloneDeep( initialState[0] );
+      newScript.text = '';
+      newScript.name = `Script${ newState.length }`;
+      newState.push( newScript );
+      return newState;
+    }
 
     default:
       return state;
@@ -92,5 +113,11 @@ export function setScript( scriptIndex, script ) {
       scriptIndex,
       script,
     },
+  };
+}
+
+export function addScript() {
+  return {
+    type: ADD_SCRIPT,
   };
 }

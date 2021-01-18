@@ -60,5 +60,65 @@
     white-space: nowrap;
     z-index: 1000;
     margin-top: 34px;
+    width: 280px;
+    max-height: 400px;
+
+    .script-item {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid black;
+
+      &:hover {
+        background-color: $surface-light-color;
+      }
+
+      .control-btn {
+        width: 30px;
+        min-width: 30px;
+        height: 30px;
+        background-color: $primary-color;
+        margin: 2px;
+        border-radius: 4px;
+
+        .isvg {
+          width: 24px;
+          height: 24px;
+          fill: $on-primary-color;
+          stroke: $on-primary-color;
+
+          svg {
+            width: 24px;
+            height: 24px;
+          }
+        }
+
+        &:hover {
+          background-color: $primary-light-color;
+        }
+      }
+
+
+      .script-name {
+        align-self: stretch;
+        flex-grow: 1;
+        min-width: 0;
+        overflow: hidden;
+        padding: 0 8px;
+
+        span {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          min-width: 0;
+        }
+      }
+    }
+
+    .add-btn {
+      height: 32px;
+
+      &:hover {
+        background-color: $surface-light-color;
+      }
+    }
   }
 }
