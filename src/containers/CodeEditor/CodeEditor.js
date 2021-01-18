@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import ScriptPicker from './ScriptPicker/ScriptPicker';
+
 import { setScript } from '../../state/Code/scripts';
 
 import { useSmallWidth, useExtraSmallWidth } from '../../style/dimensions';
@@ -140,7 +142,7 @@ class CodeEditor extends React.Component {
     const maxEditorWidth = 1200;
     const minEditorWidth = 640;
 
-    let editorWidth = containerWidth - 16;
+    let editorWidth = containerWidth - 8;
 
     if ( editorWidth > maxEditorWidth ) {
       editorWidth = maxEditorWidth;
@@ -150,10 +152,13 @@ class CodeEditor extends React.Component {
       editorWidth = minEditorWidth;
     }
 
-    const editorHeight = containerHeight - 16;
+    const editorHeight = containerHeight - 8;
 
     return (
       <div className="code-editor">
+        <div className="editor-controls">
+          <ScriptPicker />
+        </div>
         <div className="editor-container" ref={ this.containerRef }>
           <AceEditor
             value={ script.text }
