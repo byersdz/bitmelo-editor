@@ -5,7 +5,14 @@ import { BASE_URL } from './endpoints';
 import { updateProject } from './project';
 import catchErrors from './catchErrors';
 
-export async function publishGame( projectId, projectData, codeLicense, assetLicense, licenseAgree ) {
+export async function publishGame(
+  projectId,
+  projectData,
+  codeLicense,
+  assetLicense,
+  licenseAgree,
+  coverImage,
+) {
   const updateResponse = await updateProject( projectId, projectData );
 
   if ( updateResponse.isError ) {
@@ -21,6 +28,7 @@ export async function publishGame( projectId, projectData, codeLicense, assetLic
           codeLicense,
           assetLicense,
           licenseAgree,
+          coverImage,
         },
         { withCredentials: true },
       );

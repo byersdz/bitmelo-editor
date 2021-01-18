@@ -14,7 +14,6 @@ class ImageGenerator extends React.PureComponent {
     super( props );
     this.state = {
       showIframe: true,
-      coverPng: null,
     };
 
     this.handleMessage = this.handleMessage.bind( this );
@@ -29,6 +28,8 @@ class ImageGenerator extends React.PureComponent {
   }
 
   handleMessage( event ) {
+    const { onChangeImage } = this.props;
+
     if ( !event.data.type || !event.data.payload ) {
       return;
     }
@@ -56,13 +57,14 @@ class ImageGenerator extends React.PureComponent {
       };
 
       const pngData = generatePngFromData( settings );
-      this.setState( { showIframe: false, coverPng: pngData } );
+      onChangeImage( pngData );
+      this.setState( { showIframe: false } );
     }
   }
 
   render() {
-    const { projectData } = this.props;
-    const { showIframe, coverPng } = this.state;
+    const { projectData, generatedImage } = this.props;
+    const { showIframe } = this.state;
 
     let iFrameRender = null;
     if ( showIframe ) {
@@ -103,11 +105,11 @@ class ImageGenerator extends React.PureComponent {
       );
     }
 
-    const coverRender = coverPng ? (
-      <img className="generated-image" src={ coverPng } alt="cover" />
+    const coverRender = generatedImage ? (
+      <img className="generated-image" src={ generatedImage } alt="cover" />
     ) : null;
 
-    const loadingRender = !coverPng ? (
+    const loadingRender = !generatedImage ? (
       <Spinner />
     ) : null;
     return (
@@ -125,6 +127,8 @@ class ImageGenerator extends React.PureComponent {
 
 ImageGenerator.propTypes = {
   projectData: PropTypes.object.isRequired,
+  generatedImage: PropTypes.string.isRequired,
+  onChangeImage: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {

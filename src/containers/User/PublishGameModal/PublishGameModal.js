@@ -57,6 +57,7 @@ class PublishGameModal extends React.Component {
       codeLicense: 'mit',
       assetLicense: 'cc-by-4',
       licenseAgree: false,
+      coverImage: '',
     };
   }
 
@@ -83,9 +84,14 @@ class PublishGameModal extends React.Component {
 
   handlePublishClick() {
     const { _publishCurrentProject } = this.props;
-    const { codeLicense, assetLicense, licenseAgree } = this.state;
+    const {
+      codeLicense,
+      assetLicense,
+      licenseAgree,
+      coverImage,
+    } = this.state;
 
-    _publishCurrentProject( codeLicense, assetLicense, licenseAgree );
+    _publishCurrentProject( codeLicense, assetLicense, licenseAgree, coverImage );
   }
 
   render() {
@@ -102,6 +108,7 @@ class PublishGameModal extends React.Component {
       codeLicense,
       assetLicense,
       licenseAgree,
+      coverImage,
     } = this.state;
 
     const errorsRender = errors.map( error => {
@@ -200,7 +207,10 @@ class PublishGameModal extends React.Component {
           value={ projectName }
           onValueChange={ v => _setProjectName( v ) }
         />
-        <ImageGenerator />
+        <ImageGenerator
+          generatedImage={ coverImage }
+          onChangeImage={ v => this.setState( { coverImage: v } ) }
+        />
         <AccountSelect
           title="Code License"
           items={ codeLicenseOptions }
@@ -226,7 +236,7 @@ class PublishGameModal extends React.Component {
           title="Publish"
           click={ () => this.handlePublishClick() }
           account
-          disabled={ isPublishing || !licenseAgree }
+          disabled={ isPublishing || !licenseAgree || !coverImage }
         />
       </>
     );

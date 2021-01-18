@@ -169,7 +169,7 @@ export function fetchPublishedGame() {
   };
 }
 
-export function publishCurrentProject( codeLicense, assetLicense, licenseAgree ) {
+export function publishCurrentProject( codeLicense, assetLicense, licenseAgree, coverImage ) {
   return async ( dispatch, getState ) => {
     dispatch( setIsPublishing( true ) );
     dispatch( setPublishingErrors( [] ) );
@@ -184,6 +184,7 @@ export function publishCurrentProject( codeLicense, assetLicense, licenseAgree )
       codeLicense,
       assetLicense,
       licenseAgree,
+      coverImage,
     );
 
     if ( response.status === 401 ) {
