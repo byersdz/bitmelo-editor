@@ -8,6 +8,7 @@ import cloneDeep from 'lodash.clonedeep';
 
 import TextInput from '../../../components/TextInput/TextInput';
 import Button from '../../../components/Button/Button';
+import DeleteScriptModal from '../DeleteScriptModal/DeleteScriptModal';
 
 import { setScript, addScript } from '../../../state/Code/scripts';
 import { selectScript } from '../../../state/Code/activeIndex';
@@ -20,6 +21,9 @@ class ScriptPicker extends React.Component {
 
     this.state = {
       dropDownIsOpen: false,
+      deleteModalIsOpen: false,
+      deletingIndex: 0,
+      deletingName: '',
     };
   }
 
@@ -48,6 +52,24 @@ class ScriptPicker extends React.Component {
 
     return scripts.map( ( script, index ) => {
       const className = index === activeScript ? 'script-item selected' : 'script-item';
+
+      const deleteButtonRender = scripts.length > 1 ? (
+        <Button
+          className="control-btn delete"
+          title="delete"
+          icon="trash"
+          hideTitle
+          click={ () => {
+            this.setState( {
+              deleteModalIsOpen: true,
+              dropDownIsOpen: false,
+              deletingIndex: index,
+              deletingName: script.name,
+            } );
+          } }
+        />
+      ) : null;
+
       return (
         <div
           // eslint-disable-next-line react/no-array-index-key
@@ -84,13 +106,7 @@ class ScriptPicker extends React.Component {
               { script.name }
             </span>
           </Button>
-          <Button
-            className="control-btn delete"
-            title="delete"
-            icon="trash"
-            hideTitle
-            click={ () => console.log( 'delete' ) }
-          />
+          { deleteButtonRender }
         </div>
       );
     } );
@@ -98,7 +114,12 @@ class ScriptPicker extends React.Component {
 
   render() {
     const { scripts, activeScript, _addScript } = this.props;
-    const { dropDownIsOpen } = this.state;
+    const {
+      dropDownIsOpen,
+      deleteModalIsOpen,
+      deletingIndex,
+      deletingName,
+    } = this.state;
 
     let dropDownRender = null;
     if ( dropDownIsOpen ) {
@@ -116,6 +137,14 @@ class ScriptPicker extends React.Component {
         </div>
       );
     }
+
+    const deleteModalRender = deleteModalIsOpen ? (
+      <DeleteScriptModal
+        index={ deletingIndex }
+        name={ deletingName }
+        onClose={ () => this.setState( { deleteModalIsOpen: false } ) }
+      />
+    ) : null;
 
     const toggleClass = dropDownIsOpen ? 'toggle-btn open' : 'toggle-btn';
 
@@ -139,6 +168,7 @@ class ScriptPicker extends React.Component {
           click={ () => this.handleToggleClick() }
         />
         { dropDownRender }
+        { deleteModalRender }
       </div>
     );
   }

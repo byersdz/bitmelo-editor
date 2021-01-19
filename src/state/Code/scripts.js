@@ -6,6 +6,7 @@ import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 // Actions
 export const SET_SCRIPT = 'SET_SCRIPT';
 export const ADD_SCRIPT = 'ADD_SCRIPT';
+export const DELETE_SCRIPT = 'DELETE_SCRIPT';
 
 // validation
 export function validate( state ) {
@@ -98,6 +99,9 @@ export default function reducer( state = initialState, action ) {
       newState.push( newScript );
       return newState;
     }
+    case DELETE_SCRIPT: {
+      return [...state.slice( 0, action.payload ), ...state.slice( action.payload + 1 )];
+    }
 
     default:
       return state;
@@ -119,5 +123,12 @@ export function setScript( scriptIndex, script ) {
 export function addScript() {
   return {
     type: ADD_SCRIPT,
+  };
+}
+
+export function deleteScript( scriptIndex ) {
+  return {
+    type: DELETE_SCRIPT,
+    payload: scriptIndex,
   };
 }

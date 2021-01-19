@@ -70,6 +70,12 @@ class CodeEditor extends React.Component {
 
   saveScriptMetaData( index ) {
     const { scripts, _setScript } = this.props;
+
+    // don't save meta data if the script no longer exists
+    if ( index >= scripts.length - 1 ) {
+      return;
+    }
+
     _setScript( index, {
       ...scripts[index],
       scrollTop: this.editor.session.getScrollTop(),
