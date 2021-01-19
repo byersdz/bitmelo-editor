@@ -50,7 +50,7 @@
   .drop-down {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 16px;
     background-color: $surface-color;
     color: $on-surface-color;
     display: flex;
@@ -60,16 +60,30 @@
     white-space: nowrap;
     z-index: 1000;
     margin-top: 34px;
-    width: 280px;
+    width: 320px;
     max-height: 400px;
+    overflow-y: auto;
 
     .script-item {
       display: flex;
       align-items: center;
       border-bottom: 1px solid black;
+      background-color: $surface-dark-color;
 
       &:hover {
         background-color: $surface-light-color;
+      }
+
+      &.selected {
+        background-color: $surface-color;
+
+        &:hover {
+          background-color: $surface-light-color;
+        }
+      }
+
+      .index {
+        margin: 0 8px;
       }
 
       .control-btn {
@@ -97,6 +111,9 @@
         }
       }
 
+      .delete {
+        margin-right: 4px;
+      }
 
       .script-name {
         align-self: stretch;
@@ -115,6 +132,7 @@
 
     .add-btn {
       height: 32px;
+      min-height: 32px;
 
       &:hover {
         background-color: $surface-light-color;

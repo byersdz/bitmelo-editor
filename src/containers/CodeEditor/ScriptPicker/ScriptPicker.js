@@ -9,7 +9,8 @@ import cloneDeep from 'lodash.clonedeep';
 import TextInput from '../../../components/TextInput/TextInput';
 import Button from '../../../components/Button/Button';
 
-import { setScript } from '../../../state/Code/scripts';
+import { setScript, addScript } from '../../../state/Code/scripts';
+import { selectScript } from '../../../state/Code/activeIndex';
 
 import './ScriptPicker.scss';
 
@@ -43,14 +44,15 @@ class ScriptPicker extends React.Component {
   }
 
   renderItems() {
-    const { scripts } = this.props;
+    const { scripts, activeScript, _selectScript } = this.props;
 
     return scripts.map( ( script, index ) => {
+      const className = index === activeScript ? 'script-item selected' : 'script-item';
       return (
         <div
           // eslint-disable-next-line react/no-array-index-key
           key={ `script-${ index }` }
-          className="script-item"
+          className={ className }
         >
           <Button
             className="control-btn move-down"
@@ -66,14 +68,20 @@ class ScriptPicker extends React.Component {
             hideTitle
             click={ () => console.log( 'move up' ) }
           />
+          <div className="index">
+            { index }
+          </div>
           <Button
             title="select"
             hideTitle
             className="script-name"
-            click={ () => console.log( 'Select' ) }
+            click={ () => {
+              _selectScript( index );
+              this.setState( { dropDownIsOpen: false } );
+            } }
           >
             <span>
-              { `${ index } - ${ script.name }` }
+              { script.name }
             </span>
           </Button>
           <Button
@@ -89,7 +97,7 @@ class ScriptPicker extends React.Component {
   }
 
   render() {
-    const { scripts, activeScript } = this.props;
+    const { scripts, activeScript, _addScript } = this.props;
     const { dropDownIsOpen } = this.state;
 
     let dropDownRender = null;
@@ -101,7 +109,7 @@ class ScriptPicker extends React.Component {
             title="select"
             hideTitle
             className="add-btn"
-            click={ () => console.log( 'Add' ) }
+            click={ () => _addScript() }
           >
             Add Script
           </Button>
@@ -140,6 +148,8 @@ ScriptPicker.propTypes = {
   scripts: PropTypes.arrayOf( PropTypes.object ).isRequired,
   activeScript: PropTypes.number.isRequired,
   _setScript: PropTypes.func.isRequired,
+  _addScript: PropTypes.func.isRequired,
+  _selectScript: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -152,6 +162,8 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setScript: setScript,
+    _addScript: addScript,
+    _selectScript: selectScript,
   }, dispatch );
 }
 

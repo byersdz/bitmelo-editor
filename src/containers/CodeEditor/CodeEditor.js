@@ -43,10 +43,12 @@ class CodeEditor extends React.Component {
     const {
       navigationPanelIsOpen,
       referencePanelIsOpen,
+      activeIndex,
     } = this.props;
     const {
       navigationPanelIsOpen: prevNavIsOpen,
       referencePanelIsOpen: prevRefIsOpen,
+      activeIndex: prevIndex,
     } = prevProps;
 
     if (
@@ -55,15 +57,28 @@ class CodeEditor extends React.Component {
     ) {
       this.updateDimensions();
     }
+
+    if ( activeIndex !== prevIndex && this.editor ) {
+      this.saveScriptMetaData( prevIndex );
+      this.editor.session.getUndoManager().reset();
+
+      const { script } = this.props;
+      this.editor.selection.moveTo( script.cursorRow, script.cursorColumn );
+      this.editor.session.setScrollTop( script.scrollTop );
+    }
+  }
+
+  saveScriptMetaData( index ) {
+    const { scripts, _setScript } = this.props;
+    _setScript( index, {
+      ...scripts[index],
+      scrollTop: this.editor.session.getScrollTop(),
+    } );
   }
 
   componentWillUnmount() {
-    const { script, activeIndex, _setScript } = this.props;
-    _setScript( activeIndex, {
-      ...script,
-      scrollTop: this.editor.session.getScrollTop(),
-    } );
-
+    const { activeIndex } = this.props;
+    this.saveScriptMetaData( activeIndex );
     window.removeEventListener( 'resize', this.updateDimensions );
   }
 
@@ -187,6 +202,7 @@ class CodeEditor extends React.Component {
 
 CodeEditor.propTypes = {
   script: PropTypes.object.isRequired,
+  scripts: PropTypes.arrayOf( PropTypes.object ).isRequired,
   _setScript: PropTypes.func.isRequired,
   activeIndex: PropTypes.number.isRequired,
   navigationPanelIsOpen: PropTypes.bool.isRequired,
@@ -199,6 +215,7 @@ function mapStateToProps( state ) {
   return {
     activeIndex,
     script,
+    scripts,
     navigationPanelIsOpen: state.layout.navigationPanelIsOpen,
     referencePanelIsOpen: state.layout.referencePanelIsOpen,
   };
