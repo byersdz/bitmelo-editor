@@ -111,6 +111,17 @@
         }
       }
 
+      .button-spacer {
+        width: 30px;
+        margin: 2px;
+      }
+
+      .move-down {
+        .isvg {
+          transform: scaleY(-1);
+        }
+      }
+
       .delete {
         margin-right: 4px;
       }

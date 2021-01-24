@@ -10,7 +10,7 @@ import TextInput from '../../../components/TextInput/TextInput';
 import Button from '../../../components/Button/Button';
 import DeleteScriptModal from '../DeleteScriptModal/DeleteScriptModal';
 
-import { setScript, addScript } from '../../../state/Code/scripts';
+import { setScript, addScript, moveScript } from '../../../state/Code/scripts';
 import { selectScript } from '../../../state/Code/activeIndex';
 
 import './ScriptPicker.scss';
@@ -48,7 +48,12 @@ class ScriptPicker extends React.Component {
   }
 
   renderItems() {
-    const { scripts, activeScript, _selectScript } = this.props;
+    const {
+      scripts,
+      activeScript,
+      _selectScript,
+      _moveScript,
+    } = this.props;
 
     return scripts.map( ( script, index ) => {
       const className = index === activeScript ? 'script-item selected' : 'script-item';
@@ -70,26 +75,34 @@ class ScriptPicker extends React.Component {
         />
       ) : null;
 
+      const downButtonRender = index !== scripts.length - 1 ? (
+        <Button
+          className="control-btn move-down"
+          title="move-down"
+          icon="up"
+          hideTitle
+          click={ () => _moveScript( index, index + 1 ) }
+        />
+      ) : <div className="button-spacer" />;
+
+      const upButtonRender = index !== 0 ? (
+        <Button
+          className="control-btn move-up"
+          title="move-up"
+          icon="up"
+          hideTitle
+          click={ () => _moveScript( index, index - 1 ) }
+        />
+      ) : <div className="button-spacer" />;
+
       return (
         <div
           // eslint-disable-next-line react/no-array-index-key
           key={ `script-${ index }` }
           className={ className }
         >
-          <Button
-            className="control-btn move-down"
-            title="move-down"
-            icon="up"
-            hideTitle
-            click={ () => console.log( 'move down' ) }
-          />
-          <Button
-            className="control-btn move-up"
-            title="move-up"
-            icon="up"
-            hideTitle
-            click={ () => console.log( 'move up' ) }
-          />
+          { upButtonRender }
+          { downButtonRender }
           <div className="index">
             { index }
           </div>
@@ -180,6 +193,7 @@ ScriptPicker.propTypes = {
   _setScript: PropTypes.func.isRequired,
   _addScript: PropTypes.func.isRequired,
   _selectScript: PropTypes.func.isRequired,
+  _moveScript: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -194,6 +208,7 @@ function mapDispatchToProps( dispatch ) {
     _setScript: setScript,
     _addScript: addScript,
     _selectScript: selectScript,
+    _moveScript: moveScript,
   }, dispatch );
 }
 

@@ -72,6 +72,7 @@
   },
   "dependencies": {
     "ace-builds": "^1.4.12",
+    "array-move": "^3.0.1",
     "axios": "^0.19.2",
     "bitmelo": "1.4.0",
     "electron-is-dev": "^1.1.0",

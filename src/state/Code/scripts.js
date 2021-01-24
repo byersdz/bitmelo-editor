@@ -1,12 +1,14 @@
 
 import cloneDeep from 'lodash.clonedeep';
 import get from 'lodash.get';
+import arrayMove from 'array-move';
 import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 
 // Actions
 export const SET_SCRIPT = 'SET_SCRIPT';
 export const ADD_SCRIPT = 'ADD_SCRIPT';
 export const DELETE_SCRIPT = 'DELETE_SCRIPT';
+export const MOVE_SCRIPT = 'MOVE_SCRIPT';
 
 // validation
 export function validate( state ) {
@@ -102,6 +104,10 @@ export default function reducer( state = initialState, action ) {
     case DELETE_SCRIPT: {
       return [...state.slice( 0, action.payload ), ...state.slice( action.payload + 1 )];
     }
+    case MOVE_SCRIPT: {
+      const { fromIndex, toIndex } = action.payload;
+      return arrayMove( state, fromIndex, toIndex );
+    }
 
     default:
       return state;
@@ -130,5 +136,15 @@ export function deleteScript( scriptIndex ) {
   return {
     type: DELETE_SCRIPT,
     payload: scriptIndex,
+  };
+}
+
+export function moveScript( fromIndex, toIndex ) {
+  return {
+    type: MOVE_SCRIPT,
+    payload: {
+      fromIndex,
+      toIndex,
+    },
   };
 }
