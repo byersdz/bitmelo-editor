@@ -11,6 +11,8 @@ import { setScript } from '../../state/Code/scripts';
 
 import { useSmallWidth, useExtraSmallWidth } from '../../style/dimensions';
 
+// avoid syntax checking for now
+// import 'ace-builds/webpack-resolver';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-twilight';
 import 'ace-builds/src-noconflict/ext-language_tools';

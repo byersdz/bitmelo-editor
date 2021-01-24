@@ -1,8 +1,9 @@
 
 import { IMPORT_PROJECT_DATA } from '../globalActions';
-import { getGameByProjectId, publishGame } from '../../api/game';
+import { getGameByProjectId, publishGame, unpublishGame } from '../../api/game';
 import createTransferProject from '../../utils/Convert/createTransferProject';
 import cloneDeep from 'lodash.clonedeep';
+import get from 'lodash.get';
 
 import { logoutUser, LOGOUT_USER } from './currentUser';
 
@@ -13,7 +14,8 @@ export const SET_IS_FETCHING_PUBLISHED_GAME = 'SET_IS_FETCHING_PUBLISHED_GAME';
 export const SET_IS_PUBLISHING = 'SET_IS_PUBLISHING';
 export const SET_FETCHING_PUBLISHED_GAME_ERRORS = 'SET_FETCHING_PUBLISHED_GAME_ERRORS';
 export const SET_PUBLISHING_ERRORS = 'SET_PUBLISHING_ERRORS';
-
+export const SET_IS_UNPUBLISHING = 'SET_IS_UNPUBLISHING';
+export const SET_UNPUBLISHING_ERRORS = 'SET_UNPUBLISHING_ERRORS';
 
 // Reducer
 const initialState = {
@@ -23,6 +25,8 @@ const initialState = {
   isPublishing: false,
   fetchPublishedGameErrors: [],
   publishingErrors: [],
+  isUnpublishing: false,
+  unpublishingErrors: [],
 };
 
 export function validate( state ) {
@@ -42,6 +46,10 @@ export default function reducer( state = initialState, action ) {
           importedState.publishedGame = null;
           importedState.isFetchingPublishedGame = false;
           importedState.fetchPublishedGameErrors = [];
+          importedState.isPublishing = false;
+          importedState.publishingErrors = [];
+          importedState.isUnpublishing = false;
+          importedState.unpublishingErrors = [];
           return importedState;
         }
         return state;
@@ -92,6 +100,19 @@ export default function reducer( state = initialState, action ) {
       return newState;
     }
 
+    case SET_IS_UNPUBLISHING: {
+      const newState = { ...state };
+      newState.isUnpublishing = action.payload;
+      return newState;
+    }
+
+    case SET_UNPUBLISHING_ERRORS: {
+      const newState = { ...state };
+      newState.unpublishingErrors = action.payload;
+      return newState;
+    }
+
+
     case LOGOUT_USER: {
       return cloneDeep( initialState );
     }
@@ -139,6 +160,20 @@ export function setFetchingPublishedGameErrors( errors ) {
 export function setPublishingErrors( errors ) {
   return {
     type: SET_PUBLISHING_ERRORS,
+    payload: errors,
+  };
+}
+
+export function setIsUnpublishing( isUnpublishing ) {
+  return {
+    type: SET_IS_UNPUBLISHING,
+    payload: isUnpublishing,
+  };
+}
+
+export function setUnpublishingErrors( errors ) {
+  return {
+    type: SET_UNPUBLISHING_ERRORS,
     payload: errors,
   };
 }
@@ -199,5 +234,30 @@ export function publishCurrentProject( codeLicense, assetLicense, licenseAgree, 
     }
 
     dispatch( setIsPublishing( false ) );
+  };
+}
+
+export function unpublishCurrentProject() {
+  return async ( dispatch, getState ) => {
+    dispatch( setIsUnpublishing( true ) );
+    dispatch( setUnpublishingErrors( [] ) );
+
+    const state = getState();
+    const gameId = get( state, 'user.currentProject.publishedGame._id', '' );
+
+    const response = await unpublishGame( gameId );
+
+    if ( response.status === 401 ) {
+      dispatch( logoutUser() );
+    }
+
+    if ( response.isError ) {
+      dispatch( setUnpublishingErrors( response.errors ) );
+    }
+    else {
+      dispatch( setCurrentProjectPublishedGame( null ) );
+    }
+
+    dispatch( setIsUnpublishing( false ) );
   };
 }

@@ -40,6 +40,20 @@ export async function publishGame(
   }
 }
 
+export async function unpublishGame( gameId ) {
+  try {
+    const response = await axios.delete(
+      `${ BASE_URL }/api/games/${ gameId }`,
+      { withCredentials: true },
+    );
+
+    return response;
+  }
+  catch ( err ) {
+    return catchErrors( err );
+  }
+}
+
 export async function getGameByProjectId( projectId ) {
   try {
     const response = await axios.get(

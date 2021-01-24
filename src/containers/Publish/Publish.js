@@ -8,6 +8,7 @@ import get from 'lodash.get';
 import CreateUserModal from '../User/CreateUserModal/CreateUserModal';
 import LoginUserModal from '../User/LoginUserModal/LoginUserModal';
 import PublishGameModal from '../User/PublishGameModal/PublishGameModal';
+import UnpublishGameModal from '../User/UnpublishGameModal/UnpublishGameModal';
 
 import Card from '../../components/Card/Card';
 import Button from '../../components/Button/Button';
@@ -27,6 +28,7 @@ class Publish extends React.Component {
       createUserModalIsOpen: false,
       loginUserModalIsOpen: false,
       publishGameModalIsOpen: false,
+      unpublishGameModalIsOpen: false,
     };
   }
 
@@ -58,6 +60,10 @@ class Publish extends React.Component {
     this.setState( { publishGameModalIsOpen: true } );
   }
 
+  handleUnpublishClick() {
+    this.setState( { unpublishGameModalIsOpen: true } );
+  }
+
   render() {
     const {
       currentUser,
@@ -66,7 +72,12 @@ class Publish extends React.Component {
       isCreatingProject,
       isFetchingPublishedGame,
     } = this.props;
-    const { createUserModalIsOpen, loginUserModalIsOpen, publishGameModalIsOpen } = this.state;
+    const {
+      createUserModalIsOpen,
+      loginUserModalIsOpen,
+      publishGameModalIsOpen,
+      unpublishGameModalIsOpen,
+    } = this.state;
 
     let mainRender = (
       <div className="sign-up-content">
@@ -112,6 +123,11 @@ class Publish extends React.Component {
                   standard
                   click={ () => this.handlePublishClick() }
                 />
+                <Button
+                  title="Unpublish Game"
+                  standard
+                  click={ () => this.handleUnpublishClick() }
+                />
               </div>
             </>
           );
@@ -120,7 +136,7 @@ class Publish extends React.Component {
           mainRender = (
             <div className="publish-project-content">
               <div>
-                This project has never been published.
+                This project has not been published.
               </div>
               <Button
                 title="Publish"
@@ -171,6 +187,12 @@ class Publish extends React.Component {
       />
     ) : null;
 
+    const unpublishGameModalRender = unpublishGameModalIsOpen ? (
+      <UnpublishGameModal
+        onClose={ () => this.setState( { unpublishGameModalIsOpen: false } ) }
+      />
+    ) : null;
+
     return (
       <div className="publish">
         <Card title="Publish Your Game:">
@@ -179,6 +201,7 @@ class Publish extends React.Component {
         { createUserModalRender }
         { loginUserModalRender }
         { publishGameModalRender }
+        { unpublishGameModalRender }
       </div>
     );
   }
