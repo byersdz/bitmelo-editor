@@ -136,17 +136,21 @@ class ScriptPicker extends React.Component {
 
     let dropDownRender = null;
     if ( dropDownIsOpen ) {
+      const addButtonRender = scripts.length < 16 ? (
+        <Button
+          title="select"
+          hideTitle
+          className="add-btn"
+          click={ () => _addScript() }
+        >
+          Add Script
+        </Button>
+      ) : null;
+
       dropDownRender = (
         <div className="drop-down">
           { this.renderItems() }
-          <Button
-            title="select"
-            hideTitle
-            className="add-btn"
-            click={ () => _addScript() }
-          >
-            Add Script
-          </Button>
+          { addButtonRender }
         </div>
       );
     }
