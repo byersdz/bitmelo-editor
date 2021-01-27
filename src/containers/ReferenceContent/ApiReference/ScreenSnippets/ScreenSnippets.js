@@ -118,6 +118,18 @@ engine.screen.drawTile(
   0,    // flip
   0     // rotate
 );
+
+// Draw a tile section
+engine.screen.drawTileSection(
+  1,    // bottom left gid
+  2,    // width
+  2,    // height
+  0,    // x
+  0,    // y
+  0,    // flip
+  0     // rotate
+);
+
             `
           }
         />
