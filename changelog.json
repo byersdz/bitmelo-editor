@@ -1,6 +1,18 @@
 {
   "versions": [
     {
+      "version": "2.2.0",
+      "changes": [
+        "Added feed to Bitmelo.com",
+        "You can now have up to 16 scripts. They are executed in order.",
+        "Added screen.drawTileSection to the engine",
+        "Added screen.drawArray to the engine",
+        "Added tileData.getTileSection to the engine",
+        "Publishing now generates a cover image",
+        "Fixed bug with playing a sound with exponential release causing crash"
+      ]
+    },
+    {
       "version": "2.1.0",
       "changes": [
         "Added line tool to tile editor.",
