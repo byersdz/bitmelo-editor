@@ -732,6 +732,69 @@ screen.drawTile(
           }
         />
         <Method
+          name="screen.drawTileSection"
+          description={
+`
+Draw a section of tiles from a tileset.
+`
+          }
+          params={
+            [
+              {
+                name: 'gid',
+                type: 'number',
+                description: 'the gid of bottom left tile.',
+              },
+              {
+                name: 'width',
+                type: 'number',
+                description: 'The width in tiles of the section.',
+              },
+              {
+                name: 'height',
+                type: 'number',
+                description: 'The height in tiles of the section.',
+              },
+              {
+                name: 'screenX',
+                type: 'number',
+                description: 'the x position on the screen to draw to.',
+              },
+              {
+                name: 'screenY',
+                type: 'number',
+                description: 'the y position on the screen to draw to.',
+              },
+              {
+                name: 'flip',
+                type: 'number',
+                description: 'should we flip the tile? 0: no, 1: x, 2: y, 3: xy',
+              },
+              {
+                name: 'rotate',
+                type: 'number',
+                description: 'The number of degrees to rotate. Only 90 degree increments are supported.',
+              },
+            ]
+          }
+          example={
+`
+const firstTile = 1;
+
+screen.drawTileSection(
+  firstTile,  // bottom left tile gid
+  2,          // width in tiles
+  3,          // height in tiles
+  80,         // x position
+  40,         // y position
+  0,          // flip
+  0           // rotate
+);
+
+`
+          }
+        />
+        <Method
           name="screen.drawMap"
           description={
 `
@@ -794,6 +857,70 @@ screen.drawMap(
   0,    // tile map index
   0     // layer index
 );
+`
+          }
+        />
+        <h3>Array</h3>
+        <Method
+          name="screen.drawArray"
+          description={
+`
+Draw an array of data to the screen. The array must be a length of the width * height, and
+must have values between 0 and 255. The first array index is the bottom left pixel, and the
+last array index is the top right pixel.
+`
+          }
+          params={
+            [
+              {
+                name: 'arrayData',
+                type: 'array',
+                description: 'The array data. Must be length of arrayWidth * arrayHeight and values of 0 - 255',
+              },
+              {
+                name: 'arrayWidth',
+                type: 'number',
+                description: 'The width of the grid the array represents.',
+              },
+              {
+                name: 'arrayHeight',
+                type: 'number',
+                description: 'The height of the grid the array represents',
+              },
+              {
+                name: 'screenX',
+                type: 'number',
+                description: 'The x position on the screen to draw to.',
+              },
+              {
+                name: 'screenY',
+                type: 'number',
+                description: 'The y position on the screen to draw to.',
+              },
+              {
+                name: 'flip',
+                type: 'number',
+                description: 'should we flip the tile? 0: no, 1: x, 2: y, 3: xy',
+              },
+              {
+                name: 'rotate',
+                type: 'number',
+                description: 'The number of degrees to rotate. Only 90 degree increments are supported.',
+              },
+            ]
+          }
+          example={
+`
+screen.drawArray(
+  arrayData,  // tile gid
+  128,        // width in pixels
+  64,         // height in pixels
+  80,         // screen x position
+  40,         // screen y position
+  0,          // flip
+  0,          // rotate
+);
+
 `
           }
         />

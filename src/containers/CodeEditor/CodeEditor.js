@@ -5,10 +5,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import ScriptPicker from './ScriptPicker/ScriptPicker';
+
 import { setScript } from '../../state/Code/scripts';
 
 import { useSmallWidth, useExtraSmallWidth } from '../../style/dimensions';
 
+// avoid syntax checking for now
+// import 'ace-builds/webpack-resolver';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-twilight';
 import 'ace-builds/src-noconflict/ext-language_tools';
@@ -41,10 +45,12 @@ class CodeEditor extends React.Component {
     const {
       navigationPanelIsOpen,
       referencePanelIsOpen,
+      activeIndex,
     } = this.props;
     const {
       navigationPanelIsOpen: prevNavIsOpen,
       referencePanelIsOpen: prevRefIsOpen,
+      activeIndex: prevIndex,
     } = prevProps;
 
     if (
@@ -53,15 +59,34 @@ class CodeEditor extends React.Component {
     ) {
       this.updateDimensions();
     }
+
+    if ( activeIndex !== prevIndex && this.editor ) {
+      this.saveScriptMetaData( prevIndex );
+      this.editor.session.getUndoManager().reset();
+
+      const { script } = this.props;
+      this.editor.selection.moveTo( script.cursorRow, script.cursorColumn );
+      this.editor.session.setScrollTop( script.scrollTop );
+    }
+  }
+
+  saveScriptMetaData( index ) {
+    const { scripts, _setScript } = this.props;
+
+    // don't save meta data if the script no longer exists
+    if ( index >= scripts.length - 1 ) {
+      return;
+    }
+
+    _setScript( index, {
+      ...scripts[index],
+      scrollTop: this.editor.session.getScrollTop(),
+    } );
   }
 
   componentWillUnmount() {
-    const { script, activeIndex, _setScript } = this.props;
-    _setScript( activeIndex, {
-      ...script,
-      scrollTop: this.editor.session.getScrollTop(),
-    } );
-
+    const { activeIndex } = this.props;
+    this.saveScriptMetaData( activeIndex );
     window.removeEventListener( 'resize', this.updateDimensions );
   }
 
@@ -140,7 +165,7 @@ class CodeEditor extends React.Component {
     const maxEditorWidth = 1200;
     const minEditorWidth = 640;
 
-    let editorWidth = containerWidth - 16;
+    let editorWidth = containerWidth - 8;
 
     if ( editorWidth > maxEditorWidth ) {
       editorWidth = maxEditorWidth;
@@ -150,10 +175,13 @@ class CodeEditor extends React.Component {
       editorWidth = minEditorWidth;
     }
 
-    const editorHeight = containerHeight - 16;
+    const editorHeight = containerHeight - 8;
 
     return (
       <div className="code-editor">
+        <div className="editor-controls">
+          <ScriptPicker />
+        </div>
         <div className="editor-container" ref={ this.containerRef }>
           <AceEditor
             value={ script.text }
@@ -182,6 +210,7 @@ class CodeEditor extends React.Component {
 
 CodeEditor.propTypes = {
   script: PropTypes.object.isRequired,
+  scripts: PropTypes.arrayOf( PropTypes.object ).isRequired,
   _setScript: PropTypes.func.isRequired,
   activeIndex: PropTypes.number.isRequired,
   navigationPanelIsOpen: PropTypes.bool.isRequired,
@@ -194,6 +223,7 @@ function mapStateToProps( state ) {
   return {
     activeIndex,
     script,
+    scripts,
     navigationPanelIsOpen: state.layout.navigationPanelIsOpen,
     referencePanelIsOpen: state.layout.referencePanelIsOpen,
   };

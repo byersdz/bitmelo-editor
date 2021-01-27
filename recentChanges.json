@@ -1,6 +1,18 @@
 {
   "versions": [
     {
+      "version": "2.2.0",
+      "changes": [
+        "Added feed to Bitmelo.com",
+        "You can now have up to 16 scripts. They are executed in order.",
+        "Added screen.drawTileSection to the engine",
+        "Added screen.drawArray to the engine",
+        "Added tileData.getTileSection to the engine",
+        "Publishing now generates a cover image",
+        "Fixed bug with playing a sound with exponential release causing crash"
+      ]
+    },
+    {
       "version": "2.1.0",
       "changes": [
         "Added line tool to tile editor.",
@@ -8,15 +20,6 @@
         "Added find to code editor",
         "If an individual frame or game init lasts longer than 5 seconds the game will now crash. This is to prevent an infinite loop from locking up the browser forever.",
         "Added backquote (`) hotkey to toggle panels in the tile and tilemap editors."
-      ]
-    },
-    {
-      "version": "2.0.0",
-      "changes": [
-        "Added cloud saves",
-        "You can now publish games on bitmelo.com",
-        "max number of sounds is now 128",
-        "Added projects view for cloud projects"
       ]
     }
   ]

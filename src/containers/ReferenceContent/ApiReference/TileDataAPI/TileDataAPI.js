@@ -101,6 +101,47 @@ const playerTile = tileData.getGid(
           }
         />
         <Method
+          name="tileData.getTileSectionData"
+          description={
+`
+Get the pixel data for a section of the tileset. Returns an object that contains the following:
+data: the array of pixel data
+width: the width in pixels of the data
+height: the height in pixels of the data.
+`
+          }
+          params={
+            [
+              {
+                name: 'gid',
+                type: 'number',
+                description: 'The gid of the bottom left tile in the tile section',
+              },
+              {
+                name: 'tileWidth',
+                type: 'number',
+                description: 'The width in tiles of the section',
+              },
+              {
+                name: 'tileHeight',
+                type: 'number',
+                description: 'The height in tiles of the section',
+              },
+            ]
+          }
+          example={
+`
+const sectionData = tileData.getTileSectionData(
+  1,    // gid
+  2,    // tile section width
+  2     // tile section height
+);
+
+const { data, width, height } = sectionData;
+`
+          }
+        />
+        <Method
           name="tileData.init"
           description={
 `
