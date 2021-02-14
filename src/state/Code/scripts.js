@@ -49,12 +49,16 @@ export function initAndUpdate( state ) {
 const initialState = [
   {
     text: `
-engine.onInit = () => {
+let inp = null;
+let scr = null;
 
+engine.onInit = () => {
+  inp = engine.input;
+  scr = engine.screen;
 };
 
 engine.onUpdate = () => {
-
+  scr.clear(1);
 };
 
 `,
