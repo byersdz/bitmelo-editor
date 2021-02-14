@@ -13,6 +13,7 @@ import {
   SOUND_TAB,
   TILEMAP_TAB,
   PUBLISH_TAB,
+  INSTRUCTIONS_TAB,
 } from '../../state/Layout/activeNavigationTab';
 import { toggleNavigationPanel } from '../../state/Layout/navigationPanelIsOpen';
 import { toggleReferencePanel } from '../../state/Layout/referencePanelIsOpen';
@@ -29,6 +30,7 @@ import TileEditor from '../TileEditor/TileEditor';
 import TilemapEditor from '../TilemapEditor/TilemapEditor';
 import SoundEditor from '../SoundEditor/SoundEditor';
 import Publish from '../Publish/Publish';
+import Instructions from '../Instructions/Instructions';
 
 import CreateUserModal from '../User/CreateUserModal/CreateUserModal';
 import LoginUserModal from '../User/LoginUserModal/LoginUserModal';
@@ -144,6 +146,15 @@ class MainContainer extends React.Component {
           </Scrollbars>
         );
         topBarTitle = `${ projectName }: Publish`;
+        break;
+      }
+      case INSTRUCTIONS_TAB: {
+        contentRender = (
+          <Scrollbars>
+            <Instructions />
+          </Scrollbars>
+        );
+        topBarTitle = `${ projectName }: Instructions`;
         break;
       }
       default:

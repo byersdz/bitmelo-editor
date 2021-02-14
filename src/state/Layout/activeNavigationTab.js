@@ -10,6 +10,7 @@ export const SPRITE_TAB = 'sprite';
 export const SOUND_TAB = 'sound';
 export const MUSIC_TAB = 'music';
 export const PUBLISH_TAB = 'publish';
+export const INSTRUCTIONS_TAB = 'instructions';
 
 // Actions
 export const SELECT_NAVIGATION_TAB = 'SELECT_NAVIGATION_TAB';
