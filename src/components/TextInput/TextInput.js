@@ -11,6 +11,7 @@ const TextInput = props => {
     onValueChange,
     hideTitle,
     vertical,
+    maxLength,
   } = props;
 
   const titleRender = !hideTitle ? (
@@ -24,6 +25,12 @@ const TextInput = props => {
     className += ' vertical';
   }
 
+  const lengthRender = maxLength ? (
+    <div className="length-count">
+      { `${ value.length } / ${ maxLength }` }
+    </div>
+  ) : null;
+
   return (
     <div className={ className }>
       { titleRender }
@@ -31,10 +38,19 @@ const TextInput = props => {
         <input
           className="block-hotkeys"
           value={ value }
-          onChange={ e => onValueChange( e.target.value ) }
+          onChange={ e => {
+            let newValue = e.target.value;
+
+            if ( maxLength && newValue.length > maxLength ) {
+              newValue = newValue.slice( 0, maxLength );
+            }
+
+            onValueChange( newValue );
+          } }
           type="text"
         />
       </div>
+      { lengthRender }
     </div>
   );
 };
@@ -45,11 +61,13 @@ TextInput.propTypes = {
   onValueChange: PropTypes.func.isRequired,
   hideTitle: PropTypes.bool,
   vertical: PropTypes.bool,
+  maxLength: PropTypes.number,
 };
 
 TextInput.defaultProps = {
   hideTitle: false,
   vertical: false,
+  maxLength: 0,
 };
 
 export default TextInput;
