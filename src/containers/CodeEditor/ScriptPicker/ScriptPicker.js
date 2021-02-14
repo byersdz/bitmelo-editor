@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import enhanceWithClickOutside from 'react-click-outside';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import TextInput from '../../../components/TextInput/TextInput';
 import Button from '../../../components/Button/Button';

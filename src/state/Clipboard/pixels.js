@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 // Actions
 export const SET_CLIPBOARD_PIXELS = 'SET_CLIPBOARD_PIXELS';

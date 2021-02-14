@@ -29,6 +29,7 @@ const TextInput = props => {
       { titleRender }
       <div className="controls">
         <input
+          className="block-hotkeys"
           value={ value }
           onChange={ e => onValueChange( e.target.value ) }
           type="text"

@@ -1,4 +1,4 @@
-import has from 'lodash.has';
+import has from 'lodash/has';
 
 export default function catchErrors( err ) {
   let errors = [{ msg: 'Unknown Error' }];

@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import ToolPicker from '../../../components/ToolPicker/ToolPicker';
 import Button from '../../../components/Button/Button';

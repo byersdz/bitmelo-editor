@@ -1,6 +1,6 @@
 
-import cloneDeep from 'lodash.clonedeep';
-import get from 'lodash.get';
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
 import arrayMove from 'array-move';
 import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 

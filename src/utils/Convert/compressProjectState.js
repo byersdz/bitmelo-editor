@@ -1,6 +1,6 @@
 
 import { ConvertData } from 'bitmelo';
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 export default function compressProjectState( projectData ) {
   const dataClone = cloneDeep( projectData );

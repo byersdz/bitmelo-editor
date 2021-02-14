@@ -87,7 +87,7 @@ class NumberPicker extends React.Component {
     } = this.props;
     const { isEditing, tempValue } = this.state;
 
-    const inputClass = isEditing ? 'is-editing' : '';
+    const inputClass = isEditing ? 'is-editing block-hotkeys' : 'block-hotkeys';
     const displayValue = isEditing ? tempValue : value;
 
     return (

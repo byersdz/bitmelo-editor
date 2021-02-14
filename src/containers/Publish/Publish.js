@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
-import get from 'lodash.get';
+import get from 'lodash/get';
 
 import CreateUserModal from '../User/CreateUserModal/CreateUserModal';
 import LoginUserModal from '../User/LoginUserModal/LoginUserModal';

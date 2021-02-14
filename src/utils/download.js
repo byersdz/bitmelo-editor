@@ -1,5 +1,5 @@
 
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import storeRegistry from '../state/storeRegistry';
 import createHTMLGame from './Convert/createHTMLGame';

@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 // add a source grid to a destination grid
 export function combineGrids( source, destination, preserveTransparency = false ) {

@@ -7,7 +7,7 @@ import {
   checkIfLoggedIn,
   changePassword,
 } from '../../api/user';
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 // Actions
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
