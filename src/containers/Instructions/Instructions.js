@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 
 import TextInput from '../../components/TextInput/TextInput';
+import TextAreaInput from '../../components/TextAreaInput/TextAreaInput';
 
 import { setInstructions } from '../../state/Project/instructions';
 
@@ -23,12 +24,16 @@ class Instructions extends React.PureComponent {
   render() {
     const { instructions } = this.props;
 
-    // console.log( instructions );
-
     return (
       <div className="instructions">
         <div className="instructions-container">
-          <h3>Control Descriptions:</h3>
+          <TextAreaInput
+            value={ get( instructions, 'gameDescription' ) }
+            onChange={ v => this.handleInstructionChange( 'gameDescription', v ) }
+            title="Game Description"
+            maxLength={ 140 }
+          />
+          <h4>Action Descriptions:</h4>
           <TextInput
             title="Action 1 - (Z or Space)"
             vertical
@@ -58,6 +63,28 @@ class Instructions extends React.PureComponent {
             maxLength={ 32 }
           />
           <TextInput
+            title="Left Trigger - (Q or Shift)"
+            vertical
+            value={ get( instructions, 'leftTrigger' ) }
+            onValueChange={ v => this.handleInstructionChange( 'leftTrigger', v ) }
+            maxLength={ 32 }
+          />
+          <TextInput
+            title="Right Trigger - (W or Alt)"
+            vertical
+            value={ get( instructions, 'rightTrigger' ) }
+            onValueChange={ v => this.handleInstructionChange( 'rightTrigger', v ) }
+            maxLength={ 32 }
+          />
+          <TextInput
+            title="Pause - (P or Enter)"
+            vertical
+            value={ get( instructions, 'pause' ) }
+            onValueChange={ v => this.handleInstructionChange( 'pause', v ) }
+            maxLength={ 32 }
+          />
+          <h4>D-pad Descriptions:</h4>
+          <TextInput
             title="Left - (Left Arrow or J)"
             vertical
             value={ get( instructions, 'left' ) }
@@ -83,27 +110,6 @@ class Instructions extends React.PureComponent {
             vertical
             value={ get( instructions, 'down' ) }
             onValueChange={ v => this.handleInstructionChange( 'down', v ) }
-            maxLength={ 32 }
-          />
-          <TextInput
-            title="Left Trigger - (Q or Shift)"
-            vertical
-            value={ get( instructions, 'leftTrigger' ) }
-            onValueChange={ v => this.handleInstructionChange( 'leftTrigger', v ) }
-            maxLength={ 32 }
-          />
-          <TextInput
-            title="Right Trigger - (W or Alt)"
-            vertical
-            value={ get( instructions, 'rightTrigger' ) }
-            onValueChange={ v => this.handleInstructionChange( 'rightTrigger', v ) }
-            maxLength={ 32 }
-          />
-          <TextInput
-            title="Pause - (P or Enter)"
-            vertical
-            value={ get( instructions, 'pause' ) }
-            onValueChange={ v => this.handleInstructionChange( 'pause', v ) }
             maxLength={ 32 }
           />
         </div>

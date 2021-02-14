@@ -1,0 +1,42 @@
+
+@import '../../style/colors.scss';
+
+.text-area-input {
+  width: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 8px;
+
+  textarea {
+    width: 100%;
+    resize: none;
+    border: 2px solid $primary-color;
+    background-color: $background-color;
+    color: $on-background-color;
+    font-size: 18px;
+    padding: 4px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin: 0;
+  }
+
+  textarea:focus {
+    outline: none;
+    background-color: $primary-color;
+    border-radius: 4px;
+    caret-color: $on-primary-color;
+    color: $on-primary-color;
+  }
+
+  .title {
+    font-weight: bold;
+    align-self: flex-start;
+  }
+
+  .length-count {
+    font-size: 12px;
+    align-self: flex-end;
+    margin-top: 2px;
+    text-align: right;
+  }
+}
