@@ -35,28 +35,28 @@ class Instructions extends React.PureComponent {
           />
           <h4>Action Descriptions:</h4>
           <TextInput
-            title="Action 1 - (Z or Space)"
+            title="Action 1 - (Z, Space, or bottom face button)"
             vertical
             value={ get( instructions, 'action1' ) }
             onValueChange={ v => this.handleInstructionChange( 'action1', v ) }
             maxLength={ 32 }
           />
           <TextInput
-            title="Action 2 - (X or D)"
+            title="Action 2 - (X, D, or right face button)"
             vertical
             value={ get( instructions, 'action2' ) }
             onValueChange={ v => this.handleInstructionChange( 'action2', v ) }
             maxLength={ 32 }
           />
           <TextInput
-            title="Action 3 - (A or C)"
+            title="Action 3 - (A, C, or left face button)"
             vertical
             value={ get( instructions, 'action3' ) }
             onValueChange={ v => this.handleInstructionChange( 'action3', v ) }
             maxLength={ 32 }
           />
           <TextInput
-            title="Action 4 - (S or V)"
+            title="Action 4 - (S, V, or top face button)"
             vertical
             value={ get( instructions, 'action4' ) }
             onValueChange={ v => this.handleInstructionChange( 'action4', v ) }
