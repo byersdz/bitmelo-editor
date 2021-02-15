@@ -1,4 +1,5 @@
 
+@import '../../style//colors.scss';
 .main-container {
   flex-grow: 1;
   display: flex;
@@ -11,7 +12,7 @@
 
   .main-top-bar {
     .create-account-btn {
-      background-color: #7de74c;
+      background-color: $highlight-color;
       margin: 4px 0;
       padding: 0 8px;
       align-self: stretch;

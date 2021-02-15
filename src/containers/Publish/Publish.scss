@@ -1,4 +1,6 @@
 
+@import '../../style/colors.scss';
+
 .publish {
   display: flex;
   flex-direction: column;
@@ -25,7 +27,7 @@
     }
 
     .create-account-btn {
-      background-color: #7de74c;
+      background-color: $highlight-color;
       font-weight: bold;
       border-radius: 5px;
       margin: 0 8px;
