@@ -52,9 +52,9 @@ Spinner.propTypes = {
 Spinner.defaultProps = {
   size: '32px',
   borderWidth: '4px',
-  r: '169',
-  g: '118',
-  b: '189',
+  r: '114',
+  g: '202',
+  b: '126',
 };
 
 export default Spinner;
