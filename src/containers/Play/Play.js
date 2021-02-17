@@ -120,6 +120,7 @@ class Play extends React.Component {
           className="play-iframe"
           srcDoc={ iframeSrc }
           title="play"
+          allow="gamepad"
           sandbox="allow-scripts"
         />
       </div>
