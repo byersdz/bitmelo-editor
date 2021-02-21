@@ -69,6 +69,7 @@
       align-items: center;
       border-bottom: 1px solid black;
       background-color: $surface-dark-color;
+      min-height: 32px;
 
       &:hover {
         background-color: $surface-light-color;
