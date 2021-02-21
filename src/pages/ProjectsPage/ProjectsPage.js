@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import ProjectsView from '../../containers/ProjectsView/ProjectsView';
-import BitmeloLogo from '../../containers/About/bitmelo-logo.png';
+import BitmeloLogo from '../../containers/About/bitmelo-logo.gif';
 
 import Button from '../../components/Button/Button';
 import Card from '../../components/Card/Card';

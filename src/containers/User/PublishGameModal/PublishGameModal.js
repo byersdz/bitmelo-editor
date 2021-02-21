@@ -35,10 +35,6 @@ const assetLicenseOptions = [
     value: 'cc-by-4',
   },
   {
-    display: 'Creative Commons Attribution NonCommercial',
-    value: 'cc-by-nc-4',
-  },
-  {
     display: 'Creative Commons Zero',
     value: 'cc0',
   },
