@@ -28,7 +28,7 @@
     }
 
     .explore-btn {
-      padding: 4px;
+      padding: 2px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -41,11 +41,11 @@
       }
 
       .isvg {
-        width: 28px;
-        height: 28px;
+        width: 32px;
+        height: 32px;
         svg {
-          width: 28px;
-          height: 28px;
+          width: 32px;
+          height: 32px;
 
           fill: $on-primary-color;
           stroke: $on-primary-color;

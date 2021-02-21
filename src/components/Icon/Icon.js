@@ -34,6 +34,7 @@ import UserIcon from './SVG/user-o.svg';
 import TrashIcon from './SVG/trash-o.svg';
 import LineIcon from './SVG/line-o.svg';
 import DotsIcon from './SVG/dots-o.svg';
+import WorldIcon from './SVG/world-o.svg';
 
 import './Icon.scss';
 
@@ -227,6 +228,12 @@ const Icon = ( props ) => {
 
     case 'dots': {
       svgFile = DotsIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'world': {
+      svgFile = WorldIcon;
       noStroke = true;
       break;
     }

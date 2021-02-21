@@ -215,7 +215,7 @@ class MainContainer extends React.Component {
         className="explore-btn"
         href="https://bitmelo.com"
       >
-        <Icon file="play" />
+        <Icon file="world" />
       </AButton>
     );
 
