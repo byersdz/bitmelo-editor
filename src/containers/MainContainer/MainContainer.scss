@@ -26,5 +26,31 @@
       font-weight: bold;
       font-size: 14px;
     }
+
+    .explore-btn {
+      padding: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: $primary-color;
+      border-radius: 4px;
+
+      &:hover {
+        background-color: $primary-light-color;
+      }
+
+      .isvg {
+        width: 28px;
+        height: 28px;
+        svg {
+          width: 28px;
+          height: 28px;
+
+          fill: $on-primary-color;
+          stroke: $on-primary-color;
+        }
+      }
+    }
   }
 }

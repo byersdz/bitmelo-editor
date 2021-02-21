@@ -21,6 +21,8 @@ import { toggleReferencePanel } from '../../state/Layout/referencePanelIsOpen';
 import TopBar from '../../components/TopBar/TopBar';
 import Scrollbars from '../../components/Scrollbars/Scrollbars';
 import Button from '../../components/Button/Button';
+import AButton from '../../components/AButton/AButton';
+import Icon from '../../components/Icon/Icon';
 
 import About from '../About/About';
 import ProjectEditor from '../ProjectEditor/ProjectEditor';
@@ -208,11 +210,21 @@ class MainContainer extends React.Component {
       />
     ) : null;
 
+    const leftItemsRender = (
+      <AButton
+        className="explore-btn"
+        href="https://bitmelo.com"
+      >
+        <Icon file="play" />
+      </AButton>
+    );
+
     return (
       <div className="main-container">
         <TopBar
           className="main-top-bar"
           title={ topBarTitle }
+          leftItems={ leftItemsRender }
           rightItems={ rightItemsRender }
         />
         { contentRender }
