@@ -74,7 +74,7 @@ class CodeEditor extends React.Component {
     const { scripts, _setScript } = this.props;
 
     // don't save meta data if the script no longer exists
-    if ( index >= scripts.length - 1 ) {
+    if ( index > scripts.length - 1 ) {
       return;
     }
 
