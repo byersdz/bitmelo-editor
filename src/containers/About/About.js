@@ -79,11 +79,13 @@ class About extends React.Component {
 
     return (
       <div className="about">
-        <img
-          className="bitmelo-logo"
-          src={ BitmeloLogo }
-          alt="Bitmelo Logo"
-        />
+        <AButton href="https://bitmelo.com">
+          <img
+            className="bitmelo-logo"
+            src={ BitmeloLogo }
+            alt="Bitmelo Logo"
+          />
+        </AButton>
         <div className="version">
           {
             `editor v${ PackageJSON.version }`
