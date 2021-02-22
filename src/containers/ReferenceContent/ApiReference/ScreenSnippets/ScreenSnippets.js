@@ -145,7 +145,30 @@ engine.screen.drawMap(
   -1,     // height
   0,      // screenX
   0,      // screenY
-  0       // tilemap index
+  0,       // tilemap index
+  (gid, x, y) => {
+    // onDrawTile function
+
+    let newGid = gid;
+    let flip = 0;
+    let rotate = 0;
+
+    // replace a tile
+    if (gid === 1) {
+      newGid = 2;
+    }
+
+    // rotate a tile at a given position
+    if (x === 10 && y === 20) {
+      rotate = 90;
+    }
+
+    return {
+      gid: newGid,
+      flip,
+      rotate
+    };
+  }
 );
             `
           }
