@@ -30,7 +30,7 @@ The DOM canvas used by this screen.
           }
         />
         <Property
-          name="screen.conainerId"
+          name="screen.containerId"
           type="string"
           description={
 `
@@ -788,7 +788,7 @@ screen.drawTileSection(
   80,         // x position
   40,         // y position
   0,          // flip
-  0           // rotate
+  0          // rotate
 );
 
 `
@@ -843,6 +843,12 @@ Draw a TileMap layer to the screen.
                 type: 'number',
                 description: 'the index of the layer to draw',
               },
+              {
+                name: 'onDrawTile',
+                type: 'function',
+                description: `A function to override individual tiles.
+                  This allows animations and state changes. (gid, x, y) => { gid, flip, rotate }`,
+              },
             ]
           }
           example={
@@ -855,7 +861,28 @@ screen.drawMap(
   0,    // screen x
   0,    // screen y
   0,    // tile map index
-  0     // layer index
+  0,    // layer index
+  (gid, x, y) => { // onDrawTile function
+    let newGid = gid;
+    let flip = 0;
+    let rotate = 0;
+
+    // replace a tile
+    if (gid === 1) {
+      newGid = 2;
+    }
+
+    // rotate a tile at a given position
+    if (x === 10 && y === 20) {
+      rotate = 90;
+    }
+
+    return {
+      gid: newGid,
+      flip,
+      rotate
+    };
+  }
 );
 `
           }
