@@ -41,6 +41,22 @@ The number of seconds since the game was started.
         />
         <h3>Callback Functions</h3>
         <Property
+          name="engine.onConfigure"
+          type="Function"
+          description={
+`
+Function to be called to do engine configuration.
+`
+          }
+          example={
+`
+engine.onConfigure = () => {
+  console.log( 'Make configuration changes here' );
+}
+`
+          }
+        />
+        <Property
           name="engine.onInit"
           type="Function"
           description={
