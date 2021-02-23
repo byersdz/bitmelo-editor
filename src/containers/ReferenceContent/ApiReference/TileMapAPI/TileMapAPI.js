@@ -135,6 +135,54 @@ tileMap.setTile(
 `
           }
         />
+        <Method
+          name="tileMap.getLayerData"
+          description={
+`
+Get an array of the layer data, optionally only getting a subsection of the layer.
+`
+          }
+          params={
+            [
+              {
+                name: 'layer',
+                type: 'number',
+                description: 'The layer index',
+              },
+              {
+                name: 'startX',
+                type: 'number',
+                description: 'The bottom left x position',
+              },
+              {
+                name: 'startY',
+                type: 'number',
+                description: 'The bottom left y position',
+              },
+              {
+                name: 'endX',
+                type: 'number',
+                description: 'The top right x position',
+              },
+              {
+                name: 'endY',
+                type: 'number',
+                description: 'The top right y position',
+              },
+            ]
+          }
+          example={
+`
+tileMap.getLayerData(
+  0,          // layer
+  0,          // startX
+  0,          // startY
+  10,         // endX
+  10          // endy
+);
+`
+          }
+        />
       </div>
     );
   }
