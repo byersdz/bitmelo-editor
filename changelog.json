@@ -1,6 +1,22 @@
 {
   "versions": [
     {
+      "version": "2.3.0",
+      "changes": [
+        "Added Gamepad support",
+        "Add alternate keyboard buttons",
+        "Added Game descriptions and controls instructions",
+        "Swapped Menu Confirm and Menu Back keyboard defaults",
+        "Changed how audio volume works to better account for human hearing. This will make existing audio volumes quieter.",
+        "Added onDrawTile parameter function to Screen.drawMap. This allows state changes and animations when drawing a map.",
+        "Added Screen.drawMapArray to draw an array of tile gid values",
+        "Added TileMap.getLayerData to get an array of tile gid values from a TileMaps layer",
+        "Engine.onInit is now called afer all engine initialization is done",
+        "Added Engine.onConfigure to configure the engine before initialization is done",
+        "Updated logo and color theme"
+      ]
+    },
+    {
       "version": "2.2.0",
       "changes": [
         "Added feed to Bitmelo.com",
