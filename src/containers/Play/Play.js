@@ -14,10 +14,13 @@ class Play extends React.Component {
   constructor( props ) {
     super( props );
     this.handleMessage = this.handleMessage.bind( this );
+
+    this.iframeRef = React.createRef();
   }
 
   componentDidMount() {
     window.addEventListener( 'message', this.handleMessage );
+    this.iframeRef.current.contentWindow.focus();
   }
 
   componentWillUnmount() {
@@ -122,6 +125,7 @@ class Play extends React.Component {
           title="play"
           allow="gamepad"
           sandbox="allow-scripts"
+          ref={ this.iframeRef }
         />
       </div>
     );

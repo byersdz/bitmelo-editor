@@ -45,7 +45,7 @@ The number of seconds since the game was started.
           type="Function"
           description={
 `
-Function to be called to do engine configuration.
+Function to be called to do engine configuration before initialization.
 `
           }
           example={
