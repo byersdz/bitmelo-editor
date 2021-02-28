@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import debounce from 'lodash.debounce';
+import debounce from 'lodash/debounce';
 import thunk from 'redux-thunk';
 
 import App from './components/App/App';

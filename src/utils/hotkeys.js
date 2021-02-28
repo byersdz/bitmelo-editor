@@ -1,4 +1,6 @@
 
+import includes from 'lodash/includes';
+
 export const SELECT_ALL = 'SELECT_ALL';
 export const DESELECT_SELECTION = 'DESELECT_SELECTION';
 export const SAVE_PROJECT = 'SAVE_PROJECT';
@@ -9,6 +11,15 @@ export const TOGGLE_PANEL_3 = 'TOGGLE_PANEL_3';
 export const TOGGLE_PANEL_4 = 'TOGGLE_PANEL_4';
 export const TOGGLE_REFERENCE = 'TOGGLE_REFERENCE';
 export const TOGGLE_NAVIGATION = 'TOGGLE_NAVIGATION';
+export const MOVE_TILE_SELECTION_LEFT = 'MOVE_TILE_SELECTION_LEFT';
+export const MOVE_TILE_SELECTION_RIGHT = 'MOVE_TILE_SELECTION_RIGHT';
+export const MOVE_TILE_SELECTION_UP = 'MOVE_TILE_SELECTION_UP';
+export const MOVE_TILE_SELECTION_DOWN = 'MOVE_TILE_SELECTION_DOWN';
+export const MOVE_TILE_SELECTION_LEFT_TILED = 'MOVE_TILE_SELECTION_LEFT_TILED';
+export const MOVE_TILE_SELECTION_RIGHT_TILED = 'MOVE_TILE_SELECTION_RIGHT_TILED';
+export const MOVE_TILE_SELECTION_UP_TILED = 'MOVE_TILE_SELECTION_UP_TILED';
+export const MOVE_TILE_SELECTION_DOWN_TILED = 'MOVE_TILE_SELECTION_DOWN_TILED';
+
 
 const keys = {};
 
@@ -31,8 +42,21 @@ addHotkey( TOGGLE_PANEL_3, 51, false, false, true ); // 3
 addHotkey( TOGGLE_PANEL_4, 52, false, false, true ); // 4
 addHotkey( TOGGLE_REFERENCE, 82, false, false, true ); // r
 addHotkey( TOGGLE_NAVIGATION, 78, false, false, true ); // n
+addHotkey( MOVE_TILE_SELECTION_LEFT, 37, false, false, false ); // left arrow
+addHotkey( MOVE_TILE_SELECTION_LEFT_TILED, 37, true, false, false ); // left arrow
+addHotkey( MOVE_TILE_SELECTION_RIGHT, 39, false, false, false ); // right arrow
+addHotkey( MOVE_TILE_SELECTION_RIGHT_TILED, 39, true, false, false ); // right arrow
+addHotkey( MOVE_TILE_SELECTION_UP, 38, false, false, false ); // up arrow
+addHotkey( MOVE_TILE_SELECTION_UP_TILED, 38, true, false, false ); // up arrow
+addHotkey( MOVE_TILE_SELECTION_DOWN, 40, false, false, false ); // down arrow
+addHotkey( MOVE_TILE_SELECTION_DOWN_TILED, 40, true, false, false ); // down arrow
+
 
 export function eventMatchesHotkey( event, hotkey ) {
+  if ( includes( document.activeElement.classList, 'block-hotkeys' ) ) {
+    return false;
+  }
+
   const keyInfo = keys[hotkey];
   if ( !keyInfo ) {
     return false;

@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { applyTileDrawToData } from '../../../utils/PixelTools/tileDraw';
 
 export const tileDrawToolStart = ( editingData, tileDrawOptions ) => {

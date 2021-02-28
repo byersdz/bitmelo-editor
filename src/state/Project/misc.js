@@ -1,5 +1,5 @@
 
-import merge from 'lodash.merge';
+import merge from 'lodash/merge';
 
 import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 

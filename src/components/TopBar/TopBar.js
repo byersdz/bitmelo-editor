@@ -12,6 +12,7 @@ const TopBar = ( props ) => {
     showBackButton,
     onBackClick,
     rightItems,
+    leftItems,
     className,
   } = props;
 
@@ -31,10 +32,17 @@ const TopBar = ( props ) => {
     </div>
   ) : null;
 
+  const leftItemsRender = leftItems ? (
+    <div className="left-items">
+      { leftItems }
+    </div>
+  ) : null;
+
   const customClass = `top-bar ${ className }`;
   return (
     <div className={ customClass }>
       { backButtonRender }
+      { leftItemsRender }
       <span className="title">
         { title }
       </span>
@@ -48,6 +56,7 @@ TopBar.propTypes = {
   showBackButton: PropTypes.bool,
   onBackClick: PropTypes.func,
   rightItems: PropTypes.node,
+  leftItems: PropTypes.node,
   className: PropTypes.string,
 };
 
@@ -55,6 +64,7 @@ TopBar.defaultProps = {
   showBackButton: false,
   onBackClick: null,
   rightItems: null,
+  leftItems: null,
   className: '',
 };
 

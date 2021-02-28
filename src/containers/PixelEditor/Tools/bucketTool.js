@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { applyBucketToData } from '../../../utils/PixelTools/bucket';
 
 export const bucketToolStart = ( editingData, onEditorSelectionChange, onDataChange ) => {

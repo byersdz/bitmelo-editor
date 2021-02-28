@@ -1,6 +1,6 @@
 
 import { Sound } from 'bitmelo';
-import get from 'lodash.get';
+import get from 'lodash/get';
 import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 
 // Actions

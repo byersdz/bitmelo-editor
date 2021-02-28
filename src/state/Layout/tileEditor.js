@@ -1,5 +1,5 @@
 
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 // Actions
 export const SET_TILE_EDITOR_LAYOUT_SETTINGS = 'SET_TILE_EDITOR_LAYOUT_SETTINGS';

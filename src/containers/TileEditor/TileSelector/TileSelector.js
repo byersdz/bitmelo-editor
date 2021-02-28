@@ -19,6 +19,18 @@ import TileSelectorCanvas from './TileSelectorCanvas/TileSelectorCanvas';
 import AddTilesetModal from './AddTilesetModal/AddTilesetModal';
 import DeleteTilesetModal from './DeleteTilesetModal/DeleteTilesetModal';
 
+import {
+  eventMatchesHotkey,
+  MOVE_TILE_SELECTION_LEFT,
+  MOVE_TILE_SELECTION_LEFT_TILED,
+  MOVE_TILE_SELECTION_RIGHT,
+  MOVE_TILE_SELECTION_RIGHT_TILED,
+  MOVE_TILE_SELECTION_UP,
+  MOVE_TILE_SELECTION_UP_TILED,
+  MOVE_TILE_SELECTION_DOWN,
+  MOVE_TILE_SELECTION_DOWN_TILED,
+} from '../../../utils/hotkeys';
+
 import './TileSelector.scss';
 
 class TileSelector extends React.Component {
@@ -30,6 +42,100 @@ class TileSelector extends React.Component {
       addModalIsOpen: false,
       deleteModalIsOpen: false,
     };
+
+    this.handleKeyDown = this.handleKeyDown.bind( this );
+  }
+
+  componentDidMount() {
+    window.addEventListener( 'keydown', this.handleKeyDown );
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener( 'keydown', this.handleKeyDown );
+  }
+
+  handleKeyDown( event ) {
+    const { tileset, isInMapEditor } = this.props;
+
+    if ( isInMapEditor ) {
+      return;
+    }
+
+    const {
+      width,
+      height,
+      selectionWidth,
+      selectionHeight,
+      selectedTile,
+    } = tileset;
+
+    const currentY = Math.floor( selectedTile / width );
+    const currentX = selectedTile - currentY * width;
+
+    let newX = currentX;
+    let newY = currentY;
+
+    let didMoveSelection = false;
+
+    if ( eventMatchesHotkey( event, MOVE_TILE_SELECTION_LEFT ) ) {
+      if ( currentX > 0 ) {
+        newX = currentX - 1;
+        didMoveSelection = true;
+      }
+    }
+    else if ( eventMatchesHotkey( event, MOVE_TILE_SELECTION_LEFT_TILED ) ) {
+      if ( currentX - selectionWidth + 1 > 0 ) {
+        newX = currentX - selectionWidth;
+        didMoveSelection = true;
+      }
+    }
+    else if ( eventMatchesHotkey( event, MOVE_TILE_SELECTION_RIGHT ) ) {
+      if ( currentX + selectionWidth < width ) {
+        newX = currentX + 1;
+        didMoveSelection = true;
+      }
+    }
+    else if ( eventMatchesHotkey( event, MOVE_TILE_SELECTION_RIGHT_TILED ) ) {
+      if ( currentX + selectionWidth * 2 - 1 < width ) {
+        newX = currentX + selectionWidth;
+        didMoveSelection = true;
+      }
+    }
+    else if ( eventMatchesHotkey( event, MOVE_TILE_SELECTION_UP ) ) {
+      if ( currentY + selectionHeight < height ) {
+        newY = currentY + 1;
+        didMoveSelection = true;
+      }
+    }
+    else if ( eventMatchesHotkey( event, MOVE_TILE_SELECTION_UP_TILED ) ) {
+      if ( currentY + selectionHeight * 2 - 1 < height ) {
+        newY = currentY + selectionHeight;
+        didMoveSelection = true;
+      }
+    }
+    else if ( eventMatchesHotkey( event, MOVE_TILE_SELECTION_DOWN ) ) {
+      if ( currentY > 0 ) {
+        newY = currentY - 1;
+        didMoveSelection = true;
+      }
+    }
+    else if ( eventMatchesHotkey( event, MOVE_TILE_SELECTION_DOWN_TILED ) ) {
+      if ( currentY - selectionHeight + 1 > 0 ) {
+        newY = currentY - selectionHeight;
+        didMoveSelection = true;
+      }
+    }
+
+    if ( didMoveSelection ) {
+      event.preventDefault();
+
+      const newSelectedTile = newY * width + newX;
+      this.handleSelectionChange( {
+        selectedTile: newSelectedTile,
+        selectionWidth,
+        selectionHeight,
+      } );
+    }
   }
 
   handleSelectionChange( selection ) {

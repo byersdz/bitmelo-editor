@@ -1,6 +1,6 @@
 
-import cloneDeep from 'lodash.clonedeep';
-import get from 'lodash.get';
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
 import arrayMove from 'array-move';
 import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 
@@ -49,12 +49,16 @@ export function initAndUpdate( state ) {
 const initialState = [
   {
     text: `
-engine.onInit = () => {
+let inp = null;
+let scr = null;
 
+engine.onInit = () => {
+  inp = engine.input;
+  scr = engine.screen;
 };
 
 engine.onUpdate = () => {
-
+  scr.clear(1);
 };
 
 `,

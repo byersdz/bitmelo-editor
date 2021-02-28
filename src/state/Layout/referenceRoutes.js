@@ -8,6 +8,7 @@ import {
   TILEMAP_TAB,
   SOUND_TAB,
   PUBLISH_TAB,
+  INSTRUCTIONS_TAB,
 } from './activeNavigationTab';
 
 export const CONSOLE = 'CONSOLE';
@@ -42,6 +43,7 @@ addInitialStateItem( TILE_TAB, [ARTICLES] );
 addInitialStateItem( TILEMAP_TAB, [ARTICLES] );
 addInitialStateItem( SOUND_TAB, [HOTKEYS] );
 addInitialStateItem( PUBLISH_TAB, [MOTIVATION] );
+addInitialStateItem( INSTRUCTIONS_TAB, [MOTIVATION] );
 
 
 export default function reducer( state = initialState, action ) {

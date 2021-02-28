@@ -1,7 +1,7 @@
 
 import { libText, Builder } from 'bitmelo';
-import get from 'lodash.get';
-import cloneDeep from 'lodash.clonedeep';
+import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 
 export default function createProjectScript( projectData, options = {} ) {
   const isGenerator = get( options, 'isGenerator' );

@@ -30,7 +30,7 @@ The DOM canvas used by this screen.
           }
         />
         <Property
-          name="screen.conainerId"
+          name="screen.containerId"
           type="string"
           description={
 `
@@ -788,7 +788,7 @@ screen.drawTileSection(
   80,         // x position
   40,         // y position
   0,          // flip
-  0           // rotate
+  0          // rotate
 );
 
 `
@@ -843,6 +843,12 @@ Draw a TileMap layer to the screen.
                 type: 'number',
                 description: 'the index of the layer to draw',
               },
+              {
+                name: 'onDrawTile',
+                type: 'function',
+                description: `A function to override individual tiles.
+                  This allows animations and state changes. (gid, x, y) => { gid, flip, rotate }`,
+              },
             ]
           }
           example={
@@ -855,7 +861,30 @@ screen.drawMap(
   0,    // screen x
   0,    // screen y
   0,    // tile map index
-  0     // layer index
+  0,    // layer index
+  (gid, x, y) => {
+    // onDrawTile function
+
+    let newGid = gid;
+    let flip = 0;
+    let rotate = 0;
+
+    // replace a tile
+    if (gid === 1) {
+      newGid = 2;
+    }
+
+    // rotate a tile at a given position
+    if (x === 10 && y === 20) {
+      rotate = 90;
+    }
+
+    return {
+      gid: newGid,
+      flip,
+      rotate
+    };
+  }
 );
 `
           }
@@ -921,6 +950,83 @@ screen.drawArray(
   0,          // rotate
 );
 
+`
+          }
+        />
+        <Method
+          name="screen.drawMapArray"
+          description={
+`
+Draw an array of Tile gids to the screen.
+`
+          }
+          params={
+            [
+              {
+                name: 'arrayData',
+                type: 'array',
+                description: 'An array of tile gid data',
+              },
+              {
+                name: 'arrayWidth',
+                type: 'number',
+                description: 'The width of the arrayData array',
+              },
+              {
+                name: 'arrayHeight',
+                type: 'number',
+                description: 'The height of the arrayData array',
+              },
+              {
+                name: 'screenX',
+                type: 'number',
+                description: 'origin x position on the screen',
+              },
+              {
+                name: 'screenY',
+                type: 'number',
+                description: 'origin y position on the screen',
+              },
+              {
+                name: 'onDrawTile',
+                type: 'function',
+                description: `A function to override individual tiles.
+                  This allows animations and state changes. (gid, x, y) => { gid, flip, rotate }`,
+              },
+            ]
+          }
+          example={
+`
+screen.drawMapArray(
+  arrayData,
+  10,           // arrayWidth
+  10,           // arrayHeight
+  0,            // screen x
+  0,            // screen y
+  (gid, x, y) => {
+    // onDrawTile function
+
+    let newGid = gid;
+    let flip = 0;
+    let rotate = 0;
+
+    // replace a tile
+    if (gid === 1) {
+      newGid = 2;
+    }
+
+    // rotate a tile at a given position
+    if (x === 10 && y === 20) {
+      rotate = 90;
+    }
+
+    return {
+      gid: newGid,
+      flip,
+      rotate
+    };
+  }
+);
 `
           }
         />

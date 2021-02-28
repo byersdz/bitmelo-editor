@@ -1,7 +1,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash//cloneDeep';
 
 import {
   drawPixelDataToCanvas,

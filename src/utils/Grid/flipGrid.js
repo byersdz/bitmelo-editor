@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 export function flipGridHorizontal( grid, width, height ) {
   const newGrid = cloneDeep( grid );

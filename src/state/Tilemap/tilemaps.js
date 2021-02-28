@@ -1,7 +1,7 @@
 
-import cloneDeep from 'lodash.clonedeep';
-import get from 'lodash.get';
-import merge from 'lodash.merge';
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
+import merge from 'lodash/merge';
 import { ConvertData } from 'bitmelo';
 
 import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';

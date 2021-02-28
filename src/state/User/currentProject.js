@@ -2,8 +2,8 @@
 import { IMPORT_PROJECT_DATA } from '../globalActions';
 import { getGameByProjectId, publishGame, unpublishGame } from '../../api/game';
 import createTransferProject from '../../utils/Convert/createTransferProject';
-import cloneDeep from 'lodash.clonedeep';
-import get from 'lodash.get';
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
 
 import { logoutUser, LOGOUT_USER } from './currentUser';
 

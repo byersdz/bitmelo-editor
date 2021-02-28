@@ -1,3 +1,4 @@
+@import '../../../style/colors.scss';
 
 $background-color: #ddd;
 
@@ -26,8 +27,7 @@ $background-color: #ddd;
     }
 
     input:focus {
-      border: 2px solid rgb(97, 6, 100);
-
+      border: 2px solid $primary-dark-color;
     }
   }
 }

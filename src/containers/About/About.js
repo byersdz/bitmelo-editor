@@ -6,7 +6,7 @@ import Changelog from '../../components/Changelog/Changelog';
 
 import PackageJSON from '../../../package.json';
 
-import BitmeloLogo from './bitmelo-logo.png';
+import BitmeloLogo from './bitmelo-logo.gif';
 import './About.scss';
 
 class About extends React.Component {
@@ -79,11 +79,13 @@ class About extends React.Component {
 
     return (
       <div className="about">
-        <img
-          className="bitmelo-logo"
-          src={ BitmeloLogo }
-          alt="Bitmelo Logo"
-        />
+        <AButton href="https://bitmelo.com">
+          <img
+            className="bitmelo-logo"
+            src={ BitmeloLogo }
+            alt="Bitmelo Logo"
+          />
+        </AButton>
         <div className="version">
           {
             `editor v${ PackageJSON.version }`

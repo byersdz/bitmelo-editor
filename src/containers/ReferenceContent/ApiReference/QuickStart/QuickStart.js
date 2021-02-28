@@ -64,28 +64,28 @@ class QuickStart extends React.Component {
         <Snippet
           text={
             `
-Game Left: Left Arrow
-Game Right: Right Arrow
-Game Up: Up Arrow
-Game Down: Down Arrow
+Game Left: Left Arrow or J
+Game Right: Right Arrow or L
+Game Up: Up Arrow or I
+Game Down: Down Arrow or K
 
-Action 1: Z
-Action 2: X
-Action 3: A
-Action 4: S
+Action 1: Z or Space
+Action 2: X or D
+Action 3: A or C
+Action 4: S or V
 
-Left Trigger: Q
-Right Trigger: W
+Left Trigger: Q or Shift
+Right Trigger: W or Alt
 
-Pause: P
+Pause: P or Enter
 
-Menu Left: Left Arrow
-Menu Right: Right Arrow
-Menu Up: Up Arrow
-Menu Down: Down Arrow
+Menu Left: Left Arrow or J
+Menu Right: Right Arrow or L
+Menu Up: Up Arrow or I
+Menu Down: Down Arrow or K
 
-Menu Confirm: X
-Menu Back: Z
+Menu Confirm: Z or Space
+Menu Back: X or D
             `
           }
         />

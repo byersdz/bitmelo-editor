@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import flipGrid from '../../utils/Grid/flipGrid';
 
 import {

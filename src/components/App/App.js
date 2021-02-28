@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import get from 'lodash.get';
+import get from 'lodash/get';
 
 import { importProjectData, clearAllUndoHistory } from '../../state/globalActions';
 import { setNavigationPanelIsOpen } from '../../state/Layout/navigationPanelIsOpen';

@@ -13,6 +13,7 @@ import {
   SOUND_TAB,
   TILEMAP_TAB,
   PUBLISH_TAB,
+  INSTRUCTIONS_TAB,
 } from '../../state/Layout/activeNavigationTab';
 import { toggleNavigationPanel } from '../../state/Layout/navigationPanelIsOpen';
 import { toggleReferencePanel } from '../../state/Layout/referencePanelIsOpen';
@@ -20,6 +21,8 @@ import { toggleReferencePanel } from '../../state/Layout/referencePanelIsOpen';
 import TopBar from '../../components/TopBar/TopBar';
 import Scrollbars from '../../components/Scrollbars/Scrollbars';
 import Button from '../../components/Button/Button';
+import AButton from '../../components/AButton/AButton';
+import Icon from '../../components/Icon/Icon';
 
 import About from '../About/About';
 import ProjectEditor from '../ProjectEditor/ProjectEditor';
@@ -29,6 +32,7 @@ import TileEditor from '../TileEditor/TileEditor';
 import TilemapEditor from '../TilemapEditor/TilemapEditor';
 import SoundEditor from '../SoundEditor/SoundEditor';
 import Publish from '../Publish/Publish';
+import Instructions from '../Instructions/Instructions';
 
 import CreateUserModal from '../User/CreateUserModal/CreateUserModal';
 import LoginUserModal from '../User/LoginUserModal/LoginUserModal';
@@ -146,6 +150,15 @@ class MainContainer extends React.Component {
         topBarTitle = `${ projectName }: Publish`;
         break;
       }
+      case INSTRUCTIONS_TAB: {
+        contentRender = (
+          <Scrollbars>
+            <Instructions />
+          </Scrollbars>
+        );
+        topBarTitle = `${ projectName }: Instructions`;
+        break;
+      }
       default:
         contentRender = (
           <Scrollbars>
@@ -197,11 +210,21 @@ class MainContainer extends React.Component {
       />
     ) : null;
 
+    const leftItemsRender = (
+      <AButton
+        className="explore-btn"
+        href="https://bitmelo.com"
+      >
+        <Icon file="world" />
+      </AButton>
+    );
+
     return (
       <div className="main-container">
         <TopBar
           className="main-top-bar"
           title={ topBarTitle }
+          leftItems={ leftItemsRender }
           rightItems={ rightItemsRender }
         />
         { contentRender }

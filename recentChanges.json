@@ -1,6 +1,22 @@
 {
   "versions": [
     {
+      "version": "2.3.0",
+      "changes": [
+        "Added Gamepad support",
+        "Add alternate keyboard buttons",
+        "Added Game descriptions and controls instructions",
+        "Swapped Menu Confirm and Menu Back keyboard defaults",
+        "Changed how audio volume works to better account for human hearing. This will make existing audio volumes quieter.",
+        "Added onDrawTile parameter function to Screen.drawMap. This allows state changes and animations when drawing a map.",
+        "Added Screen.drawMapArray to draw an array of tile gid values",
+        "Added TileMap.getLayerData to get an array of tile gid values from a TileMaps layer",
+        "Engine.onInit is now called afer all engine initialization is done",
+        "Added Engine.onConfigure to configure the engine before initialization is done",
+        "Updated logo and color theme"
+      ]
+    },
+    {
       "version": "2.2.0",
       "changes": [
         "Added feed to Bitmelo.com",
@@ -10,16 +26,6 @@
         "Added tileData.getTileSection to the engine",
         "Publishing now generates a cover image",
         "Fixed bug with playing a sound with exponential release causing crash"
-      ]
-    },
-    {
-      "version": "2.1.0",
-      "changes": [
-        "Added line tool to tile editor.",
-        "Added PNG export to tile editor",
-        "Added find to code editor",
-        "If an individual frame or game init lasts longer than 5 seconds the game will now crash. This is to prevent an infinite loop from locking up the browser forever.",
-        "Added backquote (`) hotkey to toggle panels in the tile and tilemap editors."
       ]
     }
   ]
