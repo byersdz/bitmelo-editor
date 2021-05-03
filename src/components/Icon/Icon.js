@@ -35,6 +35,8 @@ import TrashIcon from './SVG/trash-o.svg';
 import LineIcon from './SVG/line-o.svg';
 import DotsIcon from './SVG/dots-o.svg';
 import WorldIcon from './SVG/world-o.svg';
+import ClockwiseIcon from './SVG/clockwise-o.svg';
+import CounterIcon from './SVG/counter-o.svg';
 
 import './Icon.scss';
 
@@ -234,6 +236,18 @@ const Icon = ( props ) => {
 
     case 'world': {
       svgFile = WorldIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'clockwise': {
+      svgFile = ClockwiseIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'counter': {
+      svgFile = CounterIcon;
       noStroke = true;
       break;
     }

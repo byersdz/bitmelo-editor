@@ -185,13 +185,13 @@ class PixelToolSettings extends React.Component {
         />
         <Button
           title="Rotate Counter Clockwise"
-          icon="play"
+          icon="counter"
           hideTitle
           click={ () => this.handleRotateCounterClockwise() }
         />
         <Button
           title="Rotate Clockwise"
-          icon="play"
+          icon="clockwise"
           hideTitle
           click={ () => this.handleRotateClockwise() }
         />
