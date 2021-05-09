@@ -7,8 +7,12 @@ import { connect } from 'react-redux';
 
 import Modal from '../../../../components/Modal/Modal';
 import Button from '../../../../components/Button/Button';
+import Select from '../../../../components/Select/Select';
 
 import { addPaletteColorSet } from '../../../../state/Palette/colors';
+import { replacePalette } from '../../../../state/globalActions';
+
+import { rgbToHex } from '../../../../utils/hexConvert';
 
 import './ImportPaletteModal.scss';
 
@@ -19,12 +23,27 @@ class ImportPaletteModal extends React.Component {
     this.state = {
       file: null,
       errorText: '',
+      importMode: 'replace',
     };
   }
 
   handleImportColors( colors ) {
-    const { _addPaletteColorSet } = this.props;
-    _addPaletteColorSet( colors );
+    const {
+      _addPaletteColorSet,
+      _replacePalette,
+      onClose,
+      existingPalette,
+    } = this.props;
+    const { importMode } = this.state;
+
+    if ( importMode === 'add' ) {
+      _addPaletteColorSet( colors );
+    }
+    else if ( importMode === 'replace' ) {
+      _replacePalette( colors, existingPalette );
+    }
+
+    onClose();
   }
 
   handleFileChange( event ) {
@@ -64,7 +83,7 @@ class ImportPaletteModal extends React.Component {
             for ( let y = 0; y < height; y += 1 ) {
               for ( let x = 0; x < width; x += 1 ) {
                 const { data } = context.getImageData( x, y, 1, 1 );
-                const hexString = `${ data[0].toString( 16 ) }${ data[1].toString( 16 ) }${ data[2].toString( 16 ) }`;
+                const hexString = rgbToHex( data[0], data[1], data[2] );
                 colorMap[hexString] = true;
               }
             }
@@ -80,7 +99,7 @@ class ImportPaletteModal extends React.Component {
 
   render() {
     const { onClose } = this.props;
-    const { file, errorText } = this.state;
+    const { file, errorText, importMode } = this.state;
 
     const importButtonRender = file ? (
       <Button
@@ -101,6 +120,26 @@ class ImportPaletteModal extends React.Component {
           { errorText }
         </div>
         <div className="modal-controls">
+          <div className="import-mode-container">
+            <Select
+              title="Import Mode"
+              items={
+                [
+                  {
+                    value: 'replace',
+                    display: 'Replace Colors',
+                  },
+                  {
+                    value: 'add',
+                    display: 'Add Colors',
+                  },
+                ]
+              }
+              value={ importMode }
+              onValueChange={ v => this.setState( { importMode: v } ) }
+            />
+          </div>
+          <div className="import-from-png">Import from PNG:</div>
           <input
             type="file"
             onChange={ e => this.handleFileChange( e ) }
@@ -116,12 +155,21 @@ class ImportPaletteModal extends React.Component {
 ImportPaletteModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   _addPaletteColorSet: PropTypes.func.isRequired,
+  _replacePalette: PropTypes.func.isRequired,
+  existingPalette: PropTypes.arrayOf( PropTypes.string ).isRequired,
 };
+
+function mapStateToProps( state ) {
+  return {
+    existingPalette: state.palette.colors,
+  };
+}
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _addPaletteColorSet: addPaletteColorSet,
+    _replacePalette: replacePalette,
   }, dispatch );
 }
 
-export default connect( null, mapDispatchToProps )( ImportPaletteModal );
+export default connect( mapStateToProps, mapDispatchToProps )( ImportPaletteModal );

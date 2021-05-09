@@ -5,7 +5,7 @@ import { ConvertData } from 'bitmelo';
 
 import { CHANGE_TILE_SIZE } from '../Project/tileSize';
 import { DELETE_PALETTE_COLOR } from '../Palette/colors';
-import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
+import { RESET_PROJECT, IMPORT_PROJECT_DATA, REPLACE_PALETTE } from '../globalActions';
 import {
   CREATE_TILESET_EDITOR_SELECTION,
   APPLY_TILESET_EDITOR_SELECTION,
@@ -486,6 +486,20 @@ export default function reducer( state = initialState, action ) {
       return newState;
     }
 
+    case REPLACE_PALETTE: {
+      const newState = cloneDeep( state );
+      const { colorMap } = action.payload;
+      for ( let i = 0; i < newState.length; i += 1 ) {
+        const currentTileset = newState[i];
+        for ( let j = 0; j < currentTileset.layers.length; j += 1 ) {
+          const currentLayer = currentTileset.layers[j];
+          for ( let k = 0; k < currentLayer.data.length; k += 1 ) {
+            currentLayer.data[k] = colorMap[currentLayer.data[k]];
+          }
+        }
+      }
+      return newState;
+    }
     default:
       return state;
   }
