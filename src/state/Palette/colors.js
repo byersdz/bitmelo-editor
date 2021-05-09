@@ -5,6 +5,7 @@ import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 // Actions
 export const SET_PALETTE_COLOR = 'SET_PALETTE_COLOR';
 export const ADD_PALETTE_COLOR = 'ADD_PALETTE_COLOR';
+export const ADD_PALETTE_COLOR_SET = 'ADD_PALETTE_COLOR_SET';
 export const DELETE_PALETTE_COLOR = 'DELETE_PALETTE_COLOR';
 
 // validation
@@ -56,6 +57,14 @@ export default function reducer( state = initialState, action ) {
       newPalette.push( color );
       return newPalette;
     }
+    case ADD_PALETTE_COLOR_SET: {
+      const newPalette = [...state, ...action.payload];
+      if ( newPalette.length > 256 ) {
+        return state;
+      }
+
+      return newPalette;
+    }
     case DELETE_PALETTE_COLOR: {
       const newPalette = [];
       for ( let i = 0; i < state.length; i += 1 ) {
@@ -85,6 +94,13 @@ export function addPaletteColor( color ) {
   return {
     type: ADD_PALETTE_COLOR,
     payload: color,
+  };
+}
+
+export function addPaletteColorSet( colorSet ) {
+  return {
+    type: ADD_PALETTE_COLOR_SET,
+    payload: colorSet,
   };
 }
 
