@@ -36,6 +36,11 @@ class ImportPaletteModal extends React.Component {
     } = this.props;
     const { importMode } = this.state;
 
+    if ( colors.length > 255 ) {
+      this.setState( { errorText: 'Too many colors' } );
+      return;
+    }
+
     if ( importMode === 'add' ) {
       _addPaletteColorSet( colors );
     }
