@@ -58,6 +58,63 @@ const palettes = [
       'e8b796', 'c28569',
     ],
   },
+  {
+    name: 'DawnBringer 32',
+    author: 'DawnBringer',
+    link: '',
+    colors: [
+      '000000', '222034', '45283c', '663931', '8f563b',
+      'df7126', 'd9a066', 'eec39a', 'fbf236', '99e550',
+      '6abe30', '37946e', '4b692f', '524b24', '323c39',
+      '3f3f74', '306082', '5b6ee1', '639bff', '5fcde4',
+      'cbdbfc', 'ffffff', '9badb7', '847e87', '696a6a',
+      '595652', '76428a', 'ac3232', 'd95763', 'd77bba',
+      '8f974a', '8a6f30',
+    ],
+  },
+  {
+    name: 'DawnBringer 16',
+    author: 'DawnBringer',
+    link: '',
+    colors: [
+      '140c1c', '442434', '30346d', '4e4a4e',
+      '854c30', '346524', 'd04648', '757161',
+      '597dce', 'd27d2c', '8595a1', '6daa2c',
+      'd2aa99', '6dc2ca', 'dad45e', 'deeed6',
+    ],
+  },
+  {
+    name: 'Sweetie 16',
+    author: 'GrafxKid',
+    link: '',
+    colors: [
+      '1a1c2c', '5d275d', 'b13e53', 'ef7d57',
+      'ffcd75', 'a7f070', '38b764', '257179',
+      '29366f', '3b5dc9', '41a6f6', '73eff7',
+      'f4f4f4', '94b0c2', '566c86', '333c57',
+    ],
+  },
+  {
+    name: 'NA16',
+    author: 'Nauris',
+    link: '',
+    colors: [
+      '8c8fae', '584563', '3e2137', '9a6348',
+      'd79b7d', 'f5edba', 'c0c741', '647d34',
+      'e4943a', '9d303b', 'd26471', '70377f',
+      '7ec4c1', '34859d', '17434b', '1f0e1c',
+    ],
+  },
+  {
+    name: 'Japanese Woodblock',
+    author: 'Polyducks',
+    link: 'https://twitter.com/Polyducks',
+    colors: [
+      '2b2821', '624c3c', 'd9ac8b', 'e3cfb4',
+      '243d5c', '5d7275', '5c8b93', 'b1a58d',
+      'b03a48', 'd4804d', 'e0c872', '3e6958',
+    ],
+  },
 ];
 
 export default palettes;
