@@ -1,0 +1,32 @@
+
+.palette-item {
+  align-self: stretch;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+
+  .name {
+    font-weight: bold;
+  }
+
+  .author {
+    font-size: 12px;
+  }
+
+  .color-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 8px;
+
+    .color {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .std-btn {
+    margin-top: 8px;
+    align-self: center;
+  }
+
+}

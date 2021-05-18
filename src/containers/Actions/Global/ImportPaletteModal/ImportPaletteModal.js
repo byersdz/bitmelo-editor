@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import Modal from '../../../../components/Modal/Modal';
 import Button from '../../../../components/Button/Button';
 import Select from '../../../../components/Select/Select';
+import PaletteItem from './PaletteItem/PaletteItem';
+import palettes from './palettes';
 
 import { addPaletteColorSet } from '../../../../state/Palette/colors';
 import { replacePalette } from '../../../../state/globalActions';
@@ -114,6 +116,17 @@ class ImportPaletteModal extends React.Component {
       />
     ) : null;
 
+    const palettesRender = palettes.map( p => {
+      return (
+        <PaletteItem
+          name={ p.name }
+          author={ p.author }
+          link={ p.link }
+          colors={ p.colors }
+        />
+      );
+    } );
+
     return (
       <Modal
         className="import-palette-modal"
@@ -151,6 +164,8 @@ class ImportPaletteModal extends React.Component {
             accept=".png"
           />
           { importButtonRender }
+          <hr />
+          { palettesRender }
         </div>
       </Modal>
     );
