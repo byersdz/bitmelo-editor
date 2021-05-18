@@ -123,6 +123,7 @@ class ImportPaletteModal extends React.Component {
           author={ p.author }
           link={ p.link }
           colors={ p.colors }
+          onImport={ c => this.handleImportColors( c ) }
         />
       );
     } );

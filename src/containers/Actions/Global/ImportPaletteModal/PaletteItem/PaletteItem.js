@@ -9,7 +9,12 @@ import './PaletteItem.scss';
 
 class PaletteItem extends React.PureComponent {
   render() {
-    const { name, author, colors } = this.props;
+    const {
+      name,
+      author,
+      colors,
+      onImport,
+    } = this.props;
 
     const colorsRender = colors.map( c => {
       return (
@@ -37,6 +42,7 @@ class PaletteItem extends React.PureComponent {
         </div>
         <Button
           standard
+          click={ () => onImport( colors ) }
         >
           Import
         </Button>
@@ -50,6 +56,7 @@ PaletteItem.propTypes = {
   name: PropTypes.string.isRequired,
   author: PropTypes.string,
   colors: PropTypes.arrayOf( PropTypes.string ).isRequired,
+  onImport: PropTypes.func.isRequired,
 };
 
 PaletteItem.defaultProps = {
