@@ -119,6 +119,7 @@ class ImportPaletteModal extends React.Component {
     const palettesRender = palettes.map( p => {
       return (
         <PaletteItem
+          key={ p.name }
           name={ p.name }
           author={ p.author }
           link={ p.link }
