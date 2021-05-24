@@ -10,6 +10,8 @@ import Button from '../../../components/Button/Button';
 import { TILE_DRAW_TOOL, TILE_ERASE_TOOL, selectTileTool } from '../../../state/PixelTools/selectedTileTool';
 import { setTilemapEditorLayoutSettings } from '../../../state/Layout/tilemapEditor';
 
+import { TOGGLE_GRID, eventMatchesHotkey } from '../../../utils/hotkeys';
+
 import './TilemapToolPicker.scss';
 
 class TilemapToolPicker extends React.Component {
@@ -31,6 +33,11 @@ class TilemapToolPicker extends React.Component {
     const { anyModalIsOpen } = this.props;
 
     if ( anyModalIsOpen ) {
+      return;
+    }
+
+    if ( eventMatchesHotkey( event, TOGGLE_GRID ) ) {
+      this.handleShowGridClick();
       return;
     }
 
