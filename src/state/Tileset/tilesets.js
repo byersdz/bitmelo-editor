@@ -5,7 +5,12 @@ import { ConvertData } from 'bitmelo';
 
 import { CHANGE_TILE_SIZE } from '../Project/tileSize';
 import { DELETE_PALETTE_COLOR } from '../Palette/colors';
-import { RESET_PROJECT, IMPORT_PROJECT_DATA, REPLACE_PALETTE } from '../globalActions';
+import {
+  RESET_PROJECT,
+  IMPORT_PROJECT_DATA,
+  REPLACE_PALETTE,
+  INSERT_PALETTE_COLOR,
+} from '../globalActions';
 import {
   CREATE_TILESET_EDITOR_SELECTION,
   APPLY_TILESET_EDITOR_SELECTION,
@@ -500,6 +505,25 @@ export default function reducer( state = initialState, action ) {
       }
       return newState;
     }
+
+    case INSERT_PALETTE_COLOR: {
+      const newState = cloneDeep( state );
+      const { index } = action.payload;
+      for ( let i = 0; i < newState.length; i += 1 ) {
+        const currentTileset = newState[i];
+        for ( let j = 0; j < currentTileset.layers.length; j += 1 ) {
+          const currentLayer = currentTileset.layers[j];
+          for ( let k = 0; k < currentLayer.data.length; k += 1 ) {
+            const currentColor = currentLayer.data[k];
+            if ( currentColor >= index ) {
+              currentLayer.data[k] = currentColor + 1;
+            }
+          }
+        }
+      }
+      return newState;
+    }
+
     default:
       return state;
   }

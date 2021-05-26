@@ -1,6 +1,11 @@
 
 import { standardPalette } from 'bitmelo'; // eslint-disable-line
-import { RESET_PROJECT, IMPORT_PROJECT_DATA, REPLACE_PALETTE } from '../globalActions';
+import {
+  RESET_PROJECT,
+  IMPORT_PROJECT_DATA,
+  REPLACE_PALETTE,
+  INSERT_PALETTE_COLOR,
+} from '../globalActions';
 
 // Actions
 export const SET_PALETTE_COLOR = 'SET_PALETTE_COLOR';
@@ -56,6 +61,14 @@ export default function reducer( state = initialState, action ) {
       const color = action.payload ? action.payload : '000000';
       newPalette.push( color );
       return newPalette;
+    }
+    case INSERT_PALETTE_COLOR: {
+      if ( state.length > 255 ) {
+        return state;
+      }
+      const { color, index } = action.payload;
+
+      return [...state.slice( 0, index ), color, ...state.slice( index )];
     }
     case ADD_PALETTE_COLOR_SET: {
       const newPalette = [...state, ...action.payload];

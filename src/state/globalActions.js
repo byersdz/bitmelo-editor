@@ -25,6 +25,18 @@ export function clearAllUndoHistory() {
   };
 }
 
+export const INSERT_PALETTE_COLOR = 'INSERT_PALETTE_COLOR';
+
+export function insertPaletteColor( color, index ) {
+  return {
+    type: INSERT_PALETTE_COLOR,
+    payload: {
+      color,
+      index,
+    },
+  };
+}
+
 export const REPLACE_PALETTE = 'REPLACE_PALETTE';
 
 export function replacePalette( newColors, existingPalette ) {

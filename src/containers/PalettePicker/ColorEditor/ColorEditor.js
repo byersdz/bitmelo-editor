@@ -7,7 +7,8 @@ import enhanceWithClickOutside from 'react-click-outside';
 
 import Button from '../../../components/Button/Button';
 
-import { setPaletteColor, addPaletteColor } from '../../../state/Palette/colors';
+import { setPaletteColor } from '../../../state/Palette/colors';
+import { insertPaletteColor } from '../../../state/globalActions';
 import { selectPaletteIndex } from '../../../state/Palette/selectedIndex';
 import { setColorPickerIsOpen } from '../../../state/Layout/colorPickerIsOpen';
 
@@ -77,8 +78,9 @@ class ColorEditor extends React.Component {
     const {
       color,
       onClose,
-      _addPaletteColor,
       numberOfColors,
+      selectedIndex,
+      _insertPaletteColor,
     } = this.props;
     const { deleteModalIsOpen } = this.state;
 
@@ -93,8 +95,8 @@ class ColorEditor extends React.Component {
       <Button
         title="Add New Color"
         click={ () => {
-          _addPaletteColor( color );
-          this.handleCancel( numberOfColors );
+          _insertPaletteColor( color, selectedIndex + 1 );
+          this.handleCancel( selectedIndex + 1 );
         } }
         standard
       />
@@ -137,9 +139,9 @@ ColorEditor.propTypes = {
   selectedIndex: PropTypes.number.isRequired,
   _setPaletteColor: PropTypes.func.isRequired,
   _setColorPickerIsOpen: PropTypes.func.isRequired,
-  _addPaletteColor: PropTypes.func.isRequired,
   numberOfColors: PropTypes.number.isRequired,
   _selectPaletteIndex: PropTypes.func.isRequired,
+  _insertPaletteColor: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -156,8 +158,8 @@ function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setPaletteColor: setPaletteColor,
     _setColorPickerIsOpen: setColorPickerIsOpen,
-    _addPaletteColor: addPaletteColor,
     _selectPaletteIndex: selectPaletteIndex,
+    _insertPaletteColor: insertPaletteColor,
   }, dispatch );
 }
 
