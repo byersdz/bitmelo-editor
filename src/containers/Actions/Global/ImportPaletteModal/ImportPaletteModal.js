@@ -13,6 +13,7 @@ import palettes from './palettes';
 
 import { addPaletteColorSet } from '../../../../state/Palette/colors';
 import { replacePalette } from '../../../../state/globalActions';
+import { clearTilesetsHistory } from '../../../../state/Tileset';
 
 import { rgbToHex } from '../../../../utils/hexConvert';
 
@@ -35,6 +36,7 @@ class ImportPaletteModal extends React.Component {
       _replacePalette,
       onClose,
       existingPalette,
+      _clearTilesetsHistory,
     } = this.props;
     const { importMode } = this.state;
 
@@ -48,6 +50,7 @@ class ImportPaletteModal extends React.Component {
     }
     else if ( importMode === 'replace' ) {
       _replacePalette( colors, existingPalette );
+      _clearTilesetsHistory();
     }
 
     onClose();
@@ -179,6 +182,7 @@ ImportPaletteModal.propTypes = {
   _addPaletteColorSet: PropTypes.func.isRequired,
   _replacePalette: PropTypes.func.isRequired,
   existingPalette: PropTypes.arrayOf( PropTypes.string ).isRequired,
+  _clearTilesetsHistory: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -191,6 +195,7 @@ function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _addPaletteColorSet: addPaletteColorSet,
     _replacePalette: replacePalette,
+    _clearTilesetsHistory: clearTilesetsHistory,
   }, dispatch );
 }
 
