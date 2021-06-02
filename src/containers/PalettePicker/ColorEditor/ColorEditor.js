@@ -11,6 +11,7 @@ import { setPaletteColor } from '../../../state/Palette/colors';
 import { insertPaletteColor } from '../../../state/globalActions';
 import { selectPaletteIndex } from '../../../state/Palette/selectedIndex';
 import { setColorPickerIsOpen } from '../../../state/Layout/colorPickerIsOpen';
+import { clearTilesetsHistory } from '../../../state/Tileset';
 
 import DeleteColorModal from '../DeleteColorModal/DeleteColorModal';
 
@@ -81,6 +82,7 @@ class ColorEditor extends React.Component {
       numberOfColors,
       selectedIndex,
       _insertPaletteColor,
+      _clearTilesetsHistory,
     } = this.props;
     const { deleteModalIsOpen } = this.state;
 
@@ -96,6 +98,7 @@ class ColorEditor extends React.Component {
         title="Add New Color"
         click={ () => {
           _insertPaletteColor( color, selectedIndex + 1 );
+          _clearTilesetsHistory();
           this.handleCancel( selectedIndex + 1 );
         } }
         standard
@@ -142,6 +145,7 @@ ColorEditor.propTypes = {
   numberOfColors: PropTypes.number.isRequired,
   _selectPaletteIndex: PropTypes.func.isRequired,
   _insertPaletteColor: PropTypes.func.isRequired,
+  _clearTilesetsHistory: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -160,6 +164,7 @@ function mapDispatchToProps( dispatch ) {
     _setColorPickerIsOpen: setColorPickerIsOpen,
     _selectPaletteIndex: selectPaletteIndex,
     _insertPaletteColor: insertPaletteColor,
+    _clearTilesetsHistory: clearTilesetsHistory,
   }, dispatch );
 }
 
