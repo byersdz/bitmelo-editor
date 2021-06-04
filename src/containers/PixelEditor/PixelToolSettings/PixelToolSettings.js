@@ -11,7 +11,7 @@ import Button from '../../../components/Button/Button';
 import { PENCIL_TOOL, ERASER_TOOL, LINE_TOOL } from '../../../state/PixelTools/selectedTool';
 import { setPixelToolSettings } from '../../../state/PixelTools/pixelToolSettings';
 import { deselectTilesetEditorSelection, selectAllTileset } from '../../../state/Tileset/actions';
-import { flipTilesetEditorSelection } from '../../../state/Tileset/editorSelection';
+import { flipTilesetEditorSelection, rotateTilesetEditorSelection } from '../../../state/Tileset/editorSelection';
 
 import { SELECT_ALL, eventMatchesHotkey } from '../../../utils/hotkeys';
 
@@ -138,6 +138,28 @@ class PixelToolSettings extends React.Component {
     }
   }
 
+  handleRotateCounterClockwise() {
+    const { tilesetState, _rotateTilesetEditorSelection } = this.props;
+    if ( tilesetState.editorSelection && tilesetState.editorSelection.isActive ) {
+      _rotateTilesetEditorSelection( -90 );
+    }
+    else {
+      this.handleSelectAll();
+      _rotateTilesetEditorSelection( -90 );
+    }
+  }
+
+  handleRotateClockwise() {
+    const { tilesetState, _rotateTilesetEditorSelection } = this.props;
+    if ( tilesetState.editorSelection && tilesetState.editorSelection.isActive ) {
+      _rotateTilesetEditorSelection( 90 );
+    }
+    else {
+      this.handleSelectAll();
+      _rotateTilesetEditorSelection( 90 );
+    }
+  }
+
   getTransformsRender() {
     const { tilesetState } = this.props;
 
@@ -160,6 +182,18 @@ class PixelToolSettings extends React.Component {
           icon="flip-v"
           hideTitle
           click={ () => this.handleFlipVertical() }
+        />
+        <Button
+          title="Rotate Counter Clockwise"
+          icon="counter"
+          hideTitle
+          click={ () => this.handleRotateCounterClockwise() }
+        />
+        <Button
+          title="Rotate Clockwise"
+          icon="clockwise"
+          hideTitle
+          click={ () => this.handleRotateClockwise() }
         />
       </Fragment>
     );
@@ -243,6 +277,7 @@ PixelToolSettings.propTypes = {
   _deselectTilesetEditorSelection: PropTypes.func.isRequired,
   tileSize: PropTypes.number.isRequired,
   _flipTilesetEditorSelection: PropTypes.func.isRequired,
+  _rotateTilesetEditorSelection: PropTypes.func.isRequired,
   _selectAllTileset: PropTypes.func.isRequired,
   anyModalIsOpen: PropTypes.bool.isRequired,
 };
@@ -262,6 +297,7 @@ function mapDispatchToProps( dispatch ) {
     _setPixelToolSettings: setPixelToolSettings,
     _deselectTilesetEditorSelection: deselectTilesetEditorSelection,
     _flipTilesetEditorSelection: flipTilesetEditorSelection,
+    _rotateTilesetEditorSelection: rotateTilesetEditorSelection,
     _selectAllTileset: selectAllTileset,
   }, dispatch );
 }

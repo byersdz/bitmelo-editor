@@ -1,0 +1,21 @@
+
+.import-palette-modal {
+  .modal-content {
+    display: block !important;
+    max-height: 500px;
+    height: 90%;
+    overflow-y: auto;
+  }
+
+  .import-mode-container {
+    margin-bottom: 16px;
+  }
+
+  .import-from-png {
+    margin-bottom: 8px;
+  }
+
+  hr {
+    width: 100%
+  }
+}

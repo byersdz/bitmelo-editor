@@ -1,6 +1,16 @@
 {
   "versions": [
     {
+      "version": "2.4.0",
+      "changes": [
+        "Added palette importing",
+        "Added rotate tools to tile editor",
+        "Added grid hotkey (ctrl + ')",
+        "Added screen sized gridlines to tilemap editor if the screen size is divisible by the tile size",
+        "Colors added from the color picker are now inserted into the palette after the active color instead of the last color"
+      ]
+    },
+    {
       "version": "2.3.0",
       "changes": [
         "Added Gamepad support",

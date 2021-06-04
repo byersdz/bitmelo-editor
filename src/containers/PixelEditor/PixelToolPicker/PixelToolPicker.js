@@ -23,6 +23,7 @@ import { setTilesetEditorSelection, clearTilesetEditorSelection } from '../../..
 import { repositionTilesetEditorSelection } from '../../../state/Tileset/actions';
 
 import { getSelectedTileData } from '../../../utils/tilesetHelpers';
+import { TOGGLE_GRID, eventMatchesHotkey } from '../../../utils/hotkeys';
 
 import './PixelToolPicker.scss';
 
@@ -45,6 +46,11 @@ class PixelToolPicker extends React.Component {
     const { anyModalIsOpen } = this.props;
 
     if ( anyModalIsOpen ) {
+      return;
+    }
+
+    if ( eventMatchesHotkey( event, TOGGLE_GRID ) ) {
+      this.handleShowGridClick();
       return;
     }
 

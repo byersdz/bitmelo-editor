@@ -64,6 +64,8 @@ class OverlayCanvas extends React.Component {
       tileSize,
       showGrid,
       editorSelection,
+      screenWidth,
+      screenHeight,
     } = this.props;
     const { step } = this.state;
 
@@ -87,13 +89,30 @@ class OverlayCanvas extends React.Component {
         dataHeight,
       };
 
+      const initialScale = gridSettings.scale;
+
       if ( isTileEditor ) {
         gridSettings.scale = scale * tileSize;
       }
 
+      // draw main grid
       drawGrid( gridSettings, this.canvasRef.current );
 
-      if ( !isTileEditor ) {
+      if ( isTileEditor ) {
+        // draw stronger border at screen edges
+        if ( screenWidth % tileSize === 0 && screenHeight % tileSize === 0 ) {
+          gridSettings.scale = initialScale;
+          gridSettings.interval = screenWidth;
+          gridSettings.yInterval = screenHeight;
+          gridSettings.dataWidth = gridSettings.dataWidth * tileSize;
+          gridSettings.dataHeight = gridSettings.dataHeight * tileSize;
+          gridSettings.lineWidth = 2;
+          gridSettings.style = 'rgba( 0, 0, 0, 0.5 )';
+
+          drawGrid( gridSettings, this.canvasRef.current );
+        }
+      }
+      else {
         // draw stronger borders at tile edges
         gridSettings.interval = tileSize;
         gridSettings.lineWidth = 2;
@@ -177,6 +196,8 @@ OverlayCanvas.propTypes = {
   tileSize: PropTypes.number.isRequired,
   showGrid: PropTypes.bool.isRequired,
   editorSelection: PropTypes.object,
+  screenWidth: PropTypes.number.isRequired,
+  screenHeight: PropTypes.number.isRequired,
 };
 
 OverlayCanvas.defaultProps = {
@@ -194,6 +215,8 @@ function mapStateToProps( state ) {
   }
   return {
     showGrid,
+    screenWidth: state.project.screen.width,
+    screenHeight: state.project.screen.height,
   };
 }
 

@@ -1,4 +1,6 @@
 
+import get from 'lodash/get';
+
 export function drawBackgroundBorder( settings, canvas ) {
   const {
     offsetX,
@@ -305,6 +307,7 @@ export function drawTileSelection( settings, canvas ) {
   context.fillRect( originX + width, originY, lineWidth, height ); // right
 }
 
+// draw a grid based on data
 export function drawGrid( settings, canvas ) {
   const {
     interval,
@@ -317,6 +320,8 @@ export function drawGrid( settings, canvas ) {
     dataHeight,
   } = settings;
 
+  const yInterval = get( settings, 'yInterval', interval );
+
   const context = canvas.getContext( '2d' );
   context.fillStyle = style;
 
@@ -327,7 +332,7 @@ export function drawGrid( settings, canvas ) {
   }
 
   for ( let y = 0; y < dataHeight; y += 1 ) {
-    if ( y % interval === 0 ) {
+    if ( ( dataHeight - y ) % yInterval === 0 ) {
       context.fillRect( offsetX, y * scale + offsetY, dataWidth * scale, lineWidth );
     }
   }

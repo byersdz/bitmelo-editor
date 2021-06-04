@@ -1,10 +1,16 @@
 
 import { standardPalette } from 'bitmelo'; // eslint-disable-line
-import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
+import {
+  RESET_PROJECT,
+  IMPORT_PROJECT_DATA,
+  REPLACE_PALETTE,
+  INSERT_PALETTE_COLOR,
+} from '../globalActions';
 
 // Actions
 export const SET_PALETTE_COLOR = 'SET_PALETTE_COLOR';
 export const ADD_PALETTE_COLOR = 'ADD_PALETTE_COLOR';
+export const ADD_PALETTE_COLOR_SET = 'ADD_PALETTE_COLOR_SET';
 export const DELETE_PALETTE_COLOR = 'DELETE_PALETTE_COLOR';
 
 // validation
@@ -56,6 +62,30 @@ export default function reducer( state = initialState, action ) {
       newPalette.push( color );
       return newPalette;
     }
+    case INSERT_PALETTE_COLOR: {
+      if ( state.length > 255 ) {
+        return state;
+      }
+      const { color, index } = action.payload;
+
+      return [...state.slice( 0, index ), color, ...state.slice( index )];
+    }
+    case ADD_PALETTE_COLOR_SET: {
+      const newPalette = [...state, ...action.payload];
+      if ( newPalette.length > 256 ) {
+        return state;
+      }
+
+      return newPalette;
+    }
+    case REPLACE_PALETTE: {
+      const newPalette = [...action.payload.colors];
+      if ( newPalette.length > 256 ) {
+        return state;
+      }
+
+      return newPalette;
+    }
     case DELETE_PALETTE_COLOR: {
       const newPalette = [];
       for ( let i = 0; i < state.length; i += 1 ) {
@@ -85,6 +115,13 @@ export function addPaletteColor( color ) {
   return {
     type: ADD_PALETTE_COLOR,
     payload: color,
+  };
+}
+
+export function addPaletteColorSet( colorSet ) {
+  return {
+    type: ADD_PALETTE_COLOR_SET,
+    payload: colorSet,
   };
 }
 

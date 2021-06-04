@@ -3,6 +3,7 @@ import React from 'react';
 
 import ActionsButton from '../../ActionsButton/ActionsButton';
 import ExportImageModal from '../ExportImageModal/ExportImageModal';
+import ImportPaletteModal from '../../Global/ImportPaletteModal/ImportPaletteModal';
 
 class TileEditorActionsButton extends React.Component {
   constructor( props ) {
@@ -11,13 +12,18 @@ class TileEditorActionsButton extends React.Component {
     this.state = {
       dropDownIsOpen: false,
       exportImageModalIsOpen: false,
+      importPaletteModalIsOpen: false,
     };
   }
 
   render() {
-    const { exportImageModalIsOpen, dropDownIsOpen } = this.state;
+    const { exportImageModalIsOpen, importPaletteModalIsOpen, dropDownIsOpen } = this.state;
 
     const items = [
+      {
+        key: 'import-palette',
+        display: 'Import Palette',
+      },
       {
         key: 'export-image',
         display: 'Export PNG',
@@ -27,6 +33,12 @@ class TileEditorActionsButton extends React.Component {
     const exportImageModalRender = exportImageModalIsOpen ? (
       <ExportImageModal
         onClose={ () => this.setState( { exportImageModalIsOpen: false } ) }
+      />
+    ) : null;
+
+    const importPaletteModalRender = importPaletteModalIsOpen ? (
+      <ImportPaletteModal
+        onClose={ () => this.setState( { importPaletteModalIsOpen: false } ) }
       />
     ) : null;
 
@@ -42,11 +54,15 @@ class TileEditorActionsButton extends React.Component {
             if ( k === 'export-image' ) {
               this.setState( { exportImageModalIsOpen: true } );
             }
+            else if ( k === 'import-palette' ) {
+              this.setState( { importPaletteModalIsOpen: true } );
+            }
 
             this.setState( { dropDownIsOpen: false } );
           } }
         />
         { exportImageModalRender }
+        { importPaletteModalRender }
       </>
     );
   }

@@ -19,7 +19,7 @@ export const MOVE_TILE_SELECTION_LEFT_TILED = 'MOVE_TILE_SELECTION_LEFT_TILED';
 export const MOVE_TILE_SELECTION_RIGHT_TILED = 'MOVE_TILE_SELECTION_RIGHT_TILED';
 export const MOVE_TILE_SELECTION_UP_TILED = 'MOVE_TILE_SELECTION_UP_TILED';
 export const MOVE_TILE_SELECTION_DOWN_TILED = 'MOVE_TILE_SELECTION_DOWN_TILED';
-
+export const TOGGLE_GRID = 'TOGGLE_GRID';
 
 const keys = {};
 
@@ -50,6 +50,7 @@ addHotkey( MOVE_TILE_SELECTION_UP, 38, false, false, false ); // up arrow
 addHotkey( MOVE_TILE_SELECTION_UP_TILED, 38, true, false, false ); // up arrow
 addHotkey( MOVE_TILE_SELECTION_DOWN, 40, false, false, false ); // down arrow
 addHotkey( MOVE_TILE_SELECTION_DOWN_TILED, 40, true, false, false ); // down arrow
+addHotkey( TOGGLE_GRID, 222, false, true, false ); // single quote
 
 
 export function eventMatchesHotkey( event, hotkey ) {

@@ -1,0 +1,6 @@
+<svg id="SVGRoot" width="32px" height="32px" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <path d="m16 1.5c-7.9904 0-14.5 6.5096-14.5 14.5 0 7.9904 6.5096 14.5 14.5 14.5 4.1772 0 7.9386-1.7893 10.588-4.6289l-2.3301-1.8652c-2.0879 2.1536-5.0088 3.4941-8.2578 3.4941-6.369 0-11.5-5.131-11.5-11.5 0-6.369 5.131-11.5 11.5-11.5 3.4847 0 6.5914 1.5422 8.6973 3.9766l2.3945-1.7949c-2.6628-3.1638-6.6463-5.1816-11.092-5.1816z" color="#000000" color-rendering="auto" dominant-baseline="auto" image-rendering="auto" shape-rendering="auto" solid-color="#000000" stop-color="#000000" style="font-feature-settings:normal;font-variant-alternates:normal;font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal;font-variant-position:normal;font-variation-settings:normal;inline-size:0;isolation:auto;mix-blend-mode:normal;shape-margin:0;shape-padding:0;text-decoration-color:#000000;text-decoration-line:none;text-decoration-style:solid;text-indent:0;text-orientation:mixed;text-transform:none;white-space:normal"/>
+  <path d="m30 12h-10l10-10z"/>
+ </g>
+</svg>
