@@ -1,6 +1,6 @@
 {
   "name": "bitmelo-editor",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "",
   "private": true,
   "main": "electron/electronMain.js",
@@ -73,11 +73,11 @@
   "dependencies": {
     "ace-builds": "^1.4.12",
     "array-move": "^3.0.1",
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
     "bitmelo": "1.6.0",
     "electron-is-dev": "^1.1.0",
     "lodash": "^4.17.21",
-    "moment": "^2.25.3",
+    "moment": "^2.29.3",
     "normalize.css": "^8.0.1",
     "react-ace": "^9.2.0",
     "react-click-outside": "^3.0.1",
