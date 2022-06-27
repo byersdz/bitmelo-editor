@@ -65,6 +65,10 @@ export function validate( state ) {
       return false;
     }
 
+    if ( !Array.isArray( tileset.flags ) ) {
+      return false;
+    }
+
     if ( tileset.layers.length <= 0 ) {
       return false;
     }
@@ -117,6 +121,11 @@ function modifyImportedState( state ) {
         layer.format = 'array';
       }
     }
+
+    if ( currentTileset.flags.length !== currentTileset.width * currentTileset.height ) {
+      currentTileset.flags = new Array( currentTileset.width * currentTileset.height );
+      currentTileset.flags.fill( 0 );
+    }
   }
 
   return newState;
@@ -144,10 +153,12 @@ const initialState = [
         data: new Array( initialWidth * initialHeight * initialTileSize * initialTileSize ),
       },
     ],
+    flags: new Array( initialWidth * initialHeight ),
   },
 ];
 
 initialState[0].layers[0].data.fill( 0 );
+initialState[0].flags.fill( 0 );
 
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
@@ -159,15 +170,20 @@ export default function reducer( state = initialState, action ) {
         const format = get( action, 'payload.format', '' );
 
         let importedState = null;
+        const initialItem = cloneDeep( initialState[0] );
         if ( format === 'transfer' ) {
           importedState = [...action.payload.tilesets];
 
           for ( let i = 0; i < importedState.length; i += 1 ) {
-            importedState[i] = merge( {}, initialState[0], importedState[i] );
+            importedState[i] = merge( {}, initialItem, importedState[i] );
           }
         }
         else {
           importedState = [...action.payload.tileset.tilesets];
+
+          for ( let i = 0; i < importedState.length; i += 1 ) {
+            importedState[i] = merge( {}, initialItem, importedState[i] );
+          }
         }
 
         if ( validate( importedState ) ) {
@@ -179,6 +195,7 @@ export default function reducer( state = initialState, action ) {
         return state;
       }
     }
+
     case ADD_TILESET: {
       const {
         rows,
@@ -227,6 +244,7 @@ export default function reducer( state = initialState, action ) {
       }
       return newState;
     }
+
     case DELETE_PALETTE_COLOR: {
       const newState = [];
       for ( let i = 0; i < state.length; i += 1 ) {
@@ -294,6 +312,7 @@ export default function reducer( state = initialState, action ) {
       }
       return newState;
     }
+
     case REPOSITION_TILESET_EDITOR_SELECTION: {
       const {
         tilesetIndex,
@@ -353,6 +372,7 @@ export default function reducer( state = initialState, action ) {
 
       return newState;
     }
+
     case CREATE_TILESET_EDITOR_SELECTION: {
       const {
         tilesetIndex,
@@ -383,6 +403,7 @@ export default function reducer( state = initialState, action ) {
 
       return newState;
     }
+
     case APPLY_TILESET_EDITOR_SELECTION: {
       const {
         tilesetIndex,
@@ -427,6 +448,7 @@ export default function reducer( state = initialState, action ) {
 
       return newState;
     }
+
     case SET_TILESET_LAYER_DATA: {
       const {
         data,
