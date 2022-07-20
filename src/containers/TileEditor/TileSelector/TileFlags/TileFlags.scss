@@ -1,0 +1,10 @@
+
+.tile-flags {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .flag-checkbox {
+    margin: 4px;
+  }
+}
