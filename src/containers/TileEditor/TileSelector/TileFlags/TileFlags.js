@@ -22,12 +22,18 @@ class TileFlags extends React.Component {
         <FlagCheckbox
           checked={ checked }
           onChange={ v => this.setState( { checked: v } ) }
+          color="white"
+        />
+        <FlagCheckbox
+          checked={ checked }
+          onChange={ v => this.setState( { checked: v } ) }
           color="red"
         />
         <FlagCheckbox
           checked={ checked }
           onChange={ v => this.setState( { checked: v } ) }
           color="orange"
+          indeterminate
         />
         <FlagCheckbox
           checked={ checked }
@@ -52,12 +58,7 @@ class TileFlags extends React.Component {
         <FlagCheckbox
           checked={ checked }
           onChange={ v => this.setState( { checked: v } ) }
-          color="black"
-        />
-        <FlagCheckbox
-          checked={ checked }
-          onChange={ v => this.setState( { checked: v } ) }
-          color="white"
+          color="pink"
         />
       </div>
     );

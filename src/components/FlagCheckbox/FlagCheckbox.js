@@ -30,14 +30,14 @@ const FlagCheckbox = props => {
 };
 
 const COLORS = [
+  'white',
   'red',
   'orange',
   'yellow',
   'green',
   'blue',
   'purple',
-  'black',
-  'white',
+  'pink',
 ];
 
 FlagCheckbox.propTypes = {
