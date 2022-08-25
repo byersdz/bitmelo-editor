@@ -14,8 +14,14 @@ import './TileFlags.scss';
 
 
 class TileFlags extends React.Component {
-  setFlag( flag, shouldRemove ) {
+  setFlag( flag, checkValue, indeterminateValue ) {
     const { activeIndex, selectedIds, _setTilesetFlag } = this.props;
+
+    let shouldRemove = !checkValue;
+
+    if ( indeterminateValue ) {
+      shouldRemove = false;
+    }
 
     _setTilesetFlag( flag, shouldRemove, activeIndex, selectedIds );
   }
@@ -29,56 +35,56 @@ class TileFlags extends React.Component {
           id="flag-check-0"
           checked={ checkedValues[0] }
           indeterminate={ indeterminateValues[0] }
-          onChange={ v => this.setFlag( 1, !v ) }
+          onChange={ v => this.setFlag( 1, v, indeterminateValues[0] ) }
           color="white"
         />
         <FlagCheckbox
           id="flag-check-1"
           checked={ checkedValues[1] }
           indeterminate={ indeterminateValues[1] }
-          onChange={ v => this.setFlag( 2, !v ) }
+          onChange={ v => this.setFlag( 2, v, indeterminateValues[1] ) }
           color="red"
         />
         <FlagCheckbox
           id="flag-check-2"
           checked={ checkedValues[2] }
           indeterminate={ indeterminateValues[2] }
-          onChange={ v => this.setFlag( 4, !v ) }
+          onChange={ v => this.setFlag( 4, v, indeterminateValues[2] ) }
           color="orange"
         />
         <FlagCheckbox
           id="flag-check-3"
           checked={ checkedValues[3] }
           indeterminate={ indeterminateValues[3] }
-          onChange={ v => this.setFlag( 8, !v ) }
+          onChange={ v => this.setFlag( 8, v, indeterminateValues[3] ) }
           color="yellow"
         />
         <FlagCheckbox
           id="flag-check-4"
           checked={ checkedValues[4] }
           indeterminate={ indeterminateValues[4] }
-          onChange={ v => this.setFlag( 16, !v ) }
+          onChange={ v => this.setFlag( 16, v, indeterminateValues[4] ) }
           color="green"
         />
         <FlagCheckbox
           id="flag-check-5"
           checked={ checkedValues[5] }
           indeterminate={ indeterminateValues[5] }
-          onChange={ v => this.setFlag( 32, !v ) }
+          onChange={ v => this.setFlag( 32, v, indeterminateValues[5] ) }
           color="blue"
         />
         <FlagCheckbox
           id="flag-check-6"
           checked={ checkedValues[6] }
           indeterminate={ indeterminateValues[6] }
-          onChange={ v => this.setFlag( 64, !v ) }
+          onChange={ v => this.setFlag( 64, v, indeterminateValues[6] ) }
           color="purple"
         />
         <FlagCheckbox
           id="flag-check-7"
           checked={ checkedValues[7] }
           indeterminate={ indeterminateValues[7] }
-          onChange={ v => this.setFlag( 128, !v ) }
+          onChange={ v => this.setFlag( 128, v, indeterminateValues[7] ) }
           color="pink"
         />
       </div>
