@@ -24,6 +24,7 @@ export const SET_TILESET_MAP_SELECTION = 'SET_TILESET_MAP_SELECTION';
 export const SET_TILESET_SIZE = 'SET_TILESET_SIZE';
 export const ADD_TILESET = 'ADD_TILESET';
 export const DELETE_TILESET = 'DELETE_TILESET';
+export const SET_TILESET_FLAG = 'SET_TILESET_FLAG';
 
 // validation
 export function validate( state ) {
@@ -546,6 +547,29 @@ export default function reducer( state = initialState, action ) {
       return newState;
     }
 
+    case SET_TILESET_FLAG: {
+      const {
+        flag,
+        tilesetIndex,
+        localIds,
+        shouldRemove,
+      } = action.payload;
+      const newState = cloneDeep( state );
+
+      const currentTileset = newState[tilesetIndex];
+
+      for ( let i = 0; i < localIds.length; i += 1 ) {
+        if ( shouldRemove ) {
+          currentTileset.flags[localIds[i]] = currentTileset.flags[localIds[i]] & ~flag;
+        }
+        else {
+          currentTileset.flags[localIds[i]] = currentTileset.flags[localIds[i]] | flag;
+        }
+      }
+
+      return newState;
+    }
+
     default:
       return state;
   }
@@ -605,5 +629,17 @@ export function deleteTileset( tilesetIndex ) {
   return {
     type: DELETE_TILESET,
     payload: tilesetIndex,
+  };
+}
+
+export function setTilesetFlag( flag, shouldRemove, tilesetIndex, localIds ) {
+  return {
+    type: SET_TILESET_FLAG,
+    payload: {
+      flag,
+      shouldRemove,
+      tilesetIndex,
+      localIds,
+    },
   };
 }

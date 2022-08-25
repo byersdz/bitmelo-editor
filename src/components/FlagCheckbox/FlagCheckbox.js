@@ -7,20 +7,21 @@ import './FlagCheckbox.scss';
 
 const FlagCheckbox = props => {
   const {
+    id,
     checked,
     indeterminate,
     onChange,
     color,
   } = props;
 
-  console.log( color );
+  const inputId = `${ id }-input`;
   return (
-    <div className={ classNames( 'flag-checkbox', { indeterminate }, color ) }>
-      <label className="flag-checkbox-label" htmlFor="fc-input">
+    <div id={ id } className={ classNames( 'flag-checkbox', { indeterminate }, color ) }>
+      <label className="flag-checkbox-label" htmlFor={ inputId }>
         <input
           type="checkbox"
           checked={ checked }
-          id="fc-input"
+          id={ inputId }
           onChange={ () => onChange( !checked ) }
         />
         <span className="checkmark" />
@@ -41,6 +42,7 @@ const COLORS = [
 ];
 
 FlagCheckbox.propTypes = {
+  id: PropTypes.string.isRequired,
   checked: PropTypes.bool.isRequired,
   indeterminate: PropTypes.bool,
   onChange: PropTypes.func.isRequired,

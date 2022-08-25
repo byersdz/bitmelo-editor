@@ -2,78 +2,83 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import forEach from 'lodash/forEach';
 
 import FlagCheckbox from '../../../../components/FlagCheckbox/FlagCheckbox';
 
-import { getSelectedFlags } from '../../../../utils/tilesetHelpers';
+import { getSelectedFlags, getSelectedLocalIds } from '../../../../utils/tilesetHelpers';
 
+import { setTilesetFlag } from '../../../../state/Tileset/tilesets';
 import './TileFlags.scss';
 
 
 class TileFlags extends React.Component {
-  constructor( props ) {
-    super( props );
+  setFlag( flag, shouldRemove ) {
+    const { activeIndex, selectedIds, _setTilesetFlag } = this.props;
 
-    this.state = {
-      checked: false,
-    };
+    _setTilesetFlag( flag, shouldRemove, activeIndex, selectedIds );
   }
 
   render() {
     const { checkedValues, indeterminateValues } = this.props;
-    const { checked } = this.state;
-
-    console.log( checked, checkedValues, indeterminateValues );
 
     return (
       <div className="tile-flags">
         <FlagCheckbox
+          id="flag-check-0"
           checked={ checkedValues[0] }
           indeterminate={ indeterminateValues[0] }
-          onChange={ v => this.setState( { checked: v } ) }
+          onChange={ v => this.setFlag( 1, !v ) }
           color="white"
         />
         <FlagCheckbox
+          id="flag-check-1"
           checked={ checkedValues[1] }
           indeterminate={ indeterminateValues[1] }
-          onChange={ v => this.setState( { checked: v } ) }
+          onChange={ v => this.setFlag( 2, !v ) }
           color="red"
         />
         <FlagCheckbox
+          id="flag-check-2"
           checked={ checkedValues[2] }
           indeterminate={ indeterminateValues[2] }
-          onChange={ v => this.setState( { checked: v } ) }
+          onChange={ v => this.setFlag( 4, !v ) }
           color="orange"
         />
         <FlagCheckbox
+          id="flag-check-3"
           checked={ checkedValues[3] }
           indeterminate={ indeterminateValues[3] }
-          onChange={ v => this.setState( { checked: v } ) }
+          onChange={ v => this.setFlag( 8, !v ) }
           color="yellow"
         />
         <FlagCheckbox
+          id="flag-check-4"
           checked={ checkedValues[4] }
           indeterminate={ indeterminateValues[4] }
-          onChange={ v => this.setState( { checked: v } ) }
+          onChange={ v => this.setFlag( 16, !v ) }
           color="green"
         />
         <FlagCheckbox
+          id="flag-check-5"
           checked={ checkedValues[5] }
           indeterminate={ indeterminateValues[5] }
-          onChange={ v => this.setState( { checked: v } ) }
+          onChange={ v => this.setFlag( 32, !v ) }
           color="blue"
         />
         <FlagCheckbox
+          id="flag-check-6"
           checked={ checkedValues[6] }
           indeterminate={ indeterminateValues[6] }
-          onChange={ v => this.setState( { checked: v } ) }
+          onChange={ v => this.setFlag( 64, !v ) }
           color="purple"
         />
         <FlagCheckbox
+          id="flag-check-7"
           checked={ checkedValues[7] }
           indeterminate={ indeterminateValues[7] }
-          onChange={ v => this.setState( { checked: v } ) }
+          onChange={ v => this.setFlag( 128, !v ) }
           color="pink"
         />
       </div>
@@ -84,6 +89,9 @@ class TileFlags extends React.Component {
 TileFlags.propTypes = {
   checkedValues: PropTypes.arrayOf( PropTypes.bool ).isRequired,
   indeterminateValues: PropTypes.arrayOf( PropTypes.bool ).isRequired,
+  activeIndex: PropTypes.number.isRequired,
+  selectedIds: PropTypes.arrayOf( PropTypes.number ).isRequired,
+  _setTilesetFlag: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -91,6 +99,7 @@ function mapStateToProps( state ) {
   const currentTileset = state.tileset.present.tilesets[activeIndex];
 
   const flags = getSelectedFlags( currentTileset );
+  const selectedIds = getSelectedLocalIds( currentTileset );
   const flagCount = flags.length;
   const trueCounts = new Array( 8 );
   const falseCounts = new Array( 8 );
@@ -114,9 +123,6 @@ function mapStateToProps( state ) {
   const checkedValues = new Array( 8 );
   const indeterminateValues = new Array( 8 );
 
-  console.log( 'true', trueCounts );
-  console.log( 'false', falseCounts );
-
   for ( let i = 0; i < 8; i += 1 ) {
     checkedValues[i] = false;
     indeterminateValues[i] = false;
@@ -133,7 +139,15 @@ function mapStateToProps( state ) {
   return {
     checkedValues,
     indeterminateValues,
+    activeIndex,
+    selectedIds,
   };
 }
 
-export default connect( mapStateToProps )( TileFlags );
+function mapDispatchToProps( dispatch ) {
+  return bindActionCreators( {
+    _setTilesetFlag: setTilesetFlag,
+  }, dispatch );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( TileFlags );
