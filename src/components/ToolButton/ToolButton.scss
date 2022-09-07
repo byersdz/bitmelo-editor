@@ -1,0 +1,19 @@
+
+.tool-button {
+  &.btn {
+    border: 2px solid transparent;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .isvg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+  }
+}

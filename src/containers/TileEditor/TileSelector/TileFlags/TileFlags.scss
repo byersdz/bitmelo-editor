@@ -1,10 +1,22 @@
 
 .tile-flags {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-top: 8px;
+  margin-bottom: 8px;
 
-  .flag-checkbox {
-    margin: 4px;
+  .tile-flags-header {
+    font-weight: bold;
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+  }
+
+  .tile-flags-boxes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .flag-checkbox {
+      margin: 4px;
+    }
   }
 }

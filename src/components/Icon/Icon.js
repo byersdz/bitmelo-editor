@@ -37,6 +37,8 @@ import DotsIcon from './SVG/dots-o.svg';
 import WorldIcon from './SVG/world-o.svg';
 import ClockwiseIcon from './SVG/clockwise-o.svg';
 import CounterIcon from './SVG/counter-o.svg';
+import LockUnlockedIcon from './SVG/lock-unlocked-o.svg';
+import LockLockedIcon from './SVG/lock-locked-o.svg';
 
 import './Icon.scss';
 
@@ -248,6 +250,18 @@ const Icon = ( props ) => {
 
     case 'counter': {
       svgFile = CounterIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'unlocked': {
+      svgFile = LockUnlockedIcon;
+      noStroke = true;
+      break;
+    }
+
+    case 'locked': {
+      svgFile = LockLockedIcon;
       noStroke = true;
       break;
     }
