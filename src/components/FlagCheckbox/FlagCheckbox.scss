@@ -31,7 +31,7 @@
 
   &:hover {
     .checkmark {
-      background-color: #81b4e7;
+      border-color: #81b4e7;
     }
   }
 
@@ -68,17 +68,15 @@
 
   &.white {
     .checkmark {
-      // background-color: #ffffff;
       border-color: #ffffff;
     }
     &:hover {
       .checkmark {
-        background-color: #bbbbbb;
+        border-color: #bbbbbb;
       }
     }
     input:checked ~ .checkmark {
       background-color: #ffffff;
-      border-color: #ffffff;
     }
     .checkmark::after {
       border-color: black;
@@ -87,12 +85,11 @@
 
   &.red {
     .checkmark {
-      // background-color: #ffbfbf;
       border-color: #c90101;
     }
     &:hover {
       .checkmark {
-        background-color: #e78e8e;
+        border-color: #e78e8e;
       }
     }
     input:checked ~ .checkmark {
@@ -107,7 +104,7 @@
     }
     &:hover {
       .checkmark {
-        background-color: #f3b79b;
+        border-color: #f3b79b;
       }
     }
     input:checked ~ .checkmark {
@@ -122,7 +119,7 @@
     }
     &:hover {
       .checkmark {
-        background-color: #f8ef9e;
+        border-color: #f8ef9e;
       }
     }
     input:checked ~ .checkmark {
@@ -141,7 +138,7 @@
     }
     &:hover {
       .checkmark {
-        background-color: #90ec7a;
+        border-color: #90ec7a;
       }
     }
     input:checked ~ .checkmark {
@@ -156,7 +153,7 @@
     }
     &:hover {
       .checkmark {
-        background-color: #c785ee;
+        border-color: #c785ee;
       }
     }
     input:checked ~ .checkmark {
@@ -171,7 +168,7 @@
     }
     &:hover {
       .checkmark {
-        background-color: #ffbbf0;
+        border-color: #ffbbf0;
       }
     }
     input:checked ~ .checkmark {
@@ -192,5 +189,82 @@
     }
   }
 
+  &.disabled {
+    .checkmark {
+      cursor: not-allowed;
+    }
+
+    &.white {
+      .checkmark {
+        border-color: #b4b4b4;
+      }
+      input:checked ~ .checkmark {
+        background-color: #b4b4b4;
+      }
+    }
+
+    &.red {
+      .checkmark {
+        border-color: #9c3838;
+      }
+      input:checked ~ .checkmark {
+        background-color: #9c3838;
+      }
+    }
+
+    &.orange {
+      .checkmark {
+        border-color: #a05e28;
+      }
+      input:checked ~ .checkmark {
+        background-color: #a05e28;
+      }
+    }
+
+    &.yellow {
+      .checkmark {
+        border-color: #c0ba66;
+      }
+      input:checked ~ .checkmark {
+        background-color: #c0ba66;
+      }
+    }
+
+    &.green {
+      .checkmark {
+        border-color: #538b44;
+      }
+      input:checked ~ .checkmark {
+        background-color: #538b44;
+      }
+    }
+
+    &.blue {
+      .checkmark {
+        border-color: #4c71a0
+      }
+      input:checked ~ .checkmark {
+        background-color: #4c71a0;
+      }
+    }
+
+    &.purple {
+      .checkmark {
+        border-color: #974dc2;
+      }
+      input:checked ~ .checkmark {
+        background-color: #974dc2;
+      }
+    }
+
+    &.pink {
+      .checkmark {
+        border-color: #c04ea7;
+      }
+      input:checked ~ .checkmark {
+        background-color: #c04ea7;
+      }
+    }
+  }
 
 }

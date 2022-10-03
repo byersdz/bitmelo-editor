@@ -12,17 +12,23 @@ const FlagCheckbox = props => {
     indeterminate,
     onChange,
     color,
+    disabled,
   } = props;
 
   const inputId = `${ id }-input`;
   return (
-    <div id={ id } className={ classNames( 'flag-checkbox', { indeterminate }, color ) }>
+    <div id={ id } className={ classNames( 'flag-checkbox', { indeterminate }, color, { disabled } ) }>
       <label className="flag-checkbox-label" htmlFor={ inputId }>
         <input
           type="checkbox"
           checked={ checked }
           id={ inputId }
-          onChange={ () => onChange( !checked ) }
+          onChange={ () => {
+            if ( !disabled ) {
+              onChange( !checked );
+            }
+          } }
+          disabled={ disabled }
         />
         <span className="checkmark" />
       </label>
@@ -47,11 +53,13 @@ FlagCheckbox.propTypes = {
   indeterminate: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   color: PropTypes.oneOf( COLORS ),
+  disabled: PropTypes.bool,
 };
 
 FlagCheckbox.defaultProps = {
   indeterminate: false,
   color: 'blue',
+  disabled: false,
 };
 
 export default FlagCheckbox;

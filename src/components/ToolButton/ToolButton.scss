@@ -1,3 +1,4 @@
+@import '../../style/colors.scss';
 
 .tool-button {
   &.btn {
@@ -15,5 +16,14 @@
     justify-content: center;
     width: 28px;
     height: 28px;
+  }
+
+  &.active {
+    border: 2px solid $primary-color;
+
+    .isvg {
+      fill: $primary-color;
+      stroke: $primary-color;
+    }
   }
 }

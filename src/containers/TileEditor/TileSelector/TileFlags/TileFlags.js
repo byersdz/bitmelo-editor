@@ -11,6 +11,8 @@ import ToolButton from '../../../../components/ToolButton/ToolButton';
 import { getSelectedFlags, getSelectedLocalIds } from '../../../../utils/tilesetHelpers';
 
 import { setTilesetFlag } from '../../../../state/Tileset/tilesets';
+import { setTileFlagsAreLocked } from '../../../../state/Layout/tileFlagsAreLocked';
+
 import './TileFlags.scss';
 
 
@@ -28,7 +30,12 @@ class TileFlags extends React.Component {
   }
 
   render() {
-    const { checkedValues, indeterminateValues } = this.props;
+    const {
+      checkedValues,
+      indeterminateValues,
+      tileFlagsAreLocked,
+      _setTileFlagsAreLocked,
+    } = this.props;
 
     return (
       <div className="tile-flags">
@@ -37,7 +44,9 @@ class TileFlags extends React.Component {
           <ToolButton
             icon="unlocked"
             title="Lock Flags"
-            onClick={ () => console.log( 'wat' ) }
+            onClick={ () => _setTileFlagsAreLocked( !tileFlagsAreLocked ) }
+            activeIcon="locked"
+            active={ tileFlagsAreLocked }
           />
         </div>
         <div className="tile-flags-boxes">
@@ -47,6 +56,7 @@ class TileFlags extends React.Component {
             indeterminate={ indeterminateValues[0] }
             onChange={ v => this.setFlag( 1, v, indeterminateValues[0] ) }
             color="white"
+            disabled={ tileFlagsAreLocked }
           />
           <FlagCheckbox
             id="flag-check-1"
@@ -54,6 +64,7 @@ class TileFlags extends React.Component {
             indeterminate={ indeterminateValues[1] }
             onChange={ v => this.setFlag( 2, v, indeterminateValues[1] ) }
             color="red"
+            disabled={ tileFlagsAreLocked }
           />
           <FlagCheckbox
             id="flag-check-2"
@@ -61,6 +72,7 @@ class TileFlags extends React.Component {
             indeterminate={ indeterminateValues[2] }
             onChange={ v => this.setFlag( 4, v, indeterminateValues[2] ) }
             color="orange"
+            disabled={ tileFlagsAreLocked }
           />
           <FlagCheckbox
             id="flag-check-3"
@@ -68,6 +80,7 @@ class TileFlags extends React.Component {
             indeterminate={ indeterminateValues[3] }
             onChange={ v => this.setFlag( 8, v, indeterminateValues[3] ) }
             color="yellow"
+            disabled={ tileFlagsAreLocked }
           />
           <FlagCheckbox
             id="flag-check-4"
@@ -75,6 +88,7 @@ class TileFlags extends React.Component {
             indeterminate={ indeterminateValues[4] }
             onChange={ v => this.setFlag( 16, v, indeterminateValues[4] ) }
             color="green"
+            disabled={ tileFlagsAreLocked }
           />
           <FlagCheckbox
             id="flag-check-5"
@@ -82,6 +96,7 @@ class TileFlags extends React.Component {
             indeterminate={ indeterminateValues[5] }
             onChange={ v => this.setFlag( 32, v, indeterminateValues[5] ) }
             color="blue"
+            disabled={ tileFlagsAreLocked }
           />
           <FlagCheckbox
             id="flag-check-6"
@@ -89,6 +104,7 @@ class TileFlags extends React.Component {
             indeterminate={ indeterminateValues[6] }
             onChange={ v => this.setFlag( 64, v, indeterminateValues[6] ) }
             color="purple"
+            disabled={ tileFlagsAreLocked }
           />
           <FlagCheckbox
             id="flag-check-7"
@@ -96,6 +112,7 @@ class TileFlags extends React.Component {
             indeterminate={ indeterminateValues[7] }
             onChange={ v => this.setFlag( 128, v, indeterminateValues[7] ) }
             color="pink"
+            disabled={ tileFlagsAreLocked }
           />
         </div>
       </div>
@@ -109,6 +126,8 @@ TileFlags.propTypes = {
   activeIndex: PropTypes.number.isRequired,
   selectedIds: PropTypes.arrayOf( PropTypes.number ).isRequired,
   _setTilesetFlag: PropTypes.func.isRequired,
+  tileFlagsAreLocked: PropTypes.bool.isRequired,
+  _setTileFlagsAreLocked: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -153,17 +172,21 @@ function mapStateToProps( state ) {
     }
   }
 
+  const { tileFlagsAreLocked } = state.layout;
+
   return {
     checkedValues,
     indeterminateValues,
     activeIndex,
     selectedIds,
+    tileFlagsAreLocked,
   };
 }
 
 function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setTilesetFlag: setTilesetFlag,
+    _setTileFlagsAreLocked: setTileFlagsAreLocked,
   }, dispatch );
 }
 

@@ -1,6 +1,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import Button from '../Button/Button';
 
@@ -23,7 +24,7 @@ class ToolButton extends React.Component {
 
     return (
       <Button
-        className="tool-button"
+        className={ classNames( 'tool-button', { active } ) }
         title={ title }
         icon={ buttonIcon }
         hideTitle
