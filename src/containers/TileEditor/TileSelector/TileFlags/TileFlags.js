@@ -12,6 +12,7 @@ import { getSelectedFlags, getSelectedLocalIds } from '../../../../utils/tileset
 
 import { setTilesetFlag } from '../../../../state/Tileset/tilesets';
 import { setTileFlagsAreLocked } from '../../../../state/Layout/tileFlagsAreLocked';
+import { TILEMAP_TAB } from '../../../../state/Layout/activeNavigationTab';
 
 import './TileFlags.scss';
 
@@ -131,11 +132,14 @@ TileFlags.propTypes = {
 };
 
 function mapStateToProps( state ) {
+  const { activeNavigationTab } = state.layout;
   const { activeIndex } = state.tileset.present;
   const currentTileset = state.tileset.present.tilesets[activeIndex];
 
-  const flags = getSelectedFlags( currentTileset );
-  const selectedIds = getSelectedLocalIds( currentTileset );
+  const useMap = activeNavigationTab === TILEMAP_TAB;
+
+  const flags = getSelectedFlags( currentTileset, useMap );
+  const selectedIds = getSelectedLocalIds( currentTileset, useMap );
   const flagCount = flags.length;
   const trueCounts = new Array( 8 );
   const falseCounts = new Array( 8 );

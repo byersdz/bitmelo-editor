@@ -267,4 +267,9 @@
     }
   }
 
+  &.circle {
+    .checkmark {
+      border-radius: 50%;
+    }
+  }
 }

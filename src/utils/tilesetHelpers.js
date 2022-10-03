@@ -80,7 +80,7 @@ export function getSelectedLocalIds( tileset, useMap = false ) {
   return result;
 }
 
-export function getSelectedFlags( tileset, useMap ) {
+export function getSelectedFlags( tileset, useMap = false ) {
   const localIds = getSelectedLocalIds( tileset, useMap );
 
   const flags = map( localIds, id => {
