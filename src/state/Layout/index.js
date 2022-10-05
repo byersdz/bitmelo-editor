@@ -15,6 +15,7 @@ import colorPickerIsOpen from './colorPickerIsOpen';
 import activePage from './activePage';
 import modalCount from './modalCount';
 import tileFlagsAreLocked from './tileFlagsAreLocked';
+import showCircleTileFlags from './showCircleTileFlags';
 
 export default combineReducers( {
   activeNavigationTab,
@@ -31,4 +32,5 @@ export default combineReducers( {
   activePage,
   modalCount,
   tileFlagsAreLocked,
+  showCircleTileFlags,
 } );

@@ -7,12 +7,14 @@ import forEach from 'lodash/forEach';
 
 import FlagCheckbox from '../../../../components/FlagCheckbox/FlagCheckbox';
 import ToolButton from '../../../../components/ToolButton/ToolButton';
+import SquareCircleToggle from '../../../../components/SquareCircleToggle/SquareCircleToggle';
 
 import { getSelectedFlags, getSelectedLocalIds } from '../../../../utils/tilesetHelpers';
 
 import { setTilesetFlag } from '../../../../state/Tileset/tilesets';
 import { setTileFlagsAreLocked } from '../../../../state/Layout/tileFlagsAreLocked';
 import { TILEMAP_TAB } from '../../../../state/Layout/activeNavigationTab';
+import { setShowCircleTileFlags } from '../../../../state/Layout/showCircleTileFlags';
 
 import './TileFlags.scss';
 
@@ -36,7 +38,33 @@ class TileFlags extends React.Component {
       indeterminateValues,
       tileFlagsAreLocked,
       _setTileFlagsAreLocked,
+      showCircleTileFlags,
+      _setShowCircleTileFlags,
     } = this.props;
+
+    const finalCheckedValues = [];
+    const finalIndeterminateValues = [];
+    const flagValues = [];
+
+    let tempFlagValue = 1;
+
+    for ( let i = 0; i < 8; i += 1 ) {
+      finalCheckedValues.push( checkedValues[i] );
+      finalIndeterminateValues.push( indeterminateValues[i] );
+      flagValues.push( tempFlagValue );
+
+      tempFlagValue = tempFlagValue * 2;
+    }
+
+    if ( showCircleTileFlags ) {
+      for ( let i = 0; i < 8; i += 1 ) {
+        finalCheckedValues[i] = checkedValues[i + 8];
+        finalIndeterminateValues[i] = indeterminateValues[i + 8];
+        flagValues[i] = tempFlagValue;
+
+        tempFlagValue = tempFlagValue * 2;
+      }
+    }
 
     return (
       <div className="tile-flags">
@@ -49,71 +77,83 @@ class TileFlags extends React.Component {
             activeIcon="locked"
             active={ tileFlagsAreLocked }
           />
+          <SquareCircleToggle
+            value={ showCircleTileFlags }
+            onChange={ v => _setShowCircleTileFlags( v ) }
+          />
         </div>
         <div className="tile-flags-boxes">
           <FlagCheckbox
             id="flag-check-0"
-            checked={ checkedValues[0] }
-            indeterminate={ indeterminateValues[0] }
-            onChange={ v => this.setFlag( 1, v, indeterminateValues[0] ) }
+            checked={ finalCheckedValues[0] }
+            indeterminate={ finalIndeterminateValues[0] }
+            onChange={ v => this.setFlag( flagValues[0], v, finalIndeterminateValues[0] ) }
             color="white"
             disabled={ tileFlagsAreLocked }
+            circle={ showCircleTileFlags }
           />
           <FlagCheckbox
             id="flag-check-1"
-            checked={ checkedValues[1] }
-            indeterminate={ indeterminateValues[1] }
-            onChange={ v => this.setFlag( 2, v, indeterminateValues[1] ) }
+            checked={ finalCheckedValues[1] }
+            indeterminate={ finalIndeterminateValues[1] }
+            onChange={ v => this.setFlag( flagValues[1], v, finalIndeterminateValues[1] ) }
             color="red"
             disabled={ tileFlagsAreLocked }
+            circle={ showCircleTileFlags }
           />
           <FlagCheckbox
             id="flag-check-2"
-            checked={ checkedValues[2] }
-            indeterminate={ indeterminateValues[2] }
-            onChange={ v => this.setFlag( 4, v, indeterminateValues[2] ) }
+            checked={ finalCheckedValues[2] }
+            indeterminate={ finalIndeterminateValues[2] }
+            onChange={ v => this.setFlag( flagValues[2], v, finalIndeterminateValues[2] ) }
             color="orange"
             disabled={ tileFlagsAreLocked }
+            circle={ showCircleTileFlags }
           />
           <FlagCheckbox
             id="flag-check-3"
-            checked={ checkedValues[3] }
-            indeterminate={ indeterminateValues[3] }
-            onChange={ v => this.setFlag( 8, v, indeterminateValues[3] ) }
+            checked={ finalCheckedValues[3] }
+            indeterminate={ finalIndeterminateValues[3] }
+            onChange={ v => this.setFlag( flagValues[3], v, finalIndeterminateValues[3] ) }
             color="yellow"
             disabled={ tileFlagsAreLocked }
+            circle={ showCircleTileFlags }
           />
           <FlagCheckbox
             id="flag-check-4"
-            checked={ checkedValues[4] }
-            indeterminate={ indeterminateValues[4] }
-            onChange={ v => this.setFlag( 16, v, indeterminateValues[4] ) }
+            checked={ finalCheckedValues[4] }
+            indeterminate={ finalIndeterminateValues[4] }
+            onChange={ v => this.setFlag( flagValues[4], v, finalIndeterminateValues[4] ) }
             color="green"
             disabled={ tileFlagsAreLocked }
+            circle={ showCircleTileFlags }
           />
           <FlagCheckbox
             id="flag-check-5"
-            checked={ checkedValues[5] }
-            indeterminate={ indeterminateValues[5] }
-            onChange={ v => this.setFlag( 32, v, indeterminateValues[5] ) }
+            checked={ finalCheckedValues[5] }
+            indeterminate={ finalIndeterminateValues[5] }
+            onChange={ v => this.setFlag( flagValues[5], v, finalIndeterminateValues[5] ) }
             color="blue"
             disabled={ tileFlagsAreLocked }
+            circle={ showCircleTileFlags }
           />
           <FlagCheckbox
             id="flag-check-6"
-            checked={ checkedValues[6] }
-            indeterminate={ indeterminateValues[6] }
-            onChange={ v => this.setFlag( 64, v, indeterminateValues[6] ) }
+            checked={ finalCheckedValues[6] }
+            indeterminate={ finalIndeterminateValues[6] }
+            onChange={ v => this.setFlag( flagValues[6], v, finalIndeterminateValues[6] ) }
             color="purple"
             disabled={ tileFlagsAreLocked }
+            circle={ showCircleTileFlags }
           />
           <FlagCheckbox
             id="flag-check-7"
-            checked={ checkedValues[7] }
-            indeterminate={ indeterminateValues[7] }
-            onChange={ v => this.setFlag( 128, v, indeterminateValues[7] ) }
+            checked={ finalCheckedValues[7] }
+            indeterminate={ finalIndeterminateValues[7] }
+            onChange={ v => this.setFlag( flagValues[7], v, finalIndeterminateValues[7] ) }
             color="pink"
             disabled={ tileFlagsAreLocked }
+            circle={ showCircleTileFlags }
           />
         </div>
       </div>
@@ -129,6 +169,8 @@ TileFlags.propTypes = {
   _setTilesetFlag: PropTypes.func.isRequired,
   tileFlagsAreLocked: PropTypes.bool.isRequired,
   _setTileFlagsAreLocked: PropTypes.func.isRequired,
+  showCircleTileFlags: PropTypes.bool.isRequired,
+  _setShowCircleTileFlags: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -141,14 +183,14 @@ function mapStateToProps( state ) {
   const flags = getSelectedFlags( currentTileset, useMap );
   const selectedIds = getSelectedLocalIds( currentTileset, useMap );
   const flagCount = flags.length;
-  const trueCounts = new Array( 8 );
-  const falseCounts = new Array( 8 );
+  const trueCounts = new Array( 16 );
+  const falseCounts = new Array( 16 );
   trueCounts.fill( 0 );
   falseCounts.fill( 0 );
 
   forEach( flags, flag => {
     let flagValue = 1;
-    for ( let i = 0; i < 8; i += 1 ) {
+    for ( let i = 0; i < 16; i += 1 ) {
       if ( flag & flagValue ) {
         trueCounts[i] += 1;
       }
@@ -160,10 +202,10 @@ function mapStateToProps( state ) {
     }
   } );
 
-  const checkedValues = new Array( 8 );
-  const indeterminateValues = new Array( 8 );
+  const checkedValues = new Array( 16 );
+  const indeterminateValues = new Array( 16 );
 
-  for ( let i = 0; i < 8; i += 1 ) {
+  for ( let i = 0; i < 16; i += 1 ) {
     checkedValues[i] = false;
     indeterminateValues[i] = false;
 
@@ -176,7 +218,7 @@ function mapStateToProps( state ) {
     }
   }
 
-  const { tileFlagsAreLocked } = state.layout;
+  const { tileFlagsAreLocked, showCircleTileFlags } = state.layout;
 
   return {
     checkedValues,
@@ -184,6 +226,7 @@ function mapStateToProps( state ) {
     activeIndex,
     selectedIds,
     tileFlagsAreLocked,
+    showCircleTileFlags,
   };
 }
 
@@ -191,6 +234,7 @@ function mapDispatchToProps( dispatch ) {
   return bindActionCreators( {
     _setTilesetFlag: setTilesetFlag,
     _setTileFlagsAreLocked: setTileFlagsAreLocked,
+    _setShowCircleTileFlags: setShowCircleTileFlags,
   }, dispatch );
 }
 

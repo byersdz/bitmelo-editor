@@ -8,6 +8,12 @@
     margin-left: 8px;
     display: flex;
     align-items: center;
+    margin-bottom: 4px;
+
+    .tool-button {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
   }
 
   .tile-flags-boxes {
@@ -16,7 +22,7 @@
     align-items: center;
 
     .flag-checkbox {
-      margin: 4px;
+      margin: 3px;
     }
   }
 }
