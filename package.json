@@ -42,7 +42,7 @@
     "concurrently": "^4.1.1",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
-    "electron": "^11.3.0",
+    "electron": "^18.3.7",
     "electron-builder": "^22.9.1",
     "eslint": "^5.15.3",
     "eslint-config-airbnb": "^17.1.0",
