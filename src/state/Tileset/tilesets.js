@@ -66,8 +66,10 @@ export function validate( state ) {
       return false;
     }
 
-    if ( !Array.isArray( tileset.flags ) ) {
-      return false;
+    if ( tileset.flags ) {
+      if ( !Array.isArray( tileset.flags ) ) {
+        return false;
+      }
     }
 
     if ( tileset.layers.length <= 0 ) {
@@ -123,7 +125,16 @@ function modifyImportedState( state ) {
       }
     }
 
-    if ( currentTileset.flags.length !== currentTileset.width * currentTileset.height ) {
+    let buildFlags = false;
+
+    if ( !currentTileset.flags ) {
+      buildFlags = true;
+    }
+    else if ( currentTileset.flags.length !== currentTileset.width * currentTileset.height ) {
+      buildFlags = true;
+    }
+
+    if ( buildFlags ) {
       currentTileset.flags = new Array( currentTileset.width * currentTileset.height );
       currentTileset.flags.fill( 0 );
     }
@@ -212,9 +223,11 @@ export default function reducer( state = initialState, action ) {
       newState.push( newTileset );
       return newState;
     }
+
     case DELETE_TILESET: {
       return [...state.slice( 0, action.payload ), ...state.slice( action.payload + 1 )];
     }
+
     case CHANGE_TILE_SIZE: {
       const { newTileSize } = action.payload;
       const newState = [];
