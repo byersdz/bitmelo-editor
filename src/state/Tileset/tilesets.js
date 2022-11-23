@@ -220,6 +220,8 @@ export default function reducer( state = initialState, action ) {
       newTileset.height = rows;
       newTileset.layers[0].data = new Array( rows * columns * tileSize * tileSize );
       newTileset.layers[0].data.fill( 0 );
+      newTileset.flags = new Array( rows * columns );
+      newTileset.flags.fill( 0 );
       newState.push( newTileset );
       return newState;
     }
