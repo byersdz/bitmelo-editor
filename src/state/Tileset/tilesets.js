@@ -135,8 +135,20 @@ function modifyImportedState( state ) {
     }
 
     if ( buildFlags ) {
+      let oldFlags = [];
+
+      if ( currentTileset.flags && Array.isArray( currentTileset.flags ) ) {
+        oldFlags = currentTileset.flags;
+      }
+
       currentTileset.flags = new Array( currentTileset.width * currentTileset.height );
       currentTileset.flags.fill( 0 );
+
+      for ( let j = 0; j < currentTileset.flags.length; j += 1 ) {
+        if ( j < oldFlags.length ) {
+          currentTileset.flags[j] = oldFlags[j];
+        }
+      }
     }
   }
 
