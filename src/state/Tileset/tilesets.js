@@ -317,6 +317,8 @@ export default function reducer( state = initialState, action ) {
       newState[tilesetIndex].mapSelectedTile = 0;
       newState[tilesetIndex].mapSelectionWidth = 1;
       newState[tilesetIndex].mapSelectionHeight = 1;
+      newState[tilesetIndex].flags = new Array( columns * rows );
+      newState[tilesetIndex].flags.fill( 0 );
 
       newState[tilesetIndex].layers = [];
       for ( let i = 0; i < oldTileset.layers.length; i += 1 ) {
@@ -336,8 +338,24 @@ export default function reducer( state = initialState, action ) {
             }
           }
         }
+
         newState[tilesetIndex].layers.push( newLayer );
       }
+
+      // map the flags
+      for ( let y = 0; y < oldTileset.height; y += 1 ) {
+        for ( let x = 0; x < oldTileset.width; x += 1 ) {
+          if (
+            x < newState[tilesetIndex].width
+            && y < newState[tilesetIndex].height
+          ) {
+            const sourceIndex = y * oldTileset.width + x;
+            const destinationIndex = y * newState[tilesetIndex].width + x;
+            newState[tilesetIndex].flags[destinationIndex] = oldTileset.flags[sourceIndex];
+          }
+        }
+      }
+
       return newState;
     }
 
