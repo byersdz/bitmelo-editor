@@ -46,6 +46,15 @@ More tilesets can not be added after this.
 `
           }
         />
+        <Property
+          name="tileData.flagData"
+          type="Uint16Array"
+          description={
+`
+Array of flag data for each tile gid. Use the getFlag and setFlag methods to get and set flags.
+`
+          }
+        />
         <h2>Methods</h2>
         <Method
           name="tileData.addTileset"
@@ -138,6 +147,96 @@ const sectionData = tileData.getTileSectionData(
 );
 
 const { data, width, height } = sectionData;
+`
+          }
+        />
+        <Method
+          name="tileData.getFlag"
+          description={
+`
+Get flag for a gid. If the flagNumber is not specified or negative, returns the bit field for a gid
+`
+          }
+          params={
+            [
+              {
+                name: 'gid',
+                type: 'number',
+                description: 'the gid of the tile',
+              },
+              {
+                name: 'flagNumber',
+                type: 'number',
+                description: 'the flag number, 0 - 15. If negative the number of the bit field will be returned',
+              },
+            ]
+          }
+          example={
+`
+const firstFlag = tileData.getFlag(
+  1,    // gid
+  0,    // flagNumber
+);
+
+const lastFlag = tileData.getFlag(
+  1,    // gid
+  15,   // flagNumber
+);
+
+const bitField = tileData.getFlag(
+  1,    // gid
+);
+`
+          }
+        />
+        <Method
+          name="tileData.setFlag"
+          description={
+`
+Set flag for a gid. If the flagNumber is negative, set the bit field for a gid
+`
+          }
+          params={
+            [
+              {
+                name: 'gid',
+                type: 'number',
+                description: 'the gid of the tile',
+              },
+              {
+                name: 'flagNumber',
+                type: 'number',
+                description: 'the flag number, 0 - 15. Set negative to set the entire bit field for the flags',
+              },
+              {
+                name: 'value',
+                type: 'number | boolean',
+                description: 'true or false if setting a flag, number if setting the bit field',
+              },
+            ]
+          }
+          example={
+`
+// set first flag
+tileData.setFlag(
+  1,    // gid
+  0,    // flagNumber
+  true, // value
+);
+
+// set last flag
+tileData.setFlag(
+  1,    // gid
+  15,   // flagNumber
+  true, // value
+);
+
+// set bit field
+tileData.setFlag(
+  1,    // gid
+  -1,   // flagNumber
+  25,   // value
+);
 `
           }
         />
