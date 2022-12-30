@@ -14,7 +14,6 @@ import referenceRoutes from './referenceRoutes';
 import colorPickerIsOpen from './colorPickerIsOpen';
 import activePage from './activePage';
 import modalCount from './modalCount';
-import tileFlagsAreLocked from './tileFlagsAreLocked';
 import showCircleTileFlags from './showCircleTileFlags';
 
 export default combineReducers( {
@@ -31,6 +30,5 @@ export default combineReducers( {
   colorPickerIsOpen,
   activePage,
   modalCount,
-  tileFlagsAreLocked,
   showCircleTileFlags,
 } );

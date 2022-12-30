@@ -14,7 +14,7 @@ export default function reducer( state = false, action ) {
       return false;
     }
     case IMPORT_PROJECT_DATA: {
-      const importedState = get( action, 'payload.layout.tileFlagsAreLocked', false );
+      const importedState = get( action, 'payload.project.tileFlagsAreLocked', false );
       return importedState;
     }
     case SET_TILE_FLAGS_ARE_LOCKED: {

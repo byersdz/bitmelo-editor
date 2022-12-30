@@ -12,7 +12,7 @@ import SquareCircleToggle from '../../../../components/SquareCircleToggle/Square
 import { getSelectedFlags, getSelectedLocalIds } from '../../../../utils/tilesetHelpers';
 
 import { setTilesetFlag } from '../../../../state/Tileset/tilesets';
-import { setTileFlagsAreLocked } from '../../../../state/Layout/tileFlagsAreLocked';
+import { setTileFlagsAreLocked } from '../../../../state/Project/tileFlagsAreLocked';
 import { TILEMAP_TAB } from '../../../../state/Layout/activeNavigationTab';
 import { setShowCircleTileFlags } from '../../../../state/Layout/showCircleTileFlags';
 
@@ -218,8 +218,8 @@ function mapStateToProps( state ) {
     }
   }
 
-  const { tileFlagsAreLocked, showCircleTileFlags } = state.layout;
-
+  const { showCircleTileFlags } = state.layout;
+  const { tileFlagsAreLocked } = state.project;
   return {
     checkedValues,
     indeterminateValues,
