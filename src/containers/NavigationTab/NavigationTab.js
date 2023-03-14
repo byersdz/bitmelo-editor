@@ -16,7 +16,7 @@ import {
   TILE_TAB,
   TILEMAP_TAB,
   SOUND_TAB,
-  PUBLISH_TAB,
+  // PUBLISH_TAB,
   INSTRUCTIONS_TAB,
 } from '../../state/Layout/activeNavigationTab';
 import { toggleNavigationPanel } from '../../state/Layout/navigationPanelIsOpen';
@@ -97,11 +97,11 @@ class NavigationTab extends React.Component {
         title: 'Instructions',
         icon: 'copy',
       },
-      {
-        key: PUBLISH_TAB,
-        title: 'Publish',
-        icon: 'publish',
-      },
+      // {
+      //   key: PUBLISH_TAB,
+      //   title: 'Publish',
+      //   icon: 'publish',
+      // },
       {
         key: ABOUT_TAB,
         title: 'About',

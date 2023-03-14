@@ -3,14 +3,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import get from 'lodash/get';
+// import get from 'lodash/get';
 
 import { importProjectData, clearAllUndoHistory } from '../../state/globalActions';
 import { setNavigationPanelIsOpen } from '../../state/Layout/navigationPanelIsOpen';
 import { setReferencePanelIsOpen } from '../../state/Layout/referencePanelIsOpen';
 import { applyTilesetEditorSelection } from '../../state/Tileset/actions';
-import { PROJECTS_PAGE, selectActivePage } from '../../state/Layout/activePage';
-import { checkLoginStatus } from '../../state/User/currentUser';
+import { PROJECTS_PAGE } from '../../state/Layout/activePage';
+// import { checkLoginStatus } from '../../state/User/currentUser';
 
 import { loadStateFromLocalStorage } from '../../utils/Saving/localStorage';
 import WelcomeDemo from '../../utils/Demos/WelcomeDemo.json';
@@ -30,8 +30,8 @@ class App extends React.Component {
       _setReferencePanelIsOpen,
       _clearAllUndoHistory,
       _applyTilesetEditorSelection,
-      _checkLoginStatus,
-      _selectActivePage,
+      // _checkLoginStatus,
+      // _selectActivePage,
     } = this.props;
     const savedState = loadStateFromLocalStorage();
     if ( savedState ) {
@@ -56,6 +56,7 @@ class App extends React.Component {
         _importProjectData( savedState );
       }
 
+      /* Removing the project page because of the removal of cloud services
       const userIsLoggedIn = get( savedState, 'user.currentUser.isLoggedIn' );
       // If user is logged in at start check if login is still valid.
       // If not log out the user.
@@ -63,6 +64,7 @@ class App extends React.Component {
         _selectActivePage( PROJECTS_PAGE );
         _checkLoginStatus();
       }
+      */
 
       _clearAllUndoHistory();
     }
@@ -97,8 +99,8 @@ App.propTypes = {
   _setReferencePanelIsOpen: PropTypes.func.isRequired,
   _clearAllUndoHistory: PropTypes.func.isRequired,
   _applyTilesetEditorSelection: PropTypes.func.isRequired,
-  _checkLoginStatus: PropTypes.func.isRequired,
-  _selectActivePage: PropTypes.func.isRequired,
+  // _checkLoginStatus: PropTypes.func.isRequired,
+  // _selectActivePage: PropTypes.func.isRequired,
   activePage: PropTypes.string.isRequired,
 };
 
@@ -115,8 +117,8 @@ function mapDispatchToProps( dispatch ) {
     _setReferencePanelIsOpen: setReferencePanelIsOpen,
     _clearAllUndoHistory: clearAllUndoHistory,
     _applyTilesetEditorSelection: applyTilesetEditorSelection,
-    _checkLoginStatus: checkLoginStatus,
-    _selectActivePage: selectActivePage,
+    // _checkLoginStatus: checkLoginStatus,
+    // _selectActivePage: selectActivePage,
   }, dispatch );
 }
 
