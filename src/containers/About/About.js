@@ -125,18 +125,6 @@ class About extends React.Component {
             }
           </AButton>
         </p>
-        <p>
-          {
-            `
-            Or the official Reddit
-            `
-          }
-          <AButton href="https://www.reddit.com/r/bitmelo/">
-            {
-              'here.'
-            }
-          </AButton>
-        </p>
         <h2>Recent Changes</h2>
         <Changelog />
         <h2>Is Bitmelo Open Source?</h2>

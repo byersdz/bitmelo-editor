@@ -1,6 +1,7 @@
 
 import { Sound } from 'bitmelo';
 import get from 'lodash/get';
+import PropTypes from 'prop-types';
 import { RESET_PROJECT, IMPORT_PROJECT_DATA } from '../globalActions';
 
 // Actions
@@ -133,6 +134,27 @@ const initialState = [
     needToAddToAudioEngine: false,
   },
 ];
+
+export const soundPropType = {
+  volumeTics: PropTypes.arrayOf( PropTypes.number ),
+  pitchTics: PropTypes.arrayOf( PropTypes.number ),
+  arpTics: PropTypes.arrayOf( PropTypes.number ),
+  pitchScale: PropTypes.number,
+  wave: PropTypes.number,
+  useVolumeLoop: PropTypes.bool,
+  volumeLoopStart: PropTypes.number,
+  volumeLoopEnd: PropTypes.number,
+  usePitchLoop: PropTypes.bool,
+  pitchLoopStart: PropTypes.number,
+  pitchLoopEnd: PropTypes.number,
+  useArpLoop: PropTypes.bool,
+  arpLoopStart: PropTypes.number,
+  arpLoopEnd: PropTypes.number,
+  name: PropTypes.string,
+  releaseLength: PropTypes.number,
+  releaseMode: PropTypes.string,
+  needToAddToAudioEngine: PropTypes.bool,
+};
 
 initialState[0].volumeTics.fill( 15 );
 initialState[0].pitchTics.fill( 0 );

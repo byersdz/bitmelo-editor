@@ -82,7 +82,6 @@ class Button extends React.Component {
           }
           return true;
         } }
-
         className={ customClass }
       >
         { iconRender }

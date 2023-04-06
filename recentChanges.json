@@ -1,6 +1,14 @@
 {
   "versions": [
     {
+      "version": "2.5.0",
+      "changes": [
+        "Added tile flags",
+        "Added bounds checking on getTile and setTile functions",
+        "Removed cloud saving"
+      ]
+    },
+    {
       "version": "2.4.0",
       "changes": [
         "Added palette importing",
@@ -8,22 +16,6 @@
         "Added grid hotkey (ctrl + ')",
         "Added screen sized gridlines to tilemap editor if the screen size is divisible by the tile size",
         "Colors added from the color picker are now inserted into the palette after the active color instead of the last color"
-      ]
-    },
-    {
-      "version": "2.3.0",
-      "changes": [
-        "Added Gamepad support",
-        "Add alternate keyboard buttons",
-        "Added Game descriptions and controls instructions",
-        "Swapped Menu Confirm and Menu Back keyboard defaults",
-        "Changed how audio volume works to better account for human hearing. This will make existing audio volumes quieter.",
-        "Added onDrawTile parameter function to Screen.drawMap. This allows state changes and animations when drawing a map.",
-        "Added Screen.drawMapArray to draw an array of tile gid values",
-        "Added TileMap.getLayerData to get an array of tile gid values from a TileMaps layer",
-        "Engine.onInit is now called afer all engine initialization is done",
-        "Added Engine.onConfigure to configure the engine before initialization is done",
-        "Updated logo and color theme"
       ]
     }
   ]
