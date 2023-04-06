@@ -1,0 +1,28 @@
+
+.tile-flags {
+  margin-top: 8px;
+  margin-bottom: 8px;
+
+  .tile-flags-header {
+    font-weight: bold;
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+
+    .tool-button {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+  }
+
+  .tile-flags-boxes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .flag-checkbox {
+      margin: 3px;
+    }
+  }
+}

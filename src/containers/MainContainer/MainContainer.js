@@ -12,7 +12,7 @@ import {
   TILE_TAB,
   SOUND_TAB,
   TILEMAP_TAB,
-  PUBLISH_TAB,
+  // PUBLISH_TAB,
   INSTRUCTIONS_TAB,
 } from '../../state/Layout/activeNavigationTab';
 import { toggleNavigationPanel } from '../../state/Layout/navigationPanelIsOpen';
@@ -20,9 +20,9 @@ import { toggleReferencePanel } from '../../state/Layout/referencePanelIsOpen';
 
 import TopBar from '../../components/TopBar/TopBar';
 import Scrollbars from '../../components/Scrollbars/Scrollbars';
-import Button from '../../components/Button/Button';
-import AButton from '../../components/AButton/AButton';
-import Icon from '../../components/Icon/Icon';
+// import Button from '../../components/Button/Button';
+// import AButton from '../../components/AButton/AButton';
+// import Icon from '../../components/Icon/Icon';
 
 import About from '../About/About';
 import ProjectEditor from '../ProjectEditor/ProjectEditor';
@@ -31,13 +31,13 @@ import CodeEditor from '../CodeEditor/CodeEditor';
 import TileEditor from '../TileEditor/TileEditor';
 import TilemapEditor from '../TilemapEditor/TilemapEditor';
 import SoundEditor from '../SoundEditor/SoundEditor';
-import Publish from '../Publish/Publish';
+// import Publish from '../Publish/Publish';
 import Instructions from '../Instructions/Instructions';
 
 import CreateUserModal from '../User/CreateUserModal/CreateUserModal';
 import LoginUserModal from '../User/LoginUserModal/LoginUserModal';
-import UserButton from '../User/UserButton/UserButton';
-import SaveProjectButton from '../User/SaveProjectButton/SaveProjectButton';
+// import UserButton from '../User/UserButton/UserButton';
+// import SaveProjectButton from '../User/SaveProjectButton/SaveProjectButton';
 
 import TileEditorActionsButton from '../Actions/TileEditor/TileEditorActionsButton/TileEditorActionsButton';
 
@@ -87,8 +87,8 @@ class MainContainer extends React.Component {
     const {
       activeNavigationTab,
       projectName,
-      currentUser,
-      currentProject,
+      // currentUser,
+      // currentProject,
     } = this.props;
     const { createUserModalIsOpen, loginUserModalIsOpen } = this.state;
 
@@ -141,15 +141,15 @@ class MainContainer extends React.Component {
         );
         topBarTitle = `${ projectName }: Sound Editor`;
         break;
-      case PUBLISH_TAB: {
-        contentRender = (
-          <Scrollbars>
-            <Publish />
-          </Scrollbars>
-        );
-        topBarTitle = `${ projectName }: Publish`;
-        break;
-      }
+      // case PUBLISH_TAB: {
+      //   contentRender = (
+      //     <Scrollbars>
+      //       <Publish />
+      //     </Scrollbars>
+      //   );
+      //   topBarTitle = `${ projectName }: Publish`;
+      //   break;
+      // }
       case INSTRUCTIONS_TAB: {
         contentRender = (
           <Scrollbars>
@@ -168,32 +168,32 @@ class MainContainer extends React.Component {
         break;
     }
 
-    const userButtonsRender = currentUser.isLoggedIn ? (
-      <UserButton />
-    ) : (
-      <>
-        <Button
-          className="create-account-btn"
-          title="Sign up"
-          click={ () => this.setState( { createUserModalIsOpen: true } ) }
-        />
-        <Button
-          className="log-in-btn"
-          title="Log in"
-          click={ () => this.setState( { loginUserModalIsOpen: true } ) }
-          standard
-        />
-      </>
-    );
+    // const userButtonsRender = currentUser.isLoggedIn ? (
+    //   <UserButton />
+    // ) : (
+    //   <>
+    //     <Button
+    //       className="create-account-btn"
+    //       title="Sign up"
+    //       click={ () => this.setState( { createUserModalIsOpen: true } ) }
+    //     />
+    //     <Button
+    //       className="log-in-btn"
+    //       title="Log in"
+    //       click={ () => this.setState( { loginUserModalIsOpen: true } ) }
+    //       standard
+    //     />
+    //   </>
+    // );
 
-    const saveButtonRender = currentUser.isLoggedIn && currentProject.id ? (
-      <SaveProjectButton />
-    ) : null;
+    // const saveButtonRender = currentUser.isLoggedIn && currentProject.id ? (
+    //   <SaveProjectButton />
+    // ) : null;
 
     const rightItemsRender = (
       <>
-        { saveButtonRender }
-        { userButtonsRender }
+        {/* { saveButtonRender }
+        { userButtonsRender } */}
         { actionsButton }
       </>
     );
@@ -210,21 +210,21 @@ class MainContainer extends React.Component {
       />
     ) : null;
 
-    const leftItemsRender = (
-      <AButton
-        className="explore-btn"
-        href="https://bitmelo.com"
-      >
-        <Icon file="world" />
-      </AButton>
-    );
+    // const leftItemsRender = (
+    //   <AButton
+    //     className="explore-btn"
+    //     href="https://bitmelo.com"
+    //   >
+    //     <Icon file="world" />
+    //   </AButton>
+    // );
 
     return (
       <div className="main-container">
         <TopBar
           className="main-top-bar"
           title={ topBarTitle }
-          leftItems={ leftItemsRender }
+          // leftItems={ leftItemsRender }
           rightItems={ rightItemsRender }
         />
         { contentRender }
@@ -238,8 +238,8 @@ class MainContainer extends React.Component {
 MainContainer.propTypes = {
   activeNavigationTab: PropTypes.string.isRequired,
   projectName: PropTypes.string.isRequired,
-  currentUser: PropTypes.object.isRequired,
-  currentProject: PropTypes.object.isRequired,
+  // currentUser: PropTypes.object.isRequired,
+  // currentProject: PropTypes.object.isRequired,
   _toggleNavigationPanel: PropTypes.func.isRequired,
   _toggleReferencePanel: PropTypes.func.isRequired,
   anyModalIsOpen: PropTypes.bool.isRequired,

@@ -18,6 +18,7 @@ import EditTilesetModal from './EditTilesetModal/EditTilesetModal';
 import TileSelectorCanvas from './TileSelectorCanvas/TileSelectorCanvas';
 import AddTilesetModal from './AddTilesetModal/AddTilesetModal';
 import DeleteTilesetModal from './DeleteTilesetModal/DeleteTilesetModal';
+import TileFlags from './TileFlags/TileFlags';
 
 import {
   eventMatchesHotkey,
@@ -244,6 +245,7 @@ class TileSelector extends React.Component {
             }
           } }
         />
+        <TileFlags />
         { editButtonRender }
       </div>
     );

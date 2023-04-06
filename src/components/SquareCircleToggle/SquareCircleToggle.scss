@@ -1,0 +1,54 @@
+@import '../../style/colors.scss';
+
+.square-circle-toggle {
+  box-sizing: border-box;
+  border: 2px solid $primary-color;
+  height: 32px;
+  width: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+
+  .btn {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+  }
+
+  .toggle {
+    width: 50%;
+
+    .toggle-icon {
+      width: 16px;
+      height: 16px;
+      background-color: $primary-darker-color;
+    }
+
+    &.active {
+      background-color: $primary-color;
+
+      &:hover {
+        background-color: $primary-light-color;
+      }
+
+      .toggle-icon {
+        background-color: $on-primary-color;
+      }
+    }
+
+    &.inactive {
+      &:hover {
+        .toggle-icon {
+          background-color: $primary-light-color;
+        }
+      }
+    }
+  }
+
+  .circle {
+    .toggle-icon {
+      border-radius: 50%;
+    }
+  }
+}

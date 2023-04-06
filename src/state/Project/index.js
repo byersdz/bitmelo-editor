@@ -7,6 +7,7 @@ import screen from './screen';
 import misc from './misc';
 import editorVersion from './editorVersion';
 import instructions from './instructions';
+import tileFlagsAreLocked from './tileFlagsAreLocked';
 
 export default combineReducers( {
   tileSize,
@@ -15,4 +16,5 @@ export default combineReducers( {
   misc,
   editorVersion,
   instructions,
+  tileFlagsAreLocked,
 } );

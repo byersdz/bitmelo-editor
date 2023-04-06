@@ -1,4 +1,6 @@
 
+import map from 'lodash/map';
+
 export function getSelectedTileData( tileset, tileSize ) {
   const { selectedTile, selectionWidth, selectionHeight } = tileset;
   const dataWidth = tileset.width * tileSize;
@@ -38,4 +40,52 @@ export function startGidForTileset( tilesets, tilesetIndex ) {
   }
 
   return startIndex;
+}
+
+export function getSelectedLocalIds( tileset, useMap = false ) {
+  const {
+    width,
+    // height,
+    selectedTile,
+    selectionWidth,
+    selectionHeight,
+    mapSelectedTile,
+    mapSelectionWidth,
+    mapSelectionHeight,
+  } = tileset;
+
+  let mySelectedTile = selectedTile;
+  let mySelectionWidth = selectionWidth;
+  let mySelectionHeight = selectionHeight;
+
+  if ( useMap ) {
+    mySelectedTile = mapSelectedTile;
+    mySelectionWidth = mapSelectionWidth;
+    mySelectionHeight = mapSelectionHeight;
+  }
+
+  const originX = mySelectedTile % width;
+  const originY = Math.floor( mySelectedTile / tileset.width );
+
+  const result = [];
+
+  for ( let y = 0; y < mySelectionHeight; y += 1 ) {
+    for ( let x = 0; x < mySelectionWidth; x += 1 ) {
+      const localX = originX + x;
+      const localY = originY + y;
+      result.push( localY * width + localX );
+    }
+  }
+
+  return result;
+}
+
+export function getSelectedFlags( tileset, useMap = false ) {
+  const localIds = getSelectedLocalIds( tileset, useMap );
+
+  const flags = map( localIds, id => {
+    return tileset.flags[id];
+  } );
+
+  return flags;
 }

@@ -8,7 +8,7 @@ import { Sound } from 'bitmelo';
 import NumberPicker from '../../../components/NumberPicker/NumberPicker';
 import Select from '../../../components/Select/Select';
 
-import { setSoundData } from '../../../state/Sound/sounds';
+import { setSoundData, soundPropType } from '../../../state/Sound/sounds';
 
 import './ReleaseEditor.scss';
 
@@ -52,7 +52,7 @@ class ReleaseEditor extends React.Component {
 }
 
 ReleaseEditor.propTypes = {
-  soundData: PropTypes.shape( { volumeTics: PropTypes.arrayOf( PropTypes.number ) } ).isRequired,
+  soundData: PropTypes.shape( soundPropType ).isRequired,
   activeSound: PropTypes.number.isRequired,
   _setSoundData: PropTypes.func.isRequired,
 };

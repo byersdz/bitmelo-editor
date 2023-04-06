@@ -72,7 +72,12 @@ class SoundPicker extends React.Component {
 }
 
 SoundPicker.propTypes = {
-  soundData: PropTypes.shape( { volumeTics: PropTypes.arrayOf( PropTypes.number ) } ).isRequired,
+  soundData: PropTypes.shape(
+    {
+      volumeTics: PropTypes.arrayOf( PropTypes.number ),
+      name: PropTypes.string,
+    },
+  ).isRequired,
   activeSound: PropTypes.number.isRequired,
   _setSoundData: PropTypes.func.isRequired,
   _selectSound: PropTypes.func.isRequired,

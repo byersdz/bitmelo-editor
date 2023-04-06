@@ -33,7 +33,8 @@ module.exports = {
     "prefer-destructuring": "off",
     "import/order": "off",
     "linebreak-style": 0,
-    "react/jsx-one-expression-per-line": 0
+    "react/jsx-one-expression-per-line": 0,
+    "react/no-unknown-property": "off"
   },
   "globals": {
     "bitmelo": "readonly",

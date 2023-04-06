@@ -24,6 +24,7 @@ export const SET_TILESET_MAP_SELECTION = 'SET_TILESET_MAP_SELECTION';
 export const SET_TILESET_SIZE = 'SET_TILESET_SIZE';
 export const ADD_TILESET = 'ADD_TILESET';
 export const DELETE_TILESET = 'DELETE_TILESET';
+export const SET_TILESET_FLAG = 'SET_TILESET_FLAG';
 
 // validation
 export function validate( state ) {
@@ -63,6 +64,12 @@ export function validate( state ) {
 
     if ( !Array.isArray( tileset.layers ) ) {
       return false;
+    }
+
+    if ( tileset.flags ) {
+      if ( !Array.isArray( tileset.flags ) ) {
+        return false;
+      }
     }
 
     if ( tileset.layers.length <= 0 ) {
@@ -117,6 +124,32 @@ function modifyImportedState( state ) {
         layer.format = 'array';
       }
     }
+
+    let buildFlags = false;
+
+    if ( !currentTileset.flags ) {
+      buildFlags = true;
+    }
+    else if ( currentTileset.flags.length !== currentTileset.width * currentTileset.height ) {
+      buildFlags = true;
+    }
+
+    if ( buildFlags ) {
+      let oldFlags = [];
+
+      if ( currentTileset.flags && Array.isArray( currentTileset.flags ) ) {
+        oldFlags = currentTileset.flags;
+      }
+
+      currentTileset.flags = new Array( currentTileset.width * currentTileset.height );
+      currentTileset.flags.fill( 0 );
+
+      for ( let j = 0; j < currentTileset.flags.length; j += 1 ) {
+        if ( j < oldFlags.length ) {
+          currentTileset.flags[j] = oldFlags[j];
+        }
+      }
+    }
   }
 
   return newState;
@@ -144,10 +177,12 @@ const initialState = [
         data: new Array( initialWidth * initialHeight * initialTileSize * initialTileSize ),
       },
     ],
+    flags: new Array( initialWidth * initialHeight ),
   },
 ];
 
 initialState[0].layers[0].data.fill( 0 );
+initialState[0].flags.fill( 0 );
 
 export default function reducer( state = initialState, action ) {
   switch ( action.type ) {
@@ -159,15 +194,20 @@ export default function reducer( state = initialState, action ) {
         const format = get( action, 'payload.format', '' );
 
         let importedState = null;
+        const initialItem = cloneDeep( initialState[0] );
         if ( format === 'transfer' ) {
           importedState = [...action.payload.tilesets];
 
           for ( let i = 0; i < importedState.length; i += 1 ) {
-            importedState[i] = merge( {}, initialState[0], importedState[i] );
+            importedState[i] = merge( {}, initialItem, importedState[i] );
           }
         }
         else {
           importedState = [...action.payload.tileset.tilesets];
+
+          for ( let i = 0; i < importedState.length; i += 1 ) {
+            importedState[i] = merge( {}, initialItem, importedState[i] );
+          }
         }
 
         if ( validate( importedState ) ) {
@@ -179,6 +219,7 @@ export default function reducer( state = initialState, action ) {
         return state;
       }
     }
+
     case ADD_TILESET: {
       const {
         rows,
@@ -191,12 +232,16 @@ export default function reducer( state = initialState, action ) {
       newTileset.height = rows;
       newTileset.layers[0].data = new Array( rows * columns * tileSize * tileSize );
       newTileset.layers[0].data.fill( 0 );
+      newTileset.flags = new Array( rows * columns );
+      newTileset.flags.fill( 0 );
       newState.push( newTileset );
       return newState;
     }
+
     case DELETE_TILESET: {
       return [...state.slice( 0, action.payload ), ...state.slice( action.payload + 1 )];
     }
+
     case CHANGE_TILE_SIZE: {
       const { newTileSize } = action.payload;
       const newState = [];
@@ -227,6 +272,7 @@ export default function reducer( state = initialState, action ) {
       }
       return newState;
     }
+
     case DELETE_PALETTE_COLOR: {
       const newState = [];
       for ( let i = 0; i < state.length; i += 1 ) {
@@ -271,6 +317,8 @@ export default function reducer( state = initialState, action ) {
       newState[tilesetIndex].mapSelectedTile = 0;
       newState[tilesetIndex].mapSelectionWidth = 1;
       newState[tilesetIndex].mapSelectionHeight = 1;
+      newState[tilesetIndex].flags = new Array( columns * rows );
+      newState[tilesetIndex].flags.fill( 0 );
 
       newState[tilesetIndex].layers = [];
       for ( let i = 0; i < oldTileset.layers.length; i += 1 ) {
@@ -290,10 +338,27 @@ export default function reducer( state = initialState, action ) {
             }
           }
         }
+
         newState[tilesetIndex].layers.push( newLayer );
       }
+
+      // map the flags
+      for ( let y = 0; y < oldTileset.height; y += 1 ) {
+        for ( let x = 0; x < oldTileset.width; x += 1 ) {
+          if (
+            x < newState[tilesetIndex].width
+            && y < newState[tilesetIndex].height
+          ) {
+            const sourceIndex = y * oldTileset.width + x;
+            const destinationIndex = y * newState[tilesetIndex].width + x;
+            newState[tilesetIndex].flags[destinationIndex] = oldTileset.flags[sourceIndex];
+          }
+        }
+      }
+
       return newState;
     }
+
     case REPOSITION_TILESET_EDITOR_SELECTION: {
       const {
         tilesetIndex,
@@ -353,6 +418,7 @@ export default function reducer( state = initialState, action ) {
 
       return newState;
     }
+
     case CREATE_TILESET_EDITOR_SELECTION: {
       const {
         tilesetIndex,
@@ -383,6 +449,7 @@ export default function reducer( state = initialState, action ) {
 
       return newState;
     }
+
     case APPLY_TILESET_EDITOR_SELECTION: {
       const {
         tilesetIndex,
@@ -427,6 +494,7 @@ export default function reducer( state = initialState, action ) {
 
       return newState;
     }
+
     case SET_TILESET_LAYER_DATA: {
       const {
         data,
@@ -524,6 +592,29 @@ export default function reducer( state = initialState, action ) {
       return newState;
     }
 
+    case SET_TILESET_FLAG: {
+      const {
+        flag,
+        tilesetIndex,
+        localIds,
+        shouldRemove,
+      } = action.payload;
+      const newState = cloneDeep( state );
+
+      const currentTileset = newState[tilesetIndex];
+
+      for ( let i = 0; i < localIds.length; i += 1 ) {
+        if ( shouldRemove ) {
+          currentTileset.flags[localIds[i]] = currentTileset.flags[localIds[i]] & ~flag;
+        }
+        else {
+          currentTileset.flags[localIds[i]] = currentTileset.flags[localIds[i]] | flag;
+        }
+      }
+
+      return newState;
+    }
+
     default:
       return state;
   }
@@ -583,5 +674,17 @@ export function deleteTileset( tilesetIndex ) {
   return {
     type: DELETE_TILESET,
     payload: tilesetIndex,
+  };
+}
+
+export function setTilesetFlag( flag, shouldRemove, tilesetIndex, localIds ) {
+  return {
+    type: SET_TILESET_FLAG,
+    payload: {
+      flag,
+      shouldRemove,
+      tilesetIndex,
+      localIds,
+    },
   };
 }

@@ -14,6 +14,7 @@ import referenceRoutes from './referenceRoutes';
 import colorPickerIsOpen from './colorPickerIsOpen';
 import activePage from './activePage';
 import modalCount from './modalCount';
+import showCircleTileFlags from './showCircleTileFlags';
 
 export default combineReducers( {
   activeNavigationTab,
@@ -29,4 +30,5 @@ export default combineReducers( {
   colorPickerIsOpen,
   activePage,
   modalCount,
+  showCircleTileFlags,
 } );

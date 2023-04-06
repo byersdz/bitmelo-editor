@@ -40,7 +40,12 @@ class WavePicker extends React.Component {
 }
 
 WavePicker.propTypes = {
-  soundData: PropTypes.shape( { volumeTics: PropTypes.arrayOf( PropTypes.number ) } ).isRequired,
+  soundData: PropTypes.shape(
+    {
+      volumeTics: PropTypes.arrayOf( PropTypes.number ),
+      wave: PropTypes.number,
+    },
+  ).isRequired,
   activeSound: PropTypes.number.isRequired,
   setSound: PropTypes.func.isRequired,
 };

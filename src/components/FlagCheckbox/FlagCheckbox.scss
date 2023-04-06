@@ -1,0 +1,275 @@
+
+.flag-checkbox {
+  display: block;
+  position: relative;
+  height: 30px;
+  width: 30px;
+  margin: 0;
+
+  // hide the default checkbox
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    margin: 0;
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 30px;
+    width: 30px;
+    // background-color: #aed1f3;
+    margin: 0;
+    border-radius: 2px;
+    box-sizing: border-box;
+    border: 4px solid #0c62d3;
+  }
+
+  &:hover {
+    .checkmark {
+      border-color: #81b4e7;
+    }
+  }
+
+  // color when checked
+  input:checked ~ .checkmark {
+    background-color: #0c62d3;
+  }
+
+  // create content for checkmark, hidden when not checked
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  // show checkmark when checked
+  input:checked ~ .checkmark:after {
+    display: block;
+  }
+
+  // checkmark style
+  .checkmark:after {
+    box-sizing: border-box;
+    left: 7px;
+    top: 0px;
+    width: 9px;
+    height: 18px;
+    border: solid white;
+    border-width: 0 4px 4px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  &.white {
+    .checkmark {
+      border-color: #ffffff;
+    }
+    &:hover {
+      .checkmark {
+        border-color: #bbbbbb;
+      }
+    }
+    input:checked ~ .checkmark {
+      background-color: #ffffff;
+    }
+    .checkmark::after {
+      border-color: black;
+    }
+  }
+
+  &.red {
+    .checkmark {
+      border-color: #c90101;
+    }
+    &:hover {
+      .checkmark {
+        border-color: #e78e8e;
+      }
+    }
+    input:checked ~ .checkmark {
+      background-color: #c90101;
+    }
+  }
+
+  &.orange {
+    .checkmark {
+      // background-color: #ffd3bf;
+      border-color: #d35f00;
+    }
+    &:hover {
+      .checkmark {
+        border-color: #f3b79b;
+      }
+    }
+    input:checked ~ .checkmark {
+      background-color: #d35f00;
+    }
+  }
+
+  &.yellow {
+    .checkmark {
+      // background-color: #fff9bf;
+      border-color: #dbcd00;
+    }
+    &:hover {
+      .checkmark {
+        border-color: #f8ef9e;
+      }
+    }
+    input:checked ~ .checkmark {
+      background-color: #dbcd00;
+    }
+    .checkmark::after {
+      border-color: black;
+    }
+  }
+
+  &.green {
+    .checkmark {
+      // background-color: #b6fca5;
+      background-color: initial;
+      border-color: #21a500;
+    }
+    &:hover {
+      .checkmark {
+        border-color: #90ec7a;
+      }
+    }
+    input:checked ~ .checkmark {
+      background-color: #21a500;
+    }
+  }
+
+  &.purple {
+    .checkmark {
+      // background-color: #dca5fc;
+      border-color: #9500eb;
+    }
+    &:hover {
+      .checkmark {
+        border-color: #c785ee;
+      }
+    }
+    input:checked ~ .checkmark {
+      background-color: #9500eb;
+    }
+  }
+
+  &.pink {
+    .checkmark {
+      // background-color: #dca5fc;
+      border-color: #e401b3;
+    }
+    &:hover {
+      .checkmark {
+        border-color: #ffbbf0;
+      }
+    }
+    input:checked ~ .checkmark {
+      background-color: #e401b3;
+    }
+  }
+
+  &.indeterminate {
+    .checkmark:after {
+      border-width: 0 0 4px 0;
+      height: 4px;
+      width: 21px;
+      left: 1px;
+      top: 9px;
+      -webkit-transform: initial;
+      -ms-transform: initial;
+      transform: initial;
+    }
+  }
+
+  &.disabled {
+    .checkmark {
+      cursor: not-allowed;
+    }
+
+    &.white {
+      .checkmark {
+        border-color: #b4b4b4;
+      }
+      input:checked ~ .checkmark {
+        background-color: #b4b4b4;
+      }
+    }
+
+    &.red {
+      .checkmark {
+        border-color: #9c3838;
+      }
+      input:checked ~ .checkmark {
+        background-color: #9c3838;
+      }
+    }
+
+    &.orange {
+      .checkmark {
+        border-color: #a05e28;
+      }
+      input:checked ~ .checkmark {
+        background-color: #a05e28;
+      }
+    }
+
+    &.yellow {
+      .checkmark {
+        border-color: #c0ba66;
+      }
+      input:checked ~ .checkmark {
+        background-color: #c0ba66;
+      }
+    }
+
+    &.green {
+      .checkmark {
+        border-color: #538b44;
+      }
+      input:checked ~ .checkmark {
+        background-color: #538b44;
+      }
+    }
+
+    &.blue {
+      .checkmark {
+        border-color: #4c71a0
+      }
+      input:checked ~ .checkmark {
+        background-color: #4c71a0;
+      }
+    }
+
+    &.purple {
+      .checkmark {
+        border-color: #974dc2;
+      }
+      input:checked ~ .checkmark {
+        background-color: #974dc2;
+      }
+    }
+
+    &.pink {
+      .checkmark {
+        border-color: #c04ea7;
+      }
+      input:checked ~ .checkmark {
+        background-color: #c04ea7;
+      }
+    }
+  }
+
+  &.circle {
+    .checkmark {
+      border-radius: 50%;
+    }
+  }
+}
