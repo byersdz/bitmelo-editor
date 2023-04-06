@@ -1,6 +1,13 @@
 {
   "versions": [
     {
+      "version": "2.5.0",
+      "changes": [
+        "Added tile flags",
+        "Added bounds checking on getTile and setTile functions"
+      ]
+    },
+    {
       "version": "2.4.0",
       "changes": [
         "Added palette importing",
